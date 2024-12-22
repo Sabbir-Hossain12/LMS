@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('frontend')}}/css/icofont.min.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/slick.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{asset('frontend')}}/css/plugins_plyr.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/style.css">
 
 </head>
@@ -76,6 +77,7 @@
 <script src="{{asset('frontend')}}/js/jquery.counterup.min.js"></script>
 <script src="{{asset('frontend')}}/js/plugins.js"></script>
 <script src="{{asset('frontend')}}/js/swiper-bundle.min.js"></script>
+<script src="{{asset('frontend')}}/js/plugin_plyr.js" ></script>
 <script src="{{asset('frontend')}}/js/main.js"></script>
 
 

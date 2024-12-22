@@ -17,7 +17,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12" data-aos="fade-up">
                 <div class="single__team">
                     <div class="teamarea__img">
-                        <img loading="lazy" src="{{asset('frontend')}}/img/team/team__1.png" alt="team">
+                        <img loading="lazy" src="https://yt3.googleusercontent.com/ytc/AIdro_miwuMnAwk2UdRqD1Lz5q2wG3g9kYVex5CI-NCp5bumPUE=s900-c-k-c0x00ffffff-no-rj" alt="team">
                         <div class="teamarea__icon">
                             <ul>
                                 <li>
@@ -37,15 +37,15 @@
                         </div>
                     </div>
                     <div class="teamarea__content">
-                        <p>INTERIOR DESIGNER</p>
-                        <h5><a href="#">Mirnsdo Jons</a></h5>
+                        <p>Teacher</p>
+                        <h5><a href="#">Sadman Sadik</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12" data-aos="fade-up">
                 <div class="single__team">
                     <div class="teamarea__img">
-                        <img loading="lazy" src="{{asset('frontend')}}/img/team/team__2.png" alt="team">
+                        <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn6d49cc3lGExZrALbYoZYl_BdQasR4vx2Qg&s" alt="team">
                         <div class="teamarea__icon">
                             <ul>
                                 <li>
@@ -65,15 +65,15 @@
                         </div>
                     </div>
                     <div class="teamarea__content">
-                        <p>INTERIOR DESIGNER</p>
-                        <h5><a href="#">Daniel Rock</a></h5>
+                        <p>Teacher</p>
+                        <h5><a href="#">Munzereen Shahid</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12" data-aos="fade-up">
                 <div class="single__team">
                     <div class="teamarea__img">
-                        <img loading="lazy" src="{{asset('frontend')}}/img/team/team__3.png" alt="team">
+                        <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVl1wMmDkjzLVGt5zEWTxc6Akd8i1OoL7cPg&s" alt="team">
                         <div class="teamarea__icon">
                             <ul>
                                 <li>
@@ -93,8 +93,8 @@
                         </div>
                     </div>
                     <div class="teamarea__content">
-                        <p>INTERIOR DESIGNER</p>
-                        <h5><a href="#">Sajid Mustahidul</a></h5>
+                        <p>Teacher</p>
+                        <h5><a href="#">Ayman Sadik</a></h5>
                     </div>
                 </div>
             </div>

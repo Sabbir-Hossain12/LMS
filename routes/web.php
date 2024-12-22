@@ -8,6 +8,24 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::view('/','Frontend.pages.home');
+Route::view('/courses','Frontend.pages.course.courses');
+Route::view('/course-details','Frontend.pages.course.course-details');
+
+//Lessons
+
+Route::view('/lessons','Frontend.pages.lesson.lesson');
+Route::view('/lesson-course-material','Frontend.pages.course-material');
+Route::view('/lesson-assignment','Frontend.pages.assignment');
+Route::view('/lesson-quiz','Frontend.pages.lesson.quiz');
+
+
+Route::view('/teachers','Frontend.pages.teacher.teachers');
+
+
+//Auth
+
+Route::view('/login','Frontend.auth.login');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -93,39 +93,39 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">Home
+                                    <a class="headerarea__has__dropdown" href="{{url('/')}}">Home
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">Class
+                                    <a class="headerarea__has__dropdown" href="{{url('/lessons')}}">Class
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">Course
+                                    <a class="headerarea__has__dropdown" href="{{url('/courses')}}">Course
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">Exam
+                                    <a class="headerarea__has__dropdown" href="{{url('/lesson-quiz')}}">Exam
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">Teachers
+                                    <a class="headerarea__has__dropdown" href="{{url('/teachers')}}">Teachers
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="index.html">AI Assistant
+                                    <a class="headerarea__has__dropdown" href="#">AI Assistant
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="others.html">Others
+                                    <a class="headerarea__has__dropdown" href="#">Others
                                         <i class="icofont-rounded-down"></i>
                                     </a>
                                     <ul class="headerarea__submenu">
-                                        <li><a href="ecommerce/product-details.html">About us</a></li>
-                                        <li><a href="ecommerce/cart.html">Contact Us</a></li>
-                                        <li><a href="ecommerce/checkout.html">Blogs</a></li>
-                                        <li><a href="ecommerce/wishlist.html">Terms & Condition</a></li>
-                                        <li><a href="ecommerce/wishlist.html">Privacy Policy</a></li>
+                                        <li><a href="#">About us</a></li>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#">Blogs</a></li>
+                                        <li><a href="#">Terms & Condition</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
                                     </ul>
                                 </li>
                             </ul>
