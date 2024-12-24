@@ -23,6 +23,22 @@ Route::view('/teachers','Frontend.pages.teacher.teachers');
 Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
 
 
+//Student Dashboard
+
+Route::prefix('student')->group(function ()
+{
+    
+Route::view('/dashboards','Frontend.pages.student-dashboard.dashboard');
+Route::view('/courses','Frontend.pages.student-dashboard.courses');
+Route::view('/assignments','Frontend.pages.student-dashboard.assignments');
+Route::view('/exam-attempts','Frontend.pages.student-dashboard.exam-attempts');
+Route::view('/profiles','Frontend.pages.student-dashboard.profile');
+Route::view('/reviews','Frontend.pages.student-dashboard.reviews');
+Route::view('/settings','Frontend.pages.student-dashboard.settings');
+Route::view('/wishlists','Frontend.pages.student-dashboard.wishlist');
+    
+});
+
 //Auth
 
 Route::view('/login','Frontend.auth.login');

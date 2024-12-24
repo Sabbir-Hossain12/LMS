@@ -55,7 +55,7 @@
                             <div class="dashboard__nav">
                                 <ul>
                                     <li>
-                                        <a class="active" href="student-dashboard.html">
+                                        <a href="student-dashboard.html">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                                             Dashboard</a>
                                     </li>
@@ -75,7 +75,7 @@
                                             Enrolled Courses</a>
                                     </li>
                                     <li>
-                                        <a href="student-wishlist.html">
+                                        <a class="active" href="student-wishlist.html">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                                             Wishlist</a>
                                     </li>
@@ -112,145 +112,187 @@
                     <div class="col-xl-9 col-lg-9 col-md-12">
                         <div class="dashboard__content__wraper">
                             <div class="dashboard__section__title">
-                                <h4>Summery</h4>
+                                <h4>Wishlist</h4>
                             </div>
                             <div class="row">
-                                <div class="col-xl-4 col-lg-6 col-md-12 col-12">
-                                    <div class="dashboard__single__counter">
-                                        <div class="counterarea__text__wraper">
-                                            <div class="counter__img">
-                                                <img loading="lazy"  src="../img/counter/counter__1.png" alt="counter">
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="gridarea__wraper">
+                                        <div class="gridarea__img">
+                                            <img loading="lazy"  src="../img/grid/grid_2.png" alt="grid">
+                                            <div class="gridarea__small__button">
+                                                <div class="grid__badge blue__color">Mechanical</div>
                                             </div>
-                                            <div class="counter__content__wraper">
-                                                <div class="counter__number">
-                                                    <span class="counter">27</span>+
+                                            <div class="gridarea__small__icon">
+                                                <a href="#"><i class="icofont-heart-alt"></i></a>
+                                            </div>
 
+                                        </div>
+                                        <div class="gridarea__content">
+                                            <div class="gridarea__list">
+                                                <ul>
+                                                    <li>
+                                                        <i class="icofont-book-alt"></i> 29 Lesson
+                                                    </li>
+                                                    <li>
+                                                        <i class="icofont-clock-time"></i> 2 hr 10 min
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="gridarea__heading">
+                                                <h3><a href="#">Nidnies course to under stand
+                                                        about softwere</a></h3>
+                                            </div>
+                                            <div class="gridarea__price green__color">
+                                                $32.00<del>/$67.00</del>
+                                                <span>.Free</span>
+
+                                            </div>
+                                            <div class="gridarea__bottom">
+                                                <a href="instructor-details.html">
+                                                    <div class="gridarea__small__img">
+                                                        <img loading="lazy"  src="../img/grid/grid_small_2.jpg" alt="grid">
+                                                        <div class="gridarea__small__content">
+                                                            <h6>Rinis Jhon</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="gridarea__star">
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <span>(44)</span>
                                                 </div>
-                                                <p>Enrolled Courses</p>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-6 col-md-12 col-12">
-                                    <div class="dashboard__single__counter">
-                                        <div class="counterarea__text__wraper">
-                                            <div class="counter__img">
-                                                <img loading="lazy"  src="../img/counter/counter__2.png" alt="counter">
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="gridarea__wraper">
+                                        <div class="gridarea__img">
+                                            <a href="../course-details.html"><img loading="lazy"  src="../img/grid/grid_3.png" alt="grid"></a>
+                                            <div class="gridarea__small__button">
+                                                <div class="grid__badge pink__color">Development</div>
                                             </div>
-                                            <div class="counter__content__wraper">
-                                                <div class="counter__number">
-                                                    <span class="counter">08</span>+
+                                            <div class="gridarea__small__icon">
+                                                <a href="#"><i class="icofont-heart-alt"></i></a>
+                                            </div>
 
+                                        </div>
+                                        <div class="gridarea__content">
+                                            <div class="gridarea__list">
+                                                <ul>
+                                                    <li>
+                                                        <i class="icofont-book-alt"></i> 25 Lesson
+                                                    </li>
+                                                    <li>
+                                                        <i class="icofont-clock-time"></i> 1 hr 40 min
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="gridarea__heading">
+                                                <h3><a href="../course-details.html">Minws course to under stand
+                                                        about solution</a></h3>
+                                            </div>
+                                            <div class="gridarea__price">
+                                                $40.00 <del>/ $67.00</del>
+                                                <span> <del class="del__2">Free</del></span>
+
+                                            </div>
+                                            <div class="gridarea__bottom">
+
+                                                <a href="instructor-details.html">
+                                                    <div class="gridarea__small__img">
+                                                        <img loading="lazy"  src="../img/grid/grid_small_3.jpg" alt="grid">
+                                                        <div class="gridarea__small__content">
+                                                            <h6>Micle Jhon</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+
+                                                <div class="gridarea__star">
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <span>(44)</span>
                                                 </div>
-                                                <p>Active Courses</p>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-6 col-md-12 col-12">
-                                    <div class="dashboard__single__counter">
-                                        <div class="counterarea__text__wraper">
-                                            <div class="counter__img">
-                                                <img loading="lazy"  src="../img/counter/counter__3.png" alt="counter">
+
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="gridarea__wraper">
+                                        <div class="gridarea__img">
+                                            <a href="../course-details.html"><img loading="lazy"  src="../img/grid/grid_3.png" alt="grid"></a>
+                                            <div class="gridarea__small__button">
+                                                <div class="grid__badge pink__color">Development</div>
                                             </div>
-                                            <div class="counter__content__wraper">
-                                                <div class="counter__number">
-                                                    <span class="counter">12</span>
+                                            <div class="gridarea__small__icon">
+                                                <a href="#"><i class="icofont-heart-alt"></i></a>
+                                            </div>
 
+                                        </div>
+                                        <div class="gridarea__content">
+                                            <div class="gridarea__list">
+                                                <ul>
+                                                    <li>
+                                                        <i class="icofont-book-alt"></i> 25 Lesson
+                                                    </li>
+                                                    <li>
+                                                        <i class="icofont-clock-time"></i> 1 hr 40 min
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="gridarea__heading">
+                                                <h3><a href="../course-details.html">Minws course to under stand
+                                                        about solution</a></h3>
+                                            </div>
+                                            <div class="gridarea__price">
+                                                $40.00 <del>/ $67.00</del>
+                                                <span> <del class="del__2">Free</del></span>
+
+                                            </div>
+                                            <div class="gridarea__bottom">
+
+                                                <a href="instructor-details.html">
+                                                    <div class="gridarea__small__img">
+                                                        <img loading="lazy"  src="../img/grid/grid_small_3.jpg" alt="grid">
+                                                        <div class="gridarea__small__content">
+                                                            <h6>Micle Jhon</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+
+                                                <div class="gridarea__star">
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <i class="icofont-star"></i>
+                                                    <span>(44)</span>
                                                 </div>
-                                                <p>Complete Courses</p>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
-                        </div>
-                        <div class="dashboard__content__wraper">
-                            <div class="dashboard__section__title">
-                                <h4>Feedbacks</h4>
-                                <a href="../course.html">See More...</a>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="dashboard__table table-responsive">
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th>Course Name</th>
-                                                <th>Enrolled</th>
-                                                <th>Rating</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th><a href="#">Javascript</a></th>
-                                                <td>1100</td>
-                                                <td>
-                                                    <div class="dashboard__table__star">
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="dashboard__table__row">
-                                                <th><a href="#">PHP</a></th>
-                                                <td>700</td>
-                                                <td>
-                                                    <div class="dashboard__table__star">
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th><a href="#">HTML</a></th>
-                                                <td>1350</td>
-                                                <td>
-                                                    <div class="dashboard__table__star">
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="dashboard__table__row">
-                                                <th><a href="#">Graphic</a></th>
-                                                <td>1266</td>
-                                                <td>
-                                                    <div class="dashboard__table__star">
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
-
                 </div>
+
+
             </div>
         </div>
-
     </div>
-    <!-- dashboardarea__area__end   -->
+
+    <!-- dashboardarea__menu__end   -->
 
 @endsection
