@@ -333,7 +333,7 @@
                         </div>
 
                         <div class="plyr__video-embed rbtplayer">
-                            <iframe src="{{asset('https://www.youtube.com/embed/1IvAwBdP-X8?si=wWPzGjX3FHplf4n1')}}" allowfullscreen allow="autoplay"></iframe>
+                            <iframe src="https://www.youtube.com/embed/1IvAwBdP-X8?si=wWPzGjX3FHplf4n1" allowfullscreen allow="autoplay"  oncontextmenu="return false;"></iframe>
                         </div>
                     </div>
                 </div>
