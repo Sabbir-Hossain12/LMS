@@ -3,7 +3,6 @@
 @section('content')
 
     <!-- breadcrumbarea__section__start -->
-
     <div class="breadcrumbarea">
 
         <div class="container">
@@ -28,10 +27,10 @@
         </div>
 
         <div class="shape__icon__2">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__1" src="img/herobanner/herobanner__1.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__2" src="img/herobanner/herobanner__2.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__3" src="img/herobanner/herobanner__3.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__4" src="img/herobanner/herobanner__5.png" alt="photo">
+            <img loading="lazy"  class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png" alt="photo">
+            <img loading="lazy"  class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png" alt="photo">
+            <img loading="lazy"  class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png" alt="photo">
+            <img loading="lazy"  class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png" alt="photo">
         </div>
 
     </div>
@@ -43,7 +42,7 @@
                 <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
                     <div class="blog__details__content__wraper">
                         <div class="blog__details__img" data-aos="fade-up">
-                            <img loading="lazy"  src="img/blog/blog_21.png" alt="blog">
+                            <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_21.png" alt="blog">
                         </div>
                         <div class="blog__details__content">
                             <p class="content__1" data-aos="fade-up">We have covered many special events such as fireworks, fairs, parades, races, walks, awards ceremonies, fashion shows, sporting events, and even a memorial service.
@@ -68,7 +67,7 @@
                                     <a href="#">John Mirnsdo</a>
                                 </div>
                                 <div class="blockquate__img">
-                                    <img loading="lazy"  src="img/blog/blog_22.png" alt="img">
+                                    <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_22.png" alt="img">
                                 </div>
 
                             </div>
@@ -85,11 +84,11 @@
                             <div class="row blog__details__margin">
                                 <div class="col-xl-4 col-lg-4 col-md-4" data-aos="fade-up">
                                     <div class="blog__details__img__2">
-                                        <img loading="lazy"  src="img/blog/blog_23.png" alt="blog">
+                                        <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_23.png" alt="blog">
                                         <div class="registerarea__content course__details__video">
                                             <div class="registerarea__video">
                                                 <div class="video__pop__btn">
-                                                    <a class="video-btn" href="../../../www.youtube.com/watch8399.html?v=vHdclsdkp28"> <img loading="lazy"  src="img/icon/video.png" alt=""></a>
+                                                    <a class="video-btn" href="../../../www.youtube.com/watch8399.html?v=vHdclsdkp28"> <img loading="lazy"  src="{{asset('frontend')}}/img/icon/video.png" alt=""></a>
                                                 </div>
 
                                             </div>
@@ -176,7 +175,7 @@
                             </div>
                             <div class="blog__details__comment__inner">
                                 <div class="author__img">
-                                    <img loading="lazy"  src="img/blog-details/blog-details__1.png" alt="author">
+                                    <img loading="lazy"  src="{{asset('frontend')}}/img/blog-details/blog-details__1.png" alt="author">
 
                                 </div>
                                 <div class="author__content">
@@ -200,7 +199,7 @@
 
                             <div class="blog__details__comment__inner author__padding__left" data-aos="fade-up">
                                 <div class="author__img">
-                                    <img loading="lazy"  src="img/blog-details/blog-details__2.png" alt="author">
+                                    <img loading="lazy"  src="{{asset('frontend')}}/img/blog-details/blog-details__2.png" alt="author">
 
                                 </div>
                                 <div class="author__content">
@@ -225,7 +224,7 @@
 
                             <div class="blog__details__comment__inner" data-aos="fade-up">
                                 <div class="author__img">
-                                    <img loading="lazy"  src="img/blog-details/blog-details__3.png" alt="author">
+                                    <img loading="lazy"  src="{{asset('frontend')}}/img/blog-details/blog-details__3.png" alt="author">
 
                                 </div>
                                 <div class="author__content">
@@ -249,7 +248,7 @@
 
                             <div class="blog__details__comment__inner author__padding__left" data-aos="fade-up">
                                 <div class="author__img">
-                                    <img loading="lazy"  src="img/blog-details/blog-details__4.png" alt="author">
+                                    <img loading="lazy"  src="{{asset('frontend')}}/img/blog-details/blog-details__4.png" alt="author">
 
                                 </div>
                                 <div class="author__content">
@@ -319,7 +318,7 @@
                     <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
                         <div class="blogsidebar__content__inner__2">
                             <div class="blogsidebar__img__2">
-                                <img loading="lazy"  src="img/blog/blog_10.png" alt="blog">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_10.png" alt="blog">
                             </div>
                             <div class="blogsidebar__name__2">
                                 <h5>
@@ -389,7 +388,7 @@
                             <li>
                                 <div class="recent__img">
                                     <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_11.png" alt="sidbar">
+                                        <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_11.png" alt="sidbar">
                                         <div class="recent__number">
                                             <span>01</span>
                                         </div>
@@ -413,7 +412,7 @@
                             <li>
                                 <div class="recent__img">
                                     <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_12.png" alt="sidbar">
+                                        <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_12.png" alt="sidbar">
                                         <div class="recent__number">
                                             <span>02</span>
                                         </div>
@@ -437,7 +436,7 @@
                             <li>
                                 <div class="recent__img">
                                     <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_13.png" alt="sidbar">
+                                        <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_13.png" alt="sidbar">
                                         <div class="recent__number">
                                             <span>03</span>
                                         </div>
@@ -461,7 +460,7 @@
                             <li>
                                 <div class="recent__img">
                                     <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_14.png" alt="sidbar">
+                                        <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_14.png" alt="sidbar">
                                         <div class="recent__number">
                                             <span>04</span>
                                         </div>
@@ -491,37 +490,37 @@
                         <div class="photo__gallery__img">
 
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_15.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_15.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_15.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>
                             </div>
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_16.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_16.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_16.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>
                             </div>
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_17.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_17.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_17.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>
                             </div>
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_18.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_18.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_18.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>
                             </div>
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_19.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_19.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_19.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>
                             </div>
                             <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_20.png" alt="photo">
+                                <img loading="lazy"  src="{{asset('frontend')}}/img/blog/blog_20.png" alt="photo">
                                 <div class="gallery__icon">
                                     <a class="popup__img" href="img/blog/blog_20.png"> <i class="icofont-eye-alt"></i></a>
                                 </div>

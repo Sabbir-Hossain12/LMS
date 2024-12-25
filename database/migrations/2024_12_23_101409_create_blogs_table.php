@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_classes', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table) 
+        {
             $table->id();
             $table->string('title');
-            $table->string('subtitle')->nullable();
-            $table->text('slug')->unique();
-            $table->text('desc')->nullable();
-            $table->text('img')->nullable();
-            $table->text('icon')->nullable();
-            $table->string('position')->nullable();
+            $table->text('thumbnail_img');
+            $table->text('main_img');
+            $table->longText('desc');
             
-            $table->tinyInteger('is_featured')->default(0)->comment('1=active,0=inactive');
             $table->tinyInteger('status')->default(1)->comment('1=active,0=inactive');
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_classes');
+        Schema::dropIfExists('blogs');
     }
 };

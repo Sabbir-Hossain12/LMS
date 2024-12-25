@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('icon')->nullable();
             $table->string('position')->nullable();
 
+            $table->tinyInteger('is_featured')->default(0)->comment('1=active,0=inactive');
+
             $table->tinyInteger('status')->default(1)->comment('1=active,0=inactive');
             $table->timestamps();
         });

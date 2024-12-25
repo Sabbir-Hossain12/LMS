@@ -22,6 +22,7 @@ Route::view('/lesson-quiz','Frontend.pages.lesson.quiz');
 Route::view('/teachers','Frontend.pages.teacher.teachers');
 Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
 
+Route::view('/blog-details','Frontend.pages.blog.blog-details');
 
 //Student Dashboard
 

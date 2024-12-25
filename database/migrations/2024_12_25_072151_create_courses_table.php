@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('sale_price')->nullable();
             $table->integer('discount')->nullable();
             
+            $table->tinyInteger('is_featured')->default(0)->comment('1=active,0=inactive');
+
             $table->tinyInteger('is_exam')->default(1)->comment('1=active,0=inactive');
             $table->tinyInteger('is_certificate')->default(1)->comment('1=active,0=inactive');
             
