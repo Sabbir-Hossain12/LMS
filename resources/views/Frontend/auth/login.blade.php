@@ -1,43 +1,43 @@
 @extends('Frontend.layouts.master')
 
 @section('content')
-    <!-- breadcrumbarea__section__start -->
+{{--    <!-- breadcrumbarea__section__start -->--}}
 
-    <div class="breadcrumbarea">
+{{--    <div class="breadcrumbarea">--}}
 
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="breadcrumb__content__wraper" data-aos="fade-up">
-                        <div class="breadcrumb__title">
-                            <h2 class="heading">Log In</h2>
-                        </div>
-                        <div class="breadcrumb__inner">
-                            <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li>Log In</li>
-                            </ul>
-                        </div>
-                    </div>
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-xl-12">--}}
+{{--                    <div class="breadcrumb__content__wraper" data-aos="fade-up">--}}
+{{--                        <div class="breadcrumb__title">--}}
+{{--                            <h2 class="heading">Log In</h2>--}}
+{{--                        </div>--}}
+{{--                        <div class="breadcrumb__inner">--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="index.html">Home</a></li>--}}
+{{--                                <li>Log In</li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
 
-                </div>
-            </div>
-        </div>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
-        <div class="shape__icon__2">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png"
-                 alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png"
-                 alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png"
-                 alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png"
-                 alt="photo">
-        </div>
+{{--        <div class="shape__icon__2">--}}
+{{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png"--}}
+{{--                 alt="photo">--}}
+{{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png"--}}
+{{--                 alt="photo">--}}
+{{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png"--}}
+{{--                 alt="photo">--}}
+{{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png"--}}
+{{--                 alt="photo">--}}
+{{--        </div>--}}
 
-    </div>
-    <!-- breadcrumbarea__section__end-->
+{{--    </div>--}}
+{{--    <!-- breadcrumbarea__section__end-->--}}
 
     <!-- login__section__start -->
     <div class="loginarea sp_top_100 sp_bottom_100">
@@ -76,16 +76,16 @@
 
                                 <form action="#">
                                     <div class="login__form">
-                                        <label class="form__label">Username or email</label>
+                                        <label class="form__label">Phone or email</label>
                                         <input class="common__login__input" type="text"
-                                               placeholder="Your username or email">
+                                               placeholder="Phone or email">
 
                                     </div>
-                                    <div class="login__form">
-                                        <label class="form__label">Password</label>
-                                        <input class="common__login__input" type="password" placeholder="Password">
+{{--                                    <div class="login__form">--}}
+{{--                                        <label class="form__label">Password</label>--}}
+{{--                                        <input class="common__login__input" type="password" placeholder="Password">--}}
 
-                                    </div>
+{{--                                    </div>--}}
                                     <div class="login__form d-flex justify-content-between flex-wrap gap-2">
                                         <div class="form__check">
                                             <input id="forgot" type="checkbox">
