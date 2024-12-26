@@ -17,9 +17,10 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         
-        if (Auth::check() &&  !auth()->user()->hasRole('admin')) {
-            abort(403, 'Unauthorized action.');
+        if (Auth::check() &&  auth()->user()->hasRole('admin')) 
+        {
+            return $next($request);
         }
-        return $next($request);
+            abort(403, 'Unauthorized action.');
     }
 }

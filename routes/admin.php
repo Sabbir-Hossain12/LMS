@@ -12,7 +12,8 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\TestimonialController;
 
-use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\AuthenticationController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,13 +21,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
     
-    Route::get('/login', [AuthenticatedSessionController::class, 'create']);
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+    Route::get('/login', [AuthenticationController::class, 'create']);
+    Route::post('/login', [AuthenticationController::class, 'store'])->name('login');
     
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(['admin','teacher'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(AdminMiddleware::class)->group(function () {
+
+    Route::post('logout', [AuthenticationController::class, 'destroy'])
+        ->name('logout');
     
     Route::resource('/dashboards', DashboardController::class)->names('dashboard');
     Route::resource('/admins', AdminController::class);

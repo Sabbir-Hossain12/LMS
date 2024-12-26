@@ -1,9 +1,9 @@
 @extends('backend.layout.auth')
 
+
 @section('contents')
 
-
-
+    
 
 <div class="auth-page bg-gradient bg-info">
     <div class="container-fluid p-0">

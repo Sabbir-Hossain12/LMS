@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class AuthenticatedSessionController extends Controller
+class AuthenticationController extends Controller
 {
     /**
      * Display the login view.
      */
     public function create(): View
     {
+        
         return view('backend.auth.login');
     }
 
@@ -24,7 +25,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        
+
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -32,10 +33,11 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
         
         if ($user->hasRole('admin')) {
-            return redirect()->intended(route('admin.dashboard', absolute: false));
+            return redirect()->intended(route('admin.dashboard.index', absolute: false));
         }
         
-        
+        Auth::logout();
+        abort(403, 'Unauthorized action.');
     }
 
     /**
@@ -49,6 +51,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/admin/login');
     }
 }
