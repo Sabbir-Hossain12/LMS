@@ -118,20 +118,20 @@
                         </li>
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.about.index')}}">
                                 <span data-key="t-calendar">About</span>
                             </a>
                         </li>
                         
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.testimonial.index')}}">
                                 <span data-key="t-calendar">Testimonial</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.blog.index')}}">
                                 <span data-key="t-calendar">Blog</span>
                             </a>
                         </li>
@@ -144,7 +144,7 @@
                         
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.basicinfo.index')}}">
                                 <span data-key="t-calendar">Settings</span>
                             </a>
                         </li>

@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BasicinfoController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HerobannerController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -47,6 +48,6 @@ Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->grou
     Route::resource('/basic-infos', BasicinfoController::class)->names('basicinfo');
     Route::resource('/abouts', AboutController::class)->names('about');
     Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
-    
+    Route::resource('/blogs', BlogController::class)->names('blog');
     
 });

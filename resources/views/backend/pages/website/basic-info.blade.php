@@ -8,36 +8,22 @@
 
 @section('contents')
 
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Basic Info</h4>
-
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                        <li class="breadcrumb-item active">Basic-info</li>
-                    </ol>
-                </div>
-
-            </div>
-        </div>
-    </div>
+  
 
     {{--    Form Starts--}}
-    <form method="post" action="" enctype="multipart/form-data">
+    
+        @if($basicInfo) 
+            <form method="post" action="{{route('admin.basicinfo.update',$basicInfo->id)}}" enctype="multipart/form-data">
+                @method('PUT')
+                
+        @else
+            <form method="post" action="{{route('admin.basicinfo.store')}}" enctype="multipart/form-data">
+                    
+        @endif
+                
         @csrf
         <div class="row">
-            @if(Session::has('error_message'))
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    {{Session::get('error_message')}}
-                </div>
-            @endif
-            @if(Session::has('success_message'))
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    {{Session::get('success_message')}}
-                </div>
-            @endif
+          
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -50,104 +36,142 @@
                             <div class="col-lg-6">
                                 <div>
                                     <div class="mb-3">
-                                        <label for="logo" class="form-label">Black Logo</label>
+                                        <label for="dark_logo" class="form-label">Black Logo</label>
                                         <input oninput="bLogoImgPrev.src=window.URL.createObjectURL(this.files[0])"
-                                               class="form-control" type="file" name="black_logo"
-                                               id="logo">
-                                        <img id="bLogoImgPrev" class="mt-1" src=""
+                                               class="form-control" type="file" name="dark_logo"
+                                               id="dark_logo">
+                                        @if($basicInfo && $basicInfo->dark_logo) 
+                                        <img id="bLogoImgPrev" class="mt-1" src="{{asset($basicInfo->dark_logo)}}"
                                              height="60px" width="200px" alt=""/>
+                                        @endif
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input class="form-control" type="email" name="email"
+                                        <label for="site_name" class="form-label">Website Name</label>
+                                        <input class="form-control" type="email" name="site_name"
+                                               placeholder=""
+                                               id="site_name" value="{{$basicInfo->site_name ?? ''}}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="mail" class="form-label">Email</label>
+                                        <input class="form-control" type="email" name="mail"
                                                placeholder="xyz@gmail.com"
-                                               id="email" value="">
+                                               id="mail" value="{{$basicInfo->mail ?? ''}}">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="phone_1" class="form-label">Customer Service Phone</label>
+                                        <label for="phone_1" class="form-label">Phone 1</label>
                                         <input class="form-control" name="phone_1" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="phone_1" value="">
+                                               id="phone_1" value="{{$basicInfo->phone_1 ?? ''}}">
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="phone_2" class="form-label">Phone 2 (optional)</label>
+                                        <input class="form-control" name="phone_2" type="text"
+                                               placeholder="Enter Store Phone Number"
+                                               id="phone_2" value="{{$basicInfo->phone_2 ?? ''}}">
+                                    </div>
+                                    
                                     <div class="mb-3">
                                         <label for="fb_link" class="form-label">Facebook link</label>
                                         <input class="form-control" name="fb_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="fb_link" value="">
+                                               id="fb_link" value="{{$basicInfo->fb_link ?? ''}}">
                                     </div>
+                                    
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="x_link" class="form-label">X link</label>
-                                        <input class="form-control" name="x_link" type="text"
-                                               placeholder="Enter Store Phone Number"
-                                               id="x_link" value="">
+                                        <label for="insta_link" class="form-label">Instagram link</label>
+                                        <input class="form-control" name="insta_link" type="text"
+                                               placeholder=""
+                                               id="insta_link" value="{{$basicInfo->insta_link ?? ''}}">
                                     </div>
+                                    
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="p_link" class="form-label">Pinterest link</label>
-                                        <input class="form-control" name="p_link" type="text"
-                                               placeholder="Enter Store Phone Number"
-                                               id="p_link" value="">
+                                        <label for="p_link" class="form-label">Twitter Link</label>
+                                        <input class="form-control" name="twitter_link" type="text"
+                                               placeholder=""
+                                               id="twitter_link" value="{{$basicInfo->twitter_link ?? ''}}">
                                     </div>
-
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="short_desc" class="form-label">Short Description(footer)</label>
-                                        <textarea id="short_desc" name="short_desc"
-                                                  class="form-control"></textarea>
+                                        <label for="about_text" class="form-label">Short Description(footer)</label>
+                                        <textarea id="about_text" name="about_text"
+                                                  class="form-control">{{$basicInfo->about_text ?? ''}}
+                                            
+                                        </textarea>
                                     </div>
-
-
-
-
+                                    
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="mt-3 mt-lg-0">
                                     <div class="mb-3">
-                                        <label for="logo" class="form-label">Light Logo</label>
-                                        <input oninput="wLogoImgPrev.src=window.URL.createObjectURL(this.files[0])"
+                                        <label for="light_logo" class="form-label">Light Logo</label>
+                                        <input oninput="lLogoImgPrev.src=window.URL.createObjectURL(this.files[0])"
                                                class="form-control" type="file" name="light_logo"
-                                               id="logo">
-                                        <img id="wLogoImgPrev" class="mt-1" src=""
+                                               id="light_logo">
+                                        @if($basicInfo && $basicInfo->light_logo) 
+                                        <img id="lLogoImgPrev" class="mt-1" src="{{asset($basicInfo->light_logo)}}"
                                              height="60px" width="200px" alt=""/>
+                                        @endif
                                     </div>
                                     <div class="mb-3">
                                         <label for="youtube_link" class="form-label">Youtube Link</label>
                                         <input class="form-control" name="youtube_link" type="text"
-                                               placeholder="Enter Store Phone Number"
-                                               id="youtube_link" value="">
+                                               placeholder=""
+                                               id="youtube_link" value="{{$basicInfo->youtube_link ?? ''}}">
                                     </div>
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="insta_link" class="form-label">Instagram Link</label>
-                                        <input class="form-control" name="insta_link" type="text"
+                                        <label for="vimeo_link" class="form-label">Vimeo Link</label>
+                                        <input class="form-control" name="vimeo_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="insta_link" value="">
+                                               id="vimeo_link" value="{{$basicInfo->vimeo_link ?? ''}}">
                                     </div>
+                                    
                                     <div class="mb-3">
-                                        <label for="inside_dhaka_charge" class="form-label">Inside Dhaka Charge</label>
-                                        <input class="form-control" type="number" placeholder="Enter Store Phone Number"
-                                               id="inside_dhaka_charge" name="inside_dhaka_charge"
-                                               value="">
+                                        <label for="linkedin_link" class="form-label">Linkedin Link</label>
+                                        <input class="form-control" type="text" placeholder="Enter Store Phone Number"
+                                               id="linkedin_link" name="linkedin_link"
+                                               value="{{$basicInfo->linkedin_link ?? ''}}">
                                     </div>
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="outside_dhaka_charge" class="form-label">Outside Dhaka
-                                            Charge</label>
-                                        <input class="form-control" name="outside_dhaka_charge" type="number"
-                                               placeholder="Enter Store Phone Number"
-                                               id="outside_dhaka_charge" value="">
+                                        <label for="skype_link" class="form-label">
+                                            Skype Link</label>
+                                        <input class="form-control" name="skype_link" type="text"
+                                               placeholder=""
+                                               id="skype_link" value="{{$basicInfo->skype_link ?? ''}}">
+                                    </div>
+                                    
+                                    
+
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Address</label>
+                                        <textarea id="address" name="address"
+                                                  class="form-control">{{$basicInfo->address ?? ''}}</textarea>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="store_location" class="form-label">Store Location</label>
-                                        <textarea id="store_location" name="store_location"
-                                                  class="form-control"></textarea>
+                                        <label for="opening_hours_text" class="form-label">Opening Hour Text</label>
+                                        <textarea id="opening_hours_text" name="opening_hours_text"
+                                                  class="form-control">{{$basicInfo->opening_hours_text ?? ''}}</textarea>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="currency_symbol" class="form-label">Currency Symbol</label>
-                                        <input type="text" id="currency_symbol" name="currency_symbol"
-                                               class="form-control" value=""/>
+                                        <label for="copyright_text" class="form-label">Copyright Text</label>
+                                        <textarea id="copyright_text" name="copyright_text"
+                                                  class="form-control">{{$basicInfo->copyright_text ?? ''}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +184,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Pixel & Analytics</h4>
+                        <h4 class="card-title text-center">Meta Information</h4>
 
                     </div>
 
@@ -171,32 +195,43 @@
                             <div class="col-lg-6">
                                 <div>
                                     <div class="mb-3">
-                                        <label for="fb_pixel" class="form-label">Facebook Pixel</label>
-                                        <textarea id="fb_pixel" class="form-control"
-                                                  name="fb_pixel"></textarea>
+                                        <label for="meta_title" class="form-label">Meta Title</label>
+                                        <input type="text" class="form-control" id="meta_title" name="meta_title"
+                                               value="{{$basicInfo->meta_title ?? ''}}">
                                     </div>
                                 </div>
+                                
                                 <div>
                                     <div class="mb-3">
-                                        <label for="chatbox_script" class="form-label">Chatbox Script</label>
-                                        <textarea id="chatbox_script" name="chatbox_script"
-                                                  class="form-control"></textarea>
+                                        <label for="meta_desc" class="form-label">Meta Description</label>
+                                        <textarea id="meta_desc" name="meta_desc"
+                                                  class="form-control">{{$basicInfo->meta_desc ?? ''}}</textarea>
                                     </div>
                                 </div>
+                                
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="mt-3 mt-lg-0">
                                     <div class="mb-3">
-                                        <label for="google_analytics" class="form-label">Google Analytics</label>
-                                        <textarea id="google_analytics" class="form-control"
-                                                  name="google_analytics"></textarea>
+                                        <label for="meta_keyword" class="form-label">Meta Keywords</label>
+                                        <textarea id="meta_keyword" class="form-control"
+                                                  name="meta_keyword">{{$basicInfo->meta_keyword ?? ''}}</textarea>
                                     </div>
+                                    
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label for="marquee_text" class="form-label">Marquee Text</label>
-                                        <textarea id="marquee_text" class="form-control"
-                                                  name="marquee_text"></textarea>
+                                        <label for="meta_image"  class="form-label"  >Meta Image</label>
+                                        <input type="file" oninput="metaLogoImgPrev.src=window.URL.createObjectURL(this.files[0])" class="form-control" name="meta_image">
+                                        
+                                        @if($basicInfo && $basicInfo->meta_image) 
+                                        <img id="metaLogoImgPrev" class="mt-1" src="{{asset($basicInfo->meta_image)}}"
+                                             height="60px" width="60px"/>
+                                        @endif
                                     </div>
+                                    
+                                    
 
 
                                 </div>
