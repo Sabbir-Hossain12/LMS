@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('dark_logo')->nullable();
             $table->text('light_logo')->nullable();
             $table->string('phone_1')->nullable();
-            $table->string('phone_1')->nullable();
+            $table->string('phone_2')->nullable();
             $table->string('mail')->nullable();
             $table->string('address')->nullable();
             $table->text('fb_link')->nullable();
