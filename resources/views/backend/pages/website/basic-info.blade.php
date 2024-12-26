@@ -1,7 +1,7 @@
 @extends('backend.layout.master')
 
 @push('backendCss')
-    <link href="{{asset('public/backend')}}/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"
+    <link href="{{asset('backend')}}/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"
           rel="stylesheet" type="text/css">
 
 @endpush
@@ -25,7 +25,7 @@
     </div>
 
     {{--    Form Starts--}}
-    <form method="post" action="{{route('admin.basic.store')}}" enctype="multipart/form-data">
+    <form method="post" action="" enctype="multipart/form-data">
         @csrf
         <div class="row">
             @if(Session::has('error_message'))
@@ -54,7 +54,7 @@
                                         <input oninput="bLogoImgPrev.src=window.URL.createObjectURL(this.files[0])"
                                                class="form-control" type="file" name="black_logo"
                                                id="logo">
-                                        <img id="bLogoImgPrev" class="mt-1" src="{{asset($data->black_logo)}}"
+                                        <img id="bLogoImgPrev" class="mt-1" src=""
                                              height="60px" width="200px" alt=""/>
                                     </div>
 
@@ -62,41 +62,41 @@
                                         <label for="email" class="form-label">Email</label>
                                         <input class="form-control" type="email" name="email"
                                                placeholder="xyz@gmail.com"
-                                               id="email" value="{{$data->email}}">
+                                               id="email" value="">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="phone_1" class="form-label">Customer Service Phone</label>
                                         <input class="form-control" name="phone_1" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="phone_1" value="{{$data->phone_1}}">
+                                               id="phone_1" value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="fb_link" class="form-label">Facebook link</label>
                                         <input class="form-control" name="fb_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="fb_link" value="{{$data->fb_link}}">
+                                               id="fb_link" value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="x_link" class="form-label">X link</label>
                                         <input class="form-control" name="x_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="x_link" value="{{$data->x_link}}">
+                                               id="x_link" value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="p_link" class="form-label">Pinterest link</label>
                                         <input class="form-control" name="p_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="p_link" value="{{$data->p_link}}">
+                                               id="p_link" value="">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="short_desc" class="form-label">Short Description(footer)</label>
                                         <textarea id="short_desc" name="short_desc"
-                                                  class="form-control">{{$data->short_desc}}</textarea>
+                                                  class="form-control"></textarea>
                                     </div>
-                                    
-                                
+
+
 
 
                                 </div>
@@ -109,48 +109,46 @@
                                         <input oninput="wLogoImgPrev.src=window.URL.createObjectURL(this.files[0])"
                                                class="form-control" type="file" name="light_logo"
                                                id="logo">
-                                        <img id="wLogoImgPrev" class="mt-1" src="{{asset($data->light_logo)}}"
+                                        <img id="wLogoImgPrev" class="mt-1" src=""
                                              height="60px" width="200px" alt=""/>
                                     </div>
                                     <div class="mb-3">
                                         <label for="youtube_link" class="form-label">Youtube Link</label>
                                         <input class="form-control" name="youtube_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="youtube_link" value="{{$data->youtube_link}}">
+                                               id="youtube_link" value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="insta_link" class="form-label">Instagram Link</label>
                                         <input class="form-control" name="insta_link" type="text"
                                                placeholder="Enter Store Phone Number"
-                                               id="insta_link" value="{{$data->insta_link}}">
+                                               id="insta_link" value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="inside_dhaka_charge" class="form-label">Inside Dhaka Charge</label>
                                         <input class="form-control" type="number" placeholder="Enter Store Phone Number"
                                                id="inside_dhaka_charge" name="inside_dhaka_charge"
-                                               value="{{$data->inside_dhaka_charge}}">
+                                               value="">
                                     </div>
                                     <div class="mb-3">
                                         <label for="outside_dhaka_charge" class="form-label">Outside Dhaka
                                             Charge</label>
                                         <input class="form-control" name="outside_dhaka_charge" type="number"
                                                placeholder="Enter Store Phone Number"
-                                               id="outside_dhaka_charge" value="{{$data->outside_dhaka_charge}}">
+                                               id="outside_dhaka_charge" value="">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="store_location" class="form-label">Store Location</label>
                                         <textarea id="store_location" name="store_location"
-                                                  class="form-control">{{$data->store_location}}</textarea>
+                                                  class="form-control"></textarea>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="currency_symbol" class="form-label">Currency Symbol</label>
                                         <input type="text" id="currency_symbol" name="currency_symbol"
-                                               class="form-control" value="{{$data->currency_symbol}}"/>
+                                               class="form-control" value=""/>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -175,14 +173,14 @@
                                     <div class="mb-3">
                                         <label for="fb_pixel" class="form-label">Facebook Pixel</label>
                                         <textarea id="fb_pixel" class="form-control"
-                                                  name="fb_pixel">{{$data->fb_pixel}}</textarea>
+                                                  name="fb_pixel"></textarea>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="mb-3">
                                         <label for="chatbox_script" class="form-label">Chatbox Script</label>
                                         <textarea id="chatbox_script" name="chatbox_script"
-                                                  class="form-control">{{$data->chatbox_script}}</textarea>
+                                                  class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -192,12 +190,12 @@
                                     <div class="mb-3">
                                         <label for="google_analytics" class="form-label">Google Analytics</label>
                                         <textarea id="google_analytics" class="form-control"
-                                                  name="google_analytics">{{$data->google_analytics}}</textarea>
+                                                  name="google_analytics"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="marquee_text" class="form-label">Marquee Text</label>
                                         <textarea id="marquee_text" class="form-control"
-                                                  name="marquee_text">{{$data->marquee_text}}</textarea>
+                                                  name="marquee_text"></textarea>
                                     </div>
 
 

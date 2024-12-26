@@ -27,23 +27,26 @@ Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function () 
 
-    Route::post('logout', [AuthenticationController::class, 'destroy'])
-        ->name('logout');
+{
+    
+    Route::post('logout', [AuthenticationController::class, 'destroy'])->name('logout');
     
     Route::resource('/dashboards', DashboardController::class)->names('dashboard');
-    Route::resource('/admins', AdminController::class);
-    Route::resource('/teachers', TeacherController::class);
-    Route::resource('/students', StudentController::class);
+    Route::resource('/admins', AdminController::class)->names('admin');
+    Route::resource('/teachers', TeacherController::class)->names('teacher');
+    Route::resource('/students', StudentController::class)->names('student');
     
-    Route::resource('/roles', RoleController::class);
-    Route::resource('/permissions', PermissionController::class);
     
-    Route::resource('/basic-infos', BasicinfoController::class);
-    Route::resource('/abouts', AboutController::class);
-    Route::resource('/herobanners', HerobannerController::class);
-    Route::resource('/testimonials', TestimonialController::class);
-   
+    Route::resource('/roles', RoleController::class)->names('role');
+    Route::resource('/permissions', PermissionController::class)->names('permission');
+    
+    
+    Route::resource('/herobanners', HerobannerController::class)->names('herobanner');
+    Route::resource('/basic-infos', BasicinfoController::class)->names('basicinfo');
+    Route::resource('/abouts', AboutController::class)->names('about');
+    Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
+    
     
 });
