@@ -11,18 +11,18 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('public/backend')}}/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{asset('backend')}}/assets/images/favicon.ico">
 
     <!-- preloader css -->
-    <link rel="stylesheet" href="{{asset('public/backend')}}/assets/css/preloader.min.css" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('backend')}}/assets/css/preloader.min.css" type="text/css"/>
 
     <!-- Bootstrap Css -->
-    <link href="{{asset('public/backend')}}/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet"
+    <link href="{{asset('backend')}}/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet"
           type="text/css"/>
     <!-- Icons Css -->
-    <link href="{{asset('public/backend')}}/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('backend')}}/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
-    <link href="{{asset('public/backend')}}/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('backend')}}/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css"/>
 
     @stack('backendCss')
 </head>
@@ -34,16 +34,16 @@
 
 
 
-<script src=" {{asset('public/backend')}}/assets/libs/jquery/jquery.min.js"></script>
-<script src=" {{asset('public/backend')}}/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src=" {{asset('public/backend')}}/assets/libs/metismenu/metisMenu.min.js"></script>
-<script src=" {{asset('public/backend')}}/assets/libs/simplebar/simplebar.min.js"></script>
-<script src=" {{asset('public/backend')}}/assets/libs/node-waves/waves.min.js"></script>
-<script src=" {{asset('public/backend')}}/assets/libs/feather-icons/feather.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/jquery/jquery.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/simplebar/simplebar.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/node-waves/waves.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/feather-icons/feather.min.js"></script>
 <!-- pace js -->
-<script src=" {{asset('public/backend')}}/assets/libs/pace-js/pace.min.js"></script>
+<script src=" {{asset('backend')}}/assets/libs/pace-js/pace.min.js"></script>
 @stack('backendJs')
-<script src=" {{asset('public/backend')}}/assets/js/app.js"></script>
+<script src=" {{asset('backend')}}/assets/js/app.js"></script>
 
 
 </body>

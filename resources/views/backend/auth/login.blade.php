@@ -14,15 +14,15 @@
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="" class="d-block auth-logo">
-                                    <img src=" {{asset('public/backend')}}/assets/images/logo-sm.svg" alt="" height="28"> <span class="logo-txt">Eco Bazar</span>
+                                    <img src=" {{asset('public/backend')}}/assets/images/logo-sm.svg" alt="" height="28"> <span class="logo-txt">LMS</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Welcome Back !</h5>
-                                    <p class="text-muted mt-2">Sign in to continue to Eco Bazar.</p>
+                                    <p class="text-muted mt-2">Sign in to continue to LMS.</p>
                                 </div>
-                                <form class="mt-4 pt-2" method="POST" action="{{ route('admin.login.store')}}">
+                                <form class="mt-4 pt-2" method="POST" action="{{ route('admin.login')}}">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
@@ -30,6 +30,7 @@
                                                placeholder="Enter username">
                                       
                                     </div>
+                                    
                                     <div class="mb-3">
                                         <div class="d-flex align-items-start">
                                             <div class="flex-grow-1">
@@ -61,6 +62,7 @@
                                             </div>
                                         @endif
                                     </div>
+                                    
                                     <div class="row mb-4">
                                         <div class="col">
                                             <div class="form-check">
@@ -107,11 +109,11 @@
                                     </ul>
                                 </div>
 
-                                <div class="mt-5 text-center">
-                                    <p class="text-muted mb-0">Don't have an account ? <a href="{{route('admin.register')}}"
-                                                                                          class="text-primary fw-semibold">
-                                            Signup now </a></p>
-                                </div>
+{{--                                <div class="mt-5 text-center">--}}
+{{--                                    <p class="text-muted mb-0">Don't have an account ? <a href="#"--}}
+{{--                                                                                          class="text-primary fw-semibold">--}}
+{{--                                            Signup now </a></p>--}}
+{{--                                </div>--}}
                             </div>
                             <div class="mt-4 mt-md-5 text-center">
                                 <p class="mb-0">©

@@ -15,7 +15,7 @@
 
     @include('Frontend.includes.courses')
     
-{{--    @include('Frontend.includes.register')--}}
+    @include('Frontend.includes.register')
 
     @include('Frontend.includes.team')
 
