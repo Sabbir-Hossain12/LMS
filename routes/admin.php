@@ -27,7 +27,7 @@ Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(AdminMiddleware::class)->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function () {
 
     Route::post('logout', [AuthenticationController::class, 'destroy'])
         ->name('logout');

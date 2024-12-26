@@ -33,7 +33,11 @@ class AuthenticationController extends Controller
         $user = Auth::user();
         
         if ($user->hasRole('admin')) {
-            return redirect()->intended(route('admin.dashboard.index', absolute: false));
+            return redirect()->intended(route('admin.dashboard.index'));
+        }
+
+        else if ($user->hasRole('teacher')) {
+            return redirect()->intended(route('admin.dashboard.index'));
         }
         
         Auth::logout();
