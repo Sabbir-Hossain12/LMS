@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\TestimonialController;
 
 use App\Http\Controllers\Admin\Auth\AuthenticationController;
+use App\Http\Controllers\Admin\TestimonialSettingController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,8 @@ Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->grou
     
     //testimonials
     Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
+    Route::get('//testimonial/data', [TestimonialController::class, 'getData'])->name('testimonials.data');
+    Route::resource('/testimonial-settings', TestimonialSettingController::class)->names('testimonial-settings');
     
     Route::resource('/blogs', BlogController::class)->names('blog');
     

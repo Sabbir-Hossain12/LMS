@@ -10,7 +10,8 @@
         "brian2694/laravel-toastr": "^5.59",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-permission": "^6.10"
+        "spatie/laravel-permission": "^6.10",
+        "yajra/laravel-datatables-oracle": "11.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",

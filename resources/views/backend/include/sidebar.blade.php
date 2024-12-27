@@ -126,7 +126,13 @@
 
                         <li>
                             <a href="{{route('admin.testimonial.index')}}">
-                                <span data-key="t-calendar">Testimonial</span>
+                                <span data-key="t-calendar">Testimonials</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('admin.testimonial-settings.index')}}">
+                                <span data-key="t-calendar">Testimonial Settings</span>
                             </a>
                         </li>
                     
