@@ -28,8 +28,7 @@ Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function () 
-
+Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function ()
 {
     
     Route::post('logout', [AuthenticationController::class, 'destroy'])->name('logout');
@@ -45,9 +44,14 @@ Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->grou
     
     
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');
+    
     Route::resource('/basic-infos', BasicinfoController::class)->names('basicinfo');
+    
     Route::resource('/abouts', AboutController::class)->names('about');
+    
+    //testimonials
     Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
+    
     Route::resource('/blogs', BlogController::class)->names('blog');
     
 });
