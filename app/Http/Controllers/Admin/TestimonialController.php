@@ -109,8 +109,8 @@ class TestimonialController extends Controller
         if ($request->hasFile('img')) {
             $file = $request->file('img');
             $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/uploads/testimonials/'), $filename);
-            $testimonial->img = 'backend/uploads/testimonials/' .$filename;
+            $file->move(public_path('backend/upload/testimonials/'), $filename);
+            $testimonial->img = 'backend/upload/testimonials/' .$filename;
         }
         
         $save = $testimonial->save();
@@ -172,8 +172,8 @@ class TestimonialController extends Controller
             
             $file = $request->file('img');
             $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/uploads/testimonials/'), $filename);
-            $testimonial->img = 'backend/uploads/testimonials/' .$filename;
+            $file->move(public_path('backend/upload/testimonials/'), $filename);
+            $testimonial->img = 'backend/upload/testimonials/' .$filename;
         }
         
         $save = $testimonial->save();

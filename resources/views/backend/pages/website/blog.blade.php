@@ -8,6 +8,14 @@
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
 
+    <style>
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 600px;
+                margin: 1.75rem auto;
+            }
+        }
+    </style>
 @endpush
 
 @section('contents')
@@ -39,7 +47,7 @@
                         <h4 class="card-title">Blogs/News List</h4>
 
                         {{--                        @if(Auth::user()->can('Create Admin'))--}}
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTestimonial">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBlog">
                             Add Blog/News
                         </button>
                         {{--                        @endif--}}
@@ -55,8 +63,8 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Thumbnail Image</th>
+                                <th>Main Image</th>
                                 <th>Blog Title</th>
-                                <th>Author Title</th>
                                 <th>Status</th>
                                 <th>Actions</th>
 
@@ -80,33 +88,53 @@
     {{--    Table Ends--}}
 
     {{--    Add Blogs Modal--}}
-    <div class="modal fade" id="addTestimonial" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="addBlog" tabindex="-1" aria-labelledby="exampleModalLabel"
          style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Testimonial</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Blogs</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                
                 <div class="modal-body">
-                    <form name="form" id="addTestimonialForm">
+                    <form name="form" id="addBlogForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Image</label>
-                            <input type="file" class="form-control" name="img" id="img">
+                            <label for="type" class="col-form-label">Thumbnail Image</label>
+                            <input type="file" class="form-control" name="thumbnail_img" >
                         </div>
 
                         <div class="mb-3">
-                            <label for="name" class="col-form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="type" class="col-form-label">Main Image</label>
+                            <input type="file" class="form-control" name="main_img" >
                         </div>
+
                         <div class="mb-3">
-                            <label for="title" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
+                            <label for="name" class="col-form-label">Title</label>
+                            <input type="text" class="form-control"  name="title">
                         </div>
+                        
                         <div class="mb-3">
                             <label for="desc" class="col-form-label">Description</label>
-                            <textarea  class="form-control" id="desc" name="desc"></textarea>
+                            <textarea  class="form-control"  name="desc" id="blogDesc"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Meta Title (optional)</label>
+                            <input type="text" class="form-control"  name="meta_title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Meta Description (optional)</label>
+                            <textarea  class="form-control"  name="meta_description" ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Meta Keywords (optional) </label>
+                            <textarea  class="form-control"  name="meta_keywords"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="col-form-label">Meta Image</label>
+                            <input type="file" class="form-control" name="meta_img" >
                         </div>
 
 
@@ -133,33 +161,62 @@
                     <form name="form2" id="editTestimonialForm">
                         @csrf
                         @method('PUT')
-
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Image</label>
-                            <input type="file" class="form-control" name="img" id="eImg">
-                            <div id="eImgPreview" class="mt-1"></div>
+                            <label for="type" class="col-form-label">Thumbnail Image</label>
+                            <input type="file" class="form-control" id="thumbnail_img" name="thumbnail_img" >
+                            <div id="thumbnail_imgPrev"></div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="eName" class="col-form-label">Name</label>
-                            <input type="text" class="form-control" id="eName" name="name">
+                            <label for="type" class="col-form-label">Main Image</label>
+                            <input type="file" class="form-control" id="main_img" name="main_img" >
+                            <div id="main_imgPrev"></div>
                         </div>
+
                         <div class="mb-3">
-                            <label for="eTitle" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" id="eTitle" name="title">
+                            <label for="name" class="col-form-label">Title</label>
+                            <input type="text" class="form-control" id="title"  name="title">
                         </div>
+
                         <div class="mb-3">
-                            <label for="eDesc" class="col-form-label">Description</label>
-                            <textarea  class="form-control" id="eDesc" name="desc"></textarea>
+                            <label for="desc" class="col-form-label">Description</label>
+                            <textarea  class="form-control"  name="desc" id="eBlogDesc"></textarea>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Meta Title (optional)</label>
+                            <input type="text" class="form-control" id="meta_title"  name="meta_title">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Meta Description (optional)</label>
+                            <textarea  class="form-control" id="meta_description"  name="meta_description" ></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Meta Keywords (optional) </label>
+                            <textarea  class="form-control" id="meta_keywords"  name="meta_keywords"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="type" class="col-form-label">Meta Image (optional)</label>
+                            <input type="file" class="form-control" name="meta_img">
+                            <div id="meta_imgPrev"></div>
+                        </div>
+
+
 
                         <input id="id" type="number" hidden>
-
+                        
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
+                        
+                        
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        
                     </form>
                 </div>
             </div>
@@ -172,10 +229,42 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-
+    <script src="{{asset('https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js')}}"></script>
+    
     <script>
 
         $(document).ready(function () {
+
+            //  CKEditor on Blog Description
+            let jReq;
+            ClassicEditor.create(document.querySelector('#blogDesc'),{
+                    ckfinder:
+                        {
+                            uploadUrl: "{{route('admin.blog.ckeditor.upload', ['_token' => csrf_token() ])}}",
+                        }
+                })
+                .then(newEditor => {
+                    jReq = newEditor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            let Req;
+            ClassicEditor.create(document.querySelector('#eBlogDesc'),{
+                ckfinder:
+                    {
+                        uploadUrl: "{{route('admin.blog.ckeditor.upload', ['_token' => csrf_token() ])}}",
+                    }
+            })
+                .then(newEditor => {
+                    Req = newEditor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            
+            
 
 
             var token = $("input[name='_token']").val();
@@ -187,7 +276,7 @@
                 ],
                 processing: true,
                 serverSide: true,
-                ajax: "{{route('admin.testimonials.data')}}",
+                ajax: "{{route('admin.blog.data')}}",
                 // pageLength: 30,
 
                 columns: [
@@ -197,19 +286,26 @@
 
                     },
                     {
-                        data: 'img',
+                        data: 'thumbnail_img',
                         render: function (data) {
                             return '<img src="{{asset('')}}' + data + '" alt="' + data + '" style="width: 100px; height: 100px; border-radius: 50%;">';
                         }
 
                     },
+
                     {
-                        data: 'name',
+                        data: 'main_img',
+                        render: function (data) {
+                            return '<img src="{{asset('')}}' + data + '" alt="' + data + '" style="width: 100px; height: 100px; border-radius: 50%;">';
+                        }
 
                     },
+                    
                     {
-                        data: 'title'
+                        data: 'title',
+
                     },
+                    
                     {
                         data: 'status',
                         name: 'Status',
@@ -229,32 +325,32 @@
 
 
             // Create Testimonial
-            $('#addTestimonialForm').submit(function (e) {
+            $('#addBlogForm').submit(function (e) {
                 e.preventDefault();
 
                 let formData = new FormData(this);
-
+                
+                formData.append('desc', jReq.getData());
                 $.ajax({
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ route('admin.testimonial.store') }}",
+                    url: "{{ route('admin.blog.store') }}",
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
                     success: function (res) {
                         if (res.status === 'success') {
-                            $('#addTestimonial').modal('hide');
-                            $('#addTestimonialForm')[0].reset();
+                            $('#addBlog').modal('hide');
+                            $('#addBlogForm')[0].reset();
                             blogTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
                                 text: "Testimonial Added !",
                                 icon: "success"
                             })
-
-
+                            
                         }
                     },
                     error: function (err) {
@@ -268,9 +364,7 @@
                     }
                 });
             });
-
-
-
+            
             // Edit  Data
             $(document).on('click', '.editButton', function () {
                 let id = $(this).data('id');
@@ -282,7 +376,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ url('admin/testimonials') }}/" + id + "/edit",
+                        url: "{{ url('admin/blogs') }}/" + id + "/edit",
                         data: {
                             id: id
                         },
@@ -291,11 +385,23 @@
                         contentType: false,  // Prevent jQuery from setting contentType
                         success: function (res) {
 
-                            $('#eImgPreview').empty();
-                            $('#eImgPreview').append('<img src="{{asset('')}}' + res.data.img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
-                            $('#eName').val(res.data.name);
-                            $('#eTitle').val(res.data.title);
-                            $('#eDesc').val(res.data.desc);
+                            $('#thumbnail_imgPrev').empty();
+                            $('#thumbnail_imgPrev').append('<img src="{{asset('')}}' + res.data.thumbnail_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
+
+                            $('#main_imgPrev').empty();
+                            $('#main_imgPrev').append('<img src="{{asset('')}}' + res.data.main_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
+
+                            $('#title').val(res.data.title);
+                            $('#meta_title').val(res.data.meta_title);
+                            $('#meta_description').val(res.data.meta_description);
+                            $('#meta_keywords').val(res.data.meta_keywords);
+                           
+                            $('#meta_imgPrev').empty();
+                            $('#meta_imgPrev').append('<img src="{{asset('')}}' + res.data.meta_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
+                            
+                            // $('#eBlogDesc').val(res.data.desc);
+                            Req.setData( res.data.desc );
+                            
 
                         },
                         error: function (err) {
@@ -310,14 +416,16 @@
             $('#editTestimonialForm').submit(function (e) {
                 e.preventDefault();
                 let id = $('#id').val();
+                
                 let formData = new FormData(this);
+                formData.append('desc', Req.getData());
 
                 $.ajax({
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ url('admin/testimonials') }}/" + id,
+                    url: "{{ url('admin/blogs') }}/" + id,
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
@@ -328,7 +436,7 @@
                             blogTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
-                                text: "Testimonial Updated !",
+                                text: "Blog Updated !",
                                 icon: "success"
                             })
 
@@ -367,7 +475,7 @@
                             $.ajax({
                                 type: 'DELETE',
 
-                                url: "{{ url('admin/testimonials') }}/" + id,
+                                url: "{{ url('admin/blogs') }}/" + id,
                                 data: {
                                     '_token': token
                                 },
@@ -395,15 +503,15 @@
 
             })
 
-            // Change Admin Status
+            // Change Status
             $(document).on('click', '#testimonialStatus', function () {
                 let id = $(this).data('id');
                 let status = $(this).data('status')
-                console.log(id + status)
+               
                 $.ajax(
                     {
                         type: 'post',
-                        url: "{{route('admin.testimonials.change-status')}}",
+                        url: "{{route('admin.blog.change-status')}}",
                         data: {
                             '_token': token,
                             id: id,

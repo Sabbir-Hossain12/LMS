@@ -50,6 +50,7 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     Route::resource('/abouts', AboutController::class)->names('about');
     
+    
     //testimonials
     Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
     Route::get('/testimonial/data', [TestimonialController::class, 'getData'])->name('testimonials.data');
@@ -57,7 +58,12 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::resource('/testimonial-settings', TestimonialSettingController::class)->names('testimonial-settings');
     
     
-    
+    //Blogs
     Route::resource('/blogs', BlogController::class)->names('blog');
+    Route::get('/blog/data', [BlogController::class, 'getData'])->name('blog.data');
+    Route::post('/blog/change-status', [BlogController::class, 'changeStatus'])->name('blog.change-status');
+    Route::post('/upload-ckeditor-image', [BlogController::class, 'uploadCkeditorImage'])->name('blog.ckeditor.upload');
+    
+    
     
 });
