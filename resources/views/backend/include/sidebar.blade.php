@@ -144,7 +144,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.page.index')}}">
                                 <span data-key="t-calendar">Pages</span>
                             </a>
                         </li>
