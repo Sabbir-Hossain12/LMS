@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
           'student' => App\Http\Middleware\StudentMiddleware::class, 
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'checkAuth' => \App\Http\Middleware\AuthMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

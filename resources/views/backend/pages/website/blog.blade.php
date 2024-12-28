@@ -15,12 +15,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Testimonials</h4>
+                <h4 class="mb-sm-0 font-size-18">Blogs</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                        <li class="breadcrumb-item active">Testimonials</li>
+                        <li class="breadcrumb-item active">Blogs/News</li>
                     </ol>
                 </div>
 
@@ -36,30 +36,32 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Testimonial List</h4>
-                        
-{{--                        @if(Auth::user()->can('Create Admin'))--}}
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTestimonial">
-                                Add Testimonial
-                            </button>
-{{--                        @endif--}}
-                        
+                        <h4 class="card-title">Blogs/News List</h4>
+
+                        {{--                        @if(Auth::user()->can('Create Admin'))--}}
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTestimonial">
+                            Add Blog/News
+                        </button>
+                        {{--                        @endif--}}
+
                     </div>
 
                 </div>
+                
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table mb-0  nowrap w-100 dataTable no-footer dtr-inline" id="testimonialTable">
+                        <table class="table mb-0  nowrap w-100 dataTable no-footer dtr-inline" id="blogTable">
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Author Image</th>
-                                <th>Author Name</th>
+                                <th>Thumbnail Image</th>
+                                <th>Blog Title</th>
                                 <th>Author Title</th>
                                 <th>Status</th>
                                 <th>Actions</th>
 
                             </tr>
+                            
                             </thead>
                             <tbody>
 
@@ -77,7 +79,7 @@
 
     {{--    Table Ends--}}
 
-    {{--    Add Testimonials Modal--}}
+    {{--    Add Blogs Modal--}}
     <div class="modal fade" id="addTestimonial" tabindex="-1" aria-labelledby="exampleModalLabel"
          style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
@@ -93,7 +95,7 @@
                             <label for="type" class="col-form-label">Image</label>
                             <input type="file" class="form-control" name="img" id="img">
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="name" class="col-form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name">
@@ -106,8 +108,8 @@
                             <label for="desc" class="col-form-label">Description</label>
                             <textarea  class="form-control" id="desc" name="desc"></textarea>
                         </div>
-                       
-                 
+
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -131,7 +133,7 @@
                     <form name="form2" id="editTestimonialForm">
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="mb-3">
                             <label for="type" class="col-form-label">Image</label>
                             <input type="file" class="form-control" name="img" id="eImg">
@@ -150,7 +152,7 @@
                             <label for="eDesc" class="col-form-label">Description</label>
                             <textarea  class="form-control" id="eDesc" name="desc"></textarea>
                         </div>
-                        
+
                         <input id="id" type="number" hidden>
 
                         <div class="modal-footer">
@@ -179,7 +181,7 @@
             var token = $("input[name='_token']").val();
 
             //Show Data through Datatable 
-            let testimonialTable = $('#testimonialTable').DataTable({
+            let blogTable = $('#blogTable').DataTable({
                 order: [
                     [0, 'asc']
                 ],
@@ -245,7 +247,7 @@
                         if (res.status === 'success') {
                             $('#addTestimonial').modal('hide');
                             $('#addTestimonialForm')[0].reset();
-                            testimonialTable.ajax.reload()
+                            blogTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
                                 text: "Testimonial Added !",
@@ -267,13 +269,13 @@
                 });
             });
 
-      
-        
+
+
             // Edit  Data
             $(document).on('click', '.editButton', function () {
                 let id = $(this).data('id');
                 $('#id').val(id);
-        
+
                 $.ajax(
                     {
                         type: "GET",
@@ -284,7 +286,7 @@
                         data: {
                             id: id
                         },
-        
+
                         processData: false,  // Prevent jQuery from processing the data
                         contentType: false,  // Prevent jQuery from setting contentType
                         success: function (res) {
@@ -294,7 +296,7 @@
                             $('#eName').val(res.data.name);
                             $('#eTitle').val(res.data.title);
                             $('#eDesc').val(res.data.desc);
-                            
+
                         },
                         error: function (err) {
                             console.log('failed')
@@ -302,14 +304,14 @@
                     }
                 )
             })
-    
-        
+
+
             // Update Data
             $('#editTestimonialForm').submit(function (e) {
                 e.preventDefault();
                 let id = $('#id').val();
                 let formData = new FormData(this);
-        
+
                 $.ajax({
                     type: "POST",
                     headers: {
@@ -323,13 +325,13 @@
                         if (res.status === 'success') {
                             $('#editTestimonialFormModal').modal('hide');
                             $('#editTestimonialForm')[0].reset();
-                            testimonialTable.ajax.reload()
+                            blogTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
                                 text: "Testimonial Updated !",
                                 icon: "success"
                             })
-                            
+
                         }
                     },
                     error: function (err) {
@@ -344,11 +346,11 @@
                 });
             });
 
-      
+
             // Delete Data
             $(document).on('click', '#deleteTestimonialBtn', function () {
                 let id = $(this).data('id');
-        
+
                 swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this !",
@@ -360,11 +362,11 @@
                 })
                     .then((result) => {
                         if (result.isConfirmed) {
-        
-        
+
+
                             $.ajax({
                                 type: 'DELETE',
-        
+
                                 url: "{{ url('admin/testimonials') }}/" + id,
                                 data: {
                                     '_token': token
@@ -372,27 +374,27 @@
                                 success: function (res) {
                                     Swal.fire({
                                         title: "Deleted!",
-                                        text: "Testimonials has been deleted.",
+                                        text: "Blogs has been deleted.",
                                         icon: "success"
                                     });
-        
-                                    testimonialTable.ajax.reload();
+
+                                    blogTable.ajax.reload();
                                 },
                                 error: function (err) {
                                     console.log('error')
                                 }
                             })
-        
-        
+
+
                         } else {
                             swal.fire('Your Data is Safe');
                         }
-        
+
                     })
-        
-        
+
+
             })
-        
+
             // Change Admin Status
             $(document).on('click', '#testimonialStatus', function () {
                 let id = $(this).data('id');
@@ -406,13 +408,13 @@
                             '_token': token,
                             id: id,
                             status: status
-        
+
                         },
                         success: function (res) {
-                            testimonialTable.ajax.reload();
-        
+                            blogTable.ajax.reload();
+
                             if (res.status === 1) {
-        
+
                                 swal.fire(
                                     {
                                         title: 'Status Changed to Active',
@@ -424,7 +426,7 @@
                                         title: 'Status Changed to Inactive',
                                         icon: 'success'
                                     })
-        
+
                             }
                         },
                         error: function (err) {
@@ -434,8 +436,8 @@
                 )
             })
         });
-        
-        
+
+
     </script>
 
 @endpush

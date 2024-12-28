@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
     
-    Route::get('/login', [AuthenticationController::class, 'create']);
+    Route::get('/login', [AuthenticationController::class, 'create'])->name('login-view');
     Route::post('/login', [AuthenticationController::class, 'store'])->name('login');
     
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->group(function ()
+Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teacher'])->group(function ()
 {
     
     Route::post('logout', [AuthenticationController::class, 'destroy'])->name('logout');
@@ -52,8 +52,11 @@ Route::prefix('admin')->name('admin.')->middleware(['role:admin|teacher'])->grou
     
     //testimonials
     Route::resource('/testimonials', TestimonialController::class)->names('testimonial');
-    Route::get('//testimonial/data', [TestimonialController::class, 'getData'])->name('testimonials.data');
+    Route::get('/testimonial/data', [TestimonialController::class, 'getData'])->name('testimonials.data');
+    Route::post('/testimonial/change-status', [TestimonialController::class, 'changeStatus'])->name('testimonials.change-status');
     Route::resource('/testimonial-settings', TestimonialSettingController::class)->names('testimonial-settings');
+    
+    
     
     Route::resource('/blogs', BlogController::class)->names('blog');
     
