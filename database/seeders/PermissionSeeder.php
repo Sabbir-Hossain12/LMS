@@ -42,25 +42,15 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ] ,
 
-            [
-                'name' => 'view dashboard',
-                'guard_name' => 'web',
-            ] ,
-
-            [
-                'name' => 'view dashboard',
-                'guard_name' => 'web',
-            ] ,
-
-            [
-                'name' => 'view dashboard',
-                'guard_name' => 'web',
-            ] ,
-            
+        
             
             
             
             
         ];
+        
+        foreach ($permissions as $permission) {
+            \Spatie\Permission\Models\Permission::create($permission);
+        }
     }
 }

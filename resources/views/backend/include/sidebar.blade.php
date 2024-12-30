@@ -99,7 +99,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('admin.admin.create')}}">
+                            <a href="{{route('admin.permission.index')}}">
                                 <span data-key="t-calendar">Permission List</span>
                             </a>
                         </li>

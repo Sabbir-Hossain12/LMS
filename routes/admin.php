@@ -44,7 +44,9 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     //Roles and Permissions
     Route::resource('/roles', RoleController::class)->names('role');
     Route::get('/role/data', [RoleController::class, 'getData'])->name('role.data');
+    
     Route::resource('/permissions', PermissionController::class)->names('permission');
+    Route::get('/permission/data', [PermissionController::class, 'getData'])->name('permission.data');
     
     
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');

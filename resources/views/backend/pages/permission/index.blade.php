@@ -3,9 +3,9 @@
 @push('backendCss')
     {{--    <meta name="csrf_token" content="{{ csrf_token() }}" />--}}
 
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
 
 @endpush
@@ -137,8 +137,8 @@
 @push('backendJs')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{asset('public/backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
 
@@ -193,211 +193,211 @@
                 ]
             });
 
-
-            // Create Admin
-            $('#createPermission').submit(function (e) {
-                e.preventDefault();
-
-                let formData = new FormData(this);
-
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ route('admin.permission.store') }}",
-                    data: formData,
-                    processData: false,  // Prevent jQuery from processing the data
-                    contentType: false,  // Prevent jQuery from setting contentType
-                    success: function (res) {
-                        if (res.message === 'success') {
-                            $('#createPermissionModal').modal('hide');
-                            $('#createPermission')[0].reset();
-                            permissionTable.ajax.reload()
-                            swal.fire({
-                                title: "Success",
-                                text: "Admin Created !",
-                                icon: "success"
-                            })
-
-
-                        }
-                    },
-                    error: function (err) {
-                        console.error('Error:', err);
-                        swal.fire({
-                            title: "Failed",
-                            text: "Something Went Wrong !",
-                            icon: "error"
-                        })
-                        // Optionally, handle error behavior like showing an error message
-                    }
-                });
-            });
-
-            // Read Admin Data
-            $(document).on('click', '.editButton', function () {
-                let id = $(this).data('id');
-                $('#id').val(id);
-
-                $.ajax(
-                    {
-                        type: "GET",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{ url('admin/permissions') }}/" + id + "/edit",
-                        data: {
-                            id: id
-                        },
-
-                        processData: false,  // Prevent jQuery from processing the data
-                        contentType: false,  // Prevent jQuery from setting contentType
-                        success: function (res) {
-
-                           
-                            $('#eName').val(res.data.name);
-                           
-
-
-                        },
-                        error: function (err) {
-                            console.log('failed')
-                        }
-                    }
-                )
-            })
-
-            // Edit Admin Data
-            $('#editAdmin').submit(function (e) {
-                e.preventDefault();
-                let id = $('#id').val();
-                let formData = new FormData(this);
-
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ url('admin/permissions') }}/" + id,
-                    data: formData,
-                    processData: false,  // Prevent jQuery from processing the data
-                    contentType: false,  // Prevent jQuery from setting contentType
-                    success: function (res) {
-                        if (res.message === 'success') {
-                            $('#editPermissionModal').modal('hide');
-                            $('#editAdmin')[0].reset();
-                            permissionTable.ajax.reload()
-                            swal.fire({
-                                title: "Success",
-                                text: "Admin Edited !",
-                                icon: "success"
-                            })
-
-
-                        }
-                    },
-                    error: function (err) {
-                        console.error('Error:', err);
-                        swal.fire({
-                            title: "Failed",
-                            text: "Something Went Wrong !",
-                            icon: "error"
-                        })
-                        // Optionally, handle error behavior like showing an error message
-                    }
-                });
-            });
-
-
-            // Delete Admin
-            $(document).on('click', '#deletePermissionBtn', function () {
-                let id = $(this).data('id');
-
-                swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this !",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Yes, delete it!"
-                })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-
-
-                            $.ajax({
-                                type: 'DELETE',
-
-                                url: "{{ url('admin/permissions') }}/" + id,
-                                data: {
-                                    '_token': token
-                                },
-                                success: function (res) {
-                                    Swal.fire({
-                                        title: "Deleted!",
-                                        text: "Admin has been deleted.",
-                                        icon: "success"
-                                    });
-
-                                    permissionTable.ajax.reload();
-                                },
-                                error: function (err) {
-                                    console.log('error')
-                                }
-                            })
-
-
-                        } else {
-                            swal.fire('Your Data is Safe');
-                        }
-
-                    })
-
-
-            })
-
-            // Change Admin Status
-            $(document).on('click', '#adminStatus', function () {
-                let id = $(this).data('id');
-                let status = $(this).data('status')
-               
-                $.ajax(
-                    {
-                        type: 'post',
-                        url: "{{route('admin.status')}}",
-                        data: {
-                            '_token': token,
-                            id: id,
-                            status: status
-
-                        },
-                        success: function (res) {
-                            permissionTable.ajax.reload();
-
-                            if (res.status == 1) {
-
-                                swal.fire(
-                                    {
-                                        title: 'Status Changed to Active',
-                                        icon: 'success'
-                                    })
-                            } else {
-                                swal.fire(
-                                    {
-                                        title: 'Status Changed to Inactive',
-                                        icon: 'success'
-                                    })
-
-                            }
-                        },
-                        error: function (err) {
-                            console.log(err)
-                        }
-                    }
-                )
-            })
+            
+            {{--// Create Admin--}}
+            {{--$('#createPermission').submit(function (e) {--}}
+            {{--    e.preventDefault();--}}
+            
+            {{--    let formData = new FormData(this);--}}
+            
+            {{--    $.ajax({--}}
+            {{--        type: "POST",--}}
+            {{--        headers: {--}}
+            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--        },--}}
+            {{--        url: "{{ route('admin.permission.store') }}",--}}
+            {{--        data: formData,--}}
+            {{--        processData: false,  // Prevent jQuery from processing the data--}}
+            {{--        contentType: false,  // Prevent jQuery from setting contentType--}}
+            {{--        success: function (res) {--}}
+            {{--            if (res.message === 'success') {--}}
+            {{--                $('#createPermissionModal').modal('hide');--}}
+            {{--                $('#createPermission')[0].reset();--}}
+            {{--                permissionTable.ajax.reload()--}}
+            {{--                swal.fire({--}}
+            {{--                    title: "Success",--}}
+            {{--                    text: "Admin Created !",--}}
+            {{--                    icon: "success"--}}
+            {{--                })--}}
+            
+            
+            {{--            }--}}
+            {{--        },--}}
+            {{--        error: function (err) {--}}
+            {{--            console.error('Error:', err);--}}
+            {{--            swal.fire({--}}
+            {{--                title: "Failed",--}}
+            {{--                text: "Something Went Wrong !",--}}
+            {{--                icon: "error"--}}
+            {{--            })--}}
+            {{--            // Optionally, handle error behavior like showing an error message--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
+            
+            {{--// Read Admin Data--}}
+            {{--$(document).on('click', '.editButton', function () {--}}
+            {{--    let id = $(this).data('id');--}}
+            {{--    $('#id').val(id);--}}
+            
+            {{--    $.ajax(--}}
+            {{--        {--}}
+            {{--            type: "GET",--}}
+            {{--            headers: {--}}
+            {{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--            },--}}
+            {{--            url: "{{ url('admin/permissions') }}/" + id + "/edit",--}}
+            {{--            data: {--}}
+            {{--                id: id--}}
+            {{--            },--}}
+            
+            {{--            processData: false,  // Prevent jQuery from processing the data--}}
+            {{--            contentType: false,  // Prevent jQuery from setting contentType--}}
+            {{--            success: function (res) {--}}
+            
+            {{--               --}}
+            {{--                $('#eName').val(res.data.name);--}}
+            {{--               --}}
+            
+            
+            {{--            },--}}
+            {{--            error: function (err) {--}}
+            {{--                console.log('failed')--}}
+            {{--            }--}}
+            {{--        }--}}
+            {{--    )--}}
+            {{--})--}}
+            
+            {{--// Edit Admin Data--}}
+            {{--$('#editAdmin').submit(function (e) {--}}
+            {{--    e.preventDefault();--}}
+            {{--    let id = $('#id').val();--}}
+            {{--    let formData = new FormData(this);--}}
+            
+            {{--    $.ajax({--}}
+            {{--        type: "POST",--}}
+            {{--        headers: {--}}
+            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--        },--}}
+            {{--        url: "{{ url('admin/permissions') }}/" + id,--}}
+            {{--        data: formData,--}}
+            {{--        processData: false,  // Prevent jQuery from processing the data--}}
+            {{--        contentType: false,  // Prevent jQuery from setting contentType--}}
+            {{--        success: function (res) {--}}
+            {{--            if (res.message === 'success') {--}}
+            {{--                $('#editPermissionModal').modal('hide');--}}
+            {{--                $('#editAdmin')[0].reset();--}}
+            {{--                permissionTable.ajax.reload()--}}
+            {{--                swal.fire({--}}
+            {{--                    title: "Success",--}}
+            {{--                    text: "Admin Edited !",--}}
+            {{--                    icon: "success"--}}
+            {{--                })--}}
+            
+            
+            {{--            }--}}
+            {{--        },--}}
+            {{--        error: function (err) {--}}
+            {{--            console.error('Error:', err);--}}
+            {{--            swal.fire({--}}
+            {{--                title: "Failed",--}}
+            {{--                text: "Something Went Wrong !",--}}
+            {{--                icon: "error"--}}
+            {{--            })--}}
+            {{--            // Optionally, handle error behavior like showing an error message--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
+            
+            
+            {{--// Delete Admin--}}
+            {{--$(document).on('click', '#deletePermissionBtn', function () {--}}
+            {{--    let id = $(this).data('id');--}}
+            
+            {{--    swal.fire({--}}
+            {{--        title: "Are you sure?",--}}
+            {{--        text: "You won't be able to revert this !",--}}
+            {{--        icon: "warning",--}}
+            {{--        showCancelButton: true,--}}
+            {{--        confirmButtonColor: "#d33",--}}
+            {{--        cancelButtonColor: "#3085d6",--}}
+            {{--        confirmButtonText: "Yes, delete it!"--}}
+            {{--    })--}}
+            {{--        .then((result) => {--}}
+            {{--            if (result.isConfirmed) {--}}
+            
+            
+            {{--                $.ajax({--}}
+            {{--                    type: 'DELETE',--}}
+            
+            {{--                    url: "{{ url('admin/permissions') }}/" + id,--}}
+            {{--                    data: {--}}
+            {{--                        '_token': token--}}
+            {{--                    },--}}
+            {{--                    success: function (res) {--}}
+            {{--                        Swal.fire({--}}
+            {{--                            title: "Deleted!",--}}
+            {{--                            text: "Admin has been deleted.",--}}
+            {{--                            icon: "success"--}}
+            {{--                        });--}}
+            
+            {{--                        permissionTable.ajax.reload();--}}
+            {{--                    },--}}
+            {{--                    error: function (err) {--}}
+            {{--                        console.log('error')--}}
+            {{--                    }--}}
+            {{--                })--}}
+            
+            
+            {{--            } else {--}}
+            {{--                swal.fire('Your Data is Safe');--}}
+            {{--            }--}}
+            
+            {{--        })--}}
+            
+            
+            {{--})--}}
+            
+            {{--// Change Admin Status--}}
+            {{--$(document).on('click', '#adminStatus', function () {--}}
+            {{--    let id = $(this).data('id');--}}
+            {{--    let status = $(this).data('status')--}}
+            {{--   --}}
+            {{--    $.ajax(--}}
+            {{--        {--}}
+            {{--            type: 'post',--}}
+            {{--            url: "{{route('admin.status')}}",--}}
+            {{--            data: {--}}
+            {{--                '_token': token,--}}
+            {{--                id: id,--}}
+            {{--                status: status--}}
+            
+            {{--            },--}}
+            {{--            success: function (res) {--}}
+            {{--                permissionTable.ajax.reload();--}}
+            
+            {{--                if (res.status == 1) {--}}
+            
+            {{--                    swal.fire(--}}
+            {{--                        {--}}
+            {{--                            title: 'Status Changed to Active',--}}
+            {{--                            icon: 'success'--}}
+            {{--                        })--}}
+            {{--                } else {--}}
+            {{--                    swal.fire(--}}
+            {{--                        {--}}
+            {{--                            title: 'Status Changed to Inactive',--}}
+            {{--                            icon: 'success'--}}
+            {{--                        })--}}
+            
+            {{--                }--}}
+            {{--            },--}}
+            {{--            error: function (err) {--}}
+            {{--                console.log(err)--}}
+            {{--            }--}}
+            {{--        }--}}
+            {{--    )--}}
+            {{--})--}}
         });
     </script>
 
