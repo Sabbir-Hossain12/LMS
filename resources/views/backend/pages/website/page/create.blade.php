@@ -10,21 +10,20 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Edit Page <span class="text-primary"> {{$data->title}}</span></h4>
+                <h4 class="mb-sm-0 font-size-18">Create New Page</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                        <li class="breadcrumb-item active">Edit Page</li>
+                        <li class="breadcrumb-item active">Create Page</li>
                     </ol>
                 </div>
 
             </div>
         </div>
     </div>
-    <form method="post" action="{{route('admin.pages.update',$data->id)}}">
+    <form method="post" action="{{route('admin.page.store')}}" enctype="multipart/form-data">
         @csrf
-        @method('put')
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -35,40 +34,43 @@
                     <div class="card-body p-4">
 
                         <div class="row">
-                            @if(Session::has('error_message'))
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                                    {{Session::get('error_message')}}
-                                </div>
-                            @endif
-                            @if(Session::has('success_message'))
-                                <div class="alert alert-success alert-dismissible" role="alert">
-                                    {{Session::get('success_message')}}
-                                </div>
-                            @endif
+                         
                             <div class="col-lg-6">
-
-
                                 <div>
                                     <div class="mb-3">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input class="form-control" type="text" placeholder="Page Title"
-                                               id="title" name="title" value="{{$data->title}}">
+                                        <label for="name" class="form-label">Title</label>
+                                        <input class="form-control" type="text" placeholder="Page Name"
+                                               id="name" name="name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="pageStatus" class="form-label">Select</label>
-                                        <select id="pageStatus" class="form-select" name="status">
-                                            <option>Select</option>
-                                            <option {{$data->status==1 ? 'selected' : ''}}  value="1">Active</option>
-                                            <option {{$data->status==0 ? 'selected' : ''}}  value="0">Inactive</option>
+                                        <label for="name" class="form-label">Title</label>
+                                        <input class="form-control" type="text" placeholder="Page Title"
+                                               id="name" name="title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="type" class="form-label">Page Type</label>
+                                        <select id="type" class="form-select" name="type">
+                                            <option value="static">Static</option>
+                                            <option value="dynamic">Dynamic</option>
                                         </select>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="url" class="form-label">URL</label>
-                                        <textarea id="url" name="url" class="form-control">{{$data->url}}</textarea>
+                                        <label for="img" class="form-label">Image</label>
+                                        <input class="form-control" type="file" id="img" name="img">
                                     </div>
-
-
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">Short Description</label>
+                                        <textarea id="short_desc" name="short_desc" class="form-control"></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="pageStatus" class="form-label">Status</label>
+                                        <select id="pageStatus" class="form-select" name="status">
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -76,16 +78,22 @@
                                 <div class="mb-3">
                                     <label for="meta_title" class="form-label">Meta Title</label>
                                     <input class="form-control" type="text" placeholder="Meta Title"
-                                           id="meta_title" name="meta_title" value="{{$data->meta_title}}">
+                                           id="meta_title" name="meta_title">
                                 </div>
                                 <div class="mb-3">
                                     <label for="meta_keyword" class="form-label">Meta Keywords</label>
                                     <input class="form-control" type="text" placeholder="Enter Meta Keywords"
-                                           id="meta_keyword" name="meta_keywords" value="{{$data->meta_keywords}}">
+                                           id="meta_keyword" name="meta_keywords">
                                 </div>
                                 <div class="mb-3">
                                     <label for="meta_desc" class="form-label">Meta Description</label>
-                                    <textarea id="meta_desc" name="meta_desc" class="form-control">{{$data->meta_desc}}</textarea>
+                                    <textarea id="meta_desc" name="meta_desc" class="form-control"></textarea>
+                                </div>
+                                <div>
+                                    <div class="mb-3">
+                                        <label for="meta_img" class="form-label">Meta Image</label>
+                                        <input class="form-control" type="file" id="meta_img" name="meta_img">
+                                    </div>
                                 </div>
 
                             </div>
@@ -99,7 +107,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Page Description</h4>
+                        <h4 class="card-title text-center">Long Description</h4>
 
                     </div>
                     <div class="card-body p-4">
@@ -109,7 +117,7 @@
                                 <div>
                                     <div class="mb-3">
 
-                                        <textarea id="page_desc" name="desc" class="form-control">{{$data->desc}}</textarea>
+                                        <textarea id="page_desc" name="long_desc" class="form-control"></textarea>
                                     </div>
                                 </div>
 
@@ -141,10 +149,10 @@
         $(document).ready(function () {
 
             ClassicEditor
-                .create( document.querySelector( '#page_desc' ) )
-                .catch( error => {
-                    console.error( error );
-                } );
+                .create(document.querySelector('#page_desc'))
+                .catch(error => {
+                    console.error(error);
+                });
         });
 
 

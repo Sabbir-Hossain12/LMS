@@ -47,9 +47,9 @@
                         <h4 class="card-title">Blogs/News List</h4>
 
                         {{--                        @if(Auth::user()->can('Create Admin'))--}}
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBlog">
-                            Add Blog/News
-                        </button>
+                        <a class="btn btn-primary" href="{{route('admin.page.create')}}">
+                            Add Page
+                        </a>
                         {{--                        @endif--}}
 
                     </div>
@@ -62,9 +62,8 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Thumbnail Image</th>
-                                <th>Main Image</th>
-                                <th>Blog Title</th>
+                                <th>Image</th>
+                                <th>Page name</th>
                                 <th>Status</th>
                                 <th>Actions</th>
 
@@ -72,6 +71,43 @@
 
                             </thead>
                             <tbody>
+                            @forelse($pages as $index=>$page) 
+                            <tr>
+                            <td>{{$index+1}}</td>
+                            <td>
+                                @if($page->img)
+                                    <img src="{{asset($page->img)}}" alt="" style="height: 50px; width: 50px; object-fit: cover">
+                                @endif
+                            </td>
+                            <td>{{$page->name}}</td>
+                            <td>
+                                <div class="d-flex gap-3"> 
+                                
+                                @if($page->status==1)
+                                    <a class="status"  href=""> <i
+                                                class="fa-solid fa-toggle-on fa-2x"></i>
+                                    </a>
+                                @endif
+                                @if($page->status==0)
+                                    <a class="status"  href=""> <i
+                                                class="fa-solid fa-toggle-off fa-2x" style="color: grey"></i>
+                                    </a>
+                                @endif
+                                </div>
+                            </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <a href="{{route('admin.page.edit',$page->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                        <form method="post" id="delete-form-{{$page->id}}" action="{{route('admin.page.destroy',$page->id)}}">
+                                        @csrf
+                                            @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            @endforelse
 
                             </tbody>
                         </table>
@@ -270,279 +306,9 @@
             var token = $("input[name='_token']").val();
 
             //Show Data through Datatable 
-            let blogTable = $('#blogTable').DataTable({
-                order: [
-                    [0, 'asc']
-                ],
-                processing: true,
-                serverSide: true,
-                ajax: "{{route('admin.blog.data')}}",
-                // pageLength: 30,
-
-                columns: [
-                    {
-                        data: 'id',
+            let blogTable = $('#blogTable').DataTable();
 
 
-                    },
-                    {
-                        data: 'thumbnail_img',
-                        render: function (data) {
-                            return '<img src="{{asset('')}}' + data + '" alt="' + data + '" style="width: 100px; height: 100px; border-radius: 50%;">';
-                        }
-
-                    },
-
-                    {
-                        data: 'main_img',
-                        render: function (data) {
-                            return '<img src="{{asset('')}}' + data + '" alt="' + data + '" style="width: 100px; height: 100px; border-radius: 50%;">';
-                        }
-
-                    },
-
-                    {
-                        data: 'title',
-
-                    },
-
-                    {
-                        data: 'status',
-                        name: 'Status',
-                        orderable: false,
-                        searchable: false,
-                    },
-
-                    {
-                        data: 'action',
-                        name: 'Actions',
-                        orderable: false,
-                        searchable: false
-                    },
-
-                ]
-            });
-
-
-            // Create Testimonial
-            $('#addBlogForm').submit(function (e) {
-                e.preventDefault();
-
-                let formData = new FormData(this);
-
-                formData.append('desc', jReq.getData());
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ route('admin.blog.store') }}",
-                    data: formData,
-                    processData: false,  // Prevent jQuery from processing the data
-                    contentType: false,  // Prevent jQuery from setting contentType
-                    success: function (res) {
-                        if (res.status === 'success') {
-                            $('#addBlog').modal('hide');
-                            $('#addBlogForm')[0].reset();
-                            blogTable.ajax.reload()
-                            swal.fire({
-                                title: "Success",
-                                text: "Testimonial Added !",
-                                icon: "success"
-                            })
-
-                        }
-                    },
-                    error: function (err) {
-                        console.error('Error:', err);
-                        swal.fire({
-                            title: "Failed",
-                            text: "Something Went Wrong !",
-                            icon: "error"
-                        })
-                        // Optionally, handle error behavior like showing an error message
-                    }
-                });
-            });
-
-            // Edit  Data
-            $(document).on('click', '.editButton', function () {
-                let id = $(this).data('id');
-                $('#id').val(id);
-
-                $.ajax(
-                    {
-                        type: "GET",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{ url('admin/blogs') }}/" + id + "/edit",
-                        data: {
-                            id: id
-                        },
-
-                        processData: false,  // Prevent jQuery from processing the data
-                        contentType: false,  // Prevent jQuery from setting contentType
-                        success: function (res) {
-
-                            $('#thumbnail_imgPrev').empty();
-                            $('#thumbnail_imgPrev').append('<img src="{{asset('')}}' + res.data.thumbnail_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
-
-                            $('#main_imgPrev').empty();
-                            $('#main_imgPrev').append('<img src="{{asset('')}}' + res.data.main_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
-
-                            $('#title').val(res.data.title);
-                            $('#meta_title').val(res.data.meta_title);
-                            $('#meta_description').val(res.data.meta_description);
-                            $('#meta_keywords').val(res.data.meta_keywords);
-
-                            $('#meta_imgPrev').empty();
-                            $('#meta_imgPrev').append('<img src="{{asset('')}}' + res.data.meta_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
-
-                            // $('#eBlogDesc').val(res.data.desc);
-                            Req.setData( res.data.desc );
-
-
-                        },
-                        error: function (err) {
-                            console.log('failed')
-                        }
-                    }
-                )
-            })
-
-
-            // Update Data
-            $('#editTestimonialForm').submit(function (e) {
-                e.preventDefault();
-                let id = $('#id').val();
-
-                let formData = new FormData(this);
-                formData.append('desc', Req.getData());
-
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ url('admin/blogs') }}/" + id,
-                    data: formData,
-                    processData: false,  // Prevent jQuery from processing the data
-                    contentType: false,  // Prevent jQuery from setting contentType
-                    success: function (res) {
-                        if (res.status === 'success') {
-                            $('#editTestimonialFormModal').modal('hide');
-                            $('#editTestimonialForm')[0].reset();
-                            blogTable.ajax.reload()
-                            swal.fire({
-                                title: "Success",
-                                text: "Blog Updated !",
-                                icon: "success"
-                            })
-
-                        }
-                    },
-                    error: function (err) {
-                        console.error('Error:', err);
-                        swal.fire({
-                            title: "Failed",
-                            text: "Something Went Wrong !",
-                            icon: "error"
-                        })
-                        // Optionally, handle error behavior like showing an error message
-                    }
-                });
-            });
-
-
-            // Delete Data
-            $(document).on('click', '#deleteTestimonialBtn', function () {
-                let id = $(this).data('id');
-
-                swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this !",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Yes, delete it!"
-                })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-
-
-                            $.ajax({
-                                type: 'DELETE',
-
-                                url: "{{ url('admin/blogs') }}/" + id,
-                                data: {
-                                    '_token': token
-                                },
-                                success: function (res) {
-                                    Swal.fire({
-                                        title: "Deleted!",
-                                        text: "Blogs has been deleted.",
-                                        icon: "success"
-                                    });
-
-                                    blogTable.ajax.reload();
-                                },
-                                error: function (err) {
-                                    console.log('error')
-                                }
-                            })
-
-
-                        } else {
-                            swal.fire('Your Data is Safe');
-                        }
-
-                    })
-
-
-            })
-
-            // Change Status
-            $(document).on('click', '#testimonialStatus', function () {
-                let id = $(this).data('id');
-                let status = $(this).data('status')
-
-                $.ajax(
-                    {
-                        type: 'post',
-                        url: "{{route('admin.blog.change-status')}}",
-                        data: {
-                            '_token': token,
-                            id: id,
-                            status: status
-
-                        },
-                        success: function (res) {
-                            blogTable.ajax.reload();
-
-                            if (res.status === 1) {
-
-                                swal.fire(
-                                    {
-                                        title: 'Status Changed to Active',
-                                        icon: 'success'
-                                    })
-                            } else {
-                                swal.fire(
-                                    {
-                                        title: 'Status Changed to Inactive',
-                                        icon: 'success'
-                                    })
-
-                            }
-                        },
-                        error: function (err) {
-                            console.log(err)
-                        }
-                    }
-                )
-            })
         });
 
 

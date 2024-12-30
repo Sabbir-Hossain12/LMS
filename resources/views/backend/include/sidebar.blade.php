@@ -93,7 +93,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('admin.admin.index') }}">
+                            <a href="{{ route('admin.role.index') }}">
                                 <span data-key="t-calendar">Roles List</span>
                             </a>
                         </li>
