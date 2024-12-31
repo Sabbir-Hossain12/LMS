@@ -219,7 +219,7 @@
                 processing: true,
                 serverSide: true,
                 {{--ajax: "{{url('/admin/data')}}",--}}
-                ajax: "{{route('admin.admin.data')}}",
+                ajax: "{{route('admin.teacher.data')}}",
                 // pageLength: 30,
 
                 columns: [

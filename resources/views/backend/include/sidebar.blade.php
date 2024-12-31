@@ -22,7 +22,7 @@
                 <li class="menu-title" data-key="t-menu">Menu</li>
 
                 <li class=""> 
-                    <a href="">
+                    <a href="{{route('admin.dashboard.index')}}">
                         <i class="fa-solid fa-home"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
@@ -40,11 +40,11 @@
                             </a>
                         </li>
                         
-                        <li>
-                            <a href="{{route('admin.admin.create')}}">
-                                <span data-key="t-calendar">Admin Create</span>
-                            </a>
-                        </li>
+{{--                        <li>--}}
+{{--                            <a href="{{route('admin.admin.create')}}">--}}
+{{--                                <span data-key="t-calendar">Admin Create</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                     </ul>
                 </li>
                 <li>
@@ -54,16 +54,11 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('admin.admin.index') }}">
+                            <a href="{{ route('admin.teacher.index') }}">
                                 <span data-key="t-calendar">Teacher List</span>
                             </a>
                         </li>
-
-                        <li>
-                            <a href="{{route('admin.admin.create')}}">
-                                <span data-key="t-calendar">Teacher Create</span>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
                 <li>

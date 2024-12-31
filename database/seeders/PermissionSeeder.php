@@ -98,6 +98,36 @@ class PermissionSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             
+            //Admins
+            [
+                'name'=> 'View Admin',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Create Admin',
+                'guard_name' => 'web',
+            ],
+            
+            [
+                'name'=> 'Edit Admin',
+                'guard_name' => 'web',
+            ],
+            
+            [
+                'name'=> 'Delete Admin',
+                'guard_name' => 'web',
+            ],
+            
+            [
+                'name'=> 'Status Admin',
+                'guard_name' => 'web',
+            ],
+            
+            //Teacher
+            
+            
+            
         ];
         
         foreach ($permissions as $permission) {
