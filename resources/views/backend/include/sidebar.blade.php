@@ -105,6 +105,36 @@
                         </li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="fa-solid fa-comment-alt"></i>
+                        <span data-key="t-apps">Course Content</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('admin.role.index') }}">
+                                <span data-key="t-calendar">Class List</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('admin.permission.index')}}">
+                                <span data-key="t-calendar">Subject List</span>
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="{{route('admin.permission.index')}}">
+                                <span data-key="t-calendar">Course List</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                
+                
+                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i class="fa-solid fa-toolbox"></i>

@@ -44,6 +44,8 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     //Roles and Permissions
     Route::resource('/roles', RoleController::class)->names('role');
     Route::get('/role/data', [RoleController::class, 'getData'])->name('role.data');
+    Route::get('/assign-permission-page/{id}', [RoleController::class, 'assignPermissionsToRolePage'])->name('role.assign-permissions-page');
+    Route::put('role/{id}/permission/update', [RoleController::class, 'assignPermissionsToRole'])->name('role.assign-permission-update');
     
     Route::resource('/permissions', PermissionController::class)->names('permission');
     Route::get('/permission/data', [PermissionController::class, 'getData'])->name('permission.data');

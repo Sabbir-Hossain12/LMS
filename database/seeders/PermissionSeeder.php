@@ -18,10 +18,9 @@ class PermissionSeeder extends Seeder
               'name' => 'View Testimonial',
               'guard_name' => 'web',
           ] ,
-
-
+            
             [
-                'name' => 'Add Testimonial',
+                'name' => 'Create Testimonial',
                 'guard_name' => 'web',
             ] ,
 
@@ -40,12 +39,64 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'Status Testimonial',
                 'guard_name' => 'web',
-            ] ,
+            ],
+            
+            [
+                'name'=> 'View HeroBanner',
+                'guard_name' => 'web',
+            ],
+            
+            [
+                'name'=> 'View About',
+                'guard_name' => 'web',
+            ],
 
-        
             
+            [
+                'name'=> 'View Blog',
+                'guard_name' => 'web',
+            ],
+            [
+                'name'=> 'Create Blog',
+                'guard_name' => 'web',
+            ]
+            ,
+            [
+                'name'=> 'Edit Blog',
+                'guard_name' => 'web',
+            ],
+            [
+                'name'=> 'Delete Blog',
+                'guard_name' => 'web',
+            ],
+            [
+                'name'=> 'Status Blog',
+                'guard_name' => 'web',
+            ]
+            ,
+            [
+                'name'=> 'View Page',
+                'guard_name' => 'web',
+            ],
+            [
+                'name'=> 'Create Page',
+                'guard_name' => 'web',
+            ]
+            ,
+            [
+                'name'=> 'Edit Page',
+                'guard_name' => 'web',
+            ],
             
+            [
+                'name'=> 'Delete Page',
+                'guard_name' => 'web',
+            ],
             
+            [
+                'name'=> 'View Settings',
+                'guard_name' => 'web',
+            ],
             
         ];
         

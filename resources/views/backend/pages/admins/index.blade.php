@@ -3,9 +3,9 @@
 @push('backendCss')
     {{--    <meta name="csrf_token" content="{{ csrf_token() }}" />--}}
 
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
 
 @endpush
@@ -38,12 +38,12 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Admins List</h4>
 {{--                       @can('Create Admin')--}}
-                       @if(Auth::guard('admin')->user()->can('Create Admin'))
+{{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAdminModal">
                                 Create Admin 
                             </button>
 {{--                        @endcan--}}
-                        @endif
+{{--                        @endif--}}
                     </div>
 
                 </div>
@@ -177,8 +177,8 @@
 @push('backendJs')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{asset('public/backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
 

@@ -3,9 +3,9 @@
 @push('backendCss')
     {{--    <meta name="csrf_token" content="{{ csrf_token() }}" />--}}
 
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
-    <link href="{{asset('public/backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
+    <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
 
 @endpush
@@ -32,16 +32,6 @@
 
     <div class="row">
         <div class="col-lg-12">
-            @if(Session::has('error_message'))
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    {{Session::get('error_message')}}
-                </div>
-            @endif
-            @if(Session::has('success_message'))
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    {{Session::get('success_message')}}
-                </div>
-            @endif
         </div>
     </div>
 
@@ -59,7 +49,7 @@
                 </div>
                 <div class="card-body">
                     @foreach($permissions as $permission)
-                    <form action="{{route('role.permission.update',$role->id)}}" method="post">
+                    <form action="{{route('admin.role.assign-permission-update',$role->id)}}" method="post">
                         @csrf
                         @method('PUT')
                         

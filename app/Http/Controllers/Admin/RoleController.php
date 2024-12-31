@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -49,12 +50,14 @@ class RoleController extends Controller
                 return $badge;
             })
             ->addColumn('action', function ($role) {
-//                $addPermission = route('role.permission.edit', $role->id);
-                $addPermission = '';
+                $addPermission = route('admin.role.assign-permissions-page', $role->id);
+              
 
-                return '<div class="d-flex gap-3">  <a class="btn btn-sm btn-primary" href="'.$addPermission.'"><i class="fa-solid fa-user-plus"></i></a> <a class="editButton btn btn-sm btn-primary" href="javascript:void(0)" data-id="'.$role->id.'" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="fas fa-edit"></i></a>
-                                                             <a class="btn btn-sm btn-danger" href="javascript:void(0)" data-id="'.$role->id.'" id="deleteRoleBtn""> <i class="fas fa-trash"></i></a>
-                                                           </div>';
+                return '<div class="d-flex gap-3">  
+                            <a class="btn btn-sm btn-primary" href="'.$addPermission.'"><i class="fa-solid fa-user-plus"></i></a> 
+                            <a class="editButton btn btn-sm btn-primary" href="javascript:void(0)" data-id="'.$role->id.'" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-sm btn-danger" href="javascript:void(0)" data-id="'.$role->id.'" id="deleteRoleBtn""> <i class="fas fa-trash"></i></a>
+                        </div>';
             })
             ->rawColumns(['action', 'permissions'])
             ->make(true);
@@ -69,13 +72,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $admin = new Role();
-        $admin->name = $request->name;
-        $admin->guard_name = "admin";
-        $admin->save();
-
-
-        return response()->json(['message' => 'success'], 201);
+        $role = new Role();
+        $role->name = $request->name;
+        $role->guard_name = "web";
+        $save= $role->save();
+        
+        if (!$save) {
+            return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
+        }
+        return response()->json(['status' => 'success', 'message' => 'Role created successfully'], 201);
     }
 
     /**
@@ -94,10 +99,10 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
 
         if ($role) {
-            return response()->json(['message' => 'success', 'data' => $role], 200);
+            return response()->json(['status' => 'success','message'=>'Role fetched successfully', 'data' => $role], 200);
         }
 
-        return response()->json(['message' => 'failed'], 400);
+        return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
 
     /**
@@ -113,9 +118,10 @@ class RoleController extends Controller
 
             $role->save();
 
-            return response()->json(['message' => 'success'], 200);
+            return response()->json(['status' => 'success','message'=>'Role updated successfully'], 200);
+
         }
-        return response()->json(['message' => 'failed'], 404);
+        return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
 
     /**
@@ -128,9 +134,10 @@ class RoleController extends Controller
         if ($role) {
             $role->delete();
 
-            return response()->json(['message' => 'success'], 200);
+            return response()->json(['status' => 'success','message'=>'Role updated successfully'], 200);
         }
-        return response()->json(['message' => 'error'], 402);
+        
+        return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
 
 //    public function changeRoleStatus(Request $request)
@@ -161,7 +168,7 @@ class RoleController extends Controller
         $permissions = Permission::get();
         $role = Role::findOrFail($id);
 
-        return view('backend.pages.admin_role.permissions_to_role', compact('permissions', 'role'));
+        return view('backend.pages.role.assign-permission', compact('permissions', 'role'));
     }
 
     public function assignPermissionsToRole(Request $request, string $id)
@@ -176,8 +183,8 @@ class RoleController extends Controller
 
 
         if ($assignePerm) {
-            return redirect()->back()->with('success_message', 'Permission Updated !');
+            return redirect()->back()->with('success', 'Permission Updated !');
         }
-        return redirect()->back()->with('error_message', 'Error Occured !');
+        return redirect()->back()->with('error', 'Error Occured !');
     }
 }

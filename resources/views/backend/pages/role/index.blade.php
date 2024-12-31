@@ -204,168 +204,166 @@
 
 
             {{--// Create Role--}}
-            {{--$('#createRole').submit(function (e) {--}}
-            {{--    e.preventDefault();--}}
+            $('#createRole').submit(function (e) {
+                e.preventDefault();
             
-            {{--    let formData = new FormData(this);--}}
+                let formData = new FormData(this);
             
-            {{--    $.ajax({--}}
-            {{--        type: "POST",--}}
-            {{--        headers: {--}}
-            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-            {{--        },--}}
-            {{--        url: "{{ route('admin.role.store') }}",--}}
-            {{--        data: formData,--}}
-            {{--        processData: false,  // Prevent jQuery from processing the data--}}
-            {{--        contentType: false,  // Prevent jQuery from setting contentType--}}
-            {{--        success: function (res) {--}}
-            {{--            if (res.message === 'success') {--}}
-            {{--                $('#createRoleModal').modal('hide');--}}
-            {{--                $('#createRole')[0].reset();--}}
-            {{--                roleTable.ajax.reload()--}}
-            {{--                swal.fire({--}}
-            {{--                    title: "Success",--}}
-            {{--                    text: "Role Created !",--}}
-            {{--                    icon: "success"--}}
-            {{--                })--}}
-            
-            
-            {{--            }--}}
-            {{--        },--}}
-            {{--        error: function (err) {--}}
-            {{--            console.error('Error:', err);--}}
-            {{--            swal.fire({--}}
-            {{--                title: "Failed",--}}
-            {{--                text: "Something Went Wrong !",--}}
-            {{--                icon: "error"--}}
-            {{--            })--}}
-            {{--            // Optionally, handle error behavior like showing an error message--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
-            
-            {{--// Read Role Data--}}
-            {{--$(document).on('click', '.editButton', function () {--}}
-            {{--    let id = $(this).data('id');--}}
-            {{--    $('#id').val(id);--}}
-            
-            {{--    $.ajax(--}}
-            {{--        {--}}
-            {{--            type: "GET",--}}
-            {{--            headers: {--}}
-            {{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-            {{--            },--}}
-            {{--            url: "{{ url('admin/roles') }}/" + id + "/edit",--}}
-            {{--            data: {--}}
-            {{--                id: id--}}
-            {{--            },--}}
-            
-            {{--            processData: false,  // Prevent jQuery from processing the data--}}
-            {{--            contentType: false,  // Prevent jQuery from setting contentType--}}
-            {{--            success: function (res) {--}}
-            
-            {{--                console.log('success')--}}
-            {{--                $('#eName').val(res.data.name);--}}
-            {{--               --}}
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('admin.role.store') }}",
+                    data: formData,
+                    processData: false,  // Prevent jQuery from processing the data
+                    contentType: false,  // Prevent jQuery from setting contentType
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            $('#createRoleModal').modal('hide');
+                            $('#createRole')[0].reset();
+                            roleTable.ajax.reload()
+                            swal.fire({
+                                title: "Success",
+                                text: "Role Created !",
+                                icon: "success"
+                            })
             
             
-            {{--            },--}}
-            {{--            error: function (err) {--}}
-            {{--                console.log('failed')--}}
-            {{--            }--}}
-            {{--        }--}}
-            {{--    )--}}
-            {{--})--}}
+                        }
+                    },
+                    error: function (err) {
+                        console.error('Error:', err);
+                        swal.fire({
+                            title: "Failed",
+                            text: "Something Went Wrong !",
+                            icon: "error"
+                        })
+                        // Optionally, handle error behavior like showing an error message
+                    }
+                });
+            });
             
-            {{--// Edit Role Data--}}
-            {{--$('#editRole').submit(function (e) {--}}
-            {{--    e.preventDefault();--}}
-            {{--    let id = $('#id').val();--}}
-            {{--    let formData = new FormData(this);--}}
+            // Edit Role Data
+            $(document).on('click', '.editButton', function () {
+                let id = $(this).data('id');
+                $('#id').val(id);
             
-            {{--    $.ajax({--}}
-            {{--        type: "POST",--}}
-            {{--        headers: {--}}
-            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-            {{--        },--}}
-            {{--        url: "{{ url('admin/roles') }}/" + id,--}}
-            {{--        data: formData,--}}
-            {{--        processData: false,  // Prevent jQuery from processing the data--}}
-            {{--        contentType: false,  // Prevent jQuery from setting contentType--}}
-            {{--        success: function (res) {--}}
-            {{--            if (res.message === 'success') {--}}
-            {{--                $('#editRoleModal').modal('hide');--}}
-            {{--                $('#editRole')[0].reset();--}}
-            {{--                roleTable.ajax.reload()--}}
-            {{--                swal.fire({--}}
-            {{--                    title: "Success",--}}
-            {{--                    text: "Role Edited !",--}}
-            {{--                    icon: "success"--}}
-            {{--                })--}}
+                $.ajax(
+                    {
+                        type: "GET",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ url('admin/roles') }}/" + id + "/edit",
+                        data: {
+                            id: id
+                        },
             
+                        processData: false,  // Prevent jQuery from processing the data
+                        contentType: false,  // Prevent jQuery from setting contentType
+                        success: function (res) {
+                            
+                            $('#eName').val(res.data.name);
+                            
             
-            {{--            }--}}
-            {{--        },--}}
-            {{--        error: function (err) {--}}
-            {{--            console.error('Error:', err);--}}
-            {{--            swal.fire({--}}
-            {{--                title: "Failed",--}}
-            {{--                text: "Something Went Wrong !",--}}
-            {{--                icon: "error"--}}
-            {{--            })--}}
-            {{--            // Optionally, handle error behavior like showing an error message--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
+                        },
+                        error: function (err) {
+                            console.log('failed')
+                        }
+                    }
+                )
+            })
             
+            // Update Role Data
+            $('#editRole').submit(function (e) {
+                e.preventDefault();
+                let id = $('#id').val();
+                let formData = new FormData(this);
             
-            {{--// Delete Admin--}}
-            {{--$(document).on('click', '#deleteRoleBtn', function () {--}}
-            {{--    let id = $(this).data('id');--}}
-            
-            {{--    swal.fire({--}}
-            {{--        title: "Are you sure?",--}}
-            {{--        text: "You won't be able to revert this !",--}}
-            {{--        icon: "warning",--}}
-            {{--        showCancelButton: true,--}}
-            {{--        confirmButtonColor: "#d33",--}}
-            {{--        cancelButtonColor: "#3085d6",--}}
-            {{--        confirmButtonText: "Yes, delete it!"--}}
-            {{--    })--}}
-            {{--        .then((result) => {--}}
-            {{--            if (result.isConfirmed) {--}}
-            
-            
-            {{--                $.ajax({--}}
-            {{--                    type: 'DELETE',--}}
-            
-            {{--                    url: "{{ url('admin/roles') }}/" + id,--}}
-            {{--                    data: {--}}
-            {{--                        '_token': token--}}
-            {{--                    },--}}
-            {{--                    success: function (res) {--}}
-            {{--                        Swal.fire({--}}
-            {{--                            title: "Deleted!",--}}
-            {{--                            text: "Role has been deleted.",--}}
-            {{--                            icon: "success"--}}
-            {{--                        });--}}
-            
-            {{--                        roleTable.ajax.reload();--}}
-            {{--                    },--}}
-            {{--                    error: function (err) {--}}
-            {{--                        console.log('error')--}}
-            {{--                    }--}}
-            {{--                })--}}
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ url('admin/roles') }}/" + id,
+                    data: formData,
+                    processData: false,  // Prevent jQuery from processing the data
+                    contentType: false,  // Prevent jQuery from setting contentType
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            $('#editRoleModal').modal('hide');
+                            $('#editRole')[0].reset();
+                            roleTable.ajax.reload()
+                            swal.fire({
+                                title: "Success",
+                                text: "Role Updated !",
+                                icon: "success"
+                            })
             
             
-            {{--            } else {--}}
-            {{--                swal.fire('Your Data is Safe');--}}
-            {{--            }--}}
+                        }
+                    },
+                    error: function (err) {
+                        console.error('Error:', err);
+                        swal.fire({
+                            title: "Failed",
+                            text: "Something Went Wrong !",
+                            icon: "error"
+                        })
+                        // Optionally, handle error behavior like showing an error message
+                    }
+                });
+            });
             
-            {{--        })--}}
+            
+            // Delete Admin
+            $(document).on('click', '#deleteRoleBtn', function () {
+                let id = $(this).data('id');
+            
+                swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                })
+                    .then((result) => {
+                        if (result.isConfirmed) {
             
             
-            {{--})--}}
+                            $.ajax({
+                                type: 'DELETE',
+            
+                                url: "{{ url('admin/roles') }}/" + id,
+                                data: {
+                                    '_token': token
+                                },
+                                success: function (res) {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Role has been deleted.",
+                                        icon: "success"
+                                    });
+            
+                                    roleTable.ajax.reload();
+                                },
+                                error: function (err) {
+                                    console.log('error')
+                                }
+                            })
+            
+            
+                        } else {
+                            swal.fire('Your Data is Safe');
+                        }
+            
+                    })
+            
+            
+            })
             
             {{--// Change Admin Status--}}
             {{--$(document).on('click', '#adminStatus', function () {--}}
