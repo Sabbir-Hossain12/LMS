@@ -110,7 +110,8 @@ class TeacherController extends Controller
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->phone = $request->phone;
-        $admin->password = $request->password;
+        $admin->instructor_title = $request->instructor_title;
+        $admin->short_desc = $request->short_desc;
 
         $admin->syncRoles($request->role);
 
@@ -118,8 +119,8 @@ class TeacherController extends Controller
 
             $file = $request->file('profile_image');
             $filename = time().uniqid().$file->getClientOriginalName();
-            $file->move(public_path('backend/upload/admin/'), $filename);
-            $admin->profile_image ='backend/upload/admin/'. $filename;
+            $file->move(public_path('backend/upload/teacher/'), $filename);
+            $admin->profile_image ='backend/upload/teacher/'. $filename;
 
         }
 
@@ -170,7 +171,9 @@ class TeacherController extends Controller
             $admin->email = $request->email;
             $admin->phone = $request->phone;
             $admin->password = Hash::make($request->password);
-
+            $admin->instructor_title = $request->instructor_title;
+            $admin->short_desc = $request->short_desc;
+            
             $admin->syncRoles($request->role);
 
             if ($request->hasFile('profile_image')) {
@@ -179,8 +182,8 @@ class TeacherController extends Controller
                 }
                 $file = $request->file('profile_image');
                 $filename = time().uniqid().$file->getClientOriginalName();
-                $file->move(public_path('backend/upload/admin/'), $filename);
-                $admin->profile_image ='backend/upload/admin/'. $filename;
+                $file->move(public_path('backend/upload/teacher/'), $filename);
+                $admin->profile_image ='backend/upload/teacher/'. $filename;
             }
 
             $save= $admin->save();
@@ -209,7 +212,7 @@ class TeacherController extends Controller
         return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
 
-    public function changeAdminStatus(Request $request)
+    public function changeTeacherStatus(Request $request)
     {
         $id = $request->id;
         $status = $request->status;

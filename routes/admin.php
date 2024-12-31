@@ -45,8 +45,9 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     //Teacher
     Route::resource('/teachers', TeacherController::class)->names('teacher');
     Route::get('/teacher/data', [TeacherController::class, 'getData'])->name('teacher.data');
-    
-    
+    Route::post('/change-teacher-status', [TeacherController::class, 'changeTeacherStatus'])->name('teacher.status');
+
+
     //Student
     Route::resource('/students', StudentController::class)->names('student');
     

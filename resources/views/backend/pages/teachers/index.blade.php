@@ -15,12 +15,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Admins</h4>
+                <h4 class="mb-sm-0 font-size-18">Teachers</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                        <li class="breadcrumb-item active">Admins</li>
+                        <li class="breadcrumb-item active">Teachers</li>
                     </ol>
                 </div>
 
@@ -36,11 +36,11 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Admins List</h4>
+                        <h4 class="card-title">Teachers List</h4>
 {{--                       @can('Create Admin')--}}
 {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAdminModal">
-                                Create Admin 
+                                Add Teacher 
                             </button>
 {{--                        @endcan--}}
 {{--                        @endif--}}
@@ -57,8 +57,6 @@
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
-                                
-                               
                                 <th>Actions</th>
                                     
                             </tr>
@@ -85,7 +83,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create Admin</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Teacher</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -93,16 +91,26 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="Name" class="col-form-label">Name</label>
-                            <input type="text" class="form-control" id="Name" name="name">
+                            <label for="Name" class="col-form-label">Teacher Name</label>
+                            <input type="text" class="form-control" id="Name" name="name" placeholder="Ayman Sadik">
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="col-form-label">Teacher Title</label>
+                            <input type="text" class="form-control"  name="instructor_title" placeholder="4th Year, DU">
                         </div>
                         <div class="mb-3">
+                            <label  class="col-form-label">Teacher Description</label>
+                            <textarea type="text" class="form-control"  name="short_desc" ></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
                             <label for="email" class="col-form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="xyz@gmail.com">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="col-form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="+88017XXXXXXXX">
                         </div>
 
                         <div class="mb-3">
@@ -111,11 +119,11 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="role" class="col-form-label">Roles</label>
+                            <label for="role" class="col-form-label">Role</label>
                             <select name="role" id="role"  class="form-control">
 
                                 @forelse($roles as $role)
-                                    <option value="{{$role->name}}">{{$role->name}}</option>
+                                    <option value="{{$role->name}}" @if($role->name == 'teacher') selected @endif>{{$role->name}}</option>
                                 @empty
                                 @endforelse
                             </select>
@@ -154,6 +162,17 @@
                             <label for="eName" class="col-form-label">Name</label>
                             <input type="text" id="eName" class="form-control" name="name">
                         </div>
+
+                        <div class="mb-3">
+                            <label  class="col-form-label">Teacher Title</label>
+                            <input type="text" class="form-control" id="eInstructor_title"  name="instructor_title" placeholder="4th Year, DU">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label  class="col-form-label">Teacher Description</label>
+                            <textarea type="text" class="form-control" id="eShort_desc"  name="short_desc" ></textarea>
+                        </div>
+                        
                         <div class="mb-3">
                             <label for="eEmail" class="col-form-label">Email</label>
                             <input type="text" id="eEmail" class="form-control" name="email">
@@ -165,7 +184,7 @@
 
                         <div class="mb-3">
                             <label for="profile_image" class="col-form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image"
+                            <input type="file" class="form-control" id="eProfile_image" name="profile_image"
                                    oninput="profileImg.src=window.URL.createObjectURL(this.files[0])">
                             
                             <div id="profileImgPrev" class="mt-1">
@@ -268,7 +287,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ route('admin.admin.store') }}",
+                    url: "{{ route('admin.teacher.store') }}",
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
@@ -279,7 +298,7 @@
                             adminTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
-                                text: "Admin Created !",
+                                text: "Teacher Added !",
                                 icon: "success"
                             })
             
@@ -309,7 +328,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ url('admin/admins') }}/" + id + "/edit",
+                        url: "{{ url('admin/teachers') }}/" + id + "/edit",
                         data: {
                             id: id
                         },
@@ -318,10 +337,12 @@
                         contentType: false,  // Prevent jQuery from setting contentType
                         success: function (res) {
             
-                            console.log('success')
+                            console.log(res)
                             $('#eName').val(res.data.name);
                             $('#eEmail').val(res.data.email);
                             $('#ePhone').val(res.data.phone);
+                            $('#eShort_desc').val(res.data.short_desc);
+                            $('#eInstructor_title').val(res.data.instructor_title);
             
                             $('#profileImgPrev').empty();
                             $('#profileImgPrev').append(
@@ -361,7 +382,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ url('admin/admins') }}/" + id,
+                    url: "{{ url('admin/teachers') }}/" + id,
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
@@ -412,7 +433,7 @@
                             $.ajax({
                                 type: 'DELETE',
             
-                                url: "{{ url('admin/admins') }}/" + id,
+                                url: "{{ url('admin/teachers') }}/" + id,
                                 data: {
                                     '_token': token
                                 },
@@ -448,7 +469,7 @@
                 $.ajax(
                     {
                         type: 'post',
-                        url: "{{route('admin.admin.status')}}",
+                        url: "{{route('admin.teacher.status')}}",
                         data: {
                             '_token': token,
                             id: id,
