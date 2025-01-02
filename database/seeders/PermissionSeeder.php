@@ -125,9 +125,94 @@ class PermissionSeeder extends Seeder
             ],
             
             //Teacher
+
+            [
+                'name'=> 'View Teacher',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Create Teacher',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Edit Teacher',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Delete Teacher',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Status Teacher',
+                'guard_name' => 'web',
+            ],
             
+            //Student
+
+            [
+                'name'=> 'View Student',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Create Student',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Edit Student',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Delete Student',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Status Student',
+                'guard_name' => 'web',
+            ],
             
+            //Role 
+
+            [
+                'name'=> 'View Role',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Create Role',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Edit Role',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Delete Role',
+                'guard_name' => 'web',
+            ],
+
+            [
+                'name'=> 'Status Role',
+                'guard_name' => 'web',
+            ],
             
+            //Permission
+            [
+                'name'=> 'View Permission',
+                'guard_name' => 'web',
+            ],
+
+
+
         ];
         
         foreach ($permissions as $permission) {

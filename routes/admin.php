@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BasicinfoController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HerobannerController;
 use App\Http\Controllers\Admin\PageController;
@@ -47,10 +48,10 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::get('/teacher/data', [TeacherController::class, 'getData'])->name('teacher.data');
     Route::post('/change-teacher-status', [TeacherController::class, 'changeTeacherStatus'])->name('teacher.status');
 
-
     //Student
     Route::resource('/students', StudentController::class)->names('student');
-    
+    Route::get('/student/data', [StudentController::class, 'getData'])->name('student.data');
+    Route::post('/change-student-status', [StudentController::class, 'changeStudentStatus'])->name('student.status');
     
     //Roles and Permissions
     Route::resource('/roles', RoleController::class)->names('role');
@@ -60,6 +61,11 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     Route::resource('/permissions', PermissionController::class)->names('permission');
     Route::get('/permission/data', [PermissionController::class, 'getData'])->name('permission.data');
+    
+    //Class
+    Route::resource('/classes', ClassController::class)->names('class');
+    Route::get('/class/data', [ClassController::class, 'getData'])->name('class.data');
+    Route::post('/class/change-status', [ClassController::class, 'changeClassStatus'])->name('class.status');
     
     
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');

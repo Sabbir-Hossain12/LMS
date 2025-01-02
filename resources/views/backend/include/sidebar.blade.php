@@ -61,6 +61,7 @@
                         
                     </ul>
                 </li>
+                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i class="fa-solid fa-user-alt-slash"></i>
@@ -68,16 +69,11 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('admin.admin.index') }}">
+                            <a href="{{ route('admin.student.index') }}">
                                 <span data-key="t-calendar">Student List</span>
                             </a>
                         </li>
-
-                        <li>
-                            <a href="{{route('admin.admin.create')}}">
-                                <span data-key="t-calendar">Student Create</span>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
                 
@@ -108,7 +104,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('admin.role.index') }}">
+                            <a href="{{ route('admin.class.index') }}">
                                 <span data-key="t-calendar">Class List</span>
                             </a>
                         </li>

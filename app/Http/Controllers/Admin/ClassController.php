@@ -3,41 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class StudentController extends Controller
+class ClassController extends Controller
 {
     public function index()
     {
-        $roles = Role::get();
-//        dd($roles);
-        return view('backend.pages.student.index',compact('roles'));
+        return view('backend.pages.class.index');
     }
-    
 
     public function getData()
     {
-        $students = User::role('student')->get();
+        $classes = CourseClass::get();
 
 //        dd($admins);
 
-        return   DataTables::of($students)
-            ->addColumn('status', function ($student) {
+        return   DataTables::of($classes)
+            ->addColumn('status', function ($class) {
 
 //                if(Auth::guard('admin')->user()->can('Status Admin')) {
-                if ($student->status == 1) {
+                if ($class->status == 1) {
                     return ' <a class="status" id="adminStatus" href="javascript:void(0)"
-                                               data-id="'.$student->id.'" data-status="'.$student->status.'"> <i
+                                               data-id="'.$class->id.'" data-status="'.$class->status.'"> <i
                                                         class="fa-solid fa-toggle-on fa-2x"></i>
                                             </a>';
                 } else {
 
                     return '<a class="status" id="adminStatus" href="javascript:void(0)"
-                                               data-id="'.$student->id.'" data-status="'.$student->status.'"> <i
+                                               data-id="'.$class->id.'" data-status="'.$class->status.'"> <i
                                                         class="fa-solid fa-toggle-off fa-2x" style="color: grey"></i>
                                             </a>';
 
@@ -45,22 +43,14 @@ class StudentController extends Controller
 //                }
 
             })
-            ->addColumn('role', function ($student) {
-                $role = $student->getRoleNames();
-//                $string = implode(',', $role);
 
-                if (count($role)) {
-                    return   '<span class="badge bg-success">'.$role[0].'</span>' ;
-                }
-                return '';
-            })
-            ->addColumn('action', function ($student) {
+            ->addColumn('action', function ($class) {
 
                 $editAction = '<a class="editButton btn btn-sm btn-primary" href="javascript:void(0)"
-                                  data-id="'.$student->id.'" data-bs-toggle="modal" data-bs-target="#editAdminModal">
+                                  data-id="'.$class->id.'" data-bs-toggle="modal" data-bs-target="#editAdminModal">
                                    <i class="fas fa-edit"></i></a>';
                 $deleteAction = '<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-                                   data-id="'.$student->id.'" id="deleteAdminBtn""> 
+                                   data-id="'.$class->id.'" id="deleteAdminBtn""> 
                                    <i class="fas fa-trash"></i></a>';
 
 //              if(Auth::guard('admin')->user()->can('Edit Admin')) {
@@ -107,23 +97,22 @@ class StudentController extends Controller
         $admin->email = $request->email;
         $admin->phone = $request->phone;
         $admin->password = $request->password;
-        
-        
-        $admin->assignRole('student');
-        
+
+        $admin->syncRoles($request->role);
+
         if ($request->hasFile('profile_image')) {
 
             $file = $request->file('profile_image');
             $filename = time().uniqid().$file->getClientOriginalName();
-            $file->move(public_path('backend/upload/student/'), $filename);
-            $admin->profile_image ='backend/upload/student/'. $filename;
+            $file->move(public_path('backend/upload/admin/'), $filename);
+            $admin->profile_image ='backend/upload/admin/'. $filename;
 
         }
 
         $save= $admin->save();
 
         if ($save) {
-            return response()->json(['status' => 'success', 'message' => 'Student created successfully'], 201);
+            return response()->json(['status' => 'success', 'message' => 'Admin created successfully'], 201);
         }
 
         return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
@@ -148,7 +137,7 @@ class StudentController extends Controller
 
 
         if ($admin) {
-            return response()->json(['status' => 'success','message' => 'Student fetched successfully', 'data' => $admin, 'roles' => $roles], 200);
+            return response()->json(['status' => 'success','message' => 'Admin fetched successfully', 'data' => $admin, 'roles' => $roles], 200);
         }
 
         return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
@@ -176,14 +165,14 @@ class StudentController extends Controller
                 }
                 $file = $request->file('profile_image');
                 $filename = time().uniqid().$file->getClientOriginalName();
-                $file->move(public_path('backend/upload/student/'), $filename);
-                $admin->profile_image ='backend/upload/student/'. $filename;
+                $file->move(public_path('backend/upload/admin/'), $filename);
+                $admin->profile_image ='backend/upload/admin/'. $filename;
             }
 
             $save= $admin->save();
 
             if ($save) {
-                return response()->json(['status' => 'success','message' => 'Student fetched successfully'], 200);
+                return response()->json(['status' => 'success','message' => 'Admin fetched successfully'], 200);
             }
         }
 
@@ -201,12 +190,12 @@ class StudentController extends Controller
         if ($admin) {
             $admin->delete();
 
-            return response()->json(['status' => 'success','message' => 'Student Deleted successfully'], 200);
+            return response()->json(['status' => 'success','message' => 'Admin Deleted successfully'], 200);
         }
         return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
 
-    public function changeStudentStatus(Request $request)
+    public function changeClassStatus(Request $request)
     {
         $id = $request->id;
         $status = $request->status;
