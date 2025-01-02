@@ -7,6 +7,7 @@ use App\Models\CourseClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -44,6 +45,26 @@ class ClassController extends Controller
 
             })
 
+            ->addColumn('featured_status', function ($class) {
+
+//                if(Auth::guard('admin')->user()->can('Status Admin')) {
+                if ($class->is_featured == 1) {
+                    return ' <a class="fStatus" id="featuredStatus" href="javascript:void(0)"
+                                               data-id="'.$class->id.'" data-status="1"> <i
+                                                        class="fa-solid fa-toggle-on fa-2x"></i>
+                                            </a>';
+                } else {
+
+                    return '<a class="fStatus" id="featuredStatus" href="javascript:void(0)"
+                                               data-id="'.$class->id.'" data-status="0"> <i
+                                                        class="fa-solid fa-toggle-off fa-2x" style="color: grey"></i>
+                                            </a>';
+
+                }
+//                }
+
+            })
+
             ->addColumn('action', function ($class) {
 
                 $editAction = '<a class="editButton btn btn-sm btn-primary" href="javascript:void(0)"
@@ -73,7 +94,7 @@ class ClassController extends Controller
 
 
             })
-            ->rawColumns(['action', 'status', 'role'])
+            ->rawColumns(['action', 'status','featured_status'])
             ->make(true);
 
     }
@@ -91,30 +112,30 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-        $admin = new User();
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-        $admin->phone = $request->phone;
-        $admin->password = $request->password;
+//      dd($request->all());
+        $class = new CourseClass();
+        $class->title = $request->title;
+        $class->subtitle = $request->subtitle;
+        $class->slug = Str::slug($request->title).uniqid();
+        $class->desc = $request->desc;
+        $class->icon = $request->icon;
+        $class->position = $request->position;
+        
+        if ($request->hasFile('img')) {
 
-        $admin->syncRoles($request->role);
-
-        if ($request->hasFile('profile_image')) {
-
-            $file = $request->file('profile_image');
+            $file = $request->file('img');
             $filename = time().uniqid().$file->getClientOriginalName();
-            $file->move(public_path('backend/upload/admin/'), $filename);
-            $admin->profile_image ='backend/upload/admin/'. $filename;
+            $file->move(public_path('backend/upload/class/'), $filename);
+            $class->img ='backend/upload/class/'. $filename;
 
         }
 
-        $save= $admin->save();
+        $save= $class->save();
 
         if ($save) {
-            return response()->json(['status' => 'success', 'message' => 'Admin created successfully'], 201);
+            return response()->json(['status' => 'success', 'message' => 'Class created successfully'], 201);
         }
-
+        
         return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
 
     }
@@ -132,12 +153,12 @@ class ClassController extends Controller
      */
     public function edit(string $id)
     {
-        $roles = Role::get();
-        $admin = User::with('roles')->findOrFail($id);
+      
+        $class = CourseClass::findOrFail($id);
 
 
-        if ($admin) {
-            return response()->json(['status' => 'success','message' => 'Admin fetched successfully', 'data' => $admin, 'roles' => $roles], 200);
+        if ($class) {
+            return response()->json(['status' => 'success','message' => 'Class fetched successfully', 'data' => $class], 200);
         }
 
         return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
@@ -148,36 +169,34 @@ class ClassController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        dd($request->all());
-        $admin = User::findOrFail($id);
+//      dd($request->all());
+        $class =CourseClass::findOrFail($id);
+        $class->title = $request->title;
+        $class->subtitle = $request->subtitle;
+        $class->desc = $request->desc;
+        $class->icon = $request->icon;
+        $class->position = $request->position;
 
-        if ($admin) {
-            $admin->name = $request->name;
-            $admin->email = $request->email;
-            $admin->phone = $request->phone;
-            $admin->password = Hash::make($request->password);
-
-            $admin->syncRoles($request->role);
-
-            if ($request->hasFile('profile_image')) {
-                if ($admin->profile_image && file_exists(public_path($admin->profile_image))) {
-                    unlink(public_path($admin->profile_image));
-                }
-                $file = $request->file('profile_image');
-                $filename = time().uniqid().$file->getClientOriginalName();
-                $file->move(public_path('backend/upload/admin/'), $filename);
-                $admin->profile_image ='backend/upload/admin/'. $filename;
+        if ($request->hasFile('img')) {
+            
+            if ($class->img && file_exists(public_path($class->img))) {
+                unlink(public_path($class->img));
             }
 
-            $save= $admin->save();
+            $file = $request->file('img');
+            $filename = time().uniqid().$file->getClientOriginalName();
+            $file->move(public_path('backend/upload/class/'), $filename);
+            $class->img ='backend/upload/class/'. $filename;
 
-            if ($save) {
-                return response()->json(['status' => 'success','message' => 'Admin fetched successfully'], 200);
-            }
         }
 
+        $save= $class->save();
 
-        return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
+        if ($save) {
+            return response()->json(['status' => 'success', 'message' => 'Class created successfully'], 201);
+        }
+
+        return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
     }
 
     /**
@@ -185,12 +204,12 @@ class ClassController extends Controller
      */
     public function destroy(string $id)
     {
-        $admin = User::findOrFail($id);
+        $admin = CourseClass::findOrFail($id);
 
         if ($admin) {
             $admin->delete();
 
-            return response()->json(['status' => 'success','message' => 'Admin Deleted successfully'], 200);
+            return response()->json(['status' => 'success','message' => 'Class Deleted successfully'], 200);
         }
         return response()->json(['status' => 'failed','message' => 'Something went wrong'], 500);
     }
@@ -206,8 +225,27 @@ class ClassController extends Controller
             $stat = 1;
         }
 
-        $page = User::findOrFail($id);
+        $page = CourseClass::findOrFail($id);
         $page->status = $stat;
+        $page->save();
+
+        return response()->json(['message' => 'success', 'status' => $stat, 'id' => $id]);
+    }
+
+
+    public function changeFeaturedClassStatus(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+
+        if ($status == 1) {
+            $stat = 0;
+        } else {
+            $stat = 1;
+        }
+
+        $page = CourseClass::findOrFail($id);
+        $page->is_featured = $stat;
         $page->save();
 
         return response()->json(['message' => 'success', 'status' => $stat, 'id' => $id]);

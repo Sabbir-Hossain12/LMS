@@ -66,6 +66,7 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::resource('/classes', ClassController::class)->names('class');
     Route::get('/class/data', [ClassController::class, 'getData'])->name('class.data');
     Route::post('/class/change-status', [ClassController::class, 'changeClassStatus'])->name('class.status');
+    Route::post('/class/change-featured-status', [ClassController::class, 'changeFeaturedClassStatus'])->name('class.featured-status');
     
     
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');

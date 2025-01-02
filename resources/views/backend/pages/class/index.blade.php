@@ -8,6 +8,19 @@
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
 
+    <style>
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 800px;
+                margin: 1.75rem auto;
+            }
+        }
+
+        #iconPrevDiv i
+        {
+            font-size: 40px;
+        }
+    </style>
 @endpush
 
 @section('contents')
@@ -53,8 +66,9 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Image</th>
-                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Position</th>
+                                <th>Featured Status</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -75,44 +89,53 @@
 
     {{--    Table Ends--}}
 
-    {{--    Create Admin Modal--}}
+    {{--    Create Class Modal--}}
     <div class="modal fade" id="createAdminModal" tabindex="-1" aria-labelledby="exampleModalLabel"
          style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create Admin</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Create Class</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form name="form" id="createAdmin">
                         @csrf
 
-                        <div class="mb-3">
-                            <label for="Name" class="col-form-label">Name</label>
-                            <input type="text" class="form-control" id="Name" name="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="col-form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="col-form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
-                        </div>
+                        <div class="row">
+                            <div class="col-6"> 
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Class Title</label>
+                                    <input type="text" class="form-control" name="title">
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="profile_image" class="col-form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Subtitle</label>
+                                    <textarea  class="form-control" name="subtitle"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Description</label>
+                                    <textarea  class="form-control" name="desc"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Image (optional)</label>
+                                    <input type="file" class="form-control" name="img">
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Icon</label>
+                                    <input type="text" class="form-control" name="icon">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Position</label>
+                                    <input type="number" value="1" class="form-control" name="position">
+                                </div>
+                            </div>
                         </div>
-
-
-                        <div class="mb-3">
-                            <label for="password" class="col-form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password">
-                        </div>
-
-
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -123,7 +146,7 @@
         </div>
     </div>
 
-    {{--    Edit Categories Modal--}}
+    {{--    Edit Class Modal--}}
     <div class="modal fade" id="editAdminModal" tabindex="-1" aria-labelledby="exampleModalLabel"
          style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
@@ -136,35 +159,42 @@
                     <form name="form2" id="editAdmin" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="mb-3">
-                            <label for="eName" class="col-form-label">Name</label>
-                            <input type="text" id="eName" class="form-control" name="name">
-                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="title"  class="col-form-label">Class Title</label>
+                                    <input type="text" class="form-control" id="title" name="title">
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="eEmail" class="col-form-label">Email</label>
-                            <input type="text" id="eEmail" class="form-control" name="email">
-                        </div>
+                                <div class="mb-3">
+                                    <label for="subtitle"  class="col-form-label">Subtitle</label>
+                                    <textarea  class="form-control" id="subtitle" name="subtitle"></textarea>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="ePhone" class="col-form-label">Phone</label>
-                            <input type="text" id="ePhone" class="form-control" name="phone">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="profile_image" class="col-form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image"
-                                   oninput="profileImg.src=window.URL.createObjectURL(this.files[0])">
-
-                            <div id="profileImgPrev" class="mt-1">
-
+                                <div class="mb-3">
+                                    <label for="desc" class="col-form-label">Description</label>
+                                    <textarea  class="form-control" id="desc" name="desc"></textarea>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Image (optional)</label>
+                                    <input type="file" class="form-control" name="img">
+                                    <div id="imgPrevDiv"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="col-form-label">Icon</label>
+                                    <input type="text" class="form-control" id="icon" name="icon">
+                                    <div id="iconPrevDiv" class="mt-1">
+                                        
+                                    </div>
+                                </div>
 
-
-                        <div class="mb-3">
-                            <label for="ePassword" class="col-form-label">Password</label>
-                            <input type="password" id="ePassword" class="form-control" name="password">
+                                <div class="mb-3">
+                                    <label for="position"  class="col-form-label">Position</label>
+                                    <input type="number" value="1" class="form-control" id="position" name="position">
+                                </div>
+                            </div>
                         </div>
                         <input id="id" type="number" hidden>
 
@@ -199,7 +229,7 @@
                 ],
                 processing: true,
                 serverSide: true,
-                ajax: "{{route('admin.student.data')}}",
+                ajax: "{{route('admin.class.data')}}",
                 // pageLength: 30,
 
                 columns: [
@@ -209,21 +239,22 @@
                     },
 
                     {
-                        data: 'name',
+                        data: 'title',
 
                     },
 
                     {
-                        data: 'phone',
+                        data: 'position',
 
                     },
-
                     {
-                        data: 'email',
-
+                        data: 'featured_status',
+                        name: 'Featured Status',
+                        orderable: false,
+                        searchable: false,
                     },
 
-
+                    
                     {
                         data: 'status',
                         name: 'Status',
@@ -241,7 +272,7 @@
                 ]
             });
 
-            // Create Student
+            // Create Class
             $('#createAdmin').submit(function (e) {
                 e.preventDefault();
 
@@ -252,7 +283,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ route('admin.student.store') }}",
+                    url: "{{ route('admin.class.store')}}",
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
@@ -263,7 +294,7 @@
                             adminTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
-                                text: "Student Added !",
+                                text: "Class Added !",
                                 icon: "success"
                             })
 
@@ -293,7 +324,7 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{ url('admin/students') }}/" + id + "/edit",
+                        url: "{{ url('admin/classes') }}/" + id + "/edit",
                         data: {
                             id: id
                         },
@@ -301,31 +332,32 @@
                         processData: false,  // Prevent jQuery from processing the data
                         contentType: false,  // Prevent jQuery from setting contentType
                         success: function (res) {
+                            
+                            $('#title').val(res.data.title);
+                            $('#subtitle').val(res.data.subtitle);
+                            $('#desc').val(res.data.desc);
+                            $('#position').val(res.data.position);
+                            $('#icon').val(res.data.icon);
 
-                            console.log('success')
-                            $('#eName').val(res.data.name);
-                            $('#eEmail').val(res.data.email);
-                            $('#ePhone').val(res.data.phone);
-
-                            $('#profileImgPrev').empty();
-                            $('#profileImgPrev').append(
-                                `<img id="profileImg" src="{{asset('')}}${res.data.profile_image}" width="100px" height="100px">`
-                            );
+                            if (res.data.img) {
 
 
-                            $('#rolesId').empty();
-                            // Append a default option (optional)
-                            $('#rolesId').append('<option value="">Select a Role</option>');
-
-                            // Iterate over the response data and append each role as an option
-                            $.each(res.roles, function(index, role) {
-
-                                let sel = res.data.roles.some(userRole => userRole.name === role.name) ? 'selected' : '';
-
-                                $('#rolesId').append(
-                                    `<option value="${role.name}" ${sel}>${role.name}</option>`
+                                $('#imgPrevDiv').empty();
+                                $('#imgPrevDiv').append(
+                                    `<img  src="{{asset('')}}${res.data.img}" width="100px" height="100px">`
                                 );
-                            });
+                            }
+
+                            if (res.data.icon) {
+
+
+                                $('#iconPrevDiv').empty();
+                                $('#iconPrevDiv').append(
+                                    `<i class="fas ${res.data.icon}"></i>`
+                                );
+                            }
+                            
+                            
                         },
                         error: function (err) {
                             console.log('failed')
@@ -345,7 +377,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "{{ url('admin/students') }}/" + id,
+                    url: "{{ url('admin/classes') }}/" + id,
                     data: formData,
                     processData: false,  // Prevent jQuery from processing the data
                     contentType: false,  // Prevent jQuery from setting contentType
@@ -393,14 +425,14 @@
                             $.ajax({
                                 type: 'DELETE',
 
-                                url: "{{ url('admin/students') }}/" + id,
+                                url: "{{ url('admin/classes') }}/" + id,
                                 data: {
                                     '_token': token
                                 },
                                 success: function (res) {
                                     Swal.fire({
                                         title: "Deleted!",
-                                        text: "Student has been deleted.",
+                                        text: "Class has been deleted.",
                                         icon: "success"
                                     });
 
@@ -421,7 +453,7 @@
 
             })
 
-            // Change Student Status
+            // Change  Status
             $(document).on('click', '#adminStatus', function () {
                 let id = $(this).data('id');
                 let status = $(this).data('status')
@@ -429,7 +461,7 @@
                 $.ajax(
                     {
                         type: 'post',
-                        url: "{{route('admin.student.status')}}",
+                        url: "{{route('admin.class.status')}}",
                         data: {
                             '_token': token,
                             id: id,
@@ -450,6 +482,48 @@
                                 swal.fire(
                                     {
                                         title: 'Status Changed to Inactive',
+                                        icon: 'success'
+                                    })
+
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    }
+                )
+            })
+
+            // Change Featured Status
+            $(document).on('click', '#featuredStatus', function () {
+                let id = $(this).data('id');
+                let status = $(this).data('status')
+                console.log(id)
+                console.log(status)
+                $.ajax(
+                    {
+                        type: 'post',
+                        url: "{{route('admin.class.featured-status')}}",
+                        data: {
+                            '_token': token,
+                            id: id,
+                            status: status
+
+                        },
+                        success: function (res) {
+                            adminTable.ajax.reload();
+
+                            if (res.status == 1) {
+
+                                swal.fire(
+                                    {
+                                        title: 'Featured Status Changed to Active',
+                                        icon: 'success'
+                                    })
+                            } else {
+                                swal.fire(
+                                    {
+                                        title: 'Featured Status Changed to Inactive',
                                         icon: 'success'
                                     })
 

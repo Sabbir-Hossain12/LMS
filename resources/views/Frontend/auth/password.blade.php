@@ -43,7 +43,7 @@
     <div class="loginarea sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
-
+ 
 
 
                 <div class="tab-content tab__content__wrapper" id="myTabContent" data-aos="fade-up">
@@ -53,14 +53,14 @@
                         <div class="col-xl-8 col-md-8 offset-md-2">
                             <div class="loginarea__wraper">
                                 <div class="login__heading">
-                                    <h5 class="login__title">Please Enter the 4 Digit OTP</h5>
+                                    <h5 class="login__title">Welcome</h5>
                                 </div>
 
 
                                 <form action="#">
                                     <div class="login__form">
-                                        <label class="form__label">OTP</label>
-                                        <input class="common__login__input" type="text"
+                                        <label class="form__label">Password</label>
+                                        <input class="common__login__input" type="password"
                                                placeholder="******">
 
                                     </div>

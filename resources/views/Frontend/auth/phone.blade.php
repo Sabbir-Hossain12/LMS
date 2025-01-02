@@ -43,20 +43,20 @@
     <div class="loginarea sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
-                <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">
-                    <ul class="nav  tab__button__wrap text-center" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="single__tab__link active" data-bs-toggle="tab"
-                                    data-bs-target="#projects__one" type="button">Login
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"
-                                    type="button">Sign up
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+{{--                <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">--}}
+{{--                    <ul class="nav  tab__button__wrap text-center" id="myTab" role="tablist">--}}
+{{--                        <li class="nav-item" role="presentation">--}}
+{{--                            <button class="single__tab__link active" data-bs-toggle="tab"--}}
+{{--                                    data-bs-target="#projects__one" type="button">Login--}}
+{{--                            </button>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item" role="presentation">--}}
+{{--                            <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"--}}
+{{--                                    type="button">Sign up--}}
+{{--                            </button>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
 
 
                 <div class="tab-content tab__content__wrapper" id="myTabContent" data-aos="fade-up">
@@ -67,18 +67,14 @@
                             <div class="loginarea__wraper">
                                 <div class="login__heading">
                                     <h5 class="login__title">Login</h5>
-                                    <p class="login__description">Don't have an account yet? <a href="#"
-                                                                                                data-bs-toggle="modal"
-                                                                                                data-bs-target="#registerModal">Sign
-                                            up for free</a></p>
                                 </div>
 
 
                                 <form action="#">
                                     <div class="login__form">
-                                        <label class="form__label">Phone or email</label>
+                                        <label class="form__label">Phone Number</label>
                                         <input class="common__login__input" type="text"
-                                               placeholder="Phone or email">
+                                               placeholder="Phone">
 
                                     </div>
 {{--                                    <div class="login__form">--}}
@@ -87,29 +83,29 @@
 
 {{--                                    </div>--}}
                                     <div class="login__form d-flex justify-content-between flex-wrap gap-2">
-                                        <div class="form__check">
-                                            <input id="forgot" type="checkbox">
-                                            <label for="forgot"> Remember me</label>
-                                        </div>
-                                        <div class="text-end login__form__link">
-                                            <a href="#">Forgot your password?</a>
-                                        </div>
+{{--                                        <div class="form__check">--}}
+{{--                                            <input id="forgot" type="checkbox">--}}
+{{--                                            <label for="forgot"> Remember me</label>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="text-end login__form__link">--}}
+{{--                                            <a href="#">Forgot your password?</a>--}}
+{{--                                        </div>--}}
                                     </div>
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Log In</a>
+                                        <a class="default__button" href="#">Submit</a>
                                     </div>
                                 </form>
 
-                                <div class="login__social__option">
-                                    <p>or Log-in with</p>
+{{--                                <div class="login__social__option">--}}
+{{--                                    <p>or Log-in with</p>--}}
 
-                                    <ul class="login__social__btn">
-                                        <li><a class="default__button login__button__1" href="#"><i
-                                                        class="icofont-facebook"></i> Gacebook</a></li>
-                                        <li><a class="default__button" href="#"><i class="icofont-google-plus"></i>
-                                                Google</a></li>
-                                    </ul>
-                                </div>
+{{--                                    <ul class="login__social__btn">--}}
+{{--                                        <li><a class="default__button login__button__1" href="#"><i--}}
+{{--                                                        class="icofont-facebook"></i> Facebook</a></li>--}}
+{{--                                        <li><a class="default__button" href="#"><i class="icofont-google-plus"></i>--}}
+{{--                                                Google</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
 
 
                             </div>

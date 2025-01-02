@@ -78,9 +78,17 @@
                             <a href="#">Get Start Here</a>
                         </div>
 
+                        @auth()
                         <div class="headerarea__login">
-                            <a href="login.html"><i class="icofont-user-alt-5"></i></a>
+                            <a href="{{route('student.login')}}"><i class="icofont-user-alt-5"></i></a>
                         </div>
+                        @endauth
+                        
+                        @guest()
+                        <div class="headerarea__login">
+                            <a href="{{route('student.login')}}"><i class="icofont-user-alt-5"></i></a>
+                        </div>
+                        @endguest
 
                     </div>
                 </div>

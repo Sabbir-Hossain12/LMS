@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\Auth\StudentAuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,19 @@ Route::view('/blog-details','Frontend.pages.blog.blog-details');
 
 //Student Dashboard
 
-Route::prefix('student')->group(function ()
+Route::prefix('student')->name('student.')-> group(function ()
 {
+    Route::get('/login/phone', [StudentAuthController::class,'loginPhonePage'])->name('login');
+    Route::get('/login/phone/verify', [StudentAuthController::class,'verifyPhoneNumber'])->name('login.phone-verify');
     
+    Route::view('/login/password', 'Frontend.auth.password')->name('password');
+    Route::view('/login/otp', 'Frontend.auth.otp')->name('otp');
+    Route::view('/login/register', 'Frontend.auth.register')->name('register');
+    Route::view('/login/forgot-password', 'Frontend.auth.forgot-password')->name('forgot-password');
+    Route::view('/login/reset-password', 'Frontend.auth.reset-password')->name('reset-password');
+    
+});
+
 Route::view('/dashboards','Frontend.pages.student-dashboard.dashboard');
 Route::view('/courses','Frontend.pages.student-dashboard.courses');
 Route::view('/assignments','Frontend.pages.student-dashboard.assignments');
@@ -37,9 +48,6 @@ Route::view('/profiles','Frontend.pages.student-dashboard.profile');
 Route::view('/reviews','Frontend.pages.student-dashboard.reviews');
 Route::view('/settings','Frontend.pages.student-dashboard.settings');
 Route::view('/wishlists','Frontend.pages.student-dashboard.wishlist');
-    
-Route::view('/login','Frontend.auth.login');
-});
 
 //Auth
 
