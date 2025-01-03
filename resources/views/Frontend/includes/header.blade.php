@@ -86,7 +86,7 @@
                         
                         @guest()
                         <div class="headerarea__login">
-                            <a href="{{route('student.login')}}"><i class="icofont-user-alt-5"></i></a>
+                            <a href="{{route('student.phone-page')}}"><i class="icofont-user-alt-5"></i></a>
                         </div>
                         @endguest
 

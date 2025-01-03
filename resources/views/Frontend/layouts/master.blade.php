@@ -21,18 +21,21 @@
     <link rel="stylesheet" href="{{asset('frontend')}}/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/plugins_plyr.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/style.css">
+    <link rel="stylesheet" href="{{asset('frontend')}}/css/progress.css">
+    
 
 </head>
 
 
 <body class="body__wrapper">
 <!-- pre loader area start -->
-{{--<div id="back__preloader">--}}
-{{--    <div id="back__circle_loader"></div>--}}
-{{--    <div class="back__loader_logo">--}}
+<div id="back__preloader">
+    <div id="back__circle_loader"></div>
+    <div class="back__loader_logo">
+        <h3>Please Wait</h3>
 {{--        <img loading="lazy" src="{{asset('frontend')}}/img/pre.png" alt="Preload">--}}
-{{--    </div>--}}
-{{--</div>--}}
+    </div>
+</div>
 <!-- pre loader area end -->
 
 
@@ -79,6 +82,7 @@
 <script src="{{asset('frontend')}}/js/swiper-bundle.min.js"></script>
 <script src="{{asset('frontend')}}/js/plugin_plyr.js" ></script>
 <script src="{{asset('frontend')}}/js/main.js"></script>
+<script src="{{asset('frontend')}}/js/config.js"></script>
 
 
 

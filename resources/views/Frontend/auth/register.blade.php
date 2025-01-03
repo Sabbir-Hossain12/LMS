@@ -28,7 +28,7 @@
                             <div class="loginarea__wraper">
                                 <div class="login__heading">
                                     <h5 class="login__title">Sign Up</h5>
-                                    <p class="login__description">Already have an account? <a href="{{route('student.login')}}" data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
+                                    <p class="login__description">Already have an account? <a href="{{route('student.phone-page')}}" data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
                                 </div>
 
 

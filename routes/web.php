@@ -25,18 +25,19 @@ Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
 
 Route::view('/blog-details','Frontend.pages.blog.blog-details');
 
-//Student Dashboard
-
-Route::prefix('student')->name('student.')-> group(function ()
+//Student Authentication
+Route::prefix('student/login')->name('student.')-> group(function ()
 {
-    Route::get('/login/phone', [StudentAuthController::class,'loginPhonePage'])->name('login');
-    Route::get('/login/phone/verify', [StudentAuthController::class,'verifyPhoneNumber'])->name('login.phone-verify');
+    Route::get('/phone', [StudentAuthController::class,'loginPhonePage'])->name('phone-page');
+    Route::post('/phone/verify', [StudentAuthController::class,'verifyPhoneNumber'])->name('phone-verify');
+    Route::get('/password', [StudentAuthController::class,'loginPasswordPage'])->name('password-page');
+    Route::post('/password/verify', [StudentAuthController::class,'verifyPassword'])->name('password-verify');
+    Route::get('/otp', [StudentAuthController::class,'loginOtpPage'])->name('otp-page');
+    Route::post('/otp/verify', [StudentAuthController::class,'verifyOtp'])->name('otp-verify');
+    Route::get('/register', [StudentAuthController::class,'registerPage'])->name('register-page');
+    Route::get('/forgot-password', [StudentAuthController::class,'forgotPage'])->name('forgot-page');
+    Route::get('/reset-password', [StudentAuthController::class,'resetPage'])->name('reset-page');
     
-    Route::view('/login/password', 'Frontend.auth.password')->name('password');
-    Route::view('/login/otp', 'Frontend.auth.otp')->name('otp');
-    Route::view('/login/register', 'Frontend.auth.register')->name('register');
-    Route::view('/login/forgot-password', 'Frontend.auth.forgot-password')->name('forgot-password');
-    Route::view('/login/reset-password', 'Frontend.auth.reset-password')->name('reset-password');
     
 });
 
