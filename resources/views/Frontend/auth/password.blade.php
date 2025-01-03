@@ -57,18 +57,15 @@
                                 </div>
 
 
-                                <form action="#">
+                                <form id="passwordForm">
+                                    @csrf
                                     <div class="login__form">
                                         <label class="form__label">Password</label>
-                                        <input class="common__login__input" type="password"
-                                               placeholder="******">
+                                        <input class="common__login__input" name="password"  type="password"
+                                               placeholder="******" required>
 
                                     </div>
-                                    {{--                                    <div class="login__form">--}}
-                                    {{--                                        <label class="form__label">Password</label>--}}
-                                    {{--                                        <input class="common__login__input" type="password" placeholder="Password">--}}
-
-                                    {{--                                    </div>--}}
+                            
                                     <div class="login__form d-flex justify-content-between flex-wrap gap-2">
                                         {{--                                        <div class="form__check">--}}
                                         {{--                                            <input id="forgot" type="checkbox">--}}
@@ -79,7 +76,7 @@
                                         {{--                                        </div>--}}
                                     </div>
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Submit</a>
+                                        <button type="submit" class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -117,4 +114,51 @@
     </div>
 
     <!-- login__section__end -->
+
+
+
+    @push('js')
+        <script>
+
+            $('#passwordForm').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('student.password-verify')}}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            successToast('Password Matched !');
+                            setTimeout(function() {
+                                window.location.href = '{{route('student.dashboard.index')}}';
+                            }, 2000);
+                        }
+                        else
+                        {
+                            errorToast('Password Does not Match !');
+                        }
+                    },
+                    error: function (err) {
+
+                        errorToast('Password Does not Match !');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+
+        </script>
+    @endpush
 @endsection

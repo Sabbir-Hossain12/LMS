@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
+use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
 Route::view('/blog-details','Frontend.pages.blog.blog-details');
 
 //Student Authentication
-Route::prefix('student/login')->name('student.')-> group(function ()
+Route::prefix('student/login')->name('student.')->group(function ()
 {
     Route::get('/phone', [StudentAuthController::class,'loginPhonePage'])->name('phone-page');
     Route::post('/phone/verify', [StudentAuthController::class,'verifyPhoneNumber'])->name('phone-verify');
@@ -34,21 +35,31 @@ Route::prefix('student/login')->name('student.')-> group(function ()
     Route::post('/password/verify', [StudentAuthController::class,'verifyPassword'])->name('password-verify');
     Route::get('/otp', [StudentAuthController::class,'loginOtpPage'])->name('otp-page');
     Route::post('/otp/verify', [StudentAuthController::class,'verifyOtp'])->name('otp-verify');
+    Route::post('/otp/resend', [StudentAuthController::class,'resendOtp'])->name('otp-resend');
     Route::get('/register', [StudentAuthController::class,'registerPage'])->name('register-page');
+    Route::post('/register/submit', [StudentAuthController::class,'register'])->name('register');
     Route::get('/forgot-password', [StudentAuthController::class,'forgotPage'])->name('forgot-page');
     Route::get('/reset-password', [StudentAuthController::class,'resetPage'])->name('reset-page');
-    
+    Route::post('/log-out', [StudentAuthController::class,'logOut'])->name('log-out');
     
 });
 
-Route::view('/dashboards','Frontend.pages.student-dashboard.dashboard');
-Route::view('/courses','Frontend.pages.student-dashboard.courses');
-Route::view('/assignments','Frontend.pages.student-dashboard.assignments');
-Route::view('/exam-attempts','Frontend.pages.student-dashboard.exam-attempts');
-Route::view('/profiles','Frontend.pages.student-dashboard.profile');
-Route::view('/reviews','Frontend.pages.student-dashboard.reviews');
-Route::view('/settings','Frontend.pages.student-dashboard.settings');
-Route::view('/wishlists','Frontend.pages.student-dashboard.wishlist');
+//Student Dashboard
+Route::prefix('student/dashboard')->middleware('role:student')->controller(DashboardController::class)->name('student.dashboard.')-> group(function ()
+{
+    Route::get('/','index')->name('index');
+
+    Route::view('/courses','Frontend.pages.student-dashboard.courses');
+    Route::view('/assignments','Frontend.pages.student-dashboard.assignments');
+    Route::view('/exam-attempts','Frontend.pages.student-dashboard.exam-attempts');
+    Route::view('/profiles','Frontend.pages.student-dashboard.profile');
+    Route::view('/reviews','Frontend.pages.student-dashboard.reviews');
+    Route::view('/settings','Frontend.pages.student-dashboard.settings');
+    Route::view('/wishlists','Frontend.pages.student-dashboard.wishlist');
+    
+});
+
+
 
 //Auth
 

@@ -32,21 +32,22 @@
                                 </div>
 
 
-                                <form action="#">
+                                <form id="registerForm">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="login__form">
                                                 <label class="form__label">Phone</label>
-                                                <input class="common__login__input" type="text"
-                                                       placeholder="01*********" readonly>
+                                                <input id="phone" class="common__login__input" type="number"
+                                                       placeholder="01*********" name="phone" readonly>
 
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="login__form">
                                                 <label class="form__label">Name</label>
-                                                <input class="common__login__input" type="password"
-                                                       placeholder="Full Name">
+                                                <input class="common__login__input" name="name" type="text"
+                                                       placeholder="Full Name" required>
 
                                             </div>
                                         </div>
@@ -56,7 +57,7 @@
                                             <div class="login__form">
                                                 <label class="form__label">Password</label>
                                                 <input class="common__login__input" type="password"
-                                                       placeholder="Password">
+                                                       placeholder="Password" name="password" required>
 
                                             </div>
                                         </div>
@@ -65,7 +66,7 @@
                                             <div class="login__form">
                                                 <label class="form__label">Re-Enter Password</label>
                                                 <input class="common__login__input" type="password"
-                                                       placeholder="Re-Enter Password">
+                                                       placeholder="Re-Enter Password" name="password_confirmation" required>
 
                                             </div>
                                         </div>
@@ -79,7 +80,7 @@
 
 {{--                                    </div>--}}
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Sign Up</a>
+                                        <button type="submit" class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
 
@@ -103,7 +104,56 @@
 
 
         </div>
-   
 
-    <!-- login__section__end -->
+
+    @push('js')
+        <script>
+            $(document).ready(function () {
+                // Accessing Laravel session value in JavaScript
+                var phone = @json(session('phone'));
+                
+                $('#phone').val(phone);
+            })
+               
+        
+
+            $('#registerForm').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('student.register')}}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            successToast('Registration successful !');
+                            setTimeout(function() {
+                                window.location.href = '{{route('student.dashboard.index')}}';
+                            }, 2000);
+
+                        }
+                      
+                    },
+                    error: function (err) {
+
+                        errorToast(err.responseJSON?.message);
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+
+        </script>
+    @endpush
 @endsection

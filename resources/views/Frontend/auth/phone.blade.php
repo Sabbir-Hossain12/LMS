@@ -17,13 +17,15 @@
                                     <h5 class="login__title">Login</h5>
                                 </div>
                                 
-                                <form action="#">
+                                <form id="phoneSubmitForm">
+                                    @csrf
                                     <div class="login__form">
                                         <label class="form__label">Phone Number</label>
-                                        <input class="common__login__input" type="text" placeholder="01*********">
+                                        <input class="common__login__input" name="phone" type="text" placeholder="01*********" required>
                                     </div>
+                                    
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Submit</a>
+                                        <button type="submit" class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
 
@@ -43,21 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
-                        <div class="col-xl-8 offset-md-2">
-                            <div class="loginarea__wraper">
-                                <div class="login__heading">
-                                    <h5 class="login__title">Sign Up</h5>
-                                    <p class="login__description">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
-                                </div>
-
-                                
-
-
-                            </div>
-                        </div>
-
-                    </div>
+                 
 
 
                 </div>
@@ -74,6 +62,56 @@
 
         </div>
     </div>
+    
+    @push('js')
+                <script>
+                    
+                    $('#phoneSubmitForm').submit(function (e) {
+                        e.preventDefault();
+                        var formData = new FormData(this);
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            url: "{{route('student.phone-verify')}}",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function() {
+                                // Show loader
+                                showLoader();
+                            },
+                            success: function (res) {
+                                if (res.message === 'verified') {
+                                    successToast('Phone Number Matched !');
+                                    setTimeout(function() {
+                                        window.location.href = '{{route('student.password-page')}}';
+                                    }, 2000);
+                                  
+                                }
+                                else
+                                {
+                                    successToast('A 4 digit OTP has been sent to your phone !');
+                                    setTimeout(function() {
+                                        window.location.href = '{{route('student.otp-page')}}';
+                                    }, 2000);
+                                   
+                                }
+                            },
+                            error: function (err) {
+                                
+                                errorToast('error');
+                            },
+                            complete: function() {
+                                // Hide loader
+                                hideLoader();
+                            }
+                        })
+                    });
+                    
+                </script>
+    @endpush
 
     <!-- login__section__end -->
 @endsection

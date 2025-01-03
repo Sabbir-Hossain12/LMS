@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Home-5 Online Course Dark | Danpite Tech </title>
     <meta name="description" content="">
@@ -22,22 +23,28 @@
     <link rel="stylesheet" href="{{asset('frontend')}}/css/plugins_plyr.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/style.css">
     <link rel="stylesheet" href="{{asset('frontend')}}/css/progress.css">
+    <link href="{{asset('frontend')}}/css/toastify.min.css" rel="stylesheet" />
     
 
+
+    @stack('css')
 </head>
 
 
 <body class="body__wrapper">
 <!-- pre loader area start -->
-<div id="back__preloader">
-    <div id="back__circle_loader"></div>
-    <div class="back__loader_logo">
-        <h3>Please Wait</h3>
+{{--<div id="back__preloader">--}}
+{{--    <div id="back__circle_loader"></div>--}}
+{{--    <div class="back__loader_logo">--}}
 {{--        <img loading="lazy" src="{{asset('frontend')}}/img/pre.png" alt="Preload">--}}
+{{--    </div>--}}
+{{--</div>--}}
+{{--<!-- pre loader area end -->--}}
+<div id="loader" class="LoadingOverlay d-none">
+    <div class="Line-Progress">
+        <div class="indeterminate"></div>
     </div>
 </div>
-<!-- pre loader area end -->
-
 
 <main class="main_wrapper overflow-hidden">
 
@@ -82,10 +89,10 @@
 <script src="{{asset('frontend')}}/js/swiper-bundle.min.js"></script>
 <script src="{{asset('frontend')}}/js/plugin_plyr.js" ></script>
 <script src="{{asset('frontend')}}/js/main.js"></script>
+<script src="{{asset('frontend')}}/js/toastify-js.js"></script>
 <script src="{{asset('frontend')}}/js/config.js"></script>
 
-
-
+@stack('js')
 
 </body>
 </html>

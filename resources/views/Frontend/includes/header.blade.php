@@ -48,7 +48,7 @@
 
 <!-- headar section start -->
 <header>
-    <div class="headerarea headerarea__2  header__sticky header__area">
+    <div class="headerarea headerarea__2  header__area">
         <div class="container desktop__menu__wrapper">
 
             <div class="row headerarea__search__wrap align-items-center">
@@ -78,10 +78,12 @@
                             <a href="#">Get Start Here</a>
                         </div>
 
-                        @auth()
-                        <div class="headerarea__login">
-                            <a href="{{route('student.login')}}"><i class="icofont-user-alt-5"></i></a>
-                        </div>
+                        @auth
+                            @if(auth()->user()->hasRole('student'))
+                                <div class="headerarea__login">
+                                    <a href="{{route('student.dashboard.index')}}"><i class="icofont-home"></i></a>
+                                </div>
+                            @endif
                         @endauth
                         
                         @guest()
@@ -145,6 +147,12 @@
             </div>
 
         </div>
+
+        
+    </div>
+
+    <div class="headerarea headerarea__2  header__sticky header__area">
+        
 
 
         <div class="container-fluid mob_menu_wrapper">

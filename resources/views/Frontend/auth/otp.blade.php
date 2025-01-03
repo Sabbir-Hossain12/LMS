@@ -1,50 +1,13 @@
 @extends('Frontend.layouts.master')
 
 @section('content')
-    {{--    <!-- breadcrumbarea__section__start -->--}}
 
-    {{--    <div class="breadcrumbarea">--}}
-
-    {{--        <div class="container">--}}
-    {{--            <div class="row">--}}
-    {{--                <div class="col-xl-12">--}}
-    {{--                    <div class="breadcrumb__content__wraper" data-aos="fade-up">--}}
-    {{--                        <div class="breadcrumb__title">--}}
-    {{--                            <h2 class="heading">Log In</h2>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="breadcrumb__inner">--}}
-    {{--                            <ul>--}}
-    {{--                                <li><a href="index.html">Home</a></li>--}}
-    {{--                                <li>Log In</li>--}}
-    {{--                            </ul>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-
-
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-
-    {{--        <div class="shape__icon__2">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png"--}}
-    {{--                 alt="photo">--}}
-    {{--        </div>--}}
-
-    {{--    </div>--}}
-    {{--    <!-- breadcrumbarea__section__end-->--}}
+    
 
     <!-- login__section__start -->
     <div class="loginarea sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
-
-
 
                 <div class="tab-content tab__content__wrapper" id="myTabContent" data-aos="fade-up">
 
@@ -57,18 +20,21 @@
                                 </div>
 
 
-                                <form action="#">
+                                <form id="otpForm">
+                                    @csrf
                                     <div class="login__form">
                                         <label class="form__label">OTP</label>
-                                        <input class="common__login__input" type="text"
-                                               placeholder="******">
+                                        <input class="common__login__input" type="Number" name="otp"
+                                               placeholder="******"   required>
 
                                     </div>
-                                    {{--                                    <div class="login__form">--}}
-                                    {{--                                        <label class="form__label">Password</label>--}}
-                                    {{--                                        <input class="common__login__input" type="password" placeholder="Password">--}}
-
-                                    {{--                                    </div>--}}
+                                    <div class="mt-4 d-flex justify-content-between">
+                                        <p id="otpTimer"></p>
+                                    
+                                    
+                                        <a id="resendOtp" href="javascript:void(0)" class="">Resend OTP</a>
+                                    </div>
+                                
                                     <div class="login__form d-flex justify-content-between flex-wrap gap-2">
                                         {{--                                        <div class="form__check">--}}
                                         {{--                                            <input id="forgot" type="checkbox">--}}
@@ -79,26 +45,14 @@
                                         {{--                                        </div>--}}
                                     </div>
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Submit</a>
+                                        <button type="submit" class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
-                        <div class="col-xl-8 offset-md-2">
-                            <div class="loginarea__wraper">
-                                <div class="login__heading">
-                                    <h5 class="login__title">Sign Up</h5>
-                                    <p class="login__description">Already have an account? <a href="#"
-                                                                                              data-bs-toggle="modal"
-                                                                                              data-bs-target="#registerModal">Log In</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                
 
 
                 </div>
@@ -117,4 +71,133 @@
     </div>
 
     <!-- login__section__end -->
+
+    @push('js')
+        <script>
+            startCountdownTimer();
+
+            $('#otpForm').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('student.otp-verify')}}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        if (res.message === 'verified') {
+                            successToast('OTP Matched !');
+                            setTimeout(function() {
+                                window.location.href = '{{route('student.register-page')}}';
+                            }, 2000);
+
+                        }
+                        else
+                        {
+                            errorToast('Your OTP Expired');
+
+                        }
+                    },
+                    error: function (err) {
+
+                        errorToast('Invalid OTP');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+
+            
+            $('#resendOtp').on('click',function (e) {
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('student.otp-resend')}}",
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            successToast(res.message);
+                            startCountdownTimer();
+                        }
+                        else
+                        {
+                            errorToast(res.message);
+
+                        }
+                    },
+                    error: function (err) {
+
+                        errorToast(err.json().message);
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+
+           // Trigger an AJAX request to get the remaining time
+
+            function startCountdownTimer() {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{route('student.otp-resend')}}", // Route that will provide the remaining time
+                    method: 'POST',
+                    success: function(res) {
+                        if (res.status === 'failed') {
+
+
+                            let remainingTime = res.remaining_time; // Assuming the response is { remaining_time: "02:30" }
+                            let [minutes, seconds] = remainingTime.split(':');
+
+                            // Convert remaining time into seconds
+                            let totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
+
+                            // Start the countdown timer using setInterval
+                            let countdownTimer = setInterval(function () {
+                                let minutesLeft = Math.floor(totalSeconds / 60);
+                                let secondsLeft = totalSeconds % 60;
+
+                                // Format the time (mm:ss)
+                                let formattedTime = `${String(minutesLeft).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
+
+                                // Update the timer in the #timer element
+                                $('#otpTimer').text(formattedTime);
+
+                                // Decrement the total seconds
+                                totalSeconds--;
+
+                                // Stop the countdown when the time reaches zero
+                                if (totalSeconds < 0) {
+                                    clearInterval(countdownTimer);
+                                    $('#otpTimer').text('Time expired');
+                                }
+                            }, 1000);
+                        }
+                    }
+                });
+            }
+
+        </script>
+    @endpush
 @endsection
