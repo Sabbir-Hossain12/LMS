@@ -19,7 +19,7 @@
                                              alt="">
                                     </div>
                                     <div class="dashboardarea__left__content">
-                                        <h4>{{\Illuminate\Support\Facades\Auth::user()->name}}</h4>
+                                        <h4>{{Auth::user()->name}}</h4>
                                         <ul>
                                             <li>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="dashboardarea__right">
                                     <div class="dashboardarea__right__button">
-                                        <a class="default__button" href="create-course.html">Enroll A New Course
+                                        <a class="default__button" href="">Enroll A New Course
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -78,7 +78,7 @@
                             <div class="dashboard__nav">
                                 <ul>
                                     <li>
-                                        <a class="active" href="">
+                                        <a class="active" href="{{route('student.dashboard.index')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -89,7 +89,7 @@
                                             Dashboard</a>
                                     </li>
                                     <li>
-                                        <a href="student-profile.html">
+                                        <a href="{{route('student.dashboard.profiles')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -99,19 +99,19 @@
                                             </svg>
                                             My Profile</a>
                                     </li>
+{{--                                    <li>--}}
+{{--                                        <a href="">--}}
+{{--                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"--}}
+{{--                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"--}}
+{{--                                                 stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                 class="feather feather-book-open">--}}
+{{--                                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>--}}
+{{--                                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>--}}
+{{--                                            </svg>--}}
+{{--                                            Message</a><span class="dashboard__label">12</span>--}}
+{{--                                    </li>--}}
                                     <li>
-                                        <a href="student-message.html">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-book-open">
-                                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                                            </svg>
-                                            Message</a><span class="dashboard__label">12</span>
-                                    </li>
-                                    <li>
-                                        <a href="student-enrolled-courses.html">
+                                        <a href="{{route('student.dashboard.courses')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -120,29 +120,29 @@
                                             </svg>
                                             Enrolled Courses</a>
                                     </li>
+{{--                                    <li>--}}
+{{--                                        <a href="">--}}
+{{--                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"--}}
+{{--                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"--}}
+{{--                                                 stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                 class="feather feather-bookmark">--}}
+{{--                                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>--}}
+{{--                                            </svg>--}}
+{{--                                            Wishlist</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="">--}}
+{{--                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"--}}
+{{--                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"--}}
+{{--                                                 stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                 class="feather feather-star">--}}
+{{--                                                <polygon--}}
+{{--                                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>--}}
+{{--                                            </svg>--}}
+{{--                                            Reviews</a>--}}
+{{--                                    </li>--}}
                                     <li>
-                                        <a href="student-wishlist.html">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-bookmark">
-                                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                                            </svg>
-                                            Wishlist</a>
-                                    </li>
-                                    <li>
-                                        <a href="student-reviews.html">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-star">
-                                                <polygon
-                                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                            </svg>
-                                            Reviews</a>
-                                    </li>
-                                    <li>
-                                        <a href="student-my-quiz-attempts.html">
+                                        <a href="{{route('student.dashboard.exam-attempts')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -153,8 +153,9 @@
                                             </svg>
                                             My Quiz Attempts</a>
                                     </li>
+                                    
                                     <li>
-                                        <a href="student-assignments.html">
+                                        <a href="{{route('student.dashboard.assignments')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -164,8 +165,9 @@
                                             </svg>
                                             Assignments</a>
                                     </li>
+                                    
                                     <li>
-                                        <a href="student-settings.html">
+                                        <a href="{{route('student.dashboard.settings')}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
@@ -175,6 +177,7 @@
                                             </svg>
                                             Settings</a>
                                     </li>
+                                    
                                     <li>
                                       
                                         <a id="logOut" href="javascript:void(0);">

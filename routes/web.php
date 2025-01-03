@@ -45,17 +45,17 @@ Route::prefix('student/login')->name('student.')->group(function ()
 });
 
 //Student Dashboard
-Route::prefix('student/dashboard')->middleware('role:student')->controller(DashboardController::class)->name('student.dashboard.')-> group(function ()
-{
-    Route::get('/','index')->name('index');
-
-    Route::view('/courses','Frontend.pages.student-dashboard.courses');
-    Route::view('/assignments','Frontend.pages.student-dashboard.assignments');
-    Route::view('/exam-attempts','Frontend.pages.student-dashboard.exam-attempts');
-    Route::view('/profiles','Frontend.pages.student-dashboard.profile');
-    Route::view('/reviews','Frontend.pages.student-dashboard.reviews');
-    Route::view('/settings','Frontend.pages.student-dashboard.settings');
-    Route::view('/wishlists','Frontend.pages.student-dashboard.wishlist');
+Route::prefix('student/dashboard')->middleware('role:student')->name('student.dashboard.')-> 
+    group(function () {
+        
+    Route::get('/',[DashboardController::class,'index'])->name('index');
+    Route::get('/courses',[DashboardController::class,'coursesPage'])->name('courses');
+    Route::get('/assignments',[DashboardController::class,'assignmentsPage'])->name('assignments');
+    Route::get('/exam-attempts',[DashboardController::class,'examAttemptsPage'])->name('exam-attempts');
+    Route::get('/profiles',[DashboardController::class,'profilePage'])->name('profiles');
+    Route::get('/reviews',[DashboardController::class,'reviewsPage'])->name('reviews');
+    Route::get('/settings',[DashboardController::class,'settingsPage'])->name('settings');
+    Route::get('/wishlists',[DashboardController::class,'wishlistPage'])->name('wishlists');
     
 });
 
