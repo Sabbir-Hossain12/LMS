@@ -20,7 +20,7 @@
     </li>
 
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link ">
+        <a class="nav-link @if(request()->routeIs('admin.lesson')) active @endif" href="{{route('admin.lesson',$course->id)}}">
             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
             <span class="d-none d-sm-block">Lesson</span>
         </a>

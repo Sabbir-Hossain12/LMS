@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HerobannerController;
+use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -78,6 +79,13 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //Subject
     Route::get('/subjects/{id}', [SubjectController::class, 'index'])->name('subject');
+    Route::post('/subjects/store', [SubjectController::class, 'store'])->name('subject.store');
+    Route::delete('/subjects/{id}', [SubjectController::class, 'destroy'])->name('subject.destroy');
+    
+    //Lesson
+    Route::get('/lessons/{id}', [LessonController::class, 'index'])->name('lesson');
+    Route::post('/lessons/store', [LessonController::class, 'storeLesson'])->name('lesson.store');
+    Route::delete('/lessons/{id}', [LessonController::class, 'destroyLesson'])->name('lesson.destroy');
     
     //Hero Banners
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');
