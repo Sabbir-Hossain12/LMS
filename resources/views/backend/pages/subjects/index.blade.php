@@ -38,14 +38,11 @@
                                         <label for="subtitle" class="form-label">Subtitle</label>
                                         <textarea id="subtitle" name="subtitle" class="form-control"></textarea>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="desc" class="form-label">Description</label>
-                                        <textarea id="desc" name="desc" class="form-control" required></textarea>
+                                        <label for="icon" class="form-label">Icon</label>
+                                        <input class="form-control" type="text" id="icon" name="icon" required>
                                     </div>
-
-                                
-
+                                    
                                     <div class="mb-3">
                                         <label for="pageStatus" class="form-label">Featured Status</label>
                                         <select id="pageStatus" class="form-select form-control" name="is_featured" required>
@@ -55,13 +52,7 @@
                                     </div>
                                     
 
-                                    <div class="mb-3">
-                                        <label for="pageStatus" class="form-label">Status</label>
-                                        <select id="pageStatus" class="form-select form-control" name="status" required>
-                                            <option value="1" selected>Active</option>
-                                            <option value="0">Inactive</option>
-                                        </select>
-                                    </div>
+                                   
 
                                 </div>
                             </div>
@@ -70,14 +61,24 @@
                                     <label for="img" class="form-label">Image</label>
                                     <input class="form-control" type="file" id="img" name="img" required>
                                 </div>
-
                                 <div class="mb-3">
-                                    <label for="icon" class="form-label">Icon</label>
-                                    <input class="form-control" type="text" id="icon" name="icon" required>
+                                    <label for="desc" class="form-label">Description</label>
+                                    <textarea id="desc" name="desc" class="form-control" required></textarea>
                                 </div>
+
+                             
+                                
                                 <div class="mb-3">
                                     <label for="position" class="form-label">Position</label>
                                     <input class="form-control" type="number" id="position" name="position" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="pageStatus" class="form-label">Status</label>
+                                    <select id="pageStatus" class="form-select form-control" name="status" required>
+                                        <option value="1" selected>Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -122,13 +123,56 @@
 
                 </div>
             </div>
+            <div class="text-center d-grid">
+                <button type="submit" class="btn  btn-primary">Update</button>
+            </div>
+            
         </div> <!-- end col -->
 
 
-        <div class="text-center mt-4 d-grid">
-            <button type="submit" class="btn  btn-primary">Update</button>
-        </div>
+       
     </form>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <h4 class="card-title">Subject List</h4>
+                        {{--                       @can('Create Admin')--}}
+                        {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
+                       
+                        {{--                        @endcan--}}
+                        {{--                        @endif--}}
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table mb-0  nowrap w-100 dataTable no-footer dtr-inline" id="adminTable">
+                            <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Subject Name</th>
+                                <th>Course Title</th>
+                                <th>position</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- end card body -->
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('backendJs')
