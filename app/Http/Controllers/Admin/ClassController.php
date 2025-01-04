@@ -124,7 +124,7 @@ class ClassController extends Controller
         if ($request->hasFile('img')) {
 
             $file = $request->file('img');
-            $filename = time().uniqid().$file->getClientOriginalName();
+            $filename = time().uniqid().$file->getClientOriginalExtension();
             $file->move(public_path('backend/upload/class/'), $filename);
             $class->img ='backend/upload/class/'. $filename;
 

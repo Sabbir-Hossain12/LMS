@@ -108,16 +108,16 @@
                                 <span data-key="t-calendar">Class List</span>
                             </a>
                         </li>
+                        
+                        <li>
+                            <a href="{{route('admin.course.index')}}">
+                                <span data-key="t-calendar">Course List</span>
+                            </a>
+                        </li>
 
                         <li>
                             <a href="{{route('admin.permission.index')}}">
                                 <span data-key="t-calendar">Subject List</span>
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a href="{{route('admin.permission.index')}}">
-                                <span data-key="t-calendar">Course List</span>
                             </a>
                         </li>
                         

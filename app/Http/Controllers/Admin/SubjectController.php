@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -10,10 +12,15 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
-        //
+        $course = Course::find($id);
+        $subject = Subject::where('course_id', $id)->get();
+        
+        return view('backend.pages.subjects.index', compact('subject','course'));
     }
+    
+  
 
     /**
      * Show the form for creating a new resource.

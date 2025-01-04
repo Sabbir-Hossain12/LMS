@@ -6,12 +6,14 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BasicinfoController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HerobannerController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\TestimonialController;
 
@@ -68,11 +70,22 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/class/change-status', [ClassController::class, 'changeClassStatus'])->name('class.status');
     Route::post('/class/change-featured-status', [ClassController::class, 'changeFeaturedClassStatus'])->name('class.featured-status');
     
+    //Courses
+    Route::resource('/courses', CourseController::class)->names('course');
+    Route::get('/course/data', [CourseController::class, 'getData'])->name('course.data');
+    Route::post('/course/change-status', [CourseController::class, 'changeCourseStatus'])->name('course.status');
+    Route::post('/course/change-featured-status', [CourseController::class, 'changeFeaturedCourseStatus'])->name('course.featured-status');
     
+    //Subject
+    Route::get('/subjects/{id}', [SubjectController::class, 'index'])->name('subject');
+    
+    //Hero Banners
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');
     
+    //basic settings
     Route::resource('/basic-infos', BasicinfoController::class)->names('basicinfo');
     
+    //about Sections
     Route::resource('/abouts', AboutController::class)->names('about');
     
     
