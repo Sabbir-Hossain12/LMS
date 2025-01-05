@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assessment;
+use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -11,9 +14,24 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
-        //
+        $course=Course::find($id);
+
+        $assessments= Assessment::whereHas('lesson.subject.course', function ($query) use ($id) {
+
+            $query->where('id', $id);
+        })->get();
+
+        $questions= Question::whereHas('assessment.lesson.subject.course', function ($query) use ($id) {
+
+            $query->where('id', $id);
+
+        })->get();
+
+
+        return view('backend.pages.lesson-questions.index',compact('course','assessments','questions'));
+
     }
 
     /**
@@ -29,7 +47,24 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $question=new Question();
+        $question->assessment_id=$request->assessment_id;
+        $question->question_text=$request->question_text;
+        $question->marks=$request->marks;
+        $question->correct_answers=$request->correct_answers;
+        $question->status=$request->status;
+        $question->options= json_encode($request->options);
+        
+        
+        $save= $question->save();
+        
+        if ($save) {
+            return redirect()->back()->with('success', 'Question Created Successfully');
+        }
+        
+        return redirect()->back()->with('error', 'Something went wrong');
+        
     }
 
     /**

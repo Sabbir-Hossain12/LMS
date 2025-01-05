@@ -16,13 +16,13 @@
         </div>
     </div>
 
-    <form method="post" action="{{route('admin.lesson-assessment.store')}}" enctype="multipart/form-data">
+    <form method="post" action="{{route('admin.assessment-question.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Add Lesson Assessments (MCQ/Assignments)
+                        <h4 class="card-title text-center">Add Questions (MCQ/Assignments)
                         </h4>
                     </div>
                     <div class="card-body p-4">
@@ -35,62 +35,46 @@
                                     <input type="number" hidden name="course_id" value="{{$course->id}}">
 
                                     <div class="mb-3">
-                                        <label class="form-label">Select Lesson *</label>
-                                        <select class="form-control" name="lesson_id" required>
+                                        <label class="form-label">Select Assessment *</label>
+                                        <select class="form-control" name="assessment_id" required>
 
-                                            @forelse($lessons as $lesson)
-                                                <option value="{{$lesson->id}}">{{$lesson->title}}</option>
+                                            @forelse($assessments as $assessment)
+                                                <option value="{{$assessment->id}}">{{$assessment->title}}</option>
                                             @empty
                                             @endforelse
 
                                         </select>
                                     </div>
+                                    
+                                    
                                     <div class="mb-3">
-                                        <label class="form-label">Assessment Type *</label>
-                                        <select class="form-control" name="type" id="assessmentType" required>
-                                            
-                                            <option value="quiz">Quiz</option>
-                                            <option value="assignment">Assignment</option>
-                                            
-                                        </select>
+                                        <label for="question_text" class="form-label">Question Text *</label>
+                                        <textarea class="form-control" id="question_text" name="question_text" required></textarea>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="title" class="form-label">Assessment Title *</label>
-                                        <input class="form-control" type="text" id="title" name="title"
-                                               placeholder="Title" required>
+                                        <label for="desc" class="form-label">Question Marks *</label>
+                                        <input type="number" class="form-control" id="marks" min="1" name="marks" required>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="desc" class="form-label">Description</label>
-                                        <textarea class="form-control" id="desc" name="desc"></textarea>
-                                    </div>
-
-                                  
-
+                                    
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="mb-3" id="startTimeDiv">
-                                    <label for="start_time" class="form-label">Start Date </label>
-                                    <input class="form-control" type="datetime-local" id="start_time" value="{{now()}}" name="start_time">
-                                </div>
-
-                                <div class="mb-3" id="endTimeDiv">
-                                    <label for="end_time" class="form-label">End Date </label>
-                                    <input class="form-control" type="datetime-local" id="end_time" name="end_time">
-                                </div>
-                                
-                                <div class="mb-3" id="dueTimeDiv">
-                                    <label for="due_date" class="form-label">Due Date </label>
-                                    <input class="form-control" type="datetime-local" name="due_date">
+                             <div class="mb-1" id="optionMultiple">
+                                    <label  class="form-label">Options *</label>
+                                 <div class="input-group mb-1 option-item" >
+                                    <input type="text" class="form-control"  name="options[]" placeholder="Option 1" required>
+                                    <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                 </div>
+                             </div>
+                                <div class="mb-3">
+                                <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="totalMarks" class="form-label">Total Marks *</label>
-                                    <input class="form-control" type="number" id="totalMarks" name="total_marks"
-                                           placeholder="Total Marks" required>
+                                    <label for="desc" class="form-label">Correct Option/Answer *</label>
+                                    <input type="text" class="form-control"  name="correct_answers" required>
                                 </div>
-                                
 
                                 <div class="mb-3">
                                     <label for="pageStatus" class="form-label">Status *</label>
@@ -122,7 +106,7 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="card-title">Lesson Assessment List</h4>
+                        <h4 class="card-title">Question List</h4>
                         {{--                       @can('Create Admin')--}}
                         {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
 
@@ -138,30 +122,22 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Lesson Name</th>
-                                <th>Title</th>
-                                <th>Assessment Type</th>
-                                <th>Total Marks</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Due Time</th>
+                                <th>Assessment Title</th>
+                                <th>Question Text</th>
+                                <th>Marks</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($lessonAssessment as $key=> $assessment)
+                            @forelse($questions as $key=> $question)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$assessment->lesson->title}}</td>
-                                    <td>{{$assessment->title}}</td>
-                                    <td>{{$assessment->type}}</td>
-                                    <td>{{$assessment->total_marks}}</td>
-                                    <td>{{$assessment->start_time}}</td>
-                                    <td>{{$assessment->end_time}}</td>
-                                    <td>{{$assessment->due_date}}</td>
+                                    <td>{{$question->assessment->title}}</td>
+                                    <td>{{$question->question_text}}</td>
+                                    <td>{{$question->marks}}</td>
                                     <td>
-                                        @if($assessment->status == 1)
+                                        @if($question->status == 1)
                                             <span class="badge bg-success">Active</span>
                                         @else
                                             <span class="badge bg-danger">Inactive</span>
@@ -170,7 +146,7 @@
                                     <td>
                                         <div class="d-flex gap-3">
                                             <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$assessment->id}}" action="">
+                                            <form method="post" id="delete-form-{{$question->id}}" action="">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger"><i
@@ -214,28 +190,44 @@
 
             let adminTable = $('#adminTable').DataTable({});
         });
-        
-        
-        $('#assessmentType').on('change',function (e)
-        {
-            let value=$(this).val();
-            
-            if (value == 'assignment')
-            {
-                $('#startTimeDiv').hide();
-                $('#endTimeDiv').hide();
-                $('#dueTimeDiv').show();
-            }
-            else
-            {
-                $('#startTimeDiv').show();
-                $('#endTimeDiv').show();
-                $('#dueTimeDiv').hide();
-                
-            }
-        })
-        
 
+
+        // $('#assessmentType').on('change',function (e)
+        // {
+        //     let value=$(this).val();
+        //
+        //     if (value == 'assignment')
+        //     {
+        //         $('#startTimeDiv').hide();
+        //         $('#endTimeDiv').hide();
+        //         $('#dueTimeDiv').show();
+        //     }
+        //     else
+        //     {
+        //         $('#startTimeDiv').show();
+        //         $('#endTimeDiv').show();
+        //         $('#dueTimeDiv').hide();
+        //
+        //     }
+        // })
+
+        $(document).ready(function () {
+            let optionCount = 1;
+
+            // Add new option
+            $('#add-option').click(function () {
+                optionCount++;
+                $('#optionMultiple').append(`<div class="input-group mb-1 option-item" >
+                                    <input type="text" class="form-control"  name="options[]" placeholder="Option ${optionCount}">
+                                    <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                </div>  `);
+            });
+
+            // Remove option
+            $(document).on('click', '.remove-option', function () {
+                $(this).closest('.option-item').remove();
+            });
+        });
 
     </script>
 @endpush

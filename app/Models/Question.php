@@ -11,4 +11,9 @@ class Question extends Model
     {
         return $this->hasMany(QuestionGrade::class);
     }
+    
+    public function assessment()
+    {
+        return $this->belongsTo(Assessment::class);
+    }
 }

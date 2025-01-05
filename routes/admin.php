@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\LessonMaterialController;
 use App\Http\Controllers\Admin\LessonVideoController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -107,9 +108,9 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
     
     //Assessment Questions
-    Route::get('/assessment-questions/{id}', [AssessmentQuestionController::class, 'index'])->name('assessment-question');
-    Route::post('/assessment-questions/store', [AssessmentQuestionController::class, 'store'])->name('assessment-question.store');
-    Route::delete('/assessment-questions/{id}', [AssessmentQuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
+    Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');
+    Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
+    Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
     
     
     //Hero Banners
