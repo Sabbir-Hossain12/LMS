@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\LessonVideo;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class LessonController extends Controller
+
+class LessonVideoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,14 +20,20 @@ class LessonController extends Controller
     {
         $course = Course::find($id);
         $subjects= Subject::where('course_id',$id)->get();
-        $lessons=   Lesson::whereHas('subject.course',function ($q) use ($id)
         
-     {
-         $q->where('id',$id);
-     })->get();
-     
-     
-        return view('backend.pages.lessons.index',compact('lessons','course','subjects'));
+        $lessons= Lesson::whereHas('subject.course',function ($q) use ($id)
+        {
+            $q->where('id',$id);
+        })->get();
+        
+        $lessonVideos=   LessonVideo::whereHas('lesson.subject.course',function ($q) use ($id)
+        {
+            $q->where('id',$id);
+        })->get();
+
+
+        return view('backend.pages.lesson-videos.index',compact('lessonVideos','course','subjects','lessons'));
+        
     }
 
     /**
@@ -41,21 +49,19 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $lesson = new Lesson();
-        $lesson->course_id = $request->course_id;
-        $lesson->subject_id = $request->subject_id;
-        $lesson->title = $request->title;
-        $lesson->slug = Str::slug($request->title).uniqid() ;
-        $lesson->subtitle = $request->subtitle;
-        $lesson->desc = $request->desc;
-        $lesson->position = $request->position;
-        $lesson->status = $request->status;
+//      dd($request->all());
+        $lessonVideo = new LessonVideo();
+        $lessonVideo->lesson_id = $request->lesson_id;
+        $lessonVideo->title = $request->title;
+        $lessonVideo->slug =Str::slug($request->title);
+        $lessonVideo->video_url = $request->video_url;
+        $lessonVideo->duration = $request->duration;
+        $lessonVideo->position = $request->position;
+        $lessonVideo->status = $request->status;
         
-        $save=$lesson->save();
-        
+        $save=  $lessonVideo->save();
         if ($save) {
-            
-        return redirect()->back()->with('success','Lesson Added Successfully');
+            return redirect()->back()->with('success','Video Added Successfully');
         }
         
         return redirect()->back()->with('error','Something went wrong');

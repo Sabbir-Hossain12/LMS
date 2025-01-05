@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AssessmentController;
 use App\Http\Controllers\Admin\BasicinfoController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HerobannerController;
 use App\Http\Controllers\Admin\LessonController;
+use App\Http\Controllers\Admin\LessonMaterialController;
+use App\Http\Controllers\Admin\LessonVideoController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -84,8 +87,30 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //Lesson
     Route::get('/lessons/{id}', [LessonController::class, 'index'])->name('lesson');
-    Route::post('/lessons/store', [LessonController::class, 'storeLesson'])->name('lesson.store');
+    Route::post('/lessons/store', [LessonController::class, 'store'])->name('lesson.store');
     Route::delete('/lessons/{id}', [LessonController::class, 'destroyLesson'])->name('lesson.destroy');
+    
+    
+    //Lesson Video
+    Route::get('/lesson-videos/{id}', [LessonVideoController::class, 'index'])->name('lesson-video');
+    Route::post('/lesson-videos/store', [LessonVideoController::class, 'store'])->name('lesson-video.store');
+    Route::delete('/lesson-videos/{id}', [LessonVideoController::class, 'destroyLessonVideo'])->name('lesson-video.destroy');
+    
+    //Lesson Materials
+    Route::get('/lesson-materials/{id}', [LessonMaterialController::class, 'index'])->name('lesson-material');
+    Route::post('/lesson-materials/store', [LessonMaterialController::class, 'store'])->name('lesson-material.store');
+    Route::delete('/lesson-materials/{id}', [LessonMaterialController::class, 'destroyLessonMaterial'])->name('lesson-material.destroy');
+    
+    //Lesson Assessment
+    Route::get('/lesson-assessments/{id}', [AssessmentController::class, 'index'])->name('lesson-assessment');
+    Route::post('/lesson-assessments/store', [AssessmentController::class, 'store'])->name('lesson-assessment.store');
+    Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
+    
+    //Assessment Questions
+    Route::get('/assessment-questions/{id}', [AssessmentQuestionController::class, 'index'])->name('assessment-question');
+    Route::post('/assessment-questions/store', [AssessmentQuestionController::class, 'store'])->name('assessment-question.store');
+    Route::delete('/assessment-questions/{id}', [AssessmentQuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
+    
     
     //Hero Banners
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');

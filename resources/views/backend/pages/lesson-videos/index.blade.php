@@ -16,13 +16,13 @@
         </div>
     </div>
 
-    <form method="post" action="{{route('admin.lesson.store')}}" enctype="multipart/form-data">
+    <form method="post" action="{{route('admin.lesson-video.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Create Lesson</h4>
+                        <h4 class="card-title text-center">Add Lesson Videos</h4>
                     </div>
                     <div class="card-body p-4">
 
@@ -30,42 +30,40 @@
 
                             <div class="col-lg-6">
                                 <div>
-                                    
+
                                     <input type="number" hidden name="course_id" value="{{$course->id}}">
-                                    
+
                                     <div class="mb-3">
-                                        <label class="form-label">Select Subject *</label>
-                                        <select class="form-control" name="subject_id" required>
-                                            
-                                            @forelse($subjects as $subject)
-                                                <option value="{{$subject->id}}">{{$subject->title}}</option>
+                                        <label class="form-label">Select Lesson *</label>
+                                        <select class="form-control" name="lesson_id" required>
+
+                                            @forelse($lessons as $lesson)
+                                                <option value="{{$lesson->id}}">{{$lesson->title}}</option>
                                             @empty
                                             @endforelse
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="title" class="form-label">Lesson Title *</label>
+                                        <label for="title" class="form-label">Video Title *</label>
                                         <input class="form-control" type="text" id="title" name="title" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="subtitle" class="form-label">Subtitle</label>
-                                        <textarea id="subtitle" name="subtitle" class="form-control"></textarea>
+                                        <label for="video_url" class="form-label">Video URL *</label>
+                                        <input class="form-control" type="text" id="video_url" name="video_url" required>
                                     </div>
-                                    
 
-                                    
+
+
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                               
+
                                 <div class="mb-3">
-                                    <label for="desc" class="form-label">Description</label>
-                                    <textarea id="desc" name="desc" class="form-control"></textarea>
+                                    <label for="duration" class="form-label">Duration </label>
+                                    <input class="form-control" type="text" id="duration" name="duration" placeholder="1 Hour">
                                 </div>
-
-
 
                                 <div class="mb-3">
                                     <label for="position" class="form-label">Position *</label>
@@ -101,7 +99,7 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="card-title">Lesson List</h4>
+                        <h4 class="card-title">Lesson Video List</h4>
                         {{--                       @can('Create Admin')--}}
                         {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
 
@@ -117,24 +115,24 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Lesson Title</th>
-                                <th>Subject Name</th>
-                                <th>Course Title</th>
+                                <th>Lesson Name</th>
+                                <th>Video Title</th>
+                                <th>Video URL</th>
                                 <th>position</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($lessons as $key=> $lesson)
+                            @forelse($lessonVideos as $key=> $lVideo)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$lesson->title}}</td>
-                                    <td>{{$lesson->subject->title}}</td>
-                                    <td>{{$lesson->subject->course->title}}</td>
-                                    <td>{{$lesson->position}}</td>
+                                    <td>{{$lVideo->lesson->title}}</td>
+                                    <td>{{$lVideo->title}}</td>
+                                    <td>{{$lVideo->video_url}}</td>
+                                    <td>{{$lVideo->position}}</td>
                                     <td>
-                                        @if($lesson->status == 1)
+                                        @if($lVideo->status == 1)
                                             <span class="badge bg-success">Active</span>
                                         @else
                                             <span class="badge bg-danger">Inactive</span>
@@ -143,7 +141,7 @@
                                     <td>
                                         <div class="d-flex gap-3">
                                             <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$lesson->id}}" action="">
+                                            <form method="post" id="delete-form-{{$lVideo->id}}" action="">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></button>
