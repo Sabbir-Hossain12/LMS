@@ -48,7 +48,7 @@
 
                                     <div class="mb-3">
                                         <label for="site_name" class="form-label">Website Name</label>
-                                        <input class="form-control" type="email" name="site_name"
+                                        <input class="form-control" type="text" name="site_name"
                                                placeholder=""
                                                id="site_name" value="{{$basicInfo->site_name ?? ''}}">
                                     </div>
@@ -82,15 +82,12 @@
                                     </div>
                                     
                                     
-                                    
                                     <div class="mb-3">
                                         <label for="insta_link" class="form-label">Instagram link</label>
                                         <input class="form-control" name="insta_link" type="text"
                                                placeholder=""
                                                id="insta_link" value="{{$basicInfo->insta_link ?? ''}}">
                                     </div>
-                                    
-                                    
                                     
                                     <div class="mb-3">
                                         <label for="p_link" class="form-label">Twitter Link</label>

@@ -41,7 +41,7 @@ class SubjectController extends Controller
         $subject = new Subject();
         $subject->course_id = $request->course_id;
         $subject->title = $request->title;
-        $subject->subtitle = $request->title;
+        $subject->subtitle = $request->subtitle;
         $subject->slug  =Str::slug($request->title).uniqid();;
         $subject->desc = $request->desc;
         $subject->icon = $request->icon;

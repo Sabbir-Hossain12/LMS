@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
 use App\Http\Controllers\Frontend\DashboardController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +10,10 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::view('/','Frontend.pages.home');
+//Home 
+Route::get('/',[HomeController::class,'homePage'])->name('home');
+
+
 Route::view('/courses','Frontend.pages.course.courses');
 Route::view('/course-details','Frontend.pages.course.course-details');
 

@@ -63,7 +63,7 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="img" class="form-label">Image</label>
-                                    <input class="form-control" type="file" id="img" name="img" required>
+                                    <input class="form-control" type="file" id="img" name="img">
                                 </div>
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Description</label>
@@ -186,7 +186,7 @@
                                             <form method="post" id="delete-form-{{$subject->id}}" action="{{route('admin.subject.destroy',$subject->id)}}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{$subject->id}}"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -226,8 +226,34 @@
             let adminTable = $('#adminTable').DataTable({
                 
             });
+            
+            
         });
 
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle delete button click
+            $('.delete-btn').on('click', function () {
+                let formId = '#delete-form-' + $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form if confirmed
+                        $(formId).submit();
+                    }
+                });
+            });
+        });
     </script>
 @endpush

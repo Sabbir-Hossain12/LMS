@@ -1,28 +1,28 @@
 <!-- footer__section__start -->
 <div class="footerarea">
     <div class="container">
-        <div class="footerarea__newsletter__wraper">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
-                    <div class="footerarea__text">
-                        <h3>Still You Need Our <span>Support</span> ?</h3>
-                        <p>Don’t wait make a smart & logical quote here. Its pretty easy.</p>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
-                    <div class="footerarea__newsletter">
-                        <div class="footerarea__newsletter__input">
-                            <form action="#">
-                                <input type="text" placeholder="Enter your email here">
-                                <div class="footerarea__newsletter__button">
-                                    <button type="submit" class="subscribe__btn">Subscribe Now</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{--        <div class="footerarea__newsletter__wraper">--}}
+        {{--            <div class="row">--}}
+        {{--                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">--}}
+        {{--                    <div class="footerarea__text">--}}
+        {{--                        <h3>Still You Need Our <span>Support</span> ?</h3>--}}
+        {{--                        <p>Don’t wait make a smart & logical quote here. Its pretty easy.</p>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">--}}
+        {{--                    <div class="footerarea__newsletter">--}}
+        {{--                        <div class="footerarea__newsletter__input">--}}
+        {{--                            <form action="#">--}}
+        {{--                                <input type="text" placeholder="Enter your email here">--}}
+        {{--                                <div class="footerarea__newsletter__button">--}}
+        {{--                                    <button type="submit" class="subscribe__btn">Subscribe Now</button>--}}
+        {{--                                </div>--}}
+        {{--                            </form>--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
 
         <div class="footerarea__wrapper footerarea__wrapper__2">
             <div class="row">
@@ -32,17 +32,19 @@
                             <h3>About us</h3>
                         </div>
                         <div class="footerarea__content">
-                            <p>orporate clients and leisure travelers has been relying on Groundlink for dependable safe, and professional chauffeured car end service in major cities across World.</p>
+                            <p>{{$basicInfo->about_text}}</p>
                         </div>
                         <div class="foter__bottom__text">
                             <div class="footer__bottom__icon">
                                 <i class="icofont-clock-time"></i>
                             </div>
+                            @if($basicInfo->opening_hours_text) 
                             <div class="footer__bottom__content">
                                 <h6>Opening Houres</h6>
-                                <span>Mon - Sat(8.00 - 6.00)</span>
-                                <span>Sunday - Closed</span>
+                                <span>{{$basicInfo->opening_hours_text}}</span>
+                                
                             </div>
+                            @endif
                         </div>
 
                     </div>
@@ -54,21 +56,13 @@
                         </div>
                         <div class="footerarea__list">
                             <ul>
+                                @forelse($pages->take(5) as $page) 
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a href="#">{{$page->name}}</a>
                                 </li>
-                                <li>
-                                    <a href="#">Teachers</a>
-                                </li>
-                                <li>
-                                    <a href="#">Partner</a>
-                                </li>
-                                <li>
-                                    <a href="#">Room-Details</a>
-                                </li>
-                                <li>
-                                    <a href="#">Gallery</a>
-                                </li>
+                                @empty
+                                @endforelse
+                              
                             </ul>
                         </div>
 
@@ -82,21 +76,12 @@
                         </div>
                         <div class="footerarea__list">
                             <ul>
+                                @forelse($classes as $key=> $class) 
                                 <li>
-                                    <a href="#">Ui Ux Design</a>
+                                    <a href="#">{{$class->title}}</a>
                                 </li>
-                                <li>
-                                    <a href="#">Web Development</a>
-                                </li>
-                                <li>
-                                    <a href="#">Business Strategy</a>
-                                </li>
-                                <li>
-                                    <a href="#">Softwere Development</a>
-                                </li>
-                                <li>
-                                    <a href="#">Business English</a>
-                                </li>
+                                @empty
+                                @endforelse
                             </ul>
                         </div>
 
@@ -109,43 +94,29 @@
                         <div class="footerarea__heading">
                             <h3>Recent Post</h3>
                         </div>
+                        
                         <div class="footerarea__right__list">
                             <ul>
+                                @forelse($blogs as $key=> $blog) 
                                 <li>
                                     <a href="#">
                                         <div class="footerarea__right__img">
-                                            <img loading="lazy" src="{{asset('frontend')}}/img/footer/footer__1.png" alt="footerphoto">
+                                            <img loading="lazy" src="{{asset($blog->thumbnail_img)}}"
+                                               width="61px" height="54px"  alt="footerphoto">
                                         </div>
+                                        
                                         <div class="footerarea__right__content">
-                                            <span>02 Apr 2024 </span>
-                                            <h6>Best Your Business</h6>
+                                            <span>{{$blog->created_at->diffForHumans()}} </span>
+                                            <h6>{{$blog->title}}</h6>
                                         </div>
                                     </a>
                                 </li>
+                                    
+                                    
+                                @empty
+                                @endforelse
+                                    
 
-                                <li>
-                                    <a href="#">
-                                        <div class="footerarea__right__img">
-                                            <img loading="lazy" src="{{asset('frontend')}}/img/footer/footer__2.png" alt="footerphoto">
-                                        </div>
-                                        <div class="footerarea__right__content">
-                                            <span>02 Apr 2024 </span>
-                                            <h6>Keep Your Business</h6>
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <div class="footerarea__right__img">
-                                            <img loading="lazy" src="{{asset('frontend')}}/img/footer/footer__3.png" alt="footerphoto">
-                                        </div>
-                                        <div class="footerarea__right__content">
-                                            <span>02 Apr 2024 </span>
-                                            <h6>Nice Your Business</h6>
-                                        </div>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -157,25 +128,25 @@
                 <div class="col-xl-3 col-lg-3">
                     <div class="copyright__logo">
                         <a href="https://danpite.tech/">
-                            <h3>Danpite Tech</h3>
-                            <!--                                    <img loading="lazy" src="img/logo/logo_2.png" alt="logo">-->
+{{--                            <h3>Danpite Tech</h3>--}}
+                            <img loading="lazy" src="{{$basicInfo->light_logo}}" width="187px" height="48px" alt="logo">
                         </a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="footerarea__copyright__content footerarea__copyright__content__2">
-                        <p>Copyright © <span>2024</span> by Danpite Tech. All Rights Reserved.</p>
+                        <p style="font-size: 14px"> All Rights Reserved by <a href="{{route('home')}}">{{$basicInfo->site_name}}</a> , Designed and Developed by <a href="https://danpite.tech/">Danpite Tech</a></p>
                     </div>
                 </div>
 
                 <div class="col-xl-3 col-lg-3">
                     <div class="footerarea__icon footerarea__icon__2">
                         <ul>
-                            <li><a href="../../../facebook.com/index.html"><i class="icofont-facebook"></i></a></li>
-                            <li><a href="../../../twitter.com/index.html"><i class="icofont-twitter"></i></a></li>
-                            <li><a href="../../../vimeo.com/index.html"><i class="icofont-vimeo"></i></a></li>
-                            <li><a href="../../../linkedin.com/index.html"><i class="icofont-linkedin"></i></a></li>
-                            <li><a href="../../../skype.com/index.html"><i class="icofont-skype"></i></a></li>
+                            <li><a href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont-facebook"></i></a></li>
+                            <li><a href="{{$basicInfo->twitter_link ?? '#'}}"><i class="icofont-twitter"></i></a></li>
+                            <li><a href="{{$basicInfo->vimeo_link ?? '#'}}"><i class="icofont-vimeo"></i></a></li>
+                            <li><a href="{{$basicInfo->linkedin_link ?? '#'}}"><i class="icofont-linkedin"></i></a></li>
+                            <li><a href="{{$basicInfo->skype_link ?? '#'}}"><i class="icofont-skype"></i></a></li>
                         </ul>
                     </div>
                 </div>

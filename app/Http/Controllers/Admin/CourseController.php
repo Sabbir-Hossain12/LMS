@@ -79,12 +79,11 @@ class CourseController extends Controller
 
             ->addColumn('action', function ($course) {
 
-                $editAction = '<a class="dropdown-item editButton btn btn-sm btn-primary" href="'.route('admin.course.edit', $course->id).'">
-                                   <i class="fas fa-edit"></i> Edit</a>';
-                $deleteAction = '<a class="dropdown-item btn btn-sm btn-danger" id="deleteAdminBtn" data-id="'.$course->id.'" href="javascript:void(0)"> 
-                                   <i class="fas fa-trash"></i> Delete</a>';
-                $subjectAction = '<a class="dropdown-item btn btn-sm btn-info" href="javascript:void(0)">
-                                   <i class="fas fa-eye"></i> Subjects</a>';
+                $editAction = '<a class="editButton btn btn-sm btn-primary" href="'.route('admin.course.edit', $course->id).'">
+                                   <i class="fas fa-edit"></i></a>';
+                $deleteAction = '<a class="btn btn-sm btn-danger" id="deleteAdminBtn" data-id="'.$course->id.'" href="javascript:void(0)"> 
+                                   <i class="fas fa-trash"></i></a>';
+                
                 
 //              if(Auth::guard('admin')->user()->can('Edit Admin')) {
 //
@@ -102,16 +101,16 @@ class CourseController extends Controller
 //
 //              }
 
-//                return '<div class="d-flex gap-3"> '.$editAction.$deleteAction.'</div>';
+                return '<div class="d-flex gap-3"> '.$editAction.$deleteAction.'</div>';
                 
-                return '<div class="btn-group" role="group">
-                                                    <button id="btnGroupVerticalDrop1" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        Actions <i class="mdi mdi-chevron-down"></i>
-                                                    </button>
-                                                   <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 40px, 0px);" data-popper-placement="bottom-start">
-                                                        '.$editAction.$deleteAction.$subjectAction.'
-                                                    </div>
-                                                </div>';
+//                return '<div class="btn-group" role="group">
+//                                                    <button id="btnGroupVerticalDrop1" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+//                                                        Actions <i class="mdi mdi-chevron-down"></i>
+//                                                    </button>
+//                                                   <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 40px, 0px);" data-popper-placement="bottom-start">
+//                                                        '.$editAction.$deleteAction.$subjectAction.'
+//                                                    </div>
+//                                                </div>';
 
 
             })
@@ -293,7 +292,7 @@ class CourseController extends Controller
 
 
         if ($save) {
-            return redirect()->route('admin.course.index')->with('success', 'Course created successfully');
+            return redirect()->route('admin.course.index')->with('success', 'Course Updated successfully');
         }
 
         return redirect()->back()->with('error', 'Something went wrong');

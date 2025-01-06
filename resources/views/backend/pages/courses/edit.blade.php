@@ -17,7 +17,7 @@
         </div>
     
 
-    <form method="post" action="{){route('admin.course.update',$course->id)}}" enctype="multipart/form-data">
+    <form method="post" action="{{route('admin.course.update',$course->id)}}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
@@ -34,13 +34,13 @@
                             <div class="col-lg-6">
                                 <div>
                                     <div class="mb-3">
-                                        <label class="form-label">Course Title</label>
+                                        <label class="form-label">Course Title *</label>
                                         <input class="form-control" type="text" placeholder="Course Title"
                                                id="name" name="title" value="{{$course->title ?? ''}}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label  class="form-label">Select Class</label>
+                                        <label  class="form-label">Select Class *</label>
                                         <select  class="form-select form-control" name="course_class_id" required>
                                             @foreach($classes as $class)
                                                 <option value="{{$class->id}}" @if($course->course_class_id == $class->id) selected @endif>{{$class->title}}</option>
@@ -50,7 +50,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="type" class="form-label">Select Teacher</label>
+                                        <label for="type" class="form-label">Select Teacher *</label>
                                         <select id="type" class="form-select form-control" name="teacher_id" required>
                                             @foreach($teachers as $teacher)
                                                 <option value="{{$teacher->id}}" @if($course->teacher_id == $teacher->id) selected @endif>{{$teacher->name}}</option>
@@ -60,12 +60,12 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="short_desc" class="form-label">Short Description</label>
+                                        <label for="short_desc" class="form-label">Short Description *</label>
                                         <textarea id="short_desc" name="short_desc" class="form-control" required>{{$course->short_desc ?? ''}}</textarea>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="thumbnail_img" class="form-label">Thumbnail Image (342 X 214px)</label>
+                                        <label for="thumbnail_img" class="form-label">Thumbnail Image (342 X 214px) *</label>
                                         <input class="form-control" type="file" id="thumbnail_img" name="thumbnail_img">
                                         
                                         @if($course->thumbnail_img) 
@@ -103,19 +103,19 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="regular_price" class="form-label">Regular Price</label>
+                                        <label for="regular_price" class="form-label">Regular Price *</label>
                                         <input class="form-control" type="number"
                                                id="regular_price" name="regular_price" value="{{$course->regular_price ?? ''}}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="sale_price" class="form-label">Sale Price</label>
+                                        <label for="sale_price" class="form-label">Sale Price *</label>
                                         <input class="form-control" type="number"
                                                id="sale_price" name="sale_price" value="{{$course->sale_price ?? ''}}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="discount" class="form-label">Discount (TK)</label>
+                                        <label for="discount" class="form-label">Discount (TK) *</label>
                                         <input class="form-control" type="number"
                                                id="discount" name="discount" value="{{$course->discount ?? ''}}" required>
                                     </div>
@@ -152,7 +152,7 @@
                             <div class="col-lg-12">
 
                                 <div class="mb-3">
-                                    <label for="long_desc" class="form-label">Long Description</label>
+                                    <label for="long_desc" class="form-label">Long Description *</label>
                                     <textarea id="long_desc" name="long_desc">{{$course->long_desc ?? ''}}</textarea>
                                 </div>
 

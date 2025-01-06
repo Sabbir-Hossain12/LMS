@@ -19,8 +19,7 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu">Menu</li>
-
+                    <li></li>
                 <li class=""> 
                     <a href="{{route('admin.dashboard.index')}}">
                         <i class="fa-solid fa-home"></i>
@@ -105,26 +104,34 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
                             <a href="{{ route('admin.class.index') }}">
-                                <span data-key="t-calendar">Class List</span>
+                                <span data-key="t-calendar">Class Management</span>
                             </a>
                         </li>
                         
                         <li>
                             <a href="{{route('admin.course.index')}}">
-                                <span data-key="t-calendar">Course List</span>
+                                <span data-key="t-calendar">Course Management</span>
                             </a>
                         </li>
+                        
+                        
+                    </ul>
+                </li>
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="fa-solid fa-truck"></i>
+                        <span data-key="t-apps">Orders</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('admin.permission.index')}}">
-                                <span data-key="t-calendar">Subject List</span>
+                            <a href="{{ route('admin.class.index') }}">
+                                <span data-key="t-calendar">Order Management</span>
                             </a>
                         </li>
                         
                     </ul>
                 </li>
-                
-                
                 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -132,6 +139,7 @@
                         <span data-key="t-apps">Website</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        
                         <li>
                             <a href="{{ route('admin.herobanner.index') }}">
                                 <span data-key="t-calendar">Hero Banner</span>

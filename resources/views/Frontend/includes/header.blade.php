@@ -6,10 +6,10 @@
                 <div class="topbar__left">
                     <ul>
                         <li>
-                            Call Us: +880 123 456 789
+                            Call Us: {{$basicInfo->phone_1 ?? '+880'}}
                         </li>
                         <li>
-                            - Mail Us: support@danpite.tech
+                            - Mail Us: {{$basicInfo->mail ?? 'contact@gmail.com'}}
                         </li>
                     </ul>
                 </div>
@@ -20,21 +20,21 @@
                         <i class="icofont-location-pin"></i>
                     </div>
                     <div class="topbar__text">
-                        <p>Dhaka, Mirpur 10</p>
+                        <p>{{$basicInfo->address ?? 'Dhaka, Bangladesh'}}</p>
                     </div>
                     <div class="topbar__list">
                         <ul>
                             <li>
-                                <a href="#"><i class="icofont-facebook"></i></a>
+                                <a href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont-facebook"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="icofont-twitter"></i></a>
+                                <a href="{{$basicInfo->twitter_link ?? '#'}}"><i class="icofont-twitter"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="icofont-instagram"></i></a>
+                                <a href="{{$basicInfo->insta_link ?? '#'}}"><i class="icofont-instagram"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="icofont-youtube-play"></i></a>
+                                <a href="{{$basicInfo->youtube_link ?? '#'}}"><i class="icofont-youtube-play"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -57,8 +57,10 @@
                     <div class="headerarea__2__inner justify-content-center">
                         <div class="headerarea__left">
                             <div class="headerarea__left__logo" style="height: 55px;">
-                                <h3 class="text-white">Danpite Tech</h3>
-                                <!--                                        <a href="index.html"><img loading="lazy" src="img/danpite-tech-ecommace.webp" alt="logo"></a>-->
+{{--                                <h3 class="text-white">Danpite Tech</h3>--}}
+                                   <a href="{{route('home')}}">
+                                       <img loading="lazy" src="{{asset($basicInfo->light_logo)}}" width="187px" height="48px" alt="logo">
+                                   </a>
                             </div>
 
                         </div>
@@ -86,11 +88,9 @@
                             @endif
                         @endauth
                         
-                        @guest()
                         <div class="headerarea__login">
                             <a href="{{route('student.phone-page')}}"><i class="icofont-user-alt-5"></i></a>
                         </div>
-                        @endguest
 
                     </div>
                 </div>
