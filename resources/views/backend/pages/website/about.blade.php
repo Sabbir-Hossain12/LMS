@@ -80,13 +80,17 @@
                                                            id="main_title" value="{{$about->main_title ?? ''}}">
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="desc" class="form-label">Description</label>
-                                                    <textarea class="form-control" name="desc"
-                                                           id="desc">{{$about->desc ?? ''}}
-                                                    </textarea>
-                                                </div>
+                                               
                                                 
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="desc" class="form-label">Description</label>
+                                                <textarea class="form-control" name="desc" id="aboutDesc"
+                                                          id="desc">{{$about->desc ?? ''}}
+                                                    </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -102,6 +106,27 @@
         @endsection
 
         @push('backendJs')
+                   
 
+                        {{--  CkEditor CDN  --}}
+                        <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+                        <script>
+                            $(document).ready(function () {
+
+                                ClassicEditor
+                                    .create(document.querySelector('#aboutDesc'))
+                                    .catch(error => {
+                                        console.error(error);
+                                    });
+                            });
+
+
+                        </script>
+      
 
         @endpush

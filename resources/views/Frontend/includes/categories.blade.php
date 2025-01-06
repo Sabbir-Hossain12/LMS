@@ -1,11 +1,11 @@
 <!-- animate condtent start-->
 
-@if($classes->count()>0) 
+@if($services->count()>0) 
 <div class="animate__content sp_bottom_40 sp_top_40">
     <div class="container-fluid full__width__padding">
         <div class="animate__content__wrap">
 
-            @forelse($classes as $key=> $class) 
+            @forelse($services as $key=> $class) 
             <div class="single__service">
                 <div class="service__img">
 

@@ -90,7 +90,7 @@
                     <form name="form" id="addTestimonialForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Image</label>
+                            <label for="type" class="col-form-label">Image (74 X 74px)</label>
                             <input type="file" class="form-control" name="img" id="img">
                         </div>
                         
@@ -133,7 +133,7 @@
                         @method('PUT')
                         
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Image</label>
+                            <label for="type" class="col-form-label">Image (74 X 74px)</label>
                             <input type="file" class="form-control" name="img" id="eImg">
                             <div id="eImgPreview" class="mt-1"></div>
                         </div>

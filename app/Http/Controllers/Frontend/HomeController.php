@@ -10,6 +10,7 @@ use App\Models\CourseClass;
 use App\Models\Herobanner;
 use App\Models\Testimonial;
 use App\Models\TestimonialSetting;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,15 +19,15 @@ class HomeController extends Controller
     {
         
         $heroBanner= Herobanner::first();
-        $classes = CourseClass::where('status',1)->where('is_featured',1)->get();
+        $services = CourseClass::where('status',1)->where('is_featured',1)->orderBy('position','asc')->get();
         $about= About::first();
         $testimonials= Testimonial::where('status',1)->get();
         $testimonialSetting= TestimonialSetting::first();
         $blogs= Blog::where('status',1)->limit(3)->get();
-        
         $featuredCourses= Course::with('class','teacher')->where('status',1)->where('is_featured',1)->get();
+        $teachers= User::role('teacher')->where('status',1)->get();
         
-//        dd($featuredCourses);
-        return view('Frontend.pages.home',compact(['heroBanner','about','classes','testimonials','testimonialSetting','blogs','featuredCourses']));
+        
+        return view('Frontend.pages.home',compact(['heroBanner','teachers','about','services','testimonials','testimonialSetting','blogs','featuredCourses']));
     }
 }
