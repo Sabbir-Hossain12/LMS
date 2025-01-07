@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
+use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -13,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 //Home 
 Route::get('/',[HomeController::class,'homePage'])->name('home');
 
-
+//Courses
+Route::get('/course-details/{slug}', [CourseController::class,'courseDetails'])->name('course-details');
 Route::view('/courses','Frontend.pages.course.courses');
-Route::view('/course-details','Frontend.pages.course.course-details');
 
 //Lessons
+Route::get('/course-lessons/{slug}', [CourseController::class,'courseLessons'])->name('course-lessons');
 
 Route::view('/lessons','Frontend.pages.lesson.lesson');
 Route::view('/lesson-course-material','Frontend.pages.course-material');

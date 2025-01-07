@@ -329,7 +329,7 @@
                     <div class="lesson__content__main">
                         <div class="lesson__content__wrap">
                             <h3>Video Content lesson 01</h3>
-                            <span><a href="course-details.html">Close</a></span>
+                            <span><a href="#">Close</a></span>
                         </div>
 
                         <div class="plyr__video-embed rbtplayer">
