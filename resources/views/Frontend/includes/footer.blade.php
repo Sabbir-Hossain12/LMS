@@ -129,7 +129,7 @@
                     <div class="copyright__logo">
                         <a href="https://danpite.tech/">
 {{--                            <h3>Danpite Tech</h3>--}}
-                            <img loading="lazy" src="{{$basicInfo->light_logo}}" width="187px" height="48px" alt="logo">
+                            <img loading="lazy" src="{{asset($basicInfo->light_logo)}}" width="187px" height="48px" alt="logo">
                         </a>
                     </div>
                 </div>

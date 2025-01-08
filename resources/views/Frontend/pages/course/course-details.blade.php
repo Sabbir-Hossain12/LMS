@@ -5,12 +5,12 @@
     <div class="blogarea__2 sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
-                <div class="col-8">
+                <div class="col-xl-8 col-lg-8">
 
                     <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
                         <img loading="lazy"
                              src="{{asset( $courseDetails->details_img ?? 'frontend/img/blog/blog_8.png')}}"
-                             width="770px" height="498px" alt="blog">
+                             alt="blog">
                     </div>
 
                     <div class="blog__details__content__wraper">
@@ -113,18 +113,18 @@
                                                         class="icofont-paper"></i>Description
                                             </button>
                                         </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="single__tab__link" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__three" type="button"><i
-                                                        class="icofont-star"></i>Reviews
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="single__tab__link" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__four" type="button"><i
-                                                        class="icofont-teacher"></i>Instructor
-                                            </button>
-                                        </li>
+                                        {{--                                        <li class="nav-item" role="presentation">--}}
+                                        {{--                                            <button class="single__tab__link" data-bs-toggle="tab"--}}
+                                        {{--                                                    data-bs-target="#projects__three" type="button"><i--}}
+                                        {{--                                                        class="icofont-star"></i>Reviews--}}
+                                        {{--                                            </button>--}}
+                                        {{--                                        </li>--}}
+                                        {{--                                        <li class="nav-item" role="presentation">--}}
+                                        {{--                                            <button class="single__tab__link" data-bs-toggle="tab"--}}
+                                        {{--                                                    data-bs-target="#projects__four" type="button"><i--}}
+                                        {{--                                                        class="icofont-teacher"></i>Instructor--}}
+                                        {{--                                            </button>--}}
+                                        {{--                                        </li>--}}
 
 
                                     </ul>
@@ -134,72 +134,110 @@
                                 <div class="tab-pane fade  active show" id="projects__two" role="tabpanel"
                                      aria-labelledby="projects__two">
 
-                                    @forelse($courseDetails->lessons as $lesson)
-                                        <div class="accordion content__cirriculum__wrap"
-                                             id="accordionExample{{$lesson->id}}">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingOne">
+                                    <div class="accordion content__cirriculum__wrap" id="accordionExample">
 
-                                                    <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            data-bs-target="#collapse{{$lesson->id}}"
-                                                            aria-expanded="true"
-                                                            aria-controls="collapse{{$lesson->id}}">
-                                                        {{$lesson->title}} <span>{{$lesson->duration}}</span>
-                                                    </button>
+                                        @forelse($subjects as $subject)
+                                            <div class="subject-wrapper">
 
-                                                </h2>
+                                                <h4 class="subject-title">Subject 1</h4>
+
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                                aria-expanded="true" aria-controls="collapseOne">
+                                                            Intro Course content <span>02hr 35min</span>
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                                         aria-labelledby="headingOne"
+                                                         data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
 
 
-                                                <div id="collapse{{$lesson->id}}"
-                                                     class="accordion-collapse collapse show"
-                                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-
-                                                        @forelse($lesson->lessonVideos as $key=>$video)
                                                             <div class="scc__wrap">
                                                                 <div class="scc__info">
                                                                     <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> {{$video->title}}</h5>
+                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
+                                                                    </h5>
                                                                 </div>
-
                                                                 <div class="scc__meta">
-
                                                                     <span class="time"> <i
-                                                                                class="icofont-clock-time"></i> {{$video->duration}}</span>
-                                                                    <a href="#"><span class="question"><i
+                                                                                class="icofont-clock-time"></i> 22 minutes</span>
+                                                                    <a href="lesson.html"><span class="question"><i
                                                                                     class="icofont-eye"></i> Preview</span></a>
-                                                                    <a href="#"><span><i
-                                                                                    class="icofont-lock"></i></span></a>
-
                                                                 </div>
                                                             </div>
-
-                                                        @empty
-                                                        @endforelse
-
-                                                        @forelse($lesson->assessments as $key=>$exam)
+                                                            <div class="scc__wrap">
+                                                                <div class="scc__info">
+                                                                    <i class="icofont-video-alt"></i>
+                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="scc__meta">
+                                                                    <span class="time"> <i
+                                                                                class="icofont-clock-time"></i> 05 minutes</span>
+                                                                    <a href="lesson.html"><span class="question"><i
+                                                                                    class="icofont-eye"></i> Preview</span></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="scc__wrap">
+                                                                <div class="scc__info">
+                                                                    <i class="icofont-video-alt"></i>
+                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="scc__meta">
+                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 10 minutes</span> -->
+                                                                    <a href="lesson.html"><span><i
+                                                                                    class="icofont-lock"></i></span></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="scc__wrap">
+                                                                <div class="scc__info">
+                                                                    <i class="icofont-video-alt"></i>
+                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="scc__meta">
+                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 15 minutes</span> -->
+                                                                    <a href="lesson.html"><span><i
+                                                                                    class="icofont-lock"></i></span></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="scc__wrap">
+                                                                <div class="scc__info">
+                                                                    <i class="icofont-video-alt"></i>
+                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
+                                                                    </h5>
+                                                                </div>
+                                                                <div class="scc__meta">
+                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 08 minutes</span> -->
+                                                                    <a href="lesson.html"><span><i
+                                                                                    class="icofont-lock"></i></span></a>
+                                                                </div>
+                                                            </div>
                                                             <div class="scc__wrap">
                                                                 <div class="scc__info">
                                                                     <i class="icofont-file-text"></i>
-                                                                    <h5><span>Exam :{{$exam->title}} </span></h5>
+                                                                    <h5><span>Lesson 03 Exam :</span></h5>
                                                                 </div>
                                                                 <div class="scc__meta">
-                                                                    <span><i class="icofont-lock"></i> {{$exam->questions->count()}} Questions</span>
+                                                                    <span><i class="icofont-lock"></i> 20 Ques</span>
                                                                 </div>
                                                             </div>
-
-                                                        @empty
-                                                        @endforelse
-
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            @empty
-                                            @endforelse
-                                        </div>
+                                        @empty
+                                            <h3>No Subject Yet</h3>
+                                        @endforelse
+
+
+                                    </div>
+
 
                                 </div>
 
@@ -296,327 +334,325 @@
                         </div>
 
 
-{{--                        <div class="online__course__wrap">--}}
-{{--                            <div class="instructor__heading__2" data-aos="fade-up">--}}
-{{--                                <h3>Author More Courses</h3>--}}
-{{--                                <a href="#">More Courses...</a>--}}
-{{--                            </div>--}}
+                        {{--                        <div class="online__course__wrap">--}}
+                        {{--                            <div class="instructor__heading__2" data-aos="fade-up">--}}
+                        {{--                                <h3>Author More Courses</h3>--}}
+                        {{--                                <a href="#">More Courses...</a>--}}
+                        {{--                            </div>--}}
 
-{{--                            <div class="row instructor__slider__active row__custom__class" data-aos="fade-up">--}}
-{{--                                @forelse($relatedCourses as $key=> $course)--}}
-{{--                                    <div class="col-xl-6 column__custom__class">--}}
-{{--                                        <div class="gridarea__wraper">--}}
-{{--                                            <div class="gridarea__img">--}}
+                        {{--                            <div class="row instructor__slider__active row__custom__class" data-aos="fade-up">--}}
+                        {{--                                @forelse($relatedCourses as $key=> $course)--}}
+                        {{--                                    <div class="col-xl-6 column__custom__class">--}}
+                        {{--                                        <div class="gridarea__wraper">--}}
+                        {{--                                            <div class="gridarea__img">--}}
 
-{{--                                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy"--}}
-{{--                                                                                                          src="{{asset($course->thumbnail_img)}}"--}}
-{{--                                                                                                          width="252px"--}}
-{{--                                                                                                          height="158px"--}}
-{{--                                                                                                          alt="grid"></a>--}}
-{{--                                                <div class="gridarea__small__button gridarea__small__button__1">--}}
-{{--                                                    <div class="grid__badge">{{$course->class->title}}</div>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="gridarea__small__icon">--}}
-{{--                                                    <a href="#"><i class="icofont-heart-alt"></i></a>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                        {{--                                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy"--}}
+                        {{--                                                                                                          src="{{asset($course->thumbnail_img)}}"--}}
+                        {{--                                                                                                          width="252px"--}}
+                        {{--                                                                                                          height="158px"--}}
+                        {{--                                                                                                          alt="grid"></a>--}}
+                        {{--                                                <div class="gridarea__small__button gridarea__small__button__1">--}}
+                        {{--                                                    <div class="grid__badge">{{$course->class->title}}</div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <div class="gridarea__small__icon">--}}
+                        {{--                                                    <a href="#"><i class="icofont-heart-alt"></i></a>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
 
-{{--                                            <div class="gridarea__content">--}}
-{{--                                                <div class="gridarea__list">--}}
-{{--                                                    <ul>--}}
-{{--                                                        <li>--}}
-{{--                                                            <i class="icofont-book-alt"></i> {{$course->lessons->count()}}--}}
-{{--                                                            Lessons--}}
-{{--                                                        </li>--}}
+                        {{--                                            <div class="gridarea__content">--}}
+                        {{--                                                <div class="gridarea__list">--}}
+                        {{--                                                    <ul>--}}
+                        {{--                                                        <li>--}}
+                        {{--                                                            <i class="icofont-book-alt"></i> {{$course->lessons->count()}}--}}
+                        {{--                                                            Lessons--}}
+                        {{--                                                        </li>--}}
 
-{{--                                                        <li>--}}
-{{--                                                            <i class="icofont-clock-time"></i> {{$course->duration}}--}}
-{{--                                                        </li>--}}
-{{--                                                    </ul>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="gridarea__heading">--}}
-{{--                                                    <h3>--}}
-{{--                                                        <a href="{{route('course-details', $course->slug)}}">{{$course->title}}</a>--}}
-{{--                                                    </h3>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="gridarea__price">--}}
-{{--                                                    ৳ {{$course->sale_price}}--}}
-{{--                                                    <del>/ ৳ {{$course->regular_price}}</del>--}}
-{{--                                                    @if($course->sale_price=0)--}}
-{{--                                                        <span> Free</span>--}}
+                        {{--                                                        <li>--}}
+                        {{--                                                            <i class="icofont-clock-time"></i> {{$course->duration}}--}}
+                        {{--                                                        </li>--}}
+                        {{--                                                    </ul>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <div class="gridarea__heading">--}}
+                        {{--                                                    <h3>--}}
+                        {{--                                                        <a href="{{route('course-details', $course->slug)}}">{{$course->title}}</a>--}}
+                        {{--                                                    </h3>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <div class="gridarea__price">--}}
+                        {{--                                                    ৳ {{$course->sale_price}}--}}
+                        {{--                                                    <del>/ ৳ {{$course->regular_price}}</del>--}}
+                        {{--                                                    @if($course->sale_price=0)--}}
+                        {{--                                                        <span> Free</span>--}}
 
-{{--                                                    @else--}}
-{{--                                                        <span> <del class="del__2">Free</del></span>--}}
-{{--                                                    @endif--}}
+                        {{--                                                    @else--}}
+                        {{--                                                        <span> <del class="del__2">Free</del></span>--}}
+                        {{--                                                    @endif--}}
 
 
-{{--                                                </div>--}}
-{{--                                                <div class="gridarea__bottom">--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <div class="gridarea__bottom">--}}
 
-{{--                                                    <a href="#">--}}
-{{--                                                        <div class="gridarea__small__img">--}}
-{{--                                                            <img loading="lazy"--}}
-{{--                                                                 src="{{asset($course->teacher->profile_image ?? 'frontend/img/grid/grid_small_1.jpg')}}"--}}
-{{--                                                                 alt="grid">--}}
-{{--                                                            <div class="gridarea__small__content">--}}
-{{--                                                                <h6>{{$course->teacher->name}}</h6>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </a>--}}
+                        {{--                                                    <a href="#">--}}
+                        {{--                                                        <div class="gridarea__small__img">--}}
+                        {{--                                                            <img loading="lazy"--}}
+                        {{--                                                                 src="{{asset($course->teacher->profile_image ?? 'frontend/img/grid/grid_small_1.jpg')}}"--}}
+                        {{--                                                                 alt="grid">--}}
+                        {{--                                                            <div class="gridarea__small__content">--}}
+                        {{--                                                                <h6>{{$course->teacher->name}}</h6>--}}
+                        {{--                                                            </div>--}}
+                        {{--                                                        </div>--}}
+                        {{--                                                    </a>--}}
 
-{{--                                                    <div class="gridarea__star">--}}
-{{--                                                        <i class="icofont-star"></i>--}}
-{{--                                                        <i class="icofont-star"></i>--}}
-{{--                                                        <i class="icofont-star"></i>--}}
-{{--                                                        <i class="icofont-star"></i>--}}
-{{--                                                        <i class="icofont-star"></i>--}}
-{{--                                                        <span>(44)</span>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                @empty--}}
-{{--                                @endforelse--}}
+                        {{--                                                    <div class="gridarea__star">--}}
+                        {{--                                                        <i class="icofont-star"></i>--}}
+                        {{--                                                        <i class="icofont-star"></i>--}}
+                        {{--                                                        <i class="icofont-star"></i>--}}
+                        {{--                                                        <i class="icofont-star"></i>--}}
+                        {{--                                                        <i class="icofont-star"></i>--}}
+                        {{--                                                        <span>(44)</span>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                @empty--}}
+                        {{--                                @endforelse--}}
 
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
+                <div class="col-xl-4 col-lg-4">
 
-            </div>
-            <div class="col-4">
-
-                <div class="course__details__sidebar">
-                    <div class="event__sidebar__wraper" data-aos="fade-up">
+                    <div class="course__details__sidebar">
+                        <div class="event__sidebar__wraper" data-aos="fade-up">
 
 
-                        <div class="blogsidebar__content__wraper__2 aos-init aos-animate" data-aos="fade-up">
-                            <div class="blogsidebar__content__inner__2">
-                                <div class="blogsidebar__img__2">
-                                    <img loading="lazy" src="{{asset($courseDetails->teacher->profile_image)}}"
-                                         height="96px" width="96px" alt="blog">
-                                </div>
+                            <div class="blogsidebar__content__wraper__2 aos-init aos-animate" data-aos="fade-up">
+                                <div class="blogsidebar__content__inner__2">
+                                    <div class="blogsidebar__img__2">
+                                        <img loading="lazy" src="{{asset($courseDetails->teacher->profile_image)}}"
+                                             height="96px" width="96px" alt="blog">
+                                    </div>
 
-                                <div class="blogsidebar__name__2">
-                                    <h5>
-                                        <a href="#"> {{$courseDetails->teacher->name}}</a>
+                                    <div class="blogsidebar__name__2">
+                                        <h5>
+                                            <a href="#"> {{$courseDetails->teacher->name}}</a>
 
-                                    </h5>
-                                    <p>{{$courseDetails->teacher->instructor_title}}</p>
-                                </div>
+                                        </h5>
+                                        <p>{{$courseDetails->teacher->instructor_title}}</p>
+                                    </div>
 
-                                <div class="blog__sidebar__text__2">
-                                    <p>{{$courseDetails->teacher->short_desc}}</p>
-                                </div>
-                                <div class="blogsidbar__icon__2">
-                                    <ul>
-                                        <li>
-                                            <a href="{{$courseDetails->teacher->fb_link ?? '#'}}"><i
-                                                        class="icofont-facebook"></i></a>
-                                        </li>
+                                    <div class="blog__sidebar__text__2">
+                                        <p>{{$courseDetails->teacher->short_desc}}</p>
+                                    </div>
+                                    <div class="blogsidbar__icon__2">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$courseDetails->teacher->fb_link ?? '#'}}"><i
+                                                            class="icofont-facebook"></i></a>
+                                            </li>
 
-                                        <li>
-                                            <a href="{{$courseDetails->teacher->youtube_link ?? '#'}}"><i
-                                                        class="icofont-youtube-play"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{$courseDetails->teacher->insta_link ?? '#'}}"><i
-                                                        class="icofont-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{$courseDetails->teacher->twitter_link ?? '#'}}"><i
-                                                        class="icofont-twitter"></i></a>
-                                        </li>
-                                    </ul>
+                                            <li>
+                                                <a href="{{$courseDetails->teacher->youtube_link ?? '#'}}"><i
+                                                            class="icofont-youtube-play"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$courseDetails->teacher->insta_link ?? '#'}}"><i
+                                                            class="icofont-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$courseDetails->teacher->twitter_link ?? '#'}}"><i
+                                                            class="icofont-twitter"></i></a>
+                                            </li>
+                                        </ul>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="event__price__wraper">
+                            <div class="event__price__wraper">
 
-                            <div class="event__price">
-                                {{$basicInfo->currency_symbol}}{{$courseDetails->sale_price}}
-                                <del>/ {{$basicInfo->currency_symbol}}{{$courseDetails->regular_price}}</del>
+                                <div class="event__price">
+                                    {{$basicInfo->currency_symbol}}{{$courseDetails->sale_price}}
+                                    <del>/ {{$basicInfo->currency_symbol}}{{$courseDetails->regular_price}}</del>
+                                </div>
+                                <div class="event__Price__button">
+                                    <a href="#">{{$basicInfo->currency_symbol}}{{$courseDetails->discount}} OFF</a>
+                                </div>
                             </div>
-                            <div class="event__Price__button">
-                                <a href="#">{{$basicInfo->currency_symbol}}{{$courseDetails->discount}} OFF</a>
-                            </div>
-                        </div>
 
-                        <div class="course__summery__button">
-                            <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
-                                For Free</a>
-                            <a class="default__button default__button--2" href="#">Buy Now</a>
-                            <span>
+                            <div class="course__summery__button">
+                                <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
+                                    For Free</a>
+                                <a class="default__button default__button--2" href="#">Buy Now</a>
+                                <span>
                                         <i class="icofont-ui-rotation"></i>
 {{--                                        45-Days Money-Back Guarantee--}}
                                     </span>
-                        </div>
+                            </div>
 
-                        <div class="course__summery__lists">
-                            <ul>
-                                <li>
+                            <div class="course__summery__lists">
+                                <ul>
+                                    <li>
 
-                                    <div class="course__summery__item">
+                                        <div class="course__summery__item">
                                             
                                             <span class="sb_label">Instructor:
                                             </span><span class="sb_content"><a
-                                                    href="">{{$courseDetails->teacher->name}}</a>
+                                                        href="">{{$courseDetails->teacher->name}}</a>
                                             </span>
-                                    </div>
-
-                                </li>
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Start Date</span><span
-                                                class="sb_content">{{$courseDetails->created_at->format('d, M Y')}}</span>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Total Duration</span><span
-                                                class="sb_content">{{$courseDetails->duration}}</span>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Enrolled</span><span class="sb_content">100</span>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Lessons</span><span
-                                                class="sb_content">{{$courseDetails->lessons->count()}}</span>
-                                    </div>
-                                </li>
-
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Quiz</span><span class="sb_content">@if($courseDetails->is_exam == 1)
-                                                Yes
-                                            @else
-                                                No
-                                            @endif</span>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="course__summery__item">
-                                        <span class="sb_label">Certificate</span><span class="sb_content">@if($courseDetails->is_certificate == 1)
-                                                Yes
-                                            @else
-                                                No
-                                            @endif</span>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="course__summery__button">
-                            <p>More inquery about course.</p>
-                            <a class="default__button default__button--3" href="tel:+88{{$basicInfo->phone_1}}"><i
-                                        class="icofont-phone"></i> {{$basicInfo->phone_1}}</a>
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                        <h4 class="sidebar__title">Follow Us</h4>
-                        <div class="follow__icon">
-                            <ul>
-                                <li>
-                                    <a href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont-facebook"></i></a>
-                                </li>
-
-                                <li>
-                                    <a href="{{$basicInfo->youtube_link ?? '#'}}"><i
-                                                class="icofont-youtube-play"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{$basicInfo->insta_link ?? '#'}}"><i
-                                                class="icofont-instagram"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{$basicInfo->twitter_link ?? '#'}}"><i
-                                                class="icofont-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{$basicInfo->insta_link ?? '#'}}"><i
-                                                class="icofont-instagram"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-
-                    @if($popularCourses->count()>0)
-                        <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                            <h4 class="sidebar__title">Populer Course</h4>
-                            <ul class="course__details__populer__list">
-
-                                @forelse($popularCourses as $course)
-                                    <li>
-
-                                        <div class="course__details__populer__img">
-                                            <img loading="lazy"
-                                                 src="{{asset($course->thumbnail_img ?? 'frontend/img/blog-details/blog-details__6.png')}}"
-                                                 alt="populer" width="91px" height="74px">
                                         </div>
-                                        <div class="course__details__populer__content">
-                                            <span>{{$basicInfo->currency_symbol}}{{$course->sale_price}}</span>
-                                            <h6>
-                                                <a href="{{route('course-details', $course->slug ?? '#')}}">{{$course->title}}</a>
-
-                                            </h6>
-                                        </div>
-
 
                                     </li>
-                                @empty
-                                @endforelse
 
-                            </ul>
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Start Date</span><span
+                                                    class="sb_content">{{$courseDetails->created_at->format('d, M Y')}}</span>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Total Duration</span><span
+                                                    class="sb_content">{{$courseDetails->duration}}</span>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Enrolled</span><span class="sb_content">100</span>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Lessons</span><span
+                                                    class="sb_content">{{$courseDetails->lessons->count()}}</span>
+                                        </div>
+                                    </li>
+
+
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Quiz</span><span class="sb_content">@if($courseDetails->is_exam == 1)
+                                                    Yes
+                                                @else
+                                                    No
+                                                @endif</span>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="course__summery__item">
+                                            <span class="sb_label">Certificate</span><span class="sb_content">@if($courseDetails->is_certificate == 1)
+                                                    Yes
+                                                @else
+                                                    No
+                                                @endif</span>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="course__summery__button">
+                                <p>More inquery about course.</p>
+                                <a class="default__button default__button--3" href="tel:+88{{$basicInfo->phone_1}}"><i
+                                            class="icofont-phone"></i> {{$basicInfo->phone_1}}</a>
+                            </div>
+
 
                         </div>
-                    @endif
 
 
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
+                        <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
 
-                        <h4 class="sidebar__title">Popular tag</h4>
-                        <div class="populer__tag__list">
-                            <ul>
-                                @forelse($popularClasses as $class)
-                                    <li><a href="#">{{$class->title}}</a></li>
-                                @empty
-                                @endforelse
+                            <h4 class="sidebar__title">Follow Us</h4>
+                            <div class="follow__icon">
+                                <ul>
+                                    <li>
+                                        <a href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont-facebook"></i></a>
+                                    </li>
 
-                            </ul>
+                                    <li>
+                                        <a href="{{$basicInfo->youtube_link ?? '#'}}"><i
+                                                    class="icofont-youtube-play"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{$basicInfo->insta_link ?? '#'}}"><i
+                                                    class="icofont-instagram"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{$basicInfo->twitter_link ?? '#'}}"><i
+                                                    class="icofont-twitter"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{$basicInfo->insta_link ?? '#'}}"><i
+                                                    class="icofont-instagram"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
+
+                        @if($popularCourses->count()>0)
+                            <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
+
+                                <h4 class="sidebar__title">Populer Course</h4>
+                                <ul class="course__details__populer__list">
+
+                                    @forelse($popularCourses as $course)
+                                        <li>
+
+                                            <div class="course__details__populer__img">
+                                                <img loading="lazy"
+                                                     src="{{asset($course->thumbnail_img ?? 'frontend/img/blog-details/blog-details__6.png')}}"
+                                                     alt="populer" width="91px" height="74px">
+                                            </div>
+                                            <div class="course__details__populer__content">
+                                                <span>{{$basicInfo->currency_symbol}}{{$course->sale_price}}</span>
+                                                <h6>
+                                                    <a href="{{route('course-details', $course->slug ?? '#')}}">{{$course->title}}</a>
+
+                                                </h6>
+                                            </div>
+
+
+                                        </li>
+                                    @empty
+                                    @endforelse
+
+                                </ul>
+
+                            </div>
+                        @endif
+
+
+                        <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
+
+                            <h4 class="sidebar__title">Popular tag</h4>
+                            <div class="populer__tag__list">
+                                <ul>
+                                    @forelse($popularClasses as $class)
+                                        <li><a href="#">{{$class->title}}</a></li>
+                                    @empty
+                                    @endforelse
+
+                                </ul>
+                            </div>
+
+                        </div>
+
 
                     </div>
 
-
                 </div>
-
             </div>
 
 
         </div>
 
 
-    </div>
     </div>
 
 @endsection

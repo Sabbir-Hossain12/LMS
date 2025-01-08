@@ -83,14 +83,20 @@
                         @auth
                             @if(auth()->user()->hasRole('student'))
                                 <div class="headerarea__login">
-                                    <a href="{{route('student.dashboard.index')}}"><i class="icofont-home"></i></a>
+                                    <a href="{{ route('student.dashboard.index') }}"><i class="icofont-home"></i></a>
+                                </div>
+                            @else
+                                <div class="headerarea__login">
+                                    <a href="{{ route('student.phone-page') }}"><i class="icofont-user-alt-5"></i></a>
                                 </div>
                             @endif
+                        @else
+                            <div class="headerarea__login">
+                                <a href="{{ route('student.phone-page') }}"><i class="icofont-user-alt-5"></i></a>
+                            </div>
                         @endauth
                         
-                        <div class="headerarea__login">
-                            <a href="{{route('student.phone-page')}}"><i class="icofont-user-alt-5"></i></a>
-                        </div>
+                       
 
                     </div>
                 </div>
