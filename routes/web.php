@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\Auth\StudentAuthController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\TeacherController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,13 +22,16 @@ Route::view('/courses','Frontend.pages.course.courses');
 //Lessons
 Route::get('/course-lessons/{slug}', [CourseController::class,'courseLessons'])->name('course-lessons');
 
-Route::view('/lessons','Frontend.pages.lesson.lesson');
+//Teacher Details
+
+Route::get('/teachers',[TeacherController::class,'teachersPage'])->name('teacher.page');
+Route::get('/teacher_details/{slug}',[TeacherController::class,'teachersDetails'])->name('teacher.details');
+
+
 Route::view('/lesson-course-material','Frontend.pages.course-material');
 Route::view('/lesson-assignment','Frontend.pages.assignment');
 Route::view('/lesson-quiz','Frontend.pages.lesson.quiz');
 
-
-Route::view('/teachers','Frontend.pages.teacher.teachers');
 Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
 
 Route::view('/blog-details','Frontend.pages.blog.blog-details');

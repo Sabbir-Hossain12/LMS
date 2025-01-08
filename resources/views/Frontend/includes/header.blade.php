@@ -112,26 +112,32 @@
                                     <a class="headerarea__has__dropdown" href="{{url('/')}}">Home
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a class="headerarea__has__dropdown" href="{{url('/lessons')}}">Class
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a class="headerarea__has__dropdown" href="{{url('/courses')}}">Course
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a class="headerarea__has__dropdown" href="{{url('/lesson-quiz')}}">Exam
                                     </a>
                                 </li>
+                                
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="{{url('/teachers')}}">Teachers
+                                    <a class="headerarea__has__dropdown" href="{{route('teacher.page')}}">Teachers
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a class="headerarea__has__dropdown" href="#">AI Assistant
                                     </a>
                                 </li>
+                                
                                 <li>
                                     <a class="headerarea__has__dropdown" href="#">Others
                                         <i class="icofont-rounded-down"></i>

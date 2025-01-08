@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -108,6 +109,7 @@ class TeacherController extends Controller
 //        dd($request->all());
         $admin = new User();
         $admin->name = $request->name;
+        $admin->slug = Str::slug($request->name).uniqid() ;
         $admin->email = $request->email;
         $admin->phone = $request->phone;
         $admin->instructor_title = $request->instructor_title;

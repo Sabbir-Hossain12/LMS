@@ -20,7 +20,7 @@
                         <div class="gridarea__wraper">
                             <div class="gridarea__img">
                                 
-                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img)}}" width="252px" height="158px" alt="grid"></a>
+                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img)}}" alt="grid"></a>
                                 <div class="gridarea__small__button gridarea__small__button__1">
                                     <div class="grid__badge">{{$course->class->title}}</div>
                                 </div>

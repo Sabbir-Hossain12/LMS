@@ -36,7 +36,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter{{$course->course_class_id}}">
                 <div class="gridarea__wraper">
                     <div class="gridarea__img">
-                        <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img ??  'frontend/img/grid/grid_1.png')}}" width="252px" height="158px" alt="grid"></a>
+                        <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img ??  'frontend/img/grid/grid_1.png')}}" alt="grid"></a>
                         <div class="gridarea__small__button">
                             <div class="grid__badge">{{$course->class->title}}</div>
                         </div>

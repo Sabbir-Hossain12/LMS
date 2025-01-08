@@ -139,100 +139,94 @@
                                         @forelse($subjects as $subject)
                                             <div class="subject-wrapper">
 
-                                                <h4 class="subject-title">Subject 1</h4>
+                                                <h4 class="subject-title">{{$subject->title}}</h4>
 
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingOne">
-                                                        <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                                aria-expanded="true" aria-controls="collapseOne">
-                                                            Intro Course content <span>02hr 35min</span>
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                                         aria-labelledby="headingOne"
-                                                         data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
+                                                @forelse($subject->lessons as $key=> $lesson)
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingOne">
+                                                            <button class="accordion-button" type="button"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collaps{{$lesson->id}}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="collapse{{$lesson->id}}">
+                                                                {{$lesson->title}} <span>{{$lesson->duration}}</span>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collaps{{$lesson->id}}"
+                                                             class="accordion-collapse collapse show"
+                                                             aria-labelledby="headingOne"
+                                                             data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
 
+                                                                @if($lesson->lessonVideos->count() > 0)
 
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
+                                                                    @forelse($lesson->lessonVideos as $key1=>$video)
+                                                                        <div class="scc__wrap">
+                                                                            <div class="scc__info">
+                                                                                <i class="icofont-video-alt"></i>
+                                                                                <h5> {{$video->title}}
+                                                                                </h5>
+                                                                            </div>
+
+                                                                            <div class="scc__meta">
                                                                     <span class="time"> <i
-                                                                                class="icofont-clock-time"></i> 22 minutes</span>
-                                                                    <a href="lesson.html"><span class="question"><i
-                                                                                    class="icofont-eye"></i> Preview</span></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                    <span class="time"> <i
-                                                                                class="icofont-clock-time"></i> 05 minutes</span>
-                                                                    <a href="lesson.html"><span class="question"><i
-                                                                                    class="icofont-eye"></i> Preview</span></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 10 minutes</span> -->
-                                                                    <a href="lesson.html"><span><i
-                                                                                    class="icofont-lock"></i></span></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 15 minutes</span> -->
-                                                                    <a href="lesson.html"><span><i
-                                                                                    class="icofont-lock"></i></span></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-video-alt"></i>
-                                                                    <h5><span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                    <!-- <span class="time"> <i class="icofont-clock-time"></i> 08 minutes</span> -->
-                                                                    <a href="lesson.html"><span><i
-                                                                                    class="icofont-lock"></i></span></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-file-text"></i>
-                                                                    <h5><span>Lesson 03 Exam :</span></h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                    <span><i class="icofont-lock"></i> 20 Ques</span>
-                                                                </div>
+                                                                                class="icofont-clock-time"></i> {{$video->duration}}</span>
+                                                                                <a href="#"><span class="question"><i
+                                                                                                class="icofont-eye"></i></span></a>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    @empty
+                                                                    @endforelse
+                                                                @endif
+
+
+                                                                @if($lesson->assessments->count() > 0)
+                                                                    @forelse($lesson->assessments as $key2=>$assessment)
+
+                                                                        @if($assessment->type == 'quiz')
+
+                                                                            <div class="scc__wrap">
+                                                                                <div class="scc__info">
+                                                                                    <i class="icofont-file-text"></i>
+                                                                                    <h5>
+                                                                                        <span>{{$assessment->title}}</span>
+                                                                                    </h5>
+                                                                                </div>
+                                                                                <div class="scc__meta">
+                                                                                    <span><i class="icofont-lock"></i></span>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        @else
+
+                                                                                <div class="scc__wrap">
+                                                                                    <div class="scc__info">
+                                                                                        <i class="icofont-file-text"></i>
+                                                                                        <h5>
+                                                                                            <span>{{$assessment->title}}</span>
+                                                                                        </h5>
+                                                                                    </div>
+                                                                                    <div class="scc__meta">
+                                                                                        <span><i class="icofont-lock"></i></span>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                        @endif
+                                                                    @empty
+                                                                    @endforelse
+
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @empty
+                                                    <p>No Lesson Yet</p>
+                                                @endforelse
                                             </div>
 
                                         @empty
-                                            <h3>No Subject Yet</h3>
+                                            <p>No Subject Yet</p>
                                         @endforelse
 
 
