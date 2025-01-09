@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\TeacherController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,13 +36,14 @@ Route::get('/teacher_details/{slug}',[TeacherController::class,'teachersDetails'
 Route::get('/blog-list', [BlogController::class,'blogList'])->name('blog-list');
 Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
 
+//Checkout and Orders
+Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('checkout');
+
+
 Route::view('/lesson-course-material','Frontend.pages.course-material');
 Route::view('/lesson-assignment','Frontend.pages.assignment');
 Route::view('/lesson-quiz','Frontend.pages.lesson.quiz');
 
-Route::view('/teacher-details','Frontend.pages.teacher.teacher-details');
-
-Route::view('/blog-details','Frontend.pages.blog.blog-details');
 
 //Student Authentication
 Route::prefix('student/login')->name('student.')->group(function ()

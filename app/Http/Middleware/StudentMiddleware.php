@@ -16,8 +16,8 @@ class StudentMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() &&  auth()->user()->hasRole('student')) {
-            abort(403, 'Unauthorized action.');
+        if (!Auth::check() ||  !auth()->user()->hasRole('student')) {
+            return redirect()->route('student.phone-page');
         }
         
         return $next($request);
