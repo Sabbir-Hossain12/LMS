@@ -1,3 +1,11 @@
+<style>
+    
+    #active-nav
+    {
+      color: #0d6efd;
+    }
+</style>
+
 <!-- topbar__section__stert -->
 <div class="topbararea topbararea--2">
     <div class="container">
@@ -108,28 +116,29 @@
                     <div class="headerarea__main__menu">
                         <nav>
                             <ul>
+                                
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="{{url('/')}}">Home
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('home') ? 'active-nav' : ''}}"  href="{{url('/')}}">Home
+                                    </a>
+                                </li>
+                                
+{{--                                <li>--}}
+{{--                                    <a class="headerarea__has__dropdown" href="{{route('class-list')}}">Categories--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+                                
+                                <li>
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('course-list') ? 'active-nav' : ''}}" href="{{route('course-list')}}">Courses
                                     </a>
                                 </li>
                                 
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="{{url('/lessons')}}">Class
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('teacher.page') ? 'active-nav' : ''}}" href="{{route('teacher.page')}}">Teachers
                                     </a>
                                 </li>
-                                
+
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="{{url('/courses')}}">Course
-                                    </a>
-                                </li>
-                                
-                                <li>
-                                    <a class="headerarea__has__dropdown" href="{{url('/lesson-quiz')}}">Exam
-                                    </a>
-                                </li>
-                                
-                                <li>
-                                    <a class="headerarea__has__dropdown" href="{{route('teacher.page')}}">Teachers
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('blog-list') ? 'active-nav' : ''}}" href="{{route('blog-list')}}">Blogs
                                     </a>
                                 </li>
                                 
@@ -137,19 +146,25 @@
                                     <a class="headerarea__has__dropdown" href="#">AI Assistant
                                     </a>
                                 </li>
-                                
+
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="#">Others
-                                        <i class="icofont-rounded-down"></i>
+                                    <a class="headerarea__has__dropdown" href="#">About Us
                                     </a>
-                                    <ul class="headerarea__submenu">
-                                        <li><a href="#">About us</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">Blogs</a></li>
-                                        <li><a href="#">Terms & Condition</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
-                                    </ul>
                                 </li>
+                                
+{{--                                <li>--}}
+{{--                                    <a class="headerarea__has__dropdown" href="#">Others--}}
+{{--                                        <i class="icofont-rounded-down"></i>--}}
+{{--                                    </a>--}}
+{{--                                    <ul class="headerarea__submenu">--}}
+{{--                                        <li><a href="#">About us</a></li>--}}
+{{--                                        <li><a href="#">Contact Us</a></li>--}}
+{{--                                        <li><a href="#">Blogs</a></li>--}}
+{{--                                        <li><a href="#">Terms & Condition</a></li>--}}
+{{--                                        <li><a href="#">Privacy Policy</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </li>--}}
+                                
                             </ul>
                         </nav>
                     </div>
@@ -192,7 +207,7 @@
                                             </div>
                                             <div class="header__right__dropdown__content">
 
-                                                <a href="shop-product.html">Web Directory</a>
+                                                <a href="#">Web Directory</a>
                                                 <p>1 x <span class="price">$ 80.00</span></p>
 
                                             </div>
@@ -210,7 +225,7 @@
                                             </div>
                                             <div class="header__right__dropdown__content">
 
-                                                <a href="shop-product.html">Design Minois</a>
+                                                <a href="#">Design Minois</a>
                                                 <p>1 x <span class="price">$ 60.00</span></p>
 
                                             </div>
@@ -228,7 +243,7 @@
                                             </div>
                                             <div class="header__right__dropdown__content">
 
-                                                <a href="shop-product.html">Crash Course</a>
+                                                <a href="#">Crash Course</a>
                                                 <p>1 x <span class="price">$ 70.00</span></p>
 
                                             </div>
@@ -240,11 +255,13 @@
 
                                     <p class="dropdown__price">Total: <span>$1,100.00</span>
                                     </p>
+                                    
                                     <div class="header__right__dropdown__button">
                                         <a href="#" class="white__color">VIEW
                                             CART</a>
                                         <a href="#" class="blue__color">CHECKOUT</a>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>

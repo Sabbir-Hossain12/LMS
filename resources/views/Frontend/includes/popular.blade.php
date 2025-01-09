@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="service__content">
-                        <h3><a href="#">{{$class->title}}</a></h3>
+                        <h3><a href="{{route('course-by-class', $class->slug)}}">{{$class->title}}</a></h3>
                         <p>{{$class->subtitle}}</p>
                     </div>
                     <div class="service__small__img">

@@ -4,19 +4,19 @@
 
     <!-- breadcrumbarea__section__start -->
 
-    <div class="breadcrumbarea">
+    <div class="mt-4">
 
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="breadcrumb__content__wraper" data-aos="fade-up">
+                    <div class="breadcrumb__content__wraper aos-init aos-animate" data-aos="fade-up">
                         <div class="breadcrumb__title">
-                            <h2 class="heading">Blog Page</h2>
+                            <h2 class="heading">Blogs List</h2>
                         </div>
                         <div class="breadcrumb__inner">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li>Blog Page</li>
+                                <li><a href="{{route('home')}}">Home</a></li>
+                                <li>Blogs</li>
                             </ul>
                         </div>
                     </div>
@@ -28,57 +28,63 @@
         </div>
 
         <div class="shape__icon__2">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__1" src="img/herobanner/herobanner__1.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__2" src="img/herobanner/herobanner__2.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__3" src="img/herobanner/herobanner__3.png" alt="photo">
-            <img loading="lazy"  class=" shape__icon__img shape__icon__img__4" src="img/herobanner/herobanner__5.png" alt="photo">
+            <img loading="lazy" class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png" alt="photo">
+            <img loading="lazy" class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png" alt="photo">
+            <img loading="lazy" class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png" alt="photo">
+            <img loading="lazy" class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png" alt="photo">
         </div>
 
     </div>
-    <!-- breadcrumbarea__section__end-->
+    <!-- breadcrumbarea__section__End -->
+
+
+
 
     <div class="blogarea__2 sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+                    @forelse($blogs as $key=> $blog) 
                     <div class="blog__content__wraper__2" data-aos="fade-up">
                         <div class="blogarae__img__2">
-                            <img loading="lazy"  src="img/blog/blog_6.png" alt="blog">
+                            <img loading="lazy"  src="{{asset( $blog->main_img ?? 'frontend/img/blog/blog_6.png')}}" alt="blog">
                             <div class="blogarea__date__2">
-                                <span>24</span>
-                                <span class="blogarea__month">Feb</span>
+                                <span>{{$blog->created_at->format('d, M Y')}}</span>
                             </div>
                         </div>
                         <div class="blogarea__text__wraper__2">
+                            
                             <div class="blogarea__heading__2">
-                                <h3><a href="blog-details.html">Delivering What Consumers Really Value?</a></h3>
+                                <h3><a href="{{route('blog-details', $blog->slug)}}">{{$blog->title}}</a></h3>
                             </div>
+                            
                             <div class="blogarea__list__2">
                                 <ul>
                                     <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-business-man-alt-2"></i> Mirnsdo.H
+                                        <a href="{{route('teacher.details', $blog->author->slug)}}">
+                                            <i class="icofont-business-man-alt-2"></i> {{$blog->author->name}}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-speech-comments"></i> 0 Comments
-                                        </a>
-                                    </li>
+                                    
+{{--                                    <li>--}}
+{{--                                        <a href="#">--}}
+{{--                                            <i class="icofont-speech-comments"></i> 0 Comments--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
 
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-eraser-alt"></i> Association
-                                        </a>
-                                    </li>
+{{--                                    <li>--}}
+{{--                                        <a href="#">--}}
+{{--                                            <i class="icofont-eraser-alt"></i> Association--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
 
                                 </ul>
                             </div>
                             <div class="blogarea__paragraph">
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of On the other hand, organizations have the need for integrating in IT departments</p>
+                                <p>{{$blog->short_desc}}</p>
                             </div>
                             <div class="blogarea__button__2">
-                                <a href="blog-details.html">READ MORE
+                                <a href="#">READ MORE
                                     <i class="icofont-double-right"></i>
                                 </a>
                                 <a href="#">
@@ -92,257 +98,80 @@
 
 
                     </div>
-                    <div class="blog__content__wraper__2" data-aos="fade-up">
-                        <div class="blogarae__img__2">
-                            <img loading="lazy"  src="img/blog/blog_7.png" alt="blog">
-                            <div class="blogarea__date__2">
-                                <span>24</span>
-                                <span class="blogarea__month">Feb</span>
-                            </div>
-                            <div class="registerarea__content course__details__video">
-                                <div class="registerarea__video">
-                                    <div class="video__pop__btn">
-                                        <a class="video-btn" href="../../../www.youtube.com/watch8399.html?v=vHdclsdkp28"> <img loading="lazy"  src="img/icon/video.png" alt=""></a>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="blogarea__text__wraper__2">
-                            <div class="blogarea__heading__2">
-                                <h3><a href="blog-details.html">Here at First Baptist Cape Coral we believe!</a></h3>
-                            </div>
-                            <div class="blogarea__list__2">
-                                <ul>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-business-man-alt-2"></i> Mirnsdo.H
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-speech-comments"></i> 0 Comments
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-eraser-alt"></i> Association
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <div class="blogarea__paragraph">
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of On the other hand, organizations have the need for integrating in IT departments</p>
-                            </div>
-                            <div class="blogarea__button__2">
-                                <a href="blog-details.html">READ MORE
-                                    <i class="icofont-double-right"></i>
-                                </a>
-                                <a href="#">
-                                    <div class="blogarea__icon__2">
-                                        <i class="icofont-share"></i>
-                                        <i class="icofont-heart"></i>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="blog__content__wraper__2" data-aos="fade-up">
-                        <div class="blogarae__img__2">
-                            <img loading="lazy"  src="img/blog/blog_8.png" alt="blog">
-                            <div class="blogarea__date__2">
-                                <span>24</span>
-                                <span class="blogarea__month">Feb</span>
-                            </div>
-                        </div>
-                        <div class="blogarea__text__wraper__2">
-                            <div class="blogarea__heading__2">
-                                <h3><a href="blog-details.html">We are praying for our community and for.</a></h3>
-                            </div>
-                            <div class="blogarea__list__2">
-                                <ul>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-business-man-alt-2"></i> Mirnsdo.H
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-speech-comments"></i> 0 Comments
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-eraser-alt"></i> Association
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <div class="blogarea__paragraph">
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of On the other hand, organizations have the need for integrating in IT departments</p>
-                            </div>
-                            <div class="blogarea__button__2">
-                                <a href="blog-details.html">READ MORE
-                                    <i class="icofont-double-right"></i>
-                                </a>
-                                <a href="#">
-                                    <div class="blogarea__icon__2">
-                                        <i class="icofont-share"></i>
-                                        <i class="icofont-heart"></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="blog__content__wraper__2" data-aos="fade-up">
-                        <div class="blogarae__img__2">
-                            <img loading="lazy"  src="img/blog/blog_9.png" alt="blog">
-                            <div class="blogarea__date__2">
-                                <span>24</span>
-                                <span class="blogarea__month">Feb</span>
-                            </div>
-                        </div>
-                        <div class="blogarea__text__wraper__2">
-                            <div class="blogarea__heading__2">
-                                <h3><a href="blog-details.html">Delivering What Consumers Really Value?</a></h3>
-                            </div>
-                            <div class="blogarea__list__2">
-                                <ul>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-business-man-alt-2"></i> Mirnsdo.H
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-speech-comments"></i> 0 Comments
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="blog-details.html">
-                                            <i class="icofont-eraser-alt"></i> Association
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <div class="blogarea__paragraph">
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of On the other hand, organizations have the need for integrating in IT departments</p>
-                            </div>
-                            <div class="blogarea__button__2">
-                                <a href="blog-details.html">READ MORE
-                                    <i class="icofont-double-right"></i>
-                                </a>
-                                <a href="#">
-                                    <div class="blogarea__icon__2">
-                                        <i class="icofont-share"></i>
-                                        <i class="icofont-heart"></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="main__pagination__wrapper" data-aos="fade-up">
-                        <ul class="main__page__pagination">
-                            <li><a class="disable" href="#"><i class="icofont-double-left"></i></a></li>
-                            <li><a class="active" href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#"><i class="icofont-double-right"></i></a></li>
-                        </ul>
-                    </div>
+                    @empty
+                    @endforelse
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
                     <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
                         <div class="blogsidebar__content__inner__2">
                             <div class="blogsidebar__img__2">
-                                <img loading="lazy"  src="img/blog/blog_10.png" alt="blog">
+                                <img loading="lazy"  src="{{asset( $blog->author->profile_image ?? 'frontend/img/blog/blog_10.png')}}" height="95px" width="95px" alt="blog">
                             </div>
                             <div class="blogsidebar__name__2">
+                                
                                 <h5>
-                                    <a href="#"> Rosalina D. Willaim</a>
+                                    <a href="{{route('teacher.details', $blog->author->slug)}}"> {{$blog->author->name}}</a>
 
                                 </h5>
-                                <p>Blogger/Photographer</p>
+                                
+                                <p>{{$blog->author->instructor_title}}</p>
+                                
                             </div>
+                            
                             <div class="blog__sidebar__text__2">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Veritatis distinctio suscipit reprehenderit atque</p>
+                                <p>{{$blog->author->short_desc}}</p>
                             </div>
+                            
                             <div class="blogsidbar__icon__2">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="icofont-facebook"></i></a>
+                                        <a href="{{$basicInfo->fb_link}}"><i class="icofont-facebook"></i></a>
                                     </li>
 
                                     <li>
-                                        <a href="#"><i class="icofont-youtube-play"></i></a>
+                                        <a href="{{$basicInfo->youtube_link}}"><i class="icofont-youtube-play"></i></a>
                                     </li>
+                                    
                                     <li>
-                                        <a href="#"><i class="icofont-instagram"></i></a>
+                                        <a href="{{$basicInfo->insta_link}}"><i class="icofont-instagram"></i></a>
                                     </li>
+                                    
                                     <li>
-                                        <a href="#"><i class="icofont-twitter"></i></a>
+                                        <a href="{{$basicInfo->twitter_link}}"><i class="icofont-twitter"></i></a>
                                     </li>
+                                    
                                 </ul>
 
                             </div>
                         </div>
                     </div>
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                        <h4 class="sidebar__title">Search here</h4>
-                        <form action="#">
-                            <div class="blogsudebar__input__area">
-                                <input type="text" name="search" placeholder="Search product">
-                                <button class="blogsidebar__input__icon">
-                                    <i class="icofont-search-1"></i>
-                                </button>
-
-
-                            </div>
+{{--                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">--}}
+{{--                        <h4 class="sidebar__title">Search here</h4>--}}
+{{--                        <form action="#">--}}
+{{--                            <div class="blogsudebar__input__area">--}}
+{{--                                <input type="text" name="search" placeholder="Search product">--}}
+{{--                                <button class="blogsidebar__input__icon">--}}
+{{--                                    <i class="icofont-search-1"></i>--}}
+{{--                                </button>--}}
 
 
-                        </form>
+{{--                            </div>--}}
 
-                    </div>
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
 
-                        <h4 class="sidebar__title">categories</h4>
-                        <ul class="categorie__list">
-                            <li><a href="#">Mobile Set <span>03</span></a></li>
-                            <li><a href="#">Mobile Set <span>03</span></a></li>
-                            <li><a href="#">Raxila Dish nonyte<span>09</span></a></li>
-                            <li><a href="#">Fresh Vegetable <span>01</span></a></li>
-                            <li><a href="#">Fruites <span>00</span></a></li>
-                            <li><a href="#">Gesuriesey <span>26</span></a></li>
-                        </ul>
+{{--                        </form>--}}
 
-                    </div>
+{{--                    </div>--}}
 
                     <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
 
                         <h4 class="sidebar__title">Recent Post</h4>
                         <ul class="recent__list">
+                            
+                            @forelse($recentBlogs as $blog)
                             <li>
                                 <div class="recent__img">
-                                    <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_11.png" alt="sidbar">
+                                    <a href="{{route('blog-details', $blog->slug)}}">
+                                        <img loading="lazy"  src="{{asset($blog->thumbnail_img ??   'frontend/img/blog/blog_11.png')}}" width="84px" height="48px" alt="sidbar">
                                         <div class="recent__number">
                                             <span>01</span>
                                         </div>
@@ -352,166 +181,17 @@
                                 <div class="recent__text">
 
                                     <div class="recent__date">
-                                        <a href="#">23 December 2024</a>
+                                        <a href="#">{{$blog->created_at->format('d, M Y')}}</a>
                                     </div>
 
-                                    <h6><a href="blog-deetails.html">Show at the University </a></h6>
-
-
-
-
+                                    <h6><a href="#"> {{$blog->title}} </a></h6>
+                                    
                                 </div>
                             </li>
-
-                            <li>
-                                <div class="recent__img">
-                                    <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_12.png" alt="sidbar">
-                                        <div class="recent__number">
-                                            <span>02</span>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="recent__text">
-
-                                    <div class="recent__date">
-                                        <a href="#">23 December 2024</a>
-                                    </div>
-
-                                    <h6><a href="blog-deetails.html">Show at the University </a></h6>
-
-
-
-
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="recent__img">
-                                    <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_13.png" alt="sidbar">
-                                        <div class="recent__number">
-                                            <span>03</span>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="recent__text">
-
-                                    <div class="recent__date">
-                                        <a href="#">23 December 2024</a>
-                                    </div>
-
-                                    <h6><a href="blog-deetails.html">Show at the University </a></h6>
-
-
-
-
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="recent__img">
-                                    <a href="#">
-                                        <img loading="lazy"  src="img/blog/blog_14.png" alt="sidbar">
-                                        <div class="recent__number">
-                                            <span>04</span>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="recent__text">
-
-                                    <div class="recent__date">
-                                        <a href="#">23 December 2024</a>
-                                    </div>
-
-                                    <h6><a href="blog-deetails.html">Show at the University </a></h6>
-
-
-
-
-                                </div>
-                            </li>
+                            @empty
+                            @endforelse
+                            
                         </ul>
-
-                    </div>
-
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                        <h4 class="sidebar__title">Photo Gallery</h4>
-                        <div class="photo__gallery__img">
-
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_15.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_15.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_16.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_16.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_17.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_17.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_18.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_18.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_19.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_19.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-                            <div class="single__gallery__img">
-                                <img loading="lazy"  src="img/blog/blog_20.png" alt="photo">
-                                <div class="gallery__icon">
-                                    <a class="popup__img" href="img/blog/blog_20.png"> <i class="icofont-eye-alt"></i></a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                        <h4 class="sidebar__title">Get in Touch</h4>
-                        <div class="get__touch__input">
-                            <input type="text" placeholder="Enter name*">
-                            <input type="text" placeholder="Enter your mail*">
-                            <input type="text" placeholder="Massage*">
-                            <a class="default__button" href="blog-details.html">SEND MASSAGE</a>
-                        </div>
-
-                    </div>
-
-                    <div class="blogsidebar__content__wraper__2" data-aos="fade-up">
-
-                        <h4 class="sidebar__title">Popular tag</h4>
-                        <div class="populer__tag__list">
-                            <ul>
-                                <li><a href="blog-details.html">Business</a></li>
-                                <li><a href="blog-details.html">Design</a></li>
-                                <li><a href="blog-details.html">apps</a></li>
-                                <li><a href="blog-details.html">landing page</a></li>
-                                <li><a href="blog-details.html">data</a></li>
-                                <li><a href="blog-details.html">book</a></li>
-                                <li><a href="blog-details.html">Design</a></li>
-                                <li><a href="blog-details.html">book</a></li>
-                                <li><a href="blog-details.html">landing page</a></li>
-                                <li><a href="blog-details.html">data</a></li>
-                            </ul>
-                        </div>
 
                     </div>
 

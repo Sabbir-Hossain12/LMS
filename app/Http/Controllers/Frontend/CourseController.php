@@ -72,4 +72,32 @@ class CourseController extends Controller
         return view('Frontend.pages.lesson.lesson', compact('course', 'subjects'));
     }
 
+
+    public function courseList()
+    {
+        $courses = Course::where('status', 1)->get();
+
+        return view('Frontend.pages.course.course-list', compact('courses'));
+    }
+
+    public function ClassList()
+    {
+        $classes=CourseClass::where('status',1)->get();
+        return view('Frontend.pages.course.class-list',compact('classes'));
+    }
+
+
+    public function coursesByClass(string $slug)
+    {
+
+        $class = CourseClass::where('slug', $slug)->first();
+        
+        $courses = Course::where('course_class_id', $class->id)->where('status', 1)->get();
+
+        return view('Frontend.pages.course.courses-by-class', compact('class', 'courses'));
+        
+    }
+    
+    
+
 }

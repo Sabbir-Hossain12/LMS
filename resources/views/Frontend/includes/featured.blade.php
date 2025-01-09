@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="gridarea__bottom">
 
-                                    <a href="#">
+                                    <a href="{{route('teacher.details', $course->teacher->slug)}}">
                                         <div class="gridarea__small__img">
                                             <img loading="lazy" src="{{asset($course->teacher->profile_image ?? 'frontend/img/grid/grid_small_1.jpg')}}"  alt="grid">
                                             <div class="gridarea__small__content">
@@ -66,14 +66,14 @@
                                         </div>
                                     </a>
 
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
+{{--                                    <div class="gridarea__star">--}}
+{{--                                        <i class="icofont-star"></i>--}}
+{{--                                        <i class="icofont-star"></i>--}}
+{{--                                        <i class="icofont-star"></i>--}}
+{{--                                        <i class="icofont-star"></i>--}}
+{{--                                        <i class="icofont-star"></i>--}}
+{{--                                        <span>(44)</span>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>

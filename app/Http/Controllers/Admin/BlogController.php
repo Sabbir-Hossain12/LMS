@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class BlogController extends Controller
@@ -14,7 +16,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.website.blog');
+        $authors= User::role(['admin','teacher'])->where('status',1)->get();
+        return view('backend.pages.website.blog',compact('authors'));
     }
 
 
@@ -90,6 +93,9 @@ class BlogController extends Controller
         $blog = new Blog();
 
         $blog->title = $request->title;
+        $blog->slug = Str::slug($request->title).uniqid() ;
+        $blog->author_id = $request->author_id;
+        $blog->short_desc = $request->short_desc;
         $blog->desc = $request->desc;
         $blog->meta_title = $request->meta_title;
         $blog->meta_description = $request->meta_description;
@@ -165,7 +171,8 @@ class BlogController extends Controller
         $blog = Blog::find($id);
         $blog->title = $request->title;
         $blog->desc = $request->desc;
-        
+        $blog->author_id = $request->author_id;
+        $blog->short_desc = $request->short_desc;
         $blog->meta_title = $request->meta_title;
         $blog->meta_description = $request->meta_description;
         $blog->meta_keywords = $request->meta_keywords;

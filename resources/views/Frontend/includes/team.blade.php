@@ -40,7 +40,7 @@
                     </div>
                     <div class="teamarea__content">
                         <p>{{$teacher->instructor_title}}</p>
-                        <h5><a href="#">{{$teacher->name}}</a></h5>
+                        <h5><a href="{{route('teacher.details', $teacher->slug ?? '#')}}">{{$teacher->name}}</a></h5>
                     </div>
                 </div>
             </div>

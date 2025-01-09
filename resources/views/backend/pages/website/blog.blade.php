@@ -101,18 +101,37 @@
                     <form name="form" id="addBlogForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Thumbnail Image</label>
+                            <label for="type" class="col-form-label">Thumbnail Image (430 × 327 px)</label>
                             <input type="file" class="form-control" name="thumbnail_img" >
                         </div>
 
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Main Image</label>
+                            <label for="type" class="col-form-label">Main Image (770 × 498 px)</label>
                             <input type="file" class="form-control" name="main_img" >
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Select Author</label>
+                            <select name="author_id" class="form-control">
+                                
+                                @forelse($authors as $author)
+                                    
+                                    <option value="{{$author->id}}">{{$author->name}}</option>
+                                    
+                                @empty
+                                @endforelse
+                            </select>
+                                
                         </div>
 
                         <div class="mb-3">
                             <label for="name" class="col-form-label">Title</label>
                             <input type="text" class="form-control"  name="title">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Short Description *</label>
+                            <textarea  class="form-control"  name="short_desc"></textarea>
                         </div>
                         
                         <div class="mb-3">
@@ -162,24 +181,43 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Thumbnail Image</label>
+                            <label for="type" class="col-form-label">Thumbnail Image (430 × 327 px)</label>
                             <input type="file" class="form-control" id="thumbnail_img" name="thumbnail_img" >
                             <div id="thumbnail_imgPrev"></div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="type" class="col-form-label">Main Image</label>
+                            <label for="type" class="col-form-label">Main Image (770 × 498 px)</label>
                             <input type="file" class="form-control" id="main_img" name="main_img" >
                             <div id="main_imgPrev"></div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="name" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" id="title"  name="title">
+                            <label for="name" class="col-form-label">Select Author</label>
+                            <select name="author_id" id="author_id" class="form-control">
+
+                                @forelse($authors as $author)
+
+                                    <option value="{{$author->id}}">{{$author->name}}</option>
+
+                                @empty
+                                @endforelse
+                            </select>
+
                         </div>
 
                         <div class="mb-3">
-                            <label for="desc" class="col-form-label">Description</label>
+                            <label for="name" class="col-form-label">Title *</label>
+                            <input type="text" class="form-control" id="title"  name="title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Short Description *</label>
+                            <textarea  class="form-control"  name="short_desc" id="eBlogShortDesc"></textarea>
+                        </div>
+                        
+
+                        <div class="mb-3">
+                            <label for="desc" class="col-form-label">Long Description *</label>
                             <textarea  class="form-control"  name="desc" id="eBlogDesc"></textarea>
                         </div>
 
@@ -347,7 +385,7 @@
                             blogTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
-                                text: "Testimonial Added !",
+                                text: "Blog Added !",
                                 icon: "success"
                             })
                             
@@ -390,6 +428,7 @@
 
                             $('#main_imgPrev').empty();
                             $('#main_imgPrev').append('<img src="{{asset('')}}' + res.data.main_img + '" style="width: 100px; height: 100px; border-radius: 50%;">');
+                            
 
                             $('#title').val(res.data.title);
                             $('#meta_title').val(res.data.meta_title);
@@ -402,8 +441,12 @@
                             // $('#eBlogDesc').val(res.data.desc);
                             Req.setData( res.data.desc );
                             
-
+                            $('#author_id').val(res.data.author_id);
+                            
+                            $('#eBlogShortDesc').val(res.data.short_desc);
+                            
                         },
+                        
                         error: function (err) {
                             console.log('failed')
                         }

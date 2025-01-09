@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -16,17 +17,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[HomeController::class,'homePage'])->name('home');
 
 //Courses
+Route::get('/course-list', [CourseController::class,'courseList'])->name('course-list');
 Route::get('/course-details/{slug}', [CourseController::class,'courseDetails'])->name('course-details');
-Route::view('/courses','Frontend.pages.course.courses');
+Route::get('/course-by-class/{slug}', [CourseController::class,'coursesByClass'])->name('course-by-class');
+//Class
+Route::get('/class-list', [CourseController::class,'classList'])->name('class-list');
 
 //Lessons
 Route::get('/course-lessons/{slug}', [CourseController::class,'courseLessons'])->name('course-lessons');
 
 //Teacher Details
-
 Route::get('/teachers',[TeacherController::class,'teachersPage'])->name('teacher.page');
 Route::get('/teacher_details/{slug}',[TeacherController::class,'teachersDetails'])->name('teacher.details');
 
+
+//Blogs
+Route::get('/blog-list', [BlogController::class,'blogList'])->name('blog-list');
+Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
 
 Route::view('/lesson-course-material','Frontend.pages.course-material');
 Route::view('/lesson-assignment','Frontend.pages.assignment');
