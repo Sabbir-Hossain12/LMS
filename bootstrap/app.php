@@ -19,7 +19,16 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'checkAuth' => \App\Http\Middleware\AuthMiddleware::class
         ]);
+
+        $middleware->validateCsrfTokens(except: [
+            '/bkash/payment',
+            '/bkash/create-payment',
+            '/bkash/callback', 
+            '/bkash/search/{trxID}',
+            '/bkash/refund', 
+            '/bkash/refund/status'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        
     })->create();

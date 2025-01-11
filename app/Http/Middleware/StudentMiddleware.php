@@ -17,6 +17,7 @@ class StudentMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check() ||  !auth()->user()->hasRole('student')) {
+            
             return redirect()->route('student.phone-page');
         }
         
