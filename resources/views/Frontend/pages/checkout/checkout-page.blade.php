@@ -56,7 +56,7 @@
                                             <label for="first__name">Name *</label>
                                             <input type="text" id="first__name" name="name"
                                                    value="{{auth()->user()->name ?? ''}}" class="info"
-                                                   placeholder="First Name">
+                                                   placeholder="First Name" required>
                                         </div>
                                     </div>
 
@@ -65,7 +65,7 @@
                                             <label for="phone__number">Phone Number *</label>
                                             <input type="text" id="phone__number" name="phone" class="info"
                                                    value="{{auth()->user()->phone ?? ''}}" placeholder="Phone Number"
-                                                   readonly>
+                                                   readonly required>
                                         </div>
                                     </div>
 
@@ -74,7 +74,7 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="email__address">Email Address*</label>
                                             <input type="text" id="email__address" name="email" class="info"
-                                                   value="{{auth()->user()->email ?? ''}}" placeholder="Your email">
+                                                   value="{{auth()->user()->email ?? ''}}" placeholder="Your email" required>
                                         </div>
                                     </div>
 

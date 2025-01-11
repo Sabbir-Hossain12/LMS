@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseClass;
+use App\Models\Enrollment;
 use App\Models\Lesson;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -14,9 +15,14 @@ class CourseController extends Controller
 
     public function courseDetails(string $slug)
     {
+        
+        
+        
         $courseDetails = Course::where('slug', $slug)->with('teacher', 'subjects', 'class', 'lessons',
             'lessons.lessonVideos', 'lessons.assessments')->first();
-
+        
+        $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id', $courseDetails->id)->first();
+        
         $relatedCourses = Course::where('teacher_id', $courseDetails->teacher_id)->limit(4)->get();
 
         $popularCourses = Course::where('status', 1)->inRandomOrder()->limit(3)->get();
@@ -39,12 +45,14 @@ class CourseController extends Controller
             ])->get();
 
         return view('Frontend.pages.course.course-details',
-            compact('courseDetails', 'relatedCourses', 'popularCourses', 'popularClasses','subjects'));
+            compact('courseDetails', 'relatedCourses', 'popularCourses', 'popularClasses','subjects','enrollment'));
     }
 
     public function courseLessons(string $slug)
     {
         $course = Course::where('slug', $slug)->first();
+        
+        $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id', $course->id)->first();
 
         $subjects = Subject::where('course_id', $course->id)->where('status', 1)->orderBy('position', 'asc')
             ->with([
@@ -69,7 +77,7 @@ class CourseController extends Controller
 //            
 //        })->get();
 
-        return view('Frontend.pages.lesson.lesson', compact('course', 'subjects'));
+        return view('Frontend.pages.lesson.lesson', compact('course', 'subjects','enrollment'));
     }
 
 

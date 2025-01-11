@@ -476,9 +476,18 @@
                             </div>
 
                             <div class="course__summery__button">
-                                <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
-                                    For Free</a>
-                                <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                @if($enrollment)
+
+                                    <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Continue</a>
+                                    
+                                    @else
+                                    <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
+                                        For Free</a>
+
+                                    <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                @endif
+                                
+                               
                                 <span>
                                         <i class="icofont-ui-rotation"></i>
 {{--                                        45-Days Money-Back Guarantee--}}

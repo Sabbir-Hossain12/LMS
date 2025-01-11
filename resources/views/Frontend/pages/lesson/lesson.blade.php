@@ -39,8 +39,14 @@
 
                                                             <div class="scc__meta">
                                                                 <strong>{{$video->duration}}</strong>
-                                                                <a href="#"><span class="question"><i
-                                                                                class="@if($key==0 &&  ($key1 == 0 || $key1 == 1))  icofont-eye @else icofont-lock  @endif"></i></span></a>
+                                                                
+                                                                @if($enrollment)
+                                                                    <a  data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" href="#"><span class="question"><i
+                                                                                    class="icofont-eye lessonVideoAnchor"></i></span></a>
+                                                                @else
+                                                                <a  data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" ><span class="question"><i
+                                                                                class=" @if($key==0 &&  ($key1 == 0 || $key1 == 1))  icofont-eye @else icofont-lock  @endif lessonVideoAnchor"></i></span></a>
+                                                                @endif
                                                             </div>
 
                                                         </div>
@@ -60,8 +66,15 @@
 
                                                             <div class="scc__meta">
                                                                                                             <strong>3.27</strong>
+
+                                                                @if($enrollment)
+
+                                                                    <a href="#"><span class="question"><i
+                                                                                    class="icofont-eye"></i></span></a>
+                                                                @else
                                                                 <a href="#"><span class="question"><i
                                                                                 class="icofont-lock"></i></span></a>
+                                                                @endif
                                                             </div>
 
                                                         </div>
@@ -83,8 +96,15 @@
                                                                 </div>
                                                                 <div class="scc__meta">
                                                                                                                 <strong>3.27</strong>
+                                                                    
+                                                                    
+                                                                    @if($enrollment)
+                                                                        <a href="#"><span class="question"><i
+                                                                                        class="icofont-eye"></i></span></a>
+                                                                    @else
                                                                     <a href="#"><span class="question"><i
                                                                                     class="icofont-lock"></i></span></a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
 
@@ -97,8 +117,15 @@
                                                                 </div>
                                                                 <div class="scc__meta">
                                                                                                                 <strong>3.27</strong>
+
+                                                                    @if($enrollment)
+                                                                        <a href="#"><span class="question"><i
+                                                                                        class="icofont-eye"></i></span></a>
+                                                                    @else
                                                                     <a href="#"><span class="question"><i
                                                                                     class="icofont-lock"></i></span></a>
+                                                                        
+                                                                    @endif
                                                                 </div>
                                                             </div>
 
@@ -124,24 +151,36 @@
                     </div>
                 </div>
                 
-                <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
-                    <div class="lesson__content__main">
-                        <div class="lesson__content__wrap">
-                            <h3>Video Content lesson 01</h3>
-                            <span><a href="#">Close</a></span>
-                        </div>
-
-                        <div class="plyr__video-embed rbtplayer">
-                            <iframe src="https://www.youtube.com/embed/1IvAwBdP-X8?si=wWPzGjX3FHplf4n1" allowfullscreen
-                                    allow="autoplay" oncontextmenu="return false;"></iframe>
-                        </div>
-                    </div>
+                <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up" id="lessonContent">
+                  
+                    
+                    
                 </div>
             </div>
 
         </div>
     </div>
+    
 
-    <!-- tution__section__end -->
+    @push('js')
+        <script>
+
+            $(document).on('click', '.lessonVideoAnchor', function (e) {
+               
+                e.preventDefault();
+                let id= $(this).data('id');
+                let lessonId= $(this).data('lesson-id');
+
+
+                console.log(id);
+                console.log(lessonId);
+
+                console.log('click')
+            });
+
+        </script>
+    @endpush
 
 @endsection
+
+

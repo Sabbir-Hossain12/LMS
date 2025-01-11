@@ -40,9 +40,9 @@ Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('
 Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('checkout');
 Route::post('/order/submit', [OrderController::class,'orderSubmit'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('order.submit');
 
-Route::view('/lesson-course-material','Frontend.pages.course-material');
-Route::view('/lesson-assignment','Frontend.pages.assignment');
-Route::view('/lesson-quiz','Frontend.pages.lesson.quiz');
+Route::view('/lesson-course-material','Frontend.pages.lesson.course-material');
+Route::view('/lesson-assignment','Frontend.pages.lesson.assignment');
+Route::view('/lesson-quiz','Frontend.pages.lesson.lesson.quiz');
 
 
 //Student Authentication
