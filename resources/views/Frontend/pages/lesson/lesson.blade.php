@@ -1,6 +1,12 @@
 @extends('Frontend.layouts.master')
 
 @section('content')
+    
+    <style>
+        .active{
+            color: #0d6efd !important;
+        }
+    </style>
 
     <!-- tution__section__start -->
     <div class="tution sp_bottom_100 sp_top_50">
@@ -34,7 +40,22 @@
                                                         <div class="scc__wrap">
                                                             <div class="scc__info">
                                                                 <i class="icofont-video-alt"></i>
-                                                                <h5><a href="#"><span>{{$video->title}}</span></a></h5>
+                                                                
+                                                                @if(!$enrollment)
+                                                                    
+                                                                <h5>
+                                                                    <a data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" class="@if($key==0 &&  ($key1 == 0 || $key1 == 1))lessonVideoAnchor @else @endif"  href="javascript:void(0)">
+                                                                        <span>{{$video->title}}</span>
+                                                                    </a>
+                                                                </h5>
+                                                                    
+                                                                @else
+                                                                    
+                                                                    <h5>
+                                                                        <a data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" class="lessonVideoAnchor"   href="javascript:void(0)"><span>{{$video->title}}</span></a>
+                                                                    </h5>
+                                                                    
+                                                                @endif
                                                             </div>
 
                                                             <div class="scc__meta">
@@ -44,8 +65,8 @@
                                                                     <a  data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" href="#"><span class="question"><i
                                                                                     class="icofont-eye lessonVideoAnchor"></i></span></a>
                                                                 @else
-                                                                <a  data-id="{{$video->id}}" data-lesson-id="{{$lesson->id}}" ><span class="question"><i
-                                                                                class=" @if($key==0 &&  ($key1 == 0 || $key1 == 1))  icofont-eye @else icofont-lock  @endif lessonVideoAnchor"></i></span></a>
+                                                                <a href="#"><span class="question"><i
+                                                                                class=" @if($key==0 &&  ($key1 == 0 || $key1 == 1))  icofont-eye @else icofont-lock  @endif"></i></span></a>
                                                                 @endif
                                                             </div>
 
@@ -60,12 +81,27 @@
                                                         <div class="scc__wrap">
                                                             <div class="scc__info">
                                                                 <i class="icofont-file-text"></i>
-                                                                <h5><a href="#"><span>{{$material->title}}</span></a>
+                                                                
+                                                                @if($enrollment)
+                                                                <h5>
+                                                                    <a data-id="{{$material->id}}" data-lesson-id="{{$lesson->id}}" class="lessonMaterialAnchor" href="javascript:void(0)">
+                                                                        <span>{{$material->title}}</span>
+                                                                    </a>
                                                                 </h5>
+                                                                    
+                                                                @else
+
+                                                                    <h5>
+                                                                        <a  class="" href="javascript:void(0)">
+                                                                            <span>{{$material->title}}</span>
+                                                                        </a>
+                                                                    </h5>
+                                                                    
+                                                                @endif
                                                             </div>
 
                                                             <div class="scc__meta">
-                                                                                                            <strong>3.27</strong>
+{{--                                                          <strong>3.27</strong>--}}
 
                                                                 @if($enrollment)
 
@@ -86,17 +122,33 @@
                                                 @if($lesson->assessments->count() > 0)
                                                     @forelse($lesson->assessments as $key2=>$assessment)
 
-                                                        @if($assessment->type == 'quiz')
+{{--                                                        @if($assessment->type == 'quiz')--}}
 
                                                             <div class="scc__wrap">
                                                                 <div class="scc__info">
                                                                     <i class="icofont-audio"></i>
-                                                                    <h5><a href="#"><span>{{$assessment->title}}</span></a>
-                                                                    </h5>
+                                                                    
+                                                                    @if($enrollment)
+                                                                        <h5>
+                                                                            <a data-id="{{$assessment->id}}" data-lesson-id="{{$lesson->id}}" class="lessonExamAnchor" href="javascript:void(0)">
+                                                                                <span>{{$assessment->title}}</span>
+                                                                            </a>
+                                                                        </h5>
+
+                                                                    @else
+
+                                                                        <h5>
+                                                                            <a  class="" href="javascript:void(0)">
+                                                                                <span>{{$assessment->title}}</span>
+                                                                            </a>
+                                                                        </h5>
+
+                                                                    @endif
+
+                                                                   
                                                                 </div>
                                                                 <div class="scc__meta">
-                                                                                                                <strong>3.27</strong>
-                                                                    
+{{--                                                                  <strong>3.27</strong>--}}
                                                                     
                                                                     @if($enrollment)
                                                                         <a href="#"><span class="question"><i
@@ -108,28 +160,10 @@
                                                                 </div>
                                                             </div>
 
-                                                        @else
-                                                            <div class="scc__wrap">
-                                                                <div class="scc__info">
-                                                                    <i class="icofont-audio"></i>
-                                                                    <h5><a href="#"><span>{{$assessment->title}}</span></a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="scc__meta">
-                                                                                                                <strong>3.27</strong>
+{{--                                                        @else--}}
+                                                            
 
-                                                                    @if($enrollment)
-                                                                        <a href="#"><span class="question"><i
-                                                                                        class="icofont-eye"></i></span></a>
-                                                                    @else
-                                                                    <a href="#"><span class="question"><i
-                                                                                    class="icofont-lock"></i></span></a>
-                                                                        
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-
-                                                        @endif
+{{--                                                        @endif--}}
 
                                                     @empty
                                                     @endforelse
@@ -164,19 +198,156 @@
 
     @push('js')
         <script>
-
+            
             $(document).on('click', '.lessonVideoAnchor', function (e) {
                
                 e.preventDefault();
                 let id= $(this).data('id');
                 let lessonId= $(this).data('lesson-id');
+                
+                $('.lessonVideoAnchor').removeClass('active'); // Remove active class from all anchors
+                $(this).addClass('active'); // Add active class to the clicked element's anchor
+                
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('lesson-video')}}",
+                    data: {
+                        id: id,
+                        lesson_id:lessonId
 
+                    },
+                   
+                    // contentType: false,
+                    // processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        
+                        $('#lessonContent').empty();
+                        $('#lessonContent').append(res.html);
 
-                console.log(id);
-                console.log(lessonId);
+                       
 
-                console.log('click')
+                    },
+                    error: function (err) {
+
+                        errorToast('error');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
             });
+
+
+          $(document).ready(function () {
+              // Select the first visible .lessonVideoAnchor and trigger a click
+              $('.lessonVideoAnchor:first').trigger('click');
+              $('.lessonVideoAnchor:first').addClass('active');
+              
+          });
+
+            $(document).on('click', '.lessonMaterialAnchor', function (e) {
+
+                e.preventDefault();
+                let id= $(this).data('id');
+                let lessonId= $(this).data('lesson-id');
+
+                $('.lessonVideoAnchor').removeClass('active');
+                $('.lessonMaterialAnchor').removeClass('active'); // Remove active class from all anchors
+                $(this).addClass('active'); // Add active class to the clicked element's anchor
+
+               
+
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('lesson-material')}}",
+                    data: {
+                        id: id,
+                        lesson_id:lessonId
+
+                    },
+
+                    // contentType: false,
+                    // processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+
+                        $('#lessonContent').empty();
+                        $('#lessonContent').append(res.html);
+
+
+
+                    },
+                    error: function (err) {
+
+                        errorToast('error');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+
+            $(document).on('click', '.lessonExamAnchor', function (e) {
+
+                e.preventDefault();
+                let assessment_id= $(this).data('id');
+
+                $('.lessonVideoAnchor').removeClass('active');
+                $('.lessonMaterialAnchor').removeClass('active');
+                $('.lessonExamAnchor').removeClass('active');
+                // Remove active class from all anchors
+                $(this).addClass('active'); // Add active class to the clicked element's anchor
+                
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('lesson-exam')}}",
+                    data: {
+                        assessment_id:assessment_id
+                    },
+
+                    // contentType: false,
+                    // processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        
+                        $('#lessonContent').empty();
+                        $('#lessonContent').append(res.html);
+                        
+                    },
+                    error: function (err) {
+
+                        errorToast('error');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+          
+          
 
         </script>
     @endpush

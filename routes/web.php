@@ -26,6 +26,9 @@ Route::get('/class-list', [CourseController::class,'classList'])->name('class-li
 
 //Lessons
 Route::get('/course-lessons/{slug}', [CourseController::class,'courseLessons'])->name('course-lessons');
+Route::post('/course-lessons/video',[CourseController::class,'courseLessonsVideo'])->name('lesson-video');
+Route::post('/course-lessons/material',[CourseController::class,'courseLessonsMaterial'])->name('lesson-material');
+Route::post('/course-lessons/Exam',[CourseController::class,'courseLessonsExam'])->name('lesson-exam');
 
 //Teacher Details
 Route::get('/teachers',[TeacherController::class,'teachersPage'])->name('teacher.page');

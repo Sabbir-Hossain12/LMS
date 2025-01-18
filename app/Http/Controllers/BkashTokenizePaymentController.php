@@ -13,13 +13,14 @@ class BkashTokenizePaymentController extends Controller
     }
     public function createPayment(Request $request)
     {
+        
        
         $inv = uniqid();
         $request['intent'] = 'sale';
         $request['mode'] = '0011'; //0011 for checkout
         $request['payerReference'] = $inv;
         $request['currency'] = 'BDT';
-        $request['amount'] = 10;
+        $request['amount'] = 100;
         $request['merchantInvoiceNumber'] = $inv;
         $request['callbackURL'] = config("bkash.callbackURL");
 
@@ -30,14 +31,21 @@ class BkashTokenizePaymentController extends Controller
         //$response =  BkashPaymentTokenize::cPayment($request_data_json,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
 
         //store paymentID and your account number for matching in callback request
-//         dd($response); //if you are using sandbox and not submit info to bkash use it for 1 response
+//      dd($response); //if you are using sandbox and not submit info to bkash use it for 1 response
 
-        if (isset($response['bkashURL'])) 
+        if (isset($response['bkashURL']))
+        {
             
             return redirect()->away($response['bkashURL']);
+        }
+            
         
         else
+        {
+            
             return redirect()->back()->with('error-alert2', $response['statusMessage']);
+        }
+            
     }
 
     public function callBack(Request $request)

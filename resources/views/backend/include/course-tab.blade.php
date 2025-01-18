@@ -43,7 +43,7 @@
     <li class="nav-item waves-effect waves-light">
         <a class="nav-link @if(request()->routeIs('admin.lesson-assessment')) active @endif" href="{{route('admin.lesson-assessment',$course->id)}}">
             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-            <span class="d-none d-sm-block">Assessments</span>
+            <span class="d-none d-sm-block">Exams</span>
         </a>
     </li>
     {{--Questions--}}

@@ -46,10 +46,17 @@
                                         </select>
                                     </div>
                                     
+                                    <div class="mb-3">
+
+                                        <label class="form-label">Select Question Image </label>
+                                        <input type="file" class="form-control" name="question_image">
+                                        
+                                    </div>
+                                    
                                     
                                     <div class="mb-3">
                                         <label for="question_text" class="form-label">Question Text *</label>
-                                        <textarea class="form-control" id="question_text" name="question_text" required></textarea>
+                                        <textarea class="form-control" id="question_text" name="question_text" cols="3" rows="1"></textarea>
                                     </div>
 
                                     <div class="mb-3">
@@ -73,7 +80,7 @@
 
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Correct Option/Answer *</label>
-                                    <input type="text" class="form-control"  name="correct_answers" required>
+                                    <input type="text" class="form-control"  name="correct_answers">
                                 </div>
 
                                 <div class="mb-3">
@@ -182,7 +189,7 @@
             $('#dueTimeDiv').hide();
 
             ClassicEditor
-                .create(document.querySelector('#materialText'))
+                .create(document.querySelector('#question_text'))
                 .catch(error => {
                     console.error(error);
                 });

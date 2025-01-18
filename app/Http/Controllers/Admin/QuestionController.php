@@ -56,6 +56,14 @@ class QuestionController extends Controller
         $question->status=$request->status;
         $question->options= json_encode($request->options);
         
+        if ($request->hasFile('question_image')) {
+            
+            $file = $request->file('question_image');
+            $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/questions/'), $filename);
+            $question->question_image ='backend/upload/questions/'. $filename;
+        }
+        
         
         $save= $question->save();
         

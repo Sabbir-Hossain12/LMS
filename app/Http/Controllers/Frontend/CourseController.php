@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assessment;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
 use App\Models\Lesson;
+use App\Models\LessonMaterial;
+use App\Models\LessonVideo;
+use App\Models\Question;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -52,8 +56,9 @@ class CourseController extends Controller
     {
         $course = Course::where('slug', $slug)->first();
         
-        $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id', $course->id)->first();
+        $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id', $course->id)->first() ?? 0;
 
+        
         $subjects = Subject::where('course_id', $course->id)->where('status', 1)->orderBy('position', 'asc')
             ->with([
                 'lessons' => function ($q) {
@@ -103,6 +108,75 @@ class CourseController extends Controller
         $courses = Course::where('course_class_id', $class->id)->where('status', 1)->get();
 
         return view('Frontend.pages.course.courses-by-class', compact('class', 'courses'));
+        
+    }
+
+
+    public function courseLessonsVideo( Request $request)
+    {
+        $id=$request->input('id');
+        $lesson_id=$request->input('lesson_id');
+        
+        $video= LessonVideo::where('id',$id)->where('lesson_id',$lesson_id)->first();
+        
+        
+        
+       $lessonVideoView= view('Frontend.pages.lesson.include.video',compact('video'))->render(); 
+       
+       
+       if (!$video) {
+           return response()->json(['html'=>'<div class="alert alert-danger">Video Not Found</div>']);
+       }
+       
+       return response()->json(['html'=>$lessonVideoView]);
+        
+    }
+
+
+    public function courseLessonsMaterial(Request $request)
+    {
+        $id=$request->id;
+        $lesson_id=$request->lesson_id;
+        
+        $material= LessonMaterial::where('id',$id)->where('lesson_id',$lesson_id)->first();
+        
+        $lessonMaterialView= view('Frontend.pages.lesson.include.material',compact('material'))->render(); 
+       
+       
+       if (!$material) {
+           return response()->json(['html'=>'<div class="alert alert-danger">Material Not Found</div>']);
+       }
+       
+       return response()->json(['html'=>$lessonMaterialView]);
+        
+    }
+
+
+    public function courseLessonsExam(Request $request)
+    {
+        $assessment_id= $request->assessment_id;
+        
+        $questions= Question::where('assessment_id',$assessment_id)->where('status',1)->get();
+        
+        $examType= Assessment::where('id',$assessment_id)->first();
+        
+        
+        if ($examType->type== 'quiz')
+        {
+        $quizView= view('Frontend.pages.lesson.include.quiz',compact('questions'))->render();
+            
+        return response()->json(['html'=>$quizView]);
+        }
+        
+        else if ($examType->type== 'assignment')
+        {
+            $assignmentView= view('Frontend.pages.lesson.include.assignment',compact('questions'))->render();
+
+            return response()->json(['html'=>$assignmentView]);
+        }
+
+        return response()->json(['html'=>'<div class="alert alert-danger">Material Not Found</div>']);
+
         
     }
     
