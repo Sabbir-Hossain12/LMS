@@ -11,6 +11,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Karim007\LaravelBkashTokenize\Facade\BkashPaymentTokenize;
 
 class OrderController extends Controller
 {
@@ -36,6 +38,8 @@ class OrderController extends Controller
             
             $student_id=auth()->user()->id;
             
+            $invoiceNumber=uniqid();
+            
             $student= User::find($student_id);
             $student->name=$request->name;
             $student->email=$request->email;
@@ -46,7 +50,7 @@ class OrderController extends Controller
             $order= new Order();
             $order->user_id = auth()->user()->id;
             $order->total_amount = $course->sale_price;
-            $order->transaction_id = uniqid();
+            $order->transaction_id = $invoiceNumber;
             $order->save();
             
             
@@ -58,16 +62,39 @@ class OrderController extends Controller
             $orderCourse->discount = $course->discount ?? 0;
             $orderCourse->save();
             
-            
-            $enrollment= new Enrollment();
-            $enrollment->user_id = auth()->user()->id;
-            $enrollment->course_id = $request->course_id;
-            $enrollment->order_id = $order->id;
-            $enrollment->save();
-            
-            
+
             DB::commit();
-            return redirect()->route('student.dashboard.index')->with('success', 'Course Enrolled Successfully');
+            
+            $request['intent'] = 'sale';
+            $request['mode'] = '0011'; //0011 for checkout
+            $request['payerReference'] = $invoiceNumber;
+            $request['currency'] = 'BDT';
+            $request['amount'] = $course->sale_price;
+            $request['merchantInvoiceNumber'] = $invoiceNumber;
+            $request['callbackURL'] = config("bkash.callbackURL");
+            
+            
+
+            Session::put('course_id', $request->course_id);
+            
+            $request_data_json = json_encode($request->all());
+
+            $response =  BkashPaymentTokenize::cPayment($request_data_json);
+            //dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
+
+            if (isset($response['bkashURL']))
+            {
+                return redirect()->away($response['bkashURL']);
+            }
+            
+            else
+            {
+                return redirect()->back()->with('error-alert2', $response['statusMessage']);
+            }
+            
+            
+            
+//            return redirect()->route('student.dashboard.index')->with('success', 'Course Enrolled Successfully');
             
         }
         

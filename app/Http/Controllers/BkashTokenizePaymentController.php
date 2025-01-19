@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Enrollment;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Karim007\LaravelBkashTokenize\Facade\BkashPaymentTokenize;
 use Karim007\LaravelBkashTokenize\Facade\BkashRefundTokenize;
 
@@ -37,7 +40,6 @@ class BkashTokenizePaymentController extends Controller
             
             return redirect()->away($response['bkashURL']);
         }
-            
         
         else
         {
@@ -49,6 +51,7 @@ class BkashTokenizePaymentController extends Controller
 
     public function callBack(Request $request)
     {
+//        dd($request->all());
         //callback request params
         // paymentID=your_payment_id&status=success&apiVersion=1.2.0-beta
         //using paymentID find the account number for sending params
@@ -63,11 +66,24 @@ class BkashTokenizePaymentController extends Controller
 
 //            dd(json_encode($response));
 
-            if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") {
-                /*
-                 * for refund need to store
-                 * paymentID and trxID
-                 * */
+            if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") 
+            {
+               
+                $inv_number = $response['merchantInvoiceNumber'];
+                $course_id = Session::get('course_id');
+                
+              $order=  Order::where('transaction_id', $inv_number)->first();
+              $order->status = 'success';
+              $order->save();
+              
+              $enrollment= new Enrollment();
+              $enrollment->user_id = auth()->user()->id;
+              $enrollment->course_id = $course_id;
+              $enrollment->order_id = $order->id;
+              $enrollment->save();
+              
+              Session::forget('course_id');
+              
                 return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
             }
             return BkashPaymentTokenize::failure($response['statusMessage']);
