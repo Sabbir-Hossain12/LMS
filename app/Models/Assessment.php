@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Assessment extends Model
 {
 
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+
     public function questions()
     {
         return $this->hasMany(Question::class);

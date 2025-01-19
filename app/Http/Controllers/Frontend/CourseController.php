@@ -163,14 +163,14 @@ class CourseController extends Controller
         
         if ($examType->type== 'quiz')
         {
-        $quizView= view('Frontend.pages.lesson.include.quiz',compact('questions'))->render();
+        $quizView= view('Frontend.pages.lesson.include.quiz',compact('questions','examType'))->render();
             
         return response()->json(['html'=>$quizView]);
         }
         
         else if ($examType->type== 'assignment')
         {
-            $assignmentView= view('Frontend.pages.lesson.include.assignment',compact('questions'))->render();
+            $assignmentView= view('Frontend.pages.lesson.include.assignment',compact('questions','examType'))->render();
 
             return response()->json(['html'=>$assignmentView]);
         }

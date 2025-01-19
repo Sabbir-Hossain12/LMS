@@ -14,7 +14,6 @@ class BkashTokenizePaymentController extends Controller
     public function createPayment(Request $request)
     {
         
-       
         $inv = uniqid();
         $request['intent'] = 'sale';
         $request['mode'] = '0011'; //0011 for checkout
@@ -31,7 +30,7 @@ class BkashTokenizePaymentController extends Controller
         //$response =  BkashPaymentTokenize::cPayment($request_data_json,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
 
         //store paymentID and your account number for matching in callback request
-//      dd($response); //if you are using sandbox and not submit info to bkash use it for 1 response
+//      dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
 
         if (isset($response['bkashURL']))
         {
@@ -61,6 +60,8 @@ class BkashTokenizePaymentController extends Controller
                 $response = BkashPaymentTokenize::queryPayment($request->paymentID);
                 //$response = BkashPaymentTokenize::queryPayment($request->paymentID,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
             }
+
+//            dd(json_encode($response));
 
             if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") {
                 /*

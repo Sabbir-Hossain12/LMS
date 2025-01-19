@@ -65,25 +65,29 @@
                                         <textarea class="form-control" id="desc" name="desc"></textarea>
                                     </div>
 
-                                  
-
+                                    <div class="mb-3">
+                                        <label for="desc" class="form-label">Attempts</label>
+                                        <input type="number" class="form-control" id="attempts" name="attempts" min="1" max="5" value="1">
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                
                                 <div class="mb-3" id="startTimeDiv">
                                     <label for="start_time" class="form-label">Start Date </label>
-                                    <input class="form-control" type="datetime-local" id="start_time" value="{{now()}}" name="start_time">
+                                    <input class="form-control" type="datetime-local" id="start_time" value="{{now()}}" name="start_time" required>
                                 </div>
 
                                 <div class="mb-3" id="endTimeDiv">
                                     <label for="end_time" class="form-label">End Date </label>
-                                    <input class="form-control" type="datetime-local" id="end_time" name="end_time">
+                                    <input class="form-control" type="datetime-local" id="end_time" name="end_time" required>
                                 </div>
                                 
-                                <div class="mb-3" id="dueTimeDiv">
-                                    <label for="due_date" class="form-label">Due Date </label>
-                                    <input class="form-control" type="datetime-local" name="due_date">
-                                </div>
+{{--                                <div class="mb-3" id="dueTimeDiv">--}}
+{{--                                    <label for="due_date" class="form-label">Due Date </label>--}}
+{{--                                    <input class="form-control" type="datetime-local" name="due_date">--}}
+{{--                                </div>--}}
 
                                 <div class="mb-3">
                                     <label for="totalMarks" class="form-label">Total Marks *</label>
@@ -144,7 +148,7 @@
                                 <th>Total Marks</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
-                                <th>Due Time</th>
+                                <th>Attempts</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -159,7 +163,7 @@
                                     <td>{{$assessment->total_marks}}</td>
                                     <td>{{$assessment->start_time}}</td>
                                     <td>{{$assessment->end_time}}</td>
-                                    <td>{{$assessment->due_date}}</td>
+                                    <td>{{$assessment->attempts}}</td>
                                     <td>
                                         @if($assessment->status == 1)
                                             <span class="badge bg-success">Active</span>
@@ -216,24 +220,24 @@
         });
         
         
-        $('#assessmentType').on('change',function (e)
-        {
-            let value=$(this).val();
-            
-            if (value == 'assignment')
-            {
-                $('#startTimeDiv').hide();
-                $('#endTimeDiv').hide();
-                $('#dueTimeDiv').show();
-            }
-            else
-            {
-                $('#startTimeDiv').show();
-                $('#endTimeDiv').show();
-                $('#dueTimeDiv').hide();
-                
-            }
-        })
+        // $('#assessmentType').on('change',function (e)
+        // {
+        //     let value=$(this).val();
+        //    
+        //     if (value == 'assignment')
+        //     {
+        //         $('#startTimeDiv').hide();
+        //         $('#endTimeDiv').hide();
+        //         $('#dueTimeDiv').show();
+        //     }
+        //     else
+        //     {
+        //         $('#startTimeDiv').show();
+        //         $('#endTimeDiv').show();
+        //         $('#dueTimeDiv').hide();
+        //        
+        //     }
+        // })
         
 
 

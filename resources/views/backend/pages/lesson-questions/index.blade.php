@@ -70,7 +70,7 @@
                              <div class="mb-1" id="optionMultiple">
                                     <label  class="form-label">Options *</label>
                                  <div class="input-group mb-1 option-item" >
-                                    <input type="text" class="form-control"  name="options[]" placeholder="Option 1" required>
+                                    <input type="text" class="form-control"  name="options[]" placeholder="Option 1">
                                     <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
                                  </div>
                              </div>
@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="desc" class="form-label">Correct Option/Answer *</label>
+                                    <label for="desc" class="form-label">Correct Option/Answer </label>
                                     <input type="text" class="form-control"  name="correct_answers">
                                 </div>
 

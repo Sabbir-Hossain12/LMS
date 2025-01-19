@@ -51,11 +51,11 @@ class AssessmentController extends Controller
         $assessment->lesson_id =$request->lesson_id ;
         $assessment->type=$request->type;
         $assessment->title=$request->title;
+        $assessment->attempts=$request->attempts;
         $assessment->desc=$request->desc;
         $assessment->total_marks=$request->total_marks;
         $assessment->start_time=$request->start_time;
         $assessment->end_time=$request->end_time;
-        $assessment->due_date=$request->due_date;
         $assessment->status=$request->status;
         
         
