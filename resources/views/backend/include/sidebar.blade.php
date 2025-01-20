@@ -125,7 +125,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('admin.class.index') }}">
+                            <a href="{{ route('admin.order.index') }}">
                                 <span data-key="t-calendar">Order Management</span>
                             </a>
                         </li>

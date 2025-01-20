@@ -9,10 +9,12 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EnrolmentController;
 use App\Http\Controllers\Admin\HerobannerController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\LessonMaterialController;
 use App\Http\Controllers\Admin\LessonVideoController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -25,10 +27,16 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\TestimonialSettingController;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
 //Authentication
+
+
+
+
+
 
 Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
     
@@ -112,6 +120,17 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
     Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
     
+    
+    //Enrolment
+    Route::get('/enrolments/{id}', [EnrolmentController::class, 'index'])->name('enrolment');
+    Route::post('/enrolments/store', [EnrolmentController::class, 'store'])->name('enrolment.store');
+    Route::delete('/enrolments/{id}', [EnrolmentController::class, 'destroyEnrolment'])->name('enrolment.destroy');
+    
+    
+    //Orders
+    Route::resource('/orders', OrderController::class)->names('order');
+    Route::get('/order/data', [OrderController::class, 'getData'])->name('order.data');
+    Route::post('/change-order-status', [OrderController::class, 'changeAdminStatus'])->name('order.status');
     
     //Hero Banners
     Route::resource('/herobanners', HerobannerController::class)->names('herobanner');

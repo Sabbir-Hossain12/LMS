@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 
@@ -34,9 +35,20 @@ class StudentAuthController extends Controller
          Session::forget('expires_at');
          return response()->json(['status' => 'success','message' => 'verified'],200);
      } else {
-        Session::put('otp', $otp);
+         Session::put('otp', $otp);
          Session::put('expires_at', now()->addMinutes(5));
+         
          //SMS Gateway
+         $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
+             'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
+             'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
+             'SenderId' => '8809617621857',
+             'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
+             'MobileNumbers' => "88$request->phone",
+         ]);
+
+//         Http::get("http://202.72.233.114/api/v2/SendSMS?ApiKey=JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=&ClientId=303614b6-0888-4ec6-93cc-2eccfa162a75&SenderId=8809617621857&Message=Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.&MobileNumbers=88$request->phone");
+
          return response()->json(['status' => 'failed','message' => 'not verified'],200);
      }
      
@@ -134,6 +146,17 @@ class StudentAuthController extends Controller
         Session::put('otp', $otp);
         Session::put('expires_at', now()->addMinutes(5));
         $phone = Session::get('phone');
+        
+        //SMS Gateway
+//        Http::get('http://202.72.233.114/api/v2/SendSMS?ApiKey=JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=&ClientId=303614b6-0888-4ec6-93cc-2eccfa162a75&SenderId=8809617621857&Message=%22test_otp%22&MobileNumbers=8801926241906');
+
+        $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
+            'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
+            'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
+            'SenderId' => '8809617621857',
+            'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
+            'MobileNumbers' => "88$phone",
+        ]);
         
         return response()->json(['status' => 'success','message' => 'Otp sent successfully'],200);
         

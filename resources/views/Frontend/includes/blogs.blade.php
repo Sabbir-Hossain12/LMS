@@ -28,9 +28,9 @@
                     
                     <div class="single__blog__content">
                         <p>{{$blog->created_at->diffForHumans()}}</p>
-                        <h4> <a href="#">{{$blog->title}} </a></h4>
+                        <h4> <a href="{{route('blog-details', $blog->slug)}}">{{$blog->title}} </a></h4>
                         <div class="single__blog__bottom__button">
-                            <a href="#">Read More
+                            <a href="{{route('blog-details', $blog->slug)}}">Read More
                                 <i class="icofont-long-arrow-right"></i>
                             </a>
                         </div>
@@ -44,7 +44,7 @@
             
             <div class="col-xl-12" data-aos="fade-up">
                 <div class="blogarea__bottom__button">
-                    <a class="default__button" href="#">MORE BLOG</a>
+                    <a class="default__button" href="{{route('blog-list')}}">MORE BLOG</a>
                 </div>
             </div>
             

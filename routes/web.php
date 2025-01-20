@@ -8,11 +8,28 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\TeacherController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+
+Route::get('/site-down',function ()
+{
+    Artisan::call('down');
+
+    return 'The site is now in maintenance mode.';
+    
+});
+
+Route::get('/site-up',function ()
+{
+    Artisan::call('up');
+
+    return 'The site is now live.';
+});
+
 
 //Home 
 Route::get('/',[HomeController::class,'homePage'])->name('home');

@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function index()
     {
         $roles = Role::get();
-//        dd($roles);
+//       dd($roles);
         return view('backend.pages.admins.index',compact('roles'));
     }
 

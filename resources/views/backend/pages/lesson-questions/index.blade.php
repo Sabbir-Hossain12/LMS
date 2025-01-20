@@ -141,7 +141,8 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$question->assessment->title}}</td>
-                                    <td>{{$question->question_text}}</td>
+                                    <td style="width: 200px; height: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {!!$question->question_text !!}</td>
                                     <td>{{$question->marks}}</td>
                                     <td>
                                         @if($question->status == 1)

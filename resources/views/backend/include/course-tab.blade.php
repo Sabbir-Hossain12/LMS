@@ -54,6 +54,14 @@
         </a>
     </li>
 
+    {{--Enrollment--}}
+    <li class="nav-item waves-effect waves-light">
+        <a class="nav-link @if(request()->routeIs('admin.enrolment')) active @endif" href="{{route('admin.enrolment',$course->id)}}">
+            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+            <span class="d-none d-sm-block">Enrollment</span>
+        </a>
+    </li>
+
 
 </ul>
     
