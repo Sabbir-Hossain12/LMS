@@ -205,7 +205,9 @@
                 let id= $(this).data('id');
                 let lessonId= $(this).data('lesson-id');
                 
-                $('.lessonVideoAnchor').removeClass('active'); // Remove active class from all anchors
+                $('.lessonVideoAnchor').removeClass('active');
+                $('.lessonMaterialAnchor').removeClass('active');
+                $('.lessonExamAnchor').removeClass('active');// Remove active class from all anchors
                 $(this).addClass('active'); // Add active class to the clicked element's anchor
                 
                 $.ajax({
@@ -260,7 +262,8 @@
                 let lessonId= $(this).data('lesson-id');
 
                 $('.lessonVideoAnchor').removeClass('active');
-                $('.lessonMaterialAnchor').removeClass('active'); // Remove active class from all anchors
+                $('.lessonMaterialAnchor').removeClass('active');
+                $('.lessonExamAnchor').removeClass('active');// Remove active class from all anchors
                 $(this).addClass('active'); // Add active class to the clicked element's anchor
 
                

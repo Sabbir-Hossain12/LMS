@@ -180,44 +180,57 @@
 @push('backendJs')
 
     {{--  CkEditor CDN  --}}
+{{--    <script src="https://cdn.ckeditor.com/4.25.0-lts/standard-all/ckeditor.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            $('#dueTimeDiv').hide();
 
             ClassicEditor
-                .create(document.querySelector('#question_text'))
+                .create(document.querySelector('#question_text'),
+                    {
+                        toolbar: {
+                            items: [
+                                'undo', 'redo',
+                                '|',
+                                'bold', 'italic', 'strikethrough', 'subscript', 'superscript',
+                                '|',
+                                'link', 'uploadImage', 'blockQuote',
+                                '|',
+                                'bulletedList', 'numberedList'
+                            ]
+                        }
+                    })
+           
                 .catch(error => {
                     console.error(error);
                 });
 
 
             let adminTable = $('#adminTable').DataTable({});
+
+            // CKEDITOR.replace('question_text', {
+            //     extraPlugins: 'mathjax',
+            //     mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
+            //     height: 320,
+            //     removeButtons: 'PasteFromWord'
+            // });
+            //
+            // if (CKEDITOR.env.ie && CKEDITOR.env.version == 8) {
+            //     document.getElementById('ie8-warning').className = 'tip alert';
+            // }
+
+        
         });
+        
 
 
-        // $('#assessmentType').on('change',function (e)
-        // {
-        //     let value=$(this).val();
-        //
-        //     if (value == 'assignment')
-        //     {
-        //         $('#startTimeDiv').hide();
-        //         $('#endTimeDiv').hide();
-        //         $('#dueTimeDiv').show();
-        //     }
-        //     else
-        //     {
-        //         $('#startTimeDiv').show();
-        //         $('#endTimeDiv').show();
-        //         $('#dueTimeDiv').hide();
-        //
-        //     }
-        // })
+    
 
         $(document).ready(function () {
             let optionCount = 1;

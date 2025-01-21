@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 
 class StudentAuthController extends Controller
@@ -175,17 +176,34 @@ class StudentAuthController extends Controller
         ]);
         
         $phone = Session::get('phone');
+
+        $user = User::role('student')->where('phone', $phone)->first();
         
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $phone;
-        $user->password = Hash::make($request->password);
-        $user->phone_verified=1;
-        $user->phone_verified_at=now();
+        if ($user) {
+            $user->name = $request->name;
+            $user->slug = Str::slug($request->name).uniqid();
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->phone_verified=1;
+            $user->phone_verified_at=now();
+            $save= $user->save();
+        }
+        else
+        {
+            $user = new User();
+            $user->name = $request->name;
+            $user->slug = Str::slug($request->name).uniqid();
+            $user->email = $request->email;
+            $user->phone = $phone;
+            $user->password = Hash::make($request->password);
+            $user->phone_verified=1;
+            $user->phone_verified_at=now();
+
+            $user->assignRole('student');
+            $save= $user->save();
+        }
         
-        $user->assignRole('student');
-       $save= $user->save();
+        
        
        if ($save) {
            Auth::login($user);

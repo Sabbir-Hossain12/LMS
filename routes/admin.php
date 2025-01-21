@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AssessmentAnswerController;
 use App\Http\Controllers\Admin\AssessmentController;
 use App\Http\Controllers\Admin\BasicinfoController;
 use App\Http\Controllers\Admin\BlogController;
@@ -115,11 +116,13 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/lesson-assessments/store', [AssessmentController::class, 'store'])->name('lesson-assessment.store');
     Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
     
+    //Assessment Answer 
+    Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
+    
     //Assessment Questions
     Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');
     Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
     Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
-    
     
     //Enrolment
     Route::get('/enrolments/{id}', [EnrolmentController::class, 'index'])->name('enrolment');

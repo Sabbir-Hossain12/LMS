@@ -95,6 +95,8 @@
 <script src="{{asset('frontend')}}/js/toastify-js.js"></script>
 <script src="{{asset('frontend')}}/js/config.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @stack('js')
 
 </body>

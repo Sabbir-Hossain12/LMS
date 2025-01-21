@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Add Lesson Assessments (MCQ/Assignments)
+                        <h4 class="card-title text-center">Add Lesson Exams (MCQ/Assignments)
                         </h4>
                     </div>
                     <div class="card-body p-4">
@@ -63,11 +63,6 @@
                                     <div class="mb-3">
                                         <label for="desc" class="form-label">Description</label>
                                         <textarea class="form-control" id="desc" name="desc"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="desc" class="form-label">Attempts</label>
-                                        <input type="number" class="form-control" id="attempts" name="attempts" min="1" max="5" value="1">
                                     </div>
                                     
                                 </div>
@@ -126,7 +121,7 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="card-title">Lesson Assessment List</h4>
+                        <h4 class="card-title">Lesson Exam List</h4>
                         {{--                       @can('Create Admin')--}}
                         {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
 
@@ -172,8 +167,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{route('admin.assessment-answer',$assessment->id)}}" class="btn btn-sm btn-success"><i class="fas fa-a"></i></a>
+                                            <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                             <form method="post" id="delete-form-{{$assessment->id}}" action="">
                                                 @csrf
                                                 @method('delete')
