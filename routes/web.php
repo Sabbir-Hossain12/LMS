@@ -49,6 +49,7 @@ Route::post('/course-lessons/Exam',[CourseController::class,'courseLessonsExam']
 
 //Assignment Submit
 Route::post('/assignment-submit',[CourseController::class,'assignmentSubmit'])->name('assignment.submit');
+Route::post('/quiz-submit',[CourseController::class,'quizSubmit'])->name('quiz.submit');
 
 //Teacher Details
 Route::get('/teachers',[TeacherController::class,'teachersPage'])->name('teacher.page');

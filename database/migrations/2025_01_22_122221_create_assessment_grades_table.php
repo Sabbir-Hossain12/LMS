@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_grades', function (Blueprint $table) {
+        Schema::create('assessment_grades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
+            $table->foreignId('question_id')->nullable()->constrained('questions')->onDelete('cascade');
+            $table->foreignId('assessment_id')->constrained('assessments')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->decimal('marks_obtained',4,2);
             $table->string('grade')->nullable();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('question_grades');
+        Schema::dropIfExists('assessment_grades');
     }
 };

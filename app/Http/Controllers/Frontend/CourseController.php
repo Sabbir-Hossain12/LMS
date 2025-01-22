@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Assessment;
+use App\Models\AssessmentAnswer;
+use App\Models\AssessmentGrade;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
@@ -174,12 +176,108 @@ class CourseController extends Controller
 
     public function assignmentSubmit(Request $request)
     {
-        dd($request->all());
-        $assessment_id= $request->
+        $request->validate(
+            [
+                'assessment_id' => ['required'],
+                'file_path' => ['required', 'mimes:pdf,doc,docx'],
+            ]
+        );
+
+        $assessment_id = $request->assessment_id;
         $student_id = auth()->user()->id;
-        
-        
+
+        $assessment = Assessment::where('id', $assessment_id)->first();
+
+        if (now() < $assessment->start_time || now() > $assessment->end_time) {
+            return response()->json(['status' => 'failed', 'message' => 'Exam Not available now'], 500);
+        }
+
+        $exist = AssessmentAnswer::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();
+
+        if ($exist) {
+            if ($request->hasFile('file_path')) {
+                if ($exist->file_path && file_exists(public_path($exist->file_path))) {
+                    unlink(public_path($exist->file_path));
+                }
+
+                $file = $request->file('file_path');
+                $fileName = time().uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('backend/upload/assignments/'), $fileName);
+                $exist->file_path = 'backend/upload/assignments/'.$fileName;
+            }
+            $exist->attempts = $exist->attempts + 1;
+            $exist->submitted_at = now();
+
+            $save = $exist->save();
+        } else {
+            $assessmentAnswer = new AssessmentAnswer();
+            $assessmentAnswer->assessment_id = $assessment_id;
+            $assessmentAnswer->student_id = $student_id;
+
+            if ($request->hasFile('file_path')) {
+                $file = $request->file('file_path');
+                $fileName = time().uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('backend/upload/assignments/'), $fileName);
+                $assessmentAnswer->file_path = 'backend/upload/assignments/'.$fileName;
+            }
+
+            $assessmentAnswer->submitted_at = now();
+            $save = $assessmentAnswer->save();
+        }
+
+
+        if ($save) {
+            return response()->json(['status' => 'success', 'message' => 'Your Response Submitted successfully'], 201);
+        }
+
+        return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
     }
 
 
+    public function quizSubmit(Request $request)
+    {
+        $request->validate([
+            'assessment_id' => ['required'],
+
+        ]);
+
+        $assessment_id = $request->assessment_id;
+        $student_id = auth()->user()->id;
+        $assessment = Assessment::where('id', $assessment_id)->first();
+
+        if (now() < $assessment->start_time || now() > $assessment->end_time) {
+            return response()->json(['status' => 'failed', 'message' => 'Exam Not available now'], 500);
+        }
+
+        $answers = $request->except(['assessment_id', '_token']);
+        $marks_obtained = 0;
+        foreach ($answers as $key => $answer) {
+            $questionId = str_replace('answer_', '', $key);
+            $question = Question::where('id', $questionId)->first();
+
+            if ($question->correct_answers == $answer) {
+                $marks_obtained = $marks_obtained + $question->marks;
+            }
+        }
+
+        $exist = AssessmentGrade::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();
+
+        if ($exist) {
+            $exist->marks_obtained = $marks_obtained;
+            $save = $exist->save();
+        } else {
+            $assessmentGrade = new AssessmentGrade();
+            $assessmentGrade->assessment_id = $assessment_id;
+            $assessmentGrade->student_id = $student_id;
+            $assessmentGrade->marks_obtained = $marks_obtained;
+            $save = $assessmentGrade->save();
+        }
+
+
+        if ($save) {
+            return response()->json(['status' => 'success', 'message' => 'Your Response Submitted successfully'], 201);
+        }
+
+        return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
+    }
 }
