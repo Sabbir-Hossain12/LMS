@@ -207,6 +207,7 @@ class CourseController extends Controller
             }
             $exist->attempts = $exist->attempts + 1;
             $exist->submitted_at = now();
+            $exist->status=0;
 
             $save = $exist->save();
         } else {
@@ -222,6 +223,7 @@ class CourseController extends Controller
             }
 
             $assessmentAnswer->submitted_at = now();
+            $assessmentAnswer->status=0;
             $save = $assessmentAnswer->save();
         }
 

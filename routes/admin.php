@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssessmentAnswerController;
 use App\Http\Controllers\Admin\AssessmentController;
+use App\Http\Controllers\Admin\AssessmentGradeController;
 use App\Http\Controllers\Admin\BasicinfoController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassController;
@@ -118,6 +119,7 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //Assessment Answer 
     Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
+    Route::post('/assessment-mark-evaluation/store', [AssessmentGradeController::class, 'markEvaluation'])->name('assessment-mark-evaluate.store');
     
     //Assessment Questions
     Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\AssessmentAnswer;
+use App\Models\AssessmentGrade;
 use Illuminate\Http\Request;
 
 class AssessmentAnswerController extends Controller
@@ -19,7 +20,11 @@ class AssessmentAnswerController extends Controller
         
         $assessment = Assessment::find($assessment_id);
 
-        $exam_answers = AssessmentAnswer::where('assessment_id', $assessment_id)->with('student','assessment')->get();
+        $exam_answers = AssessmentAnswer::where('assessment_id', $assessment_id)
+            ->with('student','assessment','assessmentGrade')
+//            ->join('assessment_grades', 'assessment_grades.assessment_id', '=', 'assessment_id')
+            ->get();
+        
 
         return view('backend.pages.assessment-answers.index', compact('exam_answers','assessment'));
     }

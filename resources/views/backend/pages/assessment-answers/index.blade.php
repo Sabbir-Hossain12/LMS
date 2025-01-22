@@ -6,20 +6,26 @@
           rel="stylesheet" type="text/css">
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
+    
+    <style>
+        
+        input,button
+        {
+            border-radius: 0!important;
+        }
+    </style>
 @endpush
 
 @section ('contents')
 
- 
-
-    
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="card-title">Exam Answer List For <span class="text-primary">{{$assessment->title}}</span></h4>
+                        <h4 class="card-title">Exam Submission List For <span
+                                    class="text-primary">{{$assessment->title}}</span></h4>
                         {{--                       @can('Create Admin')--}}
                         {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
 
@@ -36,9 +42,13 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Student Name</th>
+                                <th>Exam Marks</th>
+                                <th>Attempts</th>
+                                <th>Last Submit</th>
                                 <th>Answer File</th>
+                                <th>Marks Obtained</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+{{--                                <th>Actions</th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -46,28 +56,52 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$exam_answer->student->name}}</td>
+                                    <td>{{$assessment->total_marks}}</td>
+                                    <td>{{$exam_answer->attempts}}</td>
+                                    <td>{{$exam_answer->submitted_at->format('d M Y h:i A')}}</td>
                                     <td>
-                                        {{$exam_answer->file_path}}
-                                    </td>
-                                    <td>
-                                        @if($assessment->status == 1)
-                                            <span class="badge bg-success">Active</span>
+                                        @if($exam_answer->file_path)
+                                            <a href="{{ url($exam_answer->file_path) }}" target="_blank" download>
+                                                Download File
+                                            </a>
                                         @else
-                                            <span class="badge bg-danger">Inactive</span>
+                                            No file available
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="d-flex gap-2">
-                                            <a href="" class="btn btn-sm btn-success"><i class="fas fa-a"></i></a>
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$assessment->id}}" action="">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger"><i
-                                                            class="fas fa-trash"></i></button>
-                                            </form>
-                                        </div>
+                                        <form method="post" action="{{route('admin.assessment-mark-evaluate.store')}}">
+                                            @csrf
+                                            <input type="hidden" name="assessment_answer_id" value="{{$exam_answer->id ?? null}}">
+                                            <input type="hidden" name="assessment_id" value="{{$exam_answer->assessment_id}}">
+                                            <input type="hidden" name="student_id" value="{{$exam_answer->student_id }}">
+                                            
+                                            <div class="d-flex">
+                                            <input type="number" min="1" max="{{$assessment->total_marks}}" value="{{intval(isset($exam_answer->assessmentGrade->marks_obtained) ? $exam_answer->assessmentGrade->marks_obtained : null)}}" name="marks_obtained" class="form-control" required>
+                                            
+                                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+
                                     </td>
+
+                                    <td>
+                                        @if($exam_answer->status == 1)
+                                            <span class="badge bg-success">Checked</span>
+                                        @else
+                                            <span class="badge bg-danger">Pending</span>
+                                        @endif
+                                    </td>
+{{--                                    <td>--}}
+{{--                                        <div class="d-flex gap-2">--}}
+{{--                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>--}}
+{{--                                            <form method="post" id="delete-form-{{$assessment->id}}" action="">--}}
+{{--                                                @csrf--}}
+{{--                                                @method('delete')--}}
+{{--                                                <button type="submit" class="btn btn-sm btn-danger"><i--}}
+{{--                                                            class="fas fa-trash"></i></button>--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
                                 </tr>
                             @empty
                             @endforelse
@@ -124,7 +158,6 @@
         //        
         //     }
         // })
-
 
 
     </script>
