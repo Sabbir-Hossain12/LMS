@@ -25,8 +25,9 @@ class AssessmentAnswerController extends Controller
 //            ->join('assessment_grades', 'assessment_grades.assessment_id', '=', 'assessment_id')
             ->get();
         
+        $answerGrades= AssessmentGrade::where('assessment_id', $assessment_id)->get();
 
-        return view('backend.pages.assessment-answers.index', compact('exam_answers','assessment'));
+        return view('backend.pages.assessment-answers.index', compact('exam_answers','assessment','answerGrades'));
     }
 
     /**

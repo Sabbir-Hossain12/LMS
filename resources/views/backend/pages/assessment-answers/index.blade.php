@@ -38,6 +38,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table mb-0  nowrap w-100 dataTable no-footer dtr-inline" id="adminTable">
+                            @if($assessment->type == 'assignment')
                             <thead>
                             <tr>
                                 <th>SL</th>
@@ -107,6 +108,56 @@
                             @endforelse
 
                             </tbody>
+                                
+                                
+                            @else
+                                <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Student Name</th>
+                                    <th>Exam Marks</th>
+                                    <th>Attempts</th>
+                                    <th>Last Submit</th>
+                                    <th>Marks Obtained</th>
+                                    <th>Status</th>
+                                    {{--                                <th>Actions</th>--}}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($answerGrades as $key2=> $answerGrade)
+                                    <tr>
+                                        <td>{{$key2+1}}</td>
+                                        <td>{{$answerGrade->student->name }}</td>
+                                        <td>{{$assessment->total_marks}}</td>
+                                        <td>{{$answerGrade->attempts}}</td>
+                                        <td>{{$answerGrade->submitted_at->format('d M Y h:i A')}}</td>
+                                        <td>{{$answerGrade->marks_obtained}}</td>
+
+                                        <td>
+                                            @if($answerGrade->status == 1)
+                                                <span class="badge bg-success">Checked</span>
+                                            @else
+                                                <span class="badge bg-danger">Pending</span>
+                                            @endif
+                                        </td>
+                                        {{--                                    <td>--}}
+                                        {{--                                        <div class="d-flex gap-2">--}}
+                                        {{--                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>--}}
+                                        {{--                                            <form method="post" id="delete-form-{{$assessment->id}}" action="">--}}
+                                        {{--                                                @csrf--}}
+                                        {{--                                                @method('delete')--}}
+                                        {{--                                                <button type="submit" class="btn btn-sm btn-danger"><i--}}
+                                        {{--                                                            class="fas fa-trash"></i></button>--}}
+                                        {{--                                            </form>--}}
+                                        {{--                                        </div>--}}
+                                        {{--                                    </td>--}}
+                                    </tr>
+                                @empty
+                                @endforelse
+
+                                </tbody>
+
+                            @endif
                         </table>
                     </div>
 

@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssessmentGrade extends Model
 {
-    //
+    protected $casts=[
+        'submitted_at' => 'datetime',
+    ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class,'student_id');
+    }
+
+    public function assessment()
+    {
+        return $this->belongsTo(Assessment::class);
+    }
 }

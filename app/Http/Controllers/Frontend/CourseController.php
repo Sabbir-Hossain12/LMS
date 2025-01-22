@@ -263,15 +263,20 @@ class CourseController extends Controller
         }
 
         $exist = AssessmentGrade::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();
-
+        $attempts=0;
         if ($exist) {
             $exist->marks_obtained = $marks_obtained;
+            $exist->attempts = $exist->attempts+1;
+            $exist->submitted_at = now();
             $save = $exist->save();
+            
         } else {
             $assessmentGrade = new AssessmentGrade();
             $assessmentGrade->assessment_id = $assessment_id;
             $assessmentGrade->student_id = $student_id;
             $assessmentGrade->marks_obtained = $marks_obtained;
+            $assessmentGrade->attempts = 1;
+            $exist->submitted_at = now();
             $save = $assessmentGrade->save();
         }
 
