@@ -131,6 +131,7 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/enrolments/store', [EnrolmentController::class, 'store'])->name('enrolment.store');
     Route::delete('/enrolments/{id}', [EnrolmentController::class, 'destroyEnrolment'])->name('enrolment.destroy');
     
+    Route::get('/enroll-student-view/{id}', [EnrolmentController::class, 'viewEnrollStudent'])->name('enroll-student.view');
     
     //Orders
     Route::resource('/orders', OrderController::class)->names('order');

@@ -109,18 +109,13 @@
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
+                                    
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$enrolment->id}}" action="{{route('admin.enrolment.destroy',$enrolment->id)}}">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="button" data-id="{{$enrolment->id}}" class="btn btn-sm btn-danger delete-btn">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
+                                            <a href="{{route('admin.enroll-student.view',$enrolment->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
                                         </div>
                                     </td>
+                                    
                                 </tr>
                             @empty
                             @endforelse

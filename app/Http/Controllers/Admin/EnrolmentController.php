@@ -23,6 +23,17 @@ class EnrolmentController extends Controller
 
     }
 
+
+    public function viewEnrollStudent(string $id)
+    {
+//      dd($id);
+        
+     $enrollment=   Enrollment::where('id', $id)->with('student')->first();
+        
+//        dd($enrollment);
+        return view('backend.pages.enroll-student-view.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
