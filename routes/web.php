@@ -90,13 +90,11 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
     group(function () {
         
     Route::get('/',[DashboardController::class,'index'])->name('index');
-    Route::get('/courses',[DashboardController::class,'coursesPage'])->name('courses');
-    Route::get('/assignments',[DashboardController::class,'assignmentsPage'])->name('assignments');
-    Route::get('/exam-attempts',[DashboardController::class,'examAttemptsPage'])->name('exam-attempts');
-    Route::get('/profiles',[DashboardController::class,'profilePage'])->name('profiles');
-    Route::get('/reviews',[DashboardController::class,'reviewsPage'])->name('reviews');
-    Route::get('/settings',[DashboardController::class,'settingsPage'])->name('settings');
-    Route::get('/wishlists',[DashboardController::class,'wishlistPage'])->name('wishlists');
+    Route::get('/dashboard-summery', [DashboardController::class,'dashboardSummeryPage'])->name('summery');
+    Route::get('/dashboard-courses',[DashboardController::class,'dashboardCoursesPage'])->name('courses');
+    Route::get('/dashboard-exam-attempts',[DashboardController::class,'dashboardExamPage'])->name('exam');
+    Route::get('/dashboard-profiles',[DashboardController::class,'dashboardProfilePage'])->name('profile');
+    Route::get('/dashboard-settings',[DashboardController::class,'dashboardSettingsPage'])->name('setting');
     
 });
 
