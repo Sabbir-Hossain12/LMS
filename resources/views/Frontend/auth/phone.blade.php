@@ -25,7 +25,7 @@
                                     </div>
                                     
                                     <div class="login__button">
-                                        <button type="submit" class="default__button w-100">Submit</button>
+                                        <button type="submit" id="submitBtn" class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
 
@@ -65,9 +65,11 @@
     
     @push('js')
                 <script>
-                    
+                   
                     $('#phoneSubmitForm').submit(function (e) {
                         e.preventDefault();
+                       
+                        
                         var formData = new FormData(this);
                         $.ajax({
                             headers: {
@@ -79,10 +81,14 @@
                             contentType: false,
                             processData: false,
                             beforeSend: function() {
+                                
                                 // Show loader
                                 showLoader();
+                                $('#submitBtn').prop('disabled', true);
+                                
                             },
                             success: function (res) {
+                               
                                 if (res.message === 'verified') {
                                     successToast('Phone Number Matched !');
                                     setTimeout(function() {
@@ -104,8 +110,13 @@
                                 errorToast('error');
                             },
                             complete: function() {
+                                
                                 // Hide loader
                                 hideLoader();
+
+                                $('#submitBtn').prop('disabled', false);
+                               
+                              
                             }
                         })
                     });

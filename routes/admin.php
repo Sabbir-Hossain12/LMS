@@ -117,21 +117,23 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/lesson-assessments/store', [AssessmentController::class, 'store'])->name('lesson-assessment.store');
     Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
     
-    //Assessment Answer 
-    Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
-    Route::post('/assessment-mark-evaluation/store', [AssessmentGradeController::class, 'markEvaluation'])->name('assessment-mark-evaluate.store');
-    
+
     //Assessment Questions
     Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');
     Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
     Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
-    
+
+    //Assessment Answer 
+    Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
+    Route::post('/assessment-mark-evaluation/store', [AssessmentGradeController::class, 'markEvaluation'])->name('assessment-mark-evaluate.store');
+
+
     //Enrolment
     Route::get('/enrolments/{id}', [EnrolmentController::class, 'index'])->name('enrolment');
     Route::post('/enrolments/store', [EnrolmentController::class, 'store'])->name('enrolment.store');
     Route::delete('/enrolments/{id}', [EnrolmentController::class, 'destroyEnrolment'])->name('enrolment.destroy');
     
-    Route::get('/enroll-student-view/{id}', [EnrolmentController::class, 'viewEnrollStudent'])->name('enroll-student.view');
+    Route::get('/enroll-student-view/{id}/{course_id}', [EnrolmentController::class, 'viewEnrollStudent'])->name('enroll-student.view');
     
     //Orders
     Route::resource('/orders', OrderController::class)->names('order');

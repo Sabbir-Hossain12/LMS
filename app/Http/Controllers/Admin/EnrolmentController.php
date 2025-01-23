@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assessment;
+use App\Models\AssessmentGrade;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Order;
@@ -15,23 +17,24 @@ class EnrolmentController extends Controller
 {
     public function index(string $id)
     {
-        $course=Course::find($id);
-        $students= User::role('student')->where('status',1)->get();
-        $enrolments= Enrollment::where('course_id', $id)->with('student')->get();
-        
-        return view('backend.pages.enrolment.index',compact('course','students','enrolments'));
+        $course = Course::find($id);
+        $students = User::role('student')->where('status', 1)->get();
+        $enrolments = Enrollment::where('course_id', $id)->with('student')->get();
 
+        return view('backend.pages.enrolment.index', compact('course', 'students', 'enrolments'));
     }
 
 
-    public function viewEnrollStudent(string $id)
+    public function viewEnrollStudent(string $id, string $course_id)
     {
-//      dd($id);
+        $enrollment = Enrollment::where('id', $id)->with('student')->first();
+        $grades = AssessmentGrade::whereHas('assessment', function ($query) use ($enrollment) {
+            $query->where('course_id', $enrollment->course_id);
+        })->with('assessment')->latest()->get();
         
-     $enrollment=   Enrollment::where('id', $id)->with('student')->first();
-        
-//        dd($enrollment);
-        return view('backend.pages.enroll-student-view.index');
+
+//        dd($grades);
+        return view('backend.pages.enroll-student-view.index', compact('enrollment', 'grades'));
     }
 
     /**
@@ -48,31 +51,30 @@ class EnrolmentController extends Controller
     public function store(Request $request)
     {
 //      dd($request->all());
-        
-        $inv_num= uniqid();
-        $course= Course::find($request->course_id);
 
-        $order= new Order();
+        $inv_num = uniqid();
+        $course = Course::find($request->course_id);
+
+        $order = new Order();
         $order->user_id = $request->user_id;
         $order->total_amount = $course->sale_price;
         $order->transaction_id = $inv_num;
         $order->save();
-        
-        $orderCourse= new OrderCourse();
+
+        $orderCourse = new OrderCourse();
         $orderCourse->order_id = $order->id;
         $orderCourse->course_id = $request->course_id;
         $orderCourse->price = $course->sale_price;
         $orderCourse->discount = $course->discount ?? 0;
         $orderCourse->save();
 
-        $enrollment= new Enrollment();
+        $enrollment = new Enrollment();
         $enrollment->user_id = $request->user_id;
         $enrollment->course_id = $request->course_id;
         $enrollment->order_id = $order->id;
         $enrollment->save();
-        
-        return redirect()->back()->with('success','Enrolled Successful');
-        
+
+        return redirect()->back()->with('success', 'Enrolled Successful');
     }
 
     /**
@@ -104,8 +106,6 @@ class EnrolmentController extends Controller
      */
     public function destroyEnrolment(string $id)
     {
-
-
         DB::beginTransaction();
 
         try {

@@ -70,6 +70,7 @@
         <div class="dashboard">
             <div class="container-fluid full__width__padding">
                 <div class="row">
+                    
                     <div class="col-xl-3 col-lg-3 col-md-12">
                         <div class="dashboard__inner sticky-top">
                             <div class="dashboard__nav__title">
@@ -199,7 +200,7 @@
 
                         </div>
                     </div>
-                    <div class="col-xl-9 col-lg-9 col-md-12">
+                    <div class="col-xl-9 col-lg-9 col-md-12" id="dashboardMainContent">
                         <div class="dashboard__content__wraper">
                             <div class="dashboard__section__title">
                                 <h4>Summery</h4>
@@ -364,8 +365,7 @@
                             </div>
                         </div>
                     </div>
-
-
+                    
                 </div>
             </div>
         </div>

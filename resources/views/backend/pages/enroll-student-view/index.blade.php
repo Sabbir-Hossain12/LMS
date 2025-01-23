@@ -6,10 +6,17 @@
           rel="stylesheet" type="text/css">
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
+
+    <style>
+        @media print {
+            .main-content {
+                padding: 50px;
+            }
+        }
+    </style>
 @endpush
 
 @section ('contents')
-
 
     <div class="row">
         <div class="col-12">
@@ -26,34 +33,40 @@
             </div>
         </div>
     </div>
-    <div class="row">
+
+    <div class="row" id="printBody">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div>
-                               
-                                <h5 class="font-size-14 mb-2">Richard Saul</h5>
-                                <p class="mb-1">1208 Sherwood Circle
-                                    Lafayette, LA 70506</p>
-                                <p class="mb-1">RichardSaul@rhyta.com</p>
-                                <p>337-256-9134</p>
+
+                                <h5 class="font-size-14 mb-2">{{$enrollment->student->name}}</h5>
+                                <p class="mb-1">{{$enrollment->student->address ?? ''}}</p>
+                                <p class="mb-1">{{$enrollment->student->email ?? ''}}</p>
+                                <p>{{$enrollment->student->phone}}</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div>
                                 <div>
-                                    <h5 class="font-size-15">Order Date:</h5>
-                                    <p>February 16, 2020</p>
+                                    <h5 class="font-size-15">Enroll Date:</h5>
+                                    <p>{{$enrollment->enrolled_at->format('M d,Y')}}</p>
+                                </div>
+                                @php
+                                    $total_marks = $grades->sum(function ($grade) {
+                                    return $grade->assessment->total_marks;
+                                    });
+
+                                @endphp
+                                <div>
+                                    <h5 class="font-size-15">Marks Obtain:</h5>
+                                    <p>{{$grades->sum('marks_obtained') ?? '0'}}/{{$total_marks ?? '0'}}</p>
                                 </div>
 
-                                <div class="mt-4">
-                                    <h5 class="font-size-15">Payment Method:</h5>
-                                    <p class="mb-1">Visa ending **** 4242</p>
-                                    <p>richards@email.com</p>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -67,41 +80,28 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 70px;">No.</th>
-                                    <th>Item</th>
-                                    <th class="text-end" style="width: 120px;">Price</th>
+                                    <th>Exam Title</th>
+                                    <th class="text-end" style="width: 120px;">Total marks</th>
+                                    <th class="text-end" style="width: 120px;">Obtained marks</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">01</th>
-                                    <td>
-                                        <h5 class="font-size-15 mb-1">Minia</h5>
-                                        <p class="font-size-13 text-muted mb-0">Bootstrap 5 Admin Dashboard </p>
-                                    </td>
-                                    <td class="text-end">$499.00</td>
-                                </tr>
+                                @forelse($grades as $key=> $grade)
+                                    <tr>
+                                        <th scope="row">{{$key+1}}</th>
+                                        <td>
+                                            <h5 class="font-size-15 mb-1">{{$grade->assessment->title}}</h5>
+                                        </td>
+                                        <td class="text-end">{{$grade->assessment->total_marks}}</td>
+                                        <td class="text-end">{{$grade->marks_obtained}}</td>
+                                    </tr>
+                                @empty
+                                @endforelse
 
                                 <tr>
-                                    <th scope="row">02</th>
-                                    <td>
-                                        <h5 class="font-size-15 mb-1">Skote</h5>
-                                        <p class="font-size-13 text-muted mb-0">Bootstrap 5 Admin Dashboard </p>
-                                    </td>
-                                    <td class="text-end">$499.00</td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="row" colspan="2" class="text-end">Sub Total</th>
-                                    <td class="text-end">$998.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" colspan="2" class="border-0 text-end">
-                                        Tax</th>
-                                    <td class="border-0 text-end">$12.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" colspan="2" class="border-0 text-end">Total</th>
-                                    <td class="border-0 text-end"><h4 class="m-0">$1010.00</h4></td>
+                                    <th scope="row" colspan="3" class="border-0 text-end">Marks Obtained</th>
+                                    <td class="border-0 text-end"><h4
+                                                class="m-0">{{$grades->sum('marks_obtained') ?? '0'}}</h4></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -109,15 +109,15 @@
                     </div>
                     <div class="d-print-none mt-3">
                         <div class="float-end">
-                            <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
-                            <a href="#" class="btn btn-primary w-md waves-effect waves-light">Send</a>
+                            <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i
+                                        class="fa fa-print"></i> Print Report</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 @endsection
 
 @push('backendJs')
@@ -128,5 +128,4 @@
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
-  
 @endpush

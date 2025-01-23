@@ -112,7 +112,7 @@
                                     
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="{{route('admin.enroll-student.view',$enrolment->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('admin.enroll-student.view',[$enrolment->id,$course->id])}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
                                         </div>
                                     </td>
                                     

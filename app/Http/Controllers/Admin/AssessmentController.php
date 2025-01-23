@@ -48,7 +48,8 @@ class AssessmentController extends Controller
     {
 //      dd($request->all());
         $assessment=new Assessment();
-        $assessment->lesson_id =$request->lesson_id ;
+        $assessment->course_id =$request->course_id;
+        $assessment->lesson_id =$request->lesson_id;
         $assessment->type=$request->type;
         $assessment->title=$request->title;
         $assessment->attempts=$request->attempts;

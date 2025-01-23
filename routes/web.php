@@ -47,7 +47,7 @@ Route::post('/course-lessons/video',[CourseController::class,'courseLessonsVideo
 Route::post('/course-lessons/material',[CourseController::class,'courseLessonsMaterial'])->name('lesson-material');
 Route::post('/course-lessons/Exam',[CourseController::class,'courseLessonsExam'])->name('lesson-exam');
 
-//Assignment Submit
+//Exam Submit
 Route::post('/assignment-submit',[CourseController::class,'assignmentSubmit'])->name('assignment.submit');
 Route::post('/quiz-submit',[CourseController::class,'quizSubmit'])->name('quiz.submit');
 
