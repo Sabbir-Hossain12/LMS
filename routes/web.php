@@ -96,6 +96,10 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
     Route::get('/dashboard-profiles',[DashboardController::class,'dashboardProfilePage'])->name('profile');
     Route::get('/dashboard-settings',[DashboardController::class,'dashboardSettingsPage'])->name('setting');
     
+    Route::post('/update-profile', [DashboardController::class,'updateProfile'])->name('profile.update');
+    Route::post('/update-password', [DashboardController::class,'updatePassword'])->name('profile.password');
+    Route::post('/update-social-links', [DashboardController::class,'updateSocial'])->name('profile.social');
+    
 });
 
 

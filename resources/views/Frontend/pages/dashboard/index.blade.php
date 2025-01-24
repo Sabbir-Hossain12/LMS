@@ -15,8 +15,8 @@
                             <div class="dashboardarea__inner student__dashboard__inner">
                                 <div class="dashboardarea__left">
                                     <div class="dashboardarea__left__img">
-                                        <img loading="lazy" src="{{asset('frontend')}}/img/teacher/teacher__2.png"
-                                             alt="">
+                                        <img loading="lazy" src="{{asset($student->profile_image ?? 'frontend/img/teacher/teacher__2.png')}}"
+                                             alt="" height="109px" width="109px">
                                     </div>
                                     <div class="dashboardarea__left__content">
                                         <h4>{{Auth::user()->name}}</h4>
@@ -29,26 +29,26 @@
                                                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                                                 </svg>
-                                                9 Courses Enroled
+                                                {{$enrollments_count ?? 0}} Courses Enrolled
                                             </li>
-                                            <li>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="feather feather-award">
-                                                    <circle cx="12" cy="8" r="7"></circle>
-                                                    <polyline
-                                                            points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                                                </svg>
-                                                8 Certificate
-                                            </li>
+{{--                                            <li>--}}
+{{--                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"--}}
+{{--                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"--}}
+{{--                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                     class="feather feather-award">--}}
+{{--                                                    <circle cx="12" cy="8" r="7"></circle>--}}
+{{--                                                    <polyline--}}
+{{--                                                            points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>--}}
+{{--                                                </svg>--}}
+{{--                                                8 Certificate--}}
+{{--                                            </li>--}}
                                         </ul>
 
                                     </div>
                                 </div>
                                 <div class="dashboardarea__right">
                                     <div class="dashboardarea__right__button">
-                                        <a class="default__button" href="">Enroll A New Course
+                                        <a class="default__button" href="{{route('course-list')}}">Enroll A New Course
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                  stroke-linecap="round" stroke-linejoin="round"
