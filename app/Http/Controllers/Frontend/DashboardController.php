@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DashboardController extends Controller
@@ -18,7 +19,7 @@ class DashboardController extends Controller
         $student = User::where('id', $student_id)->first();
         $enrollments_count = Enrollment::where('user_id', $student_id)->with(['student', 'course'])->count();
 
-        return view('Frontend.pages.dashboard.index', compact('enrollments_count','student'));
+        return view('Frontend.pages.dashboard.index', compact('enrollments_count', 'student'));
     }
 
 
@@ -94,22 +95,21 @@ class DashboardController extends Controller
             'email' => 'email',
             'address' => 'string',
         ]);
-        
+
         $student_id = auth()->user()->id;
         $student = User::where('id', $student_id)->first();
         $student->name = $request->name;
         $student->slug = Str::slug($request->name).'-'.uniqid();
         $student->email = $request->email;
         $student->address = $request->address;
-        
+
         if ($request->hasFile('profile_image')) {
-            
             $image = $request->file('profile_image');
-            $imageName = time() .uniqid(). '.' . $image->getClientOriginalExtension();
+            $imageName = time().uniqid().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('backend/upload/student/'), $imageName);
-            $student->profile_image = 'backend/upload/student/'. $imageName;
+            $student->profile_image = 'backend/upload/student/'.$imageName;
         }
-        
+
         $save = $student->save();
 
         if (!$save) {
@@ -124,9 +124,15 @@ class DashboardController extends Controller
         $request->validate([
             'password' => 'required|confirmed',
         ]);
-        
+
         $student_id = auth()->user()->id;
         $student = User::where('id', $student_id)->first();
+
+        if (!Hash::check($request->current_password, $student->password)) {
+            return response()->json(['status' => 'failed', 'message' => 'Current password does not match'], 500);
+        }
+
+
         $student->password = Hash::make($request->password);
         $save = $student->save();
 
@@ -152,12 +158,11 @@ class DashboardController extends Controller
         $student->insta_link = $request->insta_link;
         $student->twitter_link = $request->twitter_link;
         $save = $student->save();
-        
+
         if (!$save) {
             return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
         }
         return response()->json(['status' => 'success', 'message' => 'Social Updated successfully'], 200);
-        
     }
 
 

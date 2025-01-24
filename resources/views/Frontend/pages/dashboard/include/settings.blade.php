@@ -213,6 +213,7 @@
 </div>
 
 <script>
+    /* Profile Update */
     $('#profileUpdateForm').submit(function (e) {
         e.preventDefault();
 
@@ -252,4 +253,46 @@
             }
         });
     });
+
+    /* Password Update */
+    $('#updatePasswordForm').submit(function (e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('student.dashboard.profile.password') }}",
+            data: formData,
+            processData: false,  // Prevent jQuery from processing the data
+            contentType: false,  // Prevent jQuery from setting contentType
+            success: function (res) {
+                if (res.status === 'success') {
+                    $('#updatePasswordForm').trigger('reset');
+                    // $('#SettingsTab').trigger('click');
+                    $('[data-bs-target="#projects__two"]').tab('show');
+                    swal.fire({
+                        title: "Success",
+                        text: "Password Updated Successfully !",
+                        icon: "success"
+                    })
+
+
+                }
+            },
+            error: function (err) {
+
+                swal.fire({
+                    title: "Failed",
+                    text: err.responseJSON.message,
+                    icon: "error"
+                })
+                // Optionally, handle error behavior like showing an error message
+            }
+        });
+    });
+ 
 </script>
