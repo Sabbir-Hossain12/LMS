@@ -143,7 +143,6 @@
                                 <th>Total Marks</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
-                                <th>Attempts</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -158,7 +157,6 @@
                                     <td>{{$assessment->total_marks}}</td>
                                     <td>{{$assessment->start_time->format('d M Y h:i A')}}</td>
                                     <td>{{$assessment->end_time->format('d M Y h:i A')}}</td>
-                                    <td>{{$assessment->attempts}}</td>
                                     <td>
                                         @if($assessment->status == 1)
                                             <span class="badge bg-success">Active</span>

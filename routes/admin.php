@@ -53,6 +53,7 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     Route::post('logout', [AuthenticationController::class, 'destroy'])->name('logout');
     
+    //Dashboard
     Route::resource('/dashboards', DashboardController::class)->names('dashboard');
     
     //Admin
@@ -93,22 +94,30 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //Subject
     Route::get('/subjects/{id}', [SubjectController::class, 'index'])->name('subject');
+    Route::get('/subjects/{id}/edit', [SubjectController::class, 'edit'])->name('subject.edit');
+    Route::post('/subjects/{id}/update', [SubjectController::class, 'update'])->name('subject.update');
     Route::post('/subjects/store', [SubjectController::class, 'store'])->name('subject.store');
     Route::delete('/subjects/{id}', [SubjectController::class, 'destroy'])->name('subject.destroy');
     
     //Lesson
     Route::get('/lessons/{id}', [LessonController::class, 'index'])->name('lesson');
+    Route::get('/lessons/{id}/edit', [LessonController::class, 'edit'])->name('lesson.edit');
+    Route::post('/lessons/{id}/update', [LessonController::class, 'update'])->name('lesson.update');
     Route::post('/lessons/store', [LessonController::class, 'store'])->name('lesson.store');
     Route::delete('/lessons/{id}', [LessonController::class, 'destroyLesson'])->name('lesson.destroy');
     
     
     //Lesson Video
     Route::get('/lesson-videos/{id}', [LessonVideoController::class, 'index'])->name('lesson-video');
+    Route::get('/lesson-videos/{id}/edit', [LessonVideoController::class, 'edit'])->name('lesson-video.edit');
+    Route::post('/lesson-videos/{id}/update', [LessonVideoController::class, 'update'])->name('lesson-video.update');
     Route::post('/lesson-videos/store', [LessonVideoController::class, 'store'])->name('lesson-video.store');
     Route::delete('/lesson-videos/{id}', [LessonVideoController::class, 'destroyLessonVideo'])->name('lesson-video.destroy');
     
     //Lesson Materials
     Route::get('/lesson-materials/{id}', [LessonMaterialController::class, 'index'])->name('lesson-material');
+    Route::get('/lesson-materials/{id}/edit', [LessonMaterialController::class, 'edit'])->name('lesson-material.edit');
+    Route::post('/lesson-materials/{id}/update', [LessonMaterialController::class, 'update'])->name('lesson-material.update');
     Route::post('/lesson-materials/store', [LessonMaterialController::class, 'store'])->name('lesson-material.store');
     Route::delete('/lesson-materials/{id}', [LessonMaterialController::class, 'destroyLessonMaterial'])->name('lesson-material.destroy');
     

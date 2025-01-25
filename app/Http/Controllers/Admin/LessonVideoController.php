@@ -19,21 +19,18 @@ class LessonVideoController extends Controller
     public function index(string $id, Request $request)
     {
         $course = Course::find($id);
-        $subjects= Subject::where('course_id',$id)->get();
-        
-        $lessons= Lesson::whereHas('subject.course',function ($q) use ($id)
-        {
-            $q->where('id',$id);
+        $subjects = Subject::where('course_id', $id)->get();
+
+        $lessons = Lesson::whereHas('subject.course', function ($q) use ($id) {
+            $q->where('id', $id);
         })->get();
-        
-        $lessonVideos=   LessonVideo::whereHas('lesson.subject.course',function ($q) use ($id)
-        {
-            $q->where('id',$id);
+
+        $lessonVideos = LessonVideo::whereHas('lesson.subject.course', function ($q) use ($id) {
+            $q->where('id', $id);
         })->get();
 
 
-        return view('backend.pages.lesson-videos.index',compact('lessonVideos','course','subjects','lessons'));
-        
+        return view('backend.pages.lesson-videos.index', compact('lessonVideos', 'course', 'subjects', 'lessons'));
     }
 
     /**
@@ -53,18 +50,18 @@ class LessonVideoController extends Controller
         $lessonVideo = new LessonVideo();
         $lessonVideo->lesson_id = $request->lesson_id;
         $lessonVideo->title = $request->title;
-        $lessonVideo->slug =Str::slug($request->title);
+        $lessonVideo->slug = Str::slug($request->title);
         $lessonVideo->video_url = $request->video_url;
         $lessonVideo->duration = $request->duration;
         $lessonVideo->position = $request->position;
         $lessonVideo->status = $request->status;
-        
-        $save=  $lessonVideo->save();
+
+        $save = $lessonVideo->save();
         if ($save) {
-            return redirect()->back()->with('success','Video Added Successfully');
+            return redirect()->back()->with('success', 'Video Added Successfully');
         }
-        
-        return redirect()->back()->with('error','Something went wrong');
+
+        return redirect()->back()->with('error', 'Something went wrong');
     }
 
     /**
@@ -80,7 +77,11 @@ class LessonVideoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $lessonVideo = LessonVideo::find($id);
+
+        $lessons = Lesson::where('subject_id', $lessonVideo->lesson->subject_id)->get();
+
+        return view('backend.pages.lesson-videos.edit', compact('lessonVideo', 'lessons'));
     }
 
     /**
@@ -88,14 +89,30 @@ class LessonVideoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $lessonVideo = LessonVideo::find($id);
+        $lessonVideo->lesson_id = $request->lesson_id;
+        $lessonVideo->title = $request->title;
+        $lessonVideo->video_url = $request->video_url;
+        $lessonVideo->duration = $request->duration;
+        $lessonVideo->position = $request->position;
+        $lessonVideo->status = $request->status;
+
+        $save = $lessonVideo->save();
+        if ($save) {
+            return redirect()->back()->with('success', 'Video Update Successfully');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyLessonVideo(string $id)
     {
-        //
+        $lessonVideo = LessonVideo::find($id);
+        $lessonVideo->delete();
+
+        return redirect()->back()->with('success', 'Video Deleted Successfully');
     }
 }

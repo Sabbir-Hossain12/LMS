@@ -19,4 +19,10 @@ class AssessmentGrade extends Model
     {
         return $this->belongsTo(Assessment::class);
     }
+
+
+    public function assessmentAnswer()
+    {
+        return $this->belongsTo(AssessmentAnswer::class,'assessment_answer_id');
+    }
 }

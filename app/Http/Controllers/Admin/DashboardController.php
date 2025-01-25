@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\CourseClass;
+use App\Models\Enrollment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +16,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.dashboard.dashboard');
+        $total_classes =CourseClass::count();
+        $total_courses = Course::count();
+        $total_students = User::role('student')->count();
+        $total_enrollments = Enrollment::count();
+        
+        
+        return view('backend.pages.dashboard.dashboard',compact('total_classes','total_courses','total_students','total_enrollments'));
     }
 
     /**

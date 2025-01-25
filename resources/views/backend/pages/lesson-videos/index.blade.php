@@ -50,8 +50,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="video_url" class="form-label">Video URL *</label>
-                                        <input class="form-control" type="text" id="video_url" name="video_url" required>
+                                        <label for="video_url" class="form-label">Video URL (embed) *</label>
+                                        <input class="form-control" type="text" id="video_url" name="video_url" placeholder="https://www.youtube.com/embed/v5nSFx7YEXc?si=7HPDNFUSxUbq3e9B" required>
                                     </div>
 
 
@@ -140,11 +140,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$lVideo->id}}" action="">
+                                            <a href="{{route('admin.lesson-video.edit',$lVideo->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                            <form method="post" id="delete-form-{{$lVideo->id}}" action="{{route('admin.lesson-video.destroy',$lVideo->id)}}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{$lVideo->id}}" ><i class="fas fa-trash"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -187,5 +187,28 @@
         });
 
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Handle delete button click
+            $('.delete-btn').on('click', function () {
+                let formId = '#delete-form-' + $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form if confirmed
+                        $(formId).submit();
+                    }
+                });
+            });
+        });
     </script>
 @endpush

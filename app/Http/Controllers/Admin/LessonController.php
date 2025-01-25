@@ -23,8 +23,7 @@ class LessonController extends Controller
      {
          $q->where('id',$id);
      })->get();
-     
-     
+        
         return view('backend.pages.lessons.index',compact('lessons','course','subjects'));
     }
 
@@ -74,7 +73,11 @@ class LessonController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
+        $lesson = Lesson::find($id);
+        
+        $subjects= Subject::where('course_id',$lesson->subject->course_id)->get();
+        return view('backend.pages.lessons.edit',compact('lesson','subjects'));
     }
 
     /**
@@ -82,14 +85,35 @@ class LessonController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $lesson = Lesson::find($id);
+        $lesson->subject_id = $request->subject_id;
+        $lesson->title = $request->title;
+        $lesson->subtitle = $request->subtitle;
+        $lesson->desc = $request->desc;
+        $lesson->position = $request->position;
+        $lesson->status = $request->status;
+
+        $save=$lesson->save();
+
+        if ($save) {
+
+            return redirect()->back()->with('success','Lesson Update Successfully');
+        }
+
+        return redirect()->back()->with('error','Something went wrong');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroyLesson(string $id)
     {
-        //
+        
+//        dd('works');
+        
+        $lesson = Lesson::find($id);
+        $lesson->delete();
+        return redirect()->back()->with('success','Lesson Deleted Successfully');
+        
     }
 }

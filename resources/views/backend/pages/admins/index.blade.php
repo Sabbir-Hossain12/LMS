@@ -94,7 +94,7 @@
 
                         <div class="mb-3">
                             <label for="Name" class="col-form-label">Name</label>
-                            <input type="text" class="form-control" id="Name" name="name">
+                            <input type="text" class="form-control" id="Name" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="col-form-label">Email</label>
@@ -102,17 +102,17 @@
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="col-form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
+                            <input type="text" class="form-control" id="phone" name="phone" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="profile_image" class="col-form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                            <input type="file" class="form-control" id="profile_image" name="profile_image" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="role" class="col-form-label">Roles</label>
-                            <select name="role" id="role"  class="form-control">
+                            <select name="role" id="role"  class="form-control" required>
 
                                 @forelse($roles as $role)
                                     <option value="{{$role->name}}">{{$role->name}}</option>
@@ -123,7 +123,7 @@
                         
                         <div class="mb-3">
                             <label for="password" class="col-form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password">
+                            <input type="password" class="form-control" name="password" id="password" required>
                         </div>
 
 
@@ -180,10 +180,6 @@
                               
                                 
                             </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ePassword" class="col-form-label">Password</label>
-                            <input type="password" id="ePassword" class="form-control" name="password">
                         </div>
                         <input id="id" type="number" hidden>
 

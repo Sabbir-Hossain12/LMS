@@ -56,6 +56,7 @@ class SubjectController extends Controller
             $file->move(public_path('backend/upload/subject/'), $filename);
             $subject->img ='backend/upload/subject/'. $filename;
         }
+        
         if ($request->hasFile('meta_img')) {
 
             $file = $request->file('meta_img');
@@ -81,7 +82,8 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $subject=Subject::find($id);
+        return view('backend.pages.subjects.edit', compact('subject'));
     }
 
     /**
@@ -89,7 +91,41 @@ class SubjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $subject = Subject::find($id);
+        $subject->title = $request->title;
+        $subject->subtitle = $request->subtitle;
+        $subject->desc = $request->desc;
+        $subject->icon = $request->icon;
+        $subject->position = $request->position;
+        $subject->is_featured = $request->is_featured;
+        $subject->status = $request->status;
+
+        if ($request->hasFile('img')) {
+            
+            if ($subject->img && file_exists(public_path($subject->img))) {
+                unlink(public_path($subject->img));
+            }
+
+            $file = $request->file('img');
+            $filename = time().uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/subject/'), $filename);
+            $subject->img ='backend/upload/subject/'. $filename;
+        }
+
+        if ($request->hasFile('meta_img')) {
+            
+            if ($subject->meta_img && file_exists(public_path($subject->meta_img))) {
+                unlink(public_path($subject->meta_img));
+            }
+
+            $file = $request->file('meta_img');
+            $filename = time().uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/subject/'), $filename);
+            $subject->meta_img ='backend/upload/subject/'. $filename;
+        }
+
+        $subject->save();
+        return redirect()->back()->with('success', 'Subject Updated Successfully');
     }
 
     /**

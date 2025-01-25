@@ -102,13 +102,14 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+//      dd($request->all());
         $admin = new User();
         $admin->name = $request->name;
         $admin->slug =  Str::slug($request->name).uniqid();
         $admin->email = $request->email;
         $admin->phone = $request->phone;
         $admin->password = $request->password;
+        
         
         
         $admin->assignRole('student');
@@ -161,14 +162,14 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        dd($request->all());
+//      dd($request->all());
         $admin = User::findOrFail($id);
 
         if ($admin) {
             $admin->name = $request->name;
             $admin->email = $request->email;
             $admin->phone = $request->phone;
-            $admin->password = Hash::make($request->password);
+//            $admin->password = Hash::make($request->password);
 
             $admin->syncRoles($request->role);
 

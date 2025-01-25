@@ -151,7 +151,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Teacher</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -159,7 +159,7 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="eName" class="col-form-label">Name</label>
+                            <label for="eName" class="col-form-label">Full Name</label>
                             <input type="text" id="eName" class="form-control" name="name">
                         </div>
 
@@ -200,10 +200,7 @@
                                 
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="ePassword" class="col-form-label">Password</label>
-                            <input type="password" id="ePassword" class="form-control" name="password">
-                        </div>
+                      
                         <input id="id" type="number" hidden>
 
                         <div class="modal-footer">
@@ -393,7 +390,7 @@
                             adminTable.ajax.reload()
                             swal.fire({
                                 title: "Success",
-                                text: "Admin Updated !",
+                                text: "Teacher Updated !",
                                 icon: "success"
                             })
             
@@ -440,7 +437,7 @@
                                 success: function (res) {
                                     Swal.fire({
                                         title: "Deleted!",
-                                        text: "Admin has been deleted.",
+                                        text: "Teacher has been deleted.",
                                         icon: "success"
                                     });
             
@@ -461,7 +458,7 @@
             
             })
             
-            // Change Admin Status
+            // Change Teacher Status
             $(document).on('click', '#adminStatus', function () {
                 let id = $(this).data('id');
                 let status = $(this).data('status')

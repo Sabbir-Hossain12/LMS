@@ -437,6 +437,53 @@
                     }
                 })
             });
+            
+            //Exam Solution
+            $(document).on('click', '.examSolutionBtn', function (e) {
+
+                let id= $(this).data('id');
+                console.log(id)
+                e.preventDefault();
+                
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'GET',
+                    url: "{{route('student.dashboard.exam.solution', ':id')}}".replace(':id', id),
+
+                    // contentType: false,
+                    // processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+
+                    success: function (res) {
+
+                        $('#dashboardMainContent').empty();
+                        $('#dashboardMainContent').append(res.html);
+
+                    },
+                    error: function (err) {
+
+                        errorToast('error');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+            
+            //Close Button
+            $(document).on('click', '.examCloseBtn', function (e) {
+                
+                e.preventDefault();
+                
+                $('#examTab').trigger('click');
+            });
+            
         </script>
     @endpush
 

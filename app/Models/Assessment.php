@@ -28,4 +28,10 @@ class Assessment extends Model
     }
 
 
+    public function assessmentAnswers()
+    {
+        return $this->hasMany(AssessmentAnswer::class,'assessment_id');
+    }
+
+
 }

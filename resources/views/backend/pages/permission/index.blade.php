@@ -36,11 +36,11 @@
             <div class="card">
                 <div class="card-header">
 
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-center align-items-center">
                         <h4 class="card-title">Permission List</h4>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPermissionModal">
-                            Create Admin
-                        </button>
+{{--                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPermissionModal">--}}
+{{--                            Add Permission--}}
+{{--                        </button>--}}
                     </div>
 
                 </div>
@@ -53,7 +53,7 @@
                                 <th>Name</th>
                                 <th>Guard</th>
 {{--                                <th>Status</th>--}}
-                                <th>Actions</th>
+{{--                                <th>Actions</th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -183,12 +183,12 @@
                     //     searchable: false,
                     // },
 
-                    {
-                        data: 'action',
-                        name: 'Actions',
-                        orderable: false,
-                        searchable: false
-                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'Actions',
+                    //     orderable: false,
+                    //     searchable: false
+                    // },
 
                 ]
             });

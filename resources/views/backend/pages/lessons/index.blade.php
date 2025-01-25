@@ -142,11 +142,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$lesson->id}}" action="">
+                                            <a href="{{route('admin.lesson.edit',$lesson->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                            <form method="post" id="delete-form-{{$lesson->id}}" action="{{route('admin.lesson.destroy',$lesson->id)}}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger" ><i class="fas fa-trash"></i></button>
+                                                <button type="button" class="delete-btn btn btn-sm btn-danger" data-id="{{$lesson->id}}"  ><i class="fas fa-trash"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -189,5 +189,29 @@
         });
 
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle delete button click
+            $('.delete-btn').on('click', function () {
+                let formId = '#delete-form-' + $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form if confirmed
+                        $(formId).submit();
+                    }
+                });
+            });
+        });
     </script>
 @endpush

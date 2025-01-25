@@ -6,23 +6,28 @@
         <div class="col-xl-12 aos-init aos-animate" data-aos="fade-up">
             <ul class="nav  about__button__wrap dashboard__button__wrap" id="myTab"
                 role="tablist">
+                
                 <li class="nav-item" role="presentation">
                     <button class="single__tab__link active" data-bs-toggle="tab"
                             data-bs-target="#projects__one" type="button" aria-selected="true"
                             role="tab">Profile
                     </button>
                 </li>
+                
                 <li class="nav-item" role="presentation">
                     <button class="single__tab__link" data-bs-toggle="tab"
                             data-bs-target="#projects__two" type="button" aria-selected="false"
                             role="tab" tabindex="-1">Password
                     </button>
                 </li>
+                
                 <li class="nav-item" role="presentation">
+                    
                     <button class="single__tab__link" data-bs-toggle="tab"
                             data-bs-target="#projects__three" type="button" aria-selected="false"
                             role="tab" tabindex="-1">Social Icon
                     </button>
+                    
                 </li>
 
             </ul>
@@ -148,6 +153,8 @@
             <div class="tab-pane fade" id="projects__three" role="tabpanel"
                  aria-labelledby="projects__three">
 
+                <form id="updateSocialForm">
+                    @csrf
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="dashboard__form__wraper">
@@ -201,6 +208,8 @@
 
 
                 </div>
+
+                </form>
 
 
             </div>
@@ -281,6 +290,44 @@
                     })
 
 
+                }
+            },
+            error: function (err) {
+
+                swal.fire({
+                    title: "Failed",
+                    text: err.responseJSON.message,
+                    icon: "error"
+                })
+                // Optionally, handle error behavior like showing an error message
+            }
+        });
+    });
+
+    /* Social Links Update */
+    $('#updateSocialForm').submit(function (e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('student.dashboard.profile.social') }}",
+            data: formData,
+            processData: false,  // Prevent jQuery from processing the data
+            contentType: false,  // Prevent jQuery from setting contentType
+            success: function (res) {
+                if (res.status === 'success') {
+                    $('#SettingsTab').trigger('click');
+                    $('[data-bs-target="#projects__three"]').tab('show');
+                    swal.fire({
+                        title: "Success",
+                        text: "Social Links Updated Successfully !",
+                        icon: "success"
+                    })
                 }
             },
             error: function (err) {

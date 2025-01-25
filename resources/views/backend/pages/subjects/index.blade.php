@@ -182,7 +182,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('admin.subject.edit',$subject->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                             <form method="post" id="delete-form-{{$subject->id}}" action="{{route('admin.subject.destroy',$subject->id)}}">
                                                 @csrf
                                                 @method('delete')

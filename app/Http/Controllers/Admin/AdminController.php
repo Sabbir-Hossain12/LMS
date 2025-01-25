@@ -105,7 +105,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+//      dd($request->all());
         $admin = new User();
         $admin->name = $request->name;
         $admin->slug =  Str::slug($request->name).uniqid();
@@ -170,7 +170,6 @@ class AdminController extends Controller
             $admin->name = $request->name;
             $admin->email = $request->email;
             $admin->phone = $request->phone;
-            $admin->password = Hash::make($request->password);
 
             $admin->syncRoles($request->role);
             

@@ -40,18 +40,15 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-4 text-center  rounded">
-                            <i class="fas fa-cart-plus h2"></i>
+                            <i class="fas fa-school h2"></i>
                         </div>
                         
                         <div class="col-8">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Today's Orders</span>
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Classes</span>
                             <h4 class="mb-3">
-                                $<span class="counter-value" data-target="865.2">865.2</span>k
+                                <span class="">{{$total_classes}}</span>
                             </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-soft-success text-success">+$20.9k</span>
-                                <span class="ms-1 text-muted font-size-13">Since last week</span>
-                            </div>
+                          
                         </div>
 
                       
@@ -67,18 +64,14 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-4 text-center  rounded">
-                            <i class="fas fa-cart-plus h2"></i>
+                            <i class="fas fa-chalkboard h2"></i>
                         </div>
 
                         <div class="col-8">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Today's Orders</span>
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Courses</span>
                             <h4 class="mb-3">
-                                $<span class="counter-value" data-target="865.2">865.2</span>k
+                                <span class="" >{{$total_courses}}</span>
                             </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-soft-success text-success">+$20.9k</span>
-                                <span class="ms-1 text-muted font-size-13">Since last week</span>
-                            </div>
                         </div>
 
 
@@ -94,18 +87,14 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-4 text-center  rounded">
-                            <i class="fas fa-cart-plus h2"></i>
+                            <i class="fas fa-users h2"></i>
                         </div>
 
                         <div class="col-8">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Today's Orders</span>
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Students</span>
                             <h4 class="mb-3">
-                                $<span class="counter-value" data-target="865.2">865.2</span>k
+                                <span class="" >{{$total_students}}</span>
                             </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-soft-success text-success">+$20.9k</span>
-                                <span class="ms-1 text-muted font-size-13">Since last week</span>
-                            </div>
                         </div>
 
 
@@ -121,18 +110,15 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-4 text-center  rounded">
-                            <i class="fas fa-cart-plus h2"></i>
+                            <i class="fas fa-user-plus h2"></i>
                         </div>
 
                         <div class="col-8">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Today's Orders</span>
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Enrollments</span>
                             <h4 class="mb-3">
-                                $<span class="counter-value" data-target="865.2">865.2</span>k
+                                <span class="" >{{$total_enrollments}}</span>
                             </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-soft-success text-success">+$20.9k</span>
-                                <span class="ms-1 text-muted font-size-13">Since last week</span>
-                            </div>
+                           
                         </div>
 
 

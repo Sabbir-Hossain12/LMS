@@ -15,6 +15,7 @@
                         <th>Exam Title</th>
                         <th>Total Marks</th>
                         <th>Obtained Mark</th>
+                        <th>Attempts</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -37,11 +38,28 @@
                             <td>
                                 <p>{{$grade->marks_obtained ?? ''}}</p>
                             </td>
+                            
 
                             <td>
+                                @if($grade->assessment->type == 'quiz')
+                                    
+                                <p>{{$grade->attempts ?? ''}}</p>
+                                    
+                                @else
+                                    <p>{{$grade->assessmentAnswer->attempts ?? ''}}</p>
+                                    
+                                @endif
+                            </td>
+                            
+
+                            <td>
+                                @if($grade->assessment->type == 'quiz')
                                 <div class="dashboard__button__group">
-                                    <a class="dashboard__small__btn__2" href="#"> <i class="icofont-eye"></i>View</a>
+                                    <a href="javascript:void(0);" class="dashboard__small__btn__2 examSolutionBtn" data-id="{{$grade->assessment->id}}"> <i class="icofont-eye"></i>View</a>
                                 </div>
+                                    
+                                @else
+                                @endif
                             </td>
                         </tr>
                     @empty

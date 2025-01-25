@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assessment;
 use App\Models\AssessmentGrade;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -69,7 +71,7 @@ class DashboardController extends Controller
         $student_id = auth()->user()->id;
         $enrollments = Enrollment::where('user_id', $student_id)->with(['student', 'course'])->get();
 
-        $grades = AssessmentGrade::where('student_id', $student_id)->with('assessment', 'assessment.course')->get();
+        $grades = AssessmentGrade::where('student_id', $student_id)->with('assessmentAnswer','assessment', 'assessment.course')->get();
 
         $ExamsPage = view('Frontend.pages.dashboard.include.exam-attempts', compact('enrollments', 'grades'))->render();
 
@@ -163,6 +165,37 @@ class DashboardController extends Controller
             return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
         }
         return response()->json(['status' => 'success', 'message' => 'Social Updated successfully'], 200);
+    }
+
+
+    public function examSolution(Request $request, string $id)
+    {
+
+
+        $examType = Assessment::where('id', $id)->first();
+        
+        if ($examType->end_time >= now()) {
+
+            return response()->json(['html' => '<div class="alert alert-danger">Please Wait till the exam ends</div>']);
+        }
+        
+        $questions = Question::where('assessment_id', $id)->where('status', 1)->get();
+        
+        if ($examType->type == 'quiz') {
+            $quizView = view('Frontend.pages.dashboard.include.quiz-solution', compact('questions', 'examType'))->render();
+
+            return response()->json(['html' => $quizView]);
+        } else {
+            if ($examType->type == 'assignment') {
+                $assignmentView = view('Frontend.pages.dashboard.include.assignment-solution',
+                    compact('questions', 'examType'))->render();
+
+                return response()->json(['html' => $assignmentView]);
+            }
+        }
+
+        return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
+
     }
 
 
