@@ -8,26 +8,20 @@
           rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 
-{{--  Editor  --}}
+    {{--  Editor  --}}
 
     <!-- include summernote css/js-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
     <!-- KaTeX -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" rel="stylesheet">
-   
+
 
 @endpush
 
 @section ('contents')
-
-    <div class="row">
-        <div class="col-12">
-            @include('backend.include.course-tab')
-        </div>
-    </div>
-
-    <form method="post" action="{{route('admin.assessment-question.store')}}" enctype="multipart/form-data">
+    
+    <form method="post" action="{{route('admin.assessment-question.update')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
@@ -56,15 +50,15 @@
 
                                         </select>
                                     </div>
-                                    
+
                                     <div class="mb-3">
 
                                         <label class="form-label">Select Question Image </label>
                                         <input type="file" class="form-control" name="question_image">
-                                        
+
                                     </div>
-                                    
-                                    
+
+
                                     <div class="mb-3">
                                         <label for="question_text" class="form-label">Question Text *</label>
                                         <textarea class="form-control" id="question_text" name="question_text" cols="3" rows="1"></textarea>
@@ -74,21 +68,21 @@
                                         <label for="desc" class="form-label">Question Marks *</label>
                                         <input type="number" class="form-control" id="marks" min="1" name="marks" required>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                             <div class="mb-1" id="optionMultiple">
+                                <div class="mb-1" id="optionMultiple">
                                     <label  class="form-label">Options *</label>
-                                 <div id="optionMultiple">
-                                     <div class="input-group mb-1 option-item">
-                                         <textarea class="form-control options" name="options[]"  rows="1"></textarea>
-                                         <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close text-light"></i></button>
-                                     </div>
-                                 </div>
-                             </div>
+                                    <div id="optionMultiple">
+                                        <div class="input-group mb-1 option-item">
+                                            <textarea class="form-control options" name="options[]"  rows="1"></textarea>
+                                            <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close text-light"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
-                                <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
+                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
                                 </div>
 
                                 <div class="mb-3">
@@ -166,7 +160,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-3">
-                                            <a href="{{route('admin.assessment-question.edit',$question->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                             <form method="post" id="delete-form-{{$question->id}}" action="{{route('admin.assessment-question.destroy',$question->id)}}">
                                                 @csrf
                                                 @method('delete')
@@ -228,14 +222,14 @@
                     ['misc', ['codeview']]
                 ],
             });
-            
-    
+
+
         });
-        
-        
+
+
         $(document).ready(function () {
-      
-            
+
+
             // ClassicEditor
             //     .create(document.querySelector('#question_text'),
             //         {
@@ -272,12 +266,12 @@
             let adminTable = $('#adminTable').DataTable({});
 
 
-        
+
         });
-        
 
 
-    
+
+
 
         $(document).ready(function () {
             let optionCount = 1;
@@ -291,8 +285,8 @@
                     ['misc', ['codeview']]
                 ],
             });
-            
-            
+
+
             // let optionCount = 1;
 
             // Add new option
@@ -303,9 +297,9 @@
 
                                      <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
                                  </div>`;
-                
-                
-            $('#optionMultiple').append(newOption);
+
+
+                $('#optionMultiple').append(newOption);
 
                 // Reinitialize Summernote for the newly added textarea
                 $('#optionMultiple .options').last().summernote({
@@ -317,8 +311,8 @@
                         ['misc', ['codeview']]
                     ]
                 });
-            
-            
+
+
             });
 
 

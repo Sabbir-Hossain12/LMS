@@ -131,6 +131,8 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
 
     //Assessment Questions
     Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');
+    Route::get('/assessment-questions/{id}/edit', [QuestionController::class, 'edit'])->name('assessment-question.edit');
+    Route::post('/assessment-questions/{id}/update', [QuestionController::class, 'update'])->name('assessment-question.update');
     Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
     Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
 

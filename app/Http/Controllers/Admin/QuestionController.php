@@ -87,9 +87,9 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Question $question)
+    public function edit(string $id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -103,8 +103,11 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Question $question)
+    public function destroyAssessmentQuestion(string $id)
     {
-        //
+//        dd($id);
+        Question::where('id',$id)->delete();
+        
+        return redirect()->back()->with('success', 'Question Deleted Successfully');
     }
 }
