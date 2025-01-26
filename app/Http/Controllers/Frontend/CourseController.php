@@ -238,6 +238,7 @@ class CourseController extends Controller
 
     public function quizSubmit(Request $request)
     {
+//        dd($request->all());
         $request->validate([
             'assessment_id' => ['required'],
 
@@ -257,7 +258,8 @@ class CourseController extends Controller
             $questionId = str_replace('answer_', '', $key);
             $question = Question::where('id', $questionId)->first();
 
-            if ($question->correct_answers == $answer) {
+//            dd(strip_tags( str_replace(' ', '', $question->correct_answers)) == strip_tags( str_replace(' ', '', $answer)) );
+            if (strip_tags( str_replace(' ', '', $question->correct_answers)) == strip_tags( str_replace(' ', '', $answer))) {
                 $marks_obtained = $marks_obtained + $question->marks;
             }
         }

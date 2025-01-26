@@ -123,6 +123,8 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //Lesson Assessment
     Route::get('/lesson-assessments/{id}', [AssessmentController::class, 'index'])->name('lesson-assessment');
+    Route::get('/lesson-assessments/{id}/edit', [AssessmentController::class, 'edit'])->name('lesson-assessment.edit');
+    Route::post('/lesson-assessments/{id}/update', [AssessmentController::class, 'update'])->name('lesson-assessment.update');
     Route::post('/lesson-assessments/store', [AssessmentController::class, 'store'])->name('lesson-assessment.store');
     Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
     

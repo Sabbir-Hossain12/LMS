@@ -29,6 +29,7 @@
                     <hr class="hr">
 
                     @if(isset($question->question_image))
+                        
                         <div class="m-2">
                             <img src="{{asset($question->question_image)}}" class="img-fluid" width="300px" alt="">
                         </div>
@@ -43,7 +44,7 @@
                                     <input class="form-check-input" type="radio" name="answer_{{$question->id}}"
                                           id="option_{{$question->id}}_{{$key2}}" value="{{$option}}" required >
                                     <label class="form-check-label" for="option_{{$question->id}}_{{$key2}}">
-                                        {{$option}}
+                                        {!!  $option !!}
                                     </label>
                                 </div>
 
@@ -91,6 +92,9 @@
 @endif
 
 <script>
+    
+    $('.katex-html').hide();
+    
     $('#quiz-form').submit(function (e) {
         e.preventDefault();
 

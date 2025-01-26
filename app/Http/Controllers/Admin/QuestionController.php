@@ -47,6 +47,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         
         $question=new Question();
         $question->assessment_id=$request->assessment_id;

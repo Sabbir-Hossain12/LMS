@@ -28,9 +28,7 @@ class AssessmentController extends Controller
             
         })->get();
         
-        
         return view('backend.pages.lesson-assessment.index',compact('course','lessons','lessonAssessment'));
-        
     }
 
     /**
@@ -52,7 +50,6 @@ class AssessmentController extends Controller
         $assessment->lesson_id =$request->lesson_id;
         $assessment->type=$request->type;
         $assessment->title=$request->title;
-        $assessment->attempts=$request->attempts;
         $assessment->desc=$request->desc;
         $assessment->total_marks=$request->total_marks;
         $assessment->start_time=$request->start_time;
@@ -75,24 +72,45 @@ class AssessmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Assessment $assessment)
+    public function edit(string $id)
     {
-        //
+        
+        $assessment=Assessment::find($id);
+
+        $lessons = Lesson::where('subject_id', $assessment->lesson->subject_id)->get();
+        
+        return view('backend.pages.lesson-assessment.edit',compact('assessment','lessons'));
+        
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Assessment $assessment)
+    public function update(Request $request, string $id)
     {
-        //
+        $assessment=Assessment::find($id);
+        $assessment->lesson_id =$request->lesson_id;
+        $assessment->type=$request->type;
+        $assessment->title=$request->title;
+        $assessment->desc=$request->desc;
+        $assessment->total_marks=$request->total_marks;
+        $assessment->start_time=$request->start_time;
+        $assessment->end_time=$request->end_time;
+        $assessment->status=$request->status;
+
+
+        $assessment->save();
+        return redirect()->back()->with('success','Assessment Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Assessment $assessment)
+    public function destroyLessonAssessment(string $id)
     {
-        //
+        Assessment::where('id', $id)->delete();
+        
+        return redirect()->back()->with('success','Assessment Deleted Successfully');
     }
 }

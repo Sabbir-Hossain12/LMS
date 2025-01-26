@@ -6,6 +6,17 @@
           rel="stylesheet" type="text/css">
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
+{{--  Editor  --}}
+
+    <!-- include summernote css/js-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" rel="stylesheet">
+   
+
 @endpush
 
 @section ('contents')
@@ -69,9 +80,11 @@
                             <div class="col-lg-6">
                              <div class="mb-1" id="optionMultiple">
                                     <label  class="form-label">Options *</label>
-                                 <div class="input-group mb-1 option-item" >
-                                    <input type="text" class="form-control"  name="options[]" placeholder="Option 1">
-                                    <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                 <div id="optionMultiple">
+                                     <div class="input-group mb-1 option-item">
+                                         <textarea class="form-control options" name="options[]" cols="3" rows="1"></textarea>
+                                         <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                     </div>
                                  </div>
                              </div>
                                 <div class="mb-3">
@@ -80,7 +93,7 @@
 
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Correct Option/Answer </label>
-                                    <input type="text" class="form-control"  name="correct_answers">
+                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>
                                 </div>
 
                                 <div class="mb-3">
@@ -180,50 +193,84 @@
 @push('backendJs')
 
     {{--  CkEditor CDN  --}}
-{{--    <script src="https://cdn.ckeditor.com/4.25.0-lts/standard-all/ckeditor.js"></script>--}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- summernote css/js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+    <script src="{{asset('backend/assets/js/summernote-math.js')}}"></script>
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+            $('#question_text').summernote({
+                height: 100,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
 
-            ClassicEditor
-                .create(document.querySelector('#question_text'),
-                    {
-                        toolbar: {
-                            items: [
-                                'undo', 'redo',
-                                '|',
-                                'bold', 'italic', 'strikethrough', 'subscript', 'superscript',
-                                '|',
-                                'link', 'uploadImage', 'blockQuote',
-                                '|',
-                                'bulletedList', 'numberedList'
-                            ]
-                        }
-                    })
-           
-                .catch(error => {
-                    console.error(error);
-                });
+            $('#correct_answers').summernote({
+                height: 50,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+            
+    
+        });
+        
+        
+        $(document).ready(function () {
+      
+            
+            // ClassicEditor
+            //     .create(document.querySelector('#question_text'),
+            //         {
+            //             // toolbar: {
+            //             //     items: [
+            //             //         'undo', 'redo',
+            //             //         '|',
+            //             //         'bold', 'italic', 'strikethrough', 'subscript', 'superscript',
+            //             //         '|',
+            //             //         'link', 'uploadImage', 'blockQuote',
+            //             //         '|',
+            //             //         'bulletedList', 'numberedList'
+            //             //     ]
+            //             // }
+            //         })
+            //     .then(editor => {
+            //         // Render KaTeX in the editor content when it's updated
+            //         editor.model.document.on('change:data', () => {
+            //             const editorContent = document.querySelector('.ck-content');
+            //             renderMathInElement(editorContent, {
+            //                 delimiters: [
+            //                     { left: "$$", right: "$$", display: true },  // Block math
+            //                     { left: "$", right: "$", display: false }   // Inline math
+            //                 ]
+            //             });
+            //         });
+            //     })
+            //
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
 
 
             let adminTable = $('#adminTable').DataTable({});
 
-            // CKEDITOR.replace('question_text', {
-            //     extraPlugins: 'mathjax',
-            //     mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
-            //     height: 320,
-            //     removeButtons: 'PasteFromWord'
-            // });
-            //
-            // if (CKEDITOR.env.ie && CKEDITOR.env.version == 8) {
-            //     document.getElementById('ie8-warning').className = 'tip alert';
-            // }
 
         
         });
@@ -234,15 +281,47 @@
 
         $(document).ready(function () {
             let optionCount = 1;
+            //Options
+            $('.options').summernote({
+                height: 40,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+            
+            
+            // let optionCount = 1;
 
             // Add new option
             $('#add-option').click(function () {
                 optionCount++;
-                $('#optionMultiple').append(`<div class="input-group mb-1 option-item" >
-                                    <input type="text" class="form-control"  name="options[]" placeholder="Option ${optionCount}">
-                                    <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
-                                </div>  `);
+                const newOption = `   <div class="input-group mb-1 option-item" >
+                                     <textarea class="form-control options" id="options" name="options[]" cols="3" rows="1"></textarea>
+
+                                     <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                 </div>`;
+                
+                
+            $('#optionMultiple').append(newOption);
+
+                // Reinitialize Summernote for the newly added textarea
+                $('#optionMultiple .options').last().summernote({
+                    height: 40,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['insert', ['picture', 'link', 'math']],
+                        ['para', ['paragraph']],
+                        ['misc', ['codeview']]
+                    ]
+                });
+            
+            
             });
+
+
 
             // Remove option
             $(document).on('click', '.remove-option', function () {

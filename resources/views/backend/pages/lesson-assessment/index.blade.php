@@ -71,7 +71,7 @@
                                 
                                 <div class="mb-3" id="startTimeDiv">
                                     <label for="start_time" class="form-label">Start Date </label>
-                                    <input class="form-control" type="datetime-local" id="start_time" value="{{now()}}" name="start_time" required>
+                                    <input class="form-control" type="datetime-local" id="start_time" step="any" value="{{now()}}" name="start_time" required>
                                 </div>
 
                                 <div class="mb-3" id="endTimeDiv">
@@ -164,14 +164,15 @@
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
+                                    
                                     <td>
                                         <div class="d-flex gap-2">
                                             <a href="{{route('admin.assessment-answer',$assessment->id)}}" class="btn btn-sm btn-success"><i class="fas fa-a"></i></a>
-                                            <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$assessment->id}}" action="">
+                                            <a href="{{route('admin.lesson-assessment.edit',$assessment->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                            <form method="post" id="delete-form-{{$assessment->id}}" action="{{route('admin.lesson-assessment.destroy',$assessment->id)}}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-sm btn-danger"><i
+                                                <button type="button" class="delete-btn btn btn-sm btn-danger" data-id="{{$assessment->id}}"><i
                                                             class="fas fa-trash"></i></button>
                                             </form>
                                         </div>
@@ -213,27 +214,31 @@
             let adminTable = $('#adminTable').DataTable({});
         });
         
-        
-        // $('#assessmentType').on('change',function (e)
-        // {
-        //     let value=$(this).val();
-        //    
-        //     if (value == 'assignment')
-        //     {
-        //         $('#startTimeDiv').hide();
-        //         $('#endTimeDiv').hide();
-        //         $('#dueTimeDiv').show();
-        //     }
-        //     else
-        //     {
-        //         $('#startTimeDiv').show();
-        //         $('#endTimeDiv').show();
-        //         $('#dueTimeDiv').hide();
-        //        
-        //     }
-        // })
-        
+    </script>
 
 
+    <script>
+        //Delete Assessment
+        $(document).ready(function () {
+            // Handle delete button click
+            $('.delete-btn').on('click', function () {
+                let formId = '#delete-form-' + $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form if confirmed
+                        $(formId).submit();
+                    }
+                });
+            });
+        });
     </script>
 @endpush
