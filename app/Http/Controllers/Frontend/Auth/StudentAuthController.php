@@ -217,16 +217,57 @@ class StudentAuthController extends Controller
        
     }
 
-//    public function forgotPage()
-//    {
-//        return view('Frontend.auth.forgot-password');
-//    }
-//    
-//
-//    public function resetPage()
-//    {
-//        return view('Frontend.auth.reset-password');
-//    }
+    public function forgotPage()
+    {
+        $phone= Session::get('phone');
+        $otp = rand(1000, 9999);
+        Session::put('otp', $otp);
+        Session::put('expires_at', now()->addMinutes(5));
+
+
+        $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
+            'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
+            'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
+            'SenderId' => '8809617621857',
+            'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
+            'MobileNumbers' => "88$phone",
+        ]);
+
+//        return response()->json(['status' => 'success','message' => 'Otp sent successfully'],200);
+        return view('Frontend.auth.forgot-password');
+    }
+
+    public function resetPage()
+    {
+        return view('Frontend.auth.reset-password');
+    }
+
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed'
+        ]);
+        
+        $phone= Session::get('phone');
+
+        $user = User::role('student')->where('phone', $phone)->first();
+        
+        if ($user) {
+            $user->password = Hash::make($request->password);
+            $save= $user->save();
+            
+            return response()->json(['status' => 'success','message' => 'Password reset successfully'],200);
+        }
+        else
+        {
+            return response()->json(['status' => 'failed','message' => 'User not found'],404);
+        }
+        
+    
+    }
+
+
 
 
     public function logOut(Request $request)
@@ -240,5 +281,6 @@ class StudentAuthController extends Controller
 //        return redirect()->to('/');
         
     }
-    
+
+
 }

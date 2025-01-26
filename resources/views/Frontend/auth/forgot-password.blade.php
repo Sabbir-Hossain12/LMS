@@ -1,43 +1,6 @@
 @extends('Frontend.layouts.master')
 
 @section('content')
-    {{--    <!-- breadcrumbarea__section__start -->--}}
-
-    {{--    <div class="breadcrumbarea">--}}
-
-    {{--        <div class="container">--}}
-    {{--            <div class="row">--}}
-    {{--                <div class="col-xl-12">--}}
-    {{--                    <div class="breadcrumb__content__wraper" data-aos="fade-up">--}}
-    {{--                        <div class="breadcrumb__title">--}}
-    {{--                            <h2 class="heading">Log In</h2>--}}
-    {{--                        </div>--}}
-    {{--                        <div class="breadcrumb__inner">--}}
-    {{--                            <ul>--}}
-    {{--                                <li><a href="index.html">Home</a></li>--}}
-    {{--                                <li>Log In</li>--}}
-    {{--                            </ul>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-
-
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-
-    {{--        <div class="shape__icon__2">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png"--}}
-    {{--                 alt="photo">--}}
-    {{--            <img loading="lazy" class=" shape__icon__img shape__icon__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png"--}}
-    {{--                 alt="photo">--}}
-    {{--        </div>--}}
-
-    {{--    </div>--}}
-    {{--    <!-- breadcrumbarea__section__end-->--}}
 
     <!-- login__section__start -->
     <div class="loginarea sp_top_100 sp_bottom_100">
@@ -57,29 +20,18 @@
                                 </div>
 
 
-                                <form action="#">
+                                <form id="forgotPasswordForm">
+                                    @csrf
                                     <div class="login__form">
                                         <label class="form__label">OTP</label>
-                                        <input class="common__login__input" type="text"
-                                               placeholder="******">
+                                        <input class="common__login__input" type="number"  name="otp"
+                                               placeholder="****" required>
 
                                     </div>
-                                    {{--                                    <div class="login__form">--}}
-                                    {{--                                        <label class="form__label">Password</label>--}}
-                                    {{--                                        <input class="common__login__input" type="password" placeholder="Password">--}}
-
-                                    {{--                                    </div>--}}
-                                    <div class="login__form d-flex justify-content-between flex-wrap gap-2">
-                                        {{--                                        <div class="form__check">--}}
-                                        {{--                                            <input id="forgot" type="checkbox">--}}
-                                        {{--                                            <label for="forgot"> Remember me</label>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="text-end login__form__link">--}}
-                                        {{--                                            <a href="#">Forgot your password?</a>--}}
-                                        {{--                                        </div>--}}
-                                    </div>
+                                    
+                                  
                                     <div class="login__button">
-                                        <a class="default__button" href="#">Submit</a>
+                                        <button class="default__button w-100">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -117,4 +69,51 @@
     </div>
 
     <!-- login__section__end -->
+
+
+    @push('js')
+        <script>
+            $('#forgotPasswordForm').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('student.otp-verify')}}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+                        if (res.message === 'verified') {
+                            successToast('OTP Matched !');
+                            setTimeout(function() {
+                                window.location.href = '{{route('student.reset-page')}}';
+                            }, 2000);
+
+                        }
+                        else
+                        {
+                            errorToast('Your OTP Expired');
+
+                        }
+                    },
+                    error: function (err) {
+
+                        errorToast('Invalid OTP');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+        </script>
+        
+    @endpush
 @endsection

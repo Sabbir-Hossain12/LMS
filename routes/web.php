@@ -79,8 +79,10 @@ Route::prefix('student/login')->name('student.')->group(function ()
     Route::post('/otp/resend', [StudentAuthController::class,'resendOtp'])->name('otp-resend');
     Route::get('/register', [StudentAuthController::class,'registerPage'])->name('register-page');
     Route::post('/register/submit', [StudentAuthController::class,'register'])->name('register');
-    Route::get('/forgot-password', [StudentAuthController::class,'forgotPage'])->name('forgot-page');
-    Route::get('/reset-password', [StudentAuthController::class,'resetPage'])->name('reset-page');
+    Route::get('/forgot-password-page', [StudentAuthController::class,'forgotPage'])->name('forgot-page');
+    Route::get('/forgot-password', [StudentAuthController::class,'forgotPassword'])->name('forgot-password');
+    Route::get('/reset-page', [StudentAuthController::class,'resetPage'])->name('reset-page');
+    Route::post('/reset-password', [StudentAuthController::class,'resetPassword'])->name('reset-password');
     Route::post('/log-out', [StudentAuthController::class,'logOut'])->name('log-out');
     
 });
