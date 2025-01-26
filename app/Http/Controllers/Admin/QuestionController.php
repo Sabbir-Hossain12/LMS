@@ -89,15 +89,50 @@ class QuestionController extends Controller
      */
     public function edit(string $id)
     {
-        dd($id);
+        $question= Question::find($id);
+        
+        $assessments= Assessment::where('lesson_id',$question->assessment->lesson_id)->get();
+        
+//        $lessons=Lesson::where('subject_id',$question->assessment->lesson->subject_id)->get();
+       
+        return view('backend.pages.lesson-questions.edit',compact('question','assessments'));
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, string $id)
     {
-        //
+        $question= Question::find($id);
+        $question->assessment_id=$request->assessment_id;
+        $question->question_text=$request->question_text;
+        $question->marks=$request->marks;
+        $question->correct_answers=$request->correct_answers;
+        $question->status=$request->status;
+        $question->options= json_encode($request->options);
+
+        if ($request->hasFile('question_image')) {
+
+            if ($question->question_image && file_exists(public_path($question->question_image))) {
+                unlink(public_path($question->question_image));
+            }
+            
+            $file = $request->file('question_image');
+            $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/questions/'), $filename);
+            $question->question_image ='backend/upload/questions/'. $filename;
+        }
+        
+        
+        $save= $question->save();
+        
+        if ($save) {
+            return redirect()->back()->with('success', 'Question Updated Successfully');
+        }
+        
+        return redirect()->back()->with('error', 'Something went wrong');
+        
     }
 
     /**

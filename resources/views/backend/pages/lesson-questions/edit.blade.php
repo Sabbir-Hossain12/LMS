@@ -21,13 +21,13 @@
 
 @section ('contents')
     
-    <form method="post" action="{{route('admin.assessment-question.update')}}" enctype="multipart/form-data">
+    <form method="post" action="{{route('admin.assessment-question.update',$question->id)}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Add Questions (MCQ/Assignments)
+                        <h4 class="card-title text-center">Edit Question for <span class="text-primary">{!!  $question->question_text!!}</span>
                         </h4>
                     </div>
                     <div class="card-body p-4">
@@ -37,14 +37,14 @@
                             <div class="col-lg-6">
                                 <div>
 
-                                    <input type="number" hidden name="course_id" value="{{$course->id}}">
+{{--                                    <input type="number" hidden name="course_id" value="{{$course->id}}">--}}
 
                                     <div class="mb-3">
                                         <label class="form-label">Select Assessment *</label>
                                         <select class="form-control" name="assessment_id" required>
 
                                             @forelse($assessments as $assessment)
-                                                <option value="{{$assessment->id}}">{{$assessment->title}}</option>
+                                                <option value="{{$assessment->id}}" @if($question->assessment_id == $assessment->id) selected @endif>{{$assessment->title}}</option>
                                             @empty
                                             @endforelse
 
@@ -56,17 +56,27 @@
                                         <label class="form-label">Select Question Image </label>
                                         <input type="file" class="form-control" name="question_image">
 
+                                        @if($question->question_image)
+                                            
+                                            <div class="imgPrev mt-1">
+                                                <img src="{{asset($question->question_image)}}" class="img-fluid" width="300px" alt="">
+                                            </div>
+                                        @endif
+
                                     </div>
 
 
                                     <div class="mb-3">
                                         <label for="question_text" class="form-label">Question Text *</label>
-                                        <textarea class="form-control" id="question_text" name="question_text" cols="3" rows="1"></textarea>
+                                        <textarea class="form-control" id="question_text" name="question_text"
+                                                    cols="3" rows="1">{{$question->question_text}}</textarea>
                                     </div>
+
+                                  
 
                                     <div class="mb-3">
                                         <label for="desc" class="form-label">Question Marks *</label>
-                                        <input type="number" class="form-control" id="marks" min="1" name="marks" required>
+                                        <input type="number" class="form-control" id="marks" min="1" value="{{$question->marks ?? ''}}" name="marks" required>
                                     </div>
 
                                 </div>
@@ -75,10 +85,13 @@
                                 <div class="mb-1" id="optionMultiple">
                                     <label  class="form-label">Options *</label>
                                     <div id="optionMultiple">
+                                        @forelse(json_decode($question->options) as $option) 
                                         <div class="input-group mb-1 option-item">
-                                            <textarea class="form-control options" name="options[]"  rows="1"></textarea>
+                                            <textarea class="form-control options" name="options[]"  rows="1">{{$option}}</textarea>
                                             <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close text-light"></i></button>
                                         </div>
+                                        @empty
+                                        @endforelse
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -87,7 +100,7 @@
 
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Correct Option/Answer </label>
-                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>
+                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1">{{$question->correct_answers}}</textarea>
                                 </div>
 
                                 <div class="mb-3">
@@ -113,75 +126,7 @@
 
 
     </form>
-
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-
-                    <div class="d-flex justify-content-center align-items-center">
-                        <h4 class="card-title">Question List</h4>
-                        {{--                       @can('Create Admin')--}}
-                        {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
-
-                        {{--                        @endcan--}}
-                        {{--                        @endif--}}
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table mb-0  nowrap w-100 dataTable no-footer dtr-inline" id="adminTable">
-                            <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th>Assessment Title</th>
-                                <th>Question Text</th>
-                                <th>Marks</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($questions as $key=> $question)
-                                <tr>
-                                    <td>{{$key+1}}</td>
-                                    <td>{{$question->assessment->title}}</td>
-                                    <td style="width: 200px; height: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                        {!!$question->question_text !!}</td>
-                                    <td>{{$question->marks}}</td>
-                                    <td>
-                                        @if($question->status == 1)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-danger">Inactive</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-3">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                            <form method="post" id="delete-form-{{$question->id}}" action="{{route('admin.assessment-question.destroy',$question->id)}}">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="button" class="delete-btn btn btn-sm btn-danger" data-id="{{$question->id}}"><i
-                                                            class="fas fa-trash" ></i></button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                            @endforelse
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <!-- end card body -->
-            </div>
-        </div>
-    </div>
+    
 @endsection
 
 @push('backendJs')
@@ -225,57 +170,11 @@
 
 
         });
-
-
-        $(document).ready(function () {
-
-
-            // ClassicEditor
-            //     .create(document.querySelector('#question_text'),
-            //         {
-            //             // toolbar: {
-            //             //     items: [
-            //             //         'undo', 'redo',
-            //             //         '|',
-            //             //         'bold', 'italic', 'strikethrough', 'subscript', 'superscript',
-            //             //         '|',
-            //             //         'link', 'uploadImage', 'blockQuote',
-            //             //         '|',
-            //             //         'bulletedList', 'numberedList'
-            //             //     ]
-            //             // }
-            //         })
-            //     .then(editor => {
-            //         // Render KaTeX in the editor content when it's updated
-            //         editor.model.document.on('change:data', () => {
-            //             const editorContent = document.querySelector('.ck-content');
-            //             renderMathInElement(editorContent, {
-            //                 delimiters: [
-            //                     { left: "$$", right: "$$", display: true },  // Block math
-            //                     { left: "$", right: "$", display: false }   // Inline math
-            //                 ]
-            //             });
-            //         });
-            //     })
-            //
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
-
-
-            let adminTable = $('#adminTable').DataTable({});
-
-
-
-        });
-
-
-
-
-
+        
+        //Options
         $(document).ready(function () {
             let optionCount = 1;
-            //Options
+            
             $('.options').summernote({
                 height: 40,
                 toolbar: [
@@ -285,9 +184,6 @@
                     ['misc', ['codeview']]
                 ],
             });
-
-
-            // let optionCount = 1;
 
             // Add new option
             $('#add-option').click(function () {
@@ -349,4 +245,6 @@
             });
         });
     </script>
+    
+
 @endpush
