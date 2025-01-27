@@ -142,13 +142,13 @@
                                     </a>
                                 </li>
                                 
-                                <li>
-                                    <a class="headerarea__has__dropdown" href="#">AI Assistant
-                                    </a>
-                                </li>
+{{--                                <li>--}}
+{{--                                    <a class="headerarea__has__dropdown" href="#">AI Assistant--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="#">About Us
+                                    <a class="headerarea__has__dropdown" href="{{route('page','about-us')}}">About Us
                                     </a>
                                 </li>
                                 

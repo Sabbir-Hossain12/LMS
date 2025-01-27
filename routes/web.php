@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\AiController;
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CourseController;
@@ -29,6 +30,8 @@ Route::get('/site-up',function ()
 
     return 'The site is now live.';
 });
+
+
 
 
 //Home 
@@ -64,7 +67,16 @@ Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('
 Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('checkout');
 Route::post('/order/submit', [OrderController::class,'orderSubmit'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('order.submit');
 
+//pages
+Route::prefix('pages')->group(function () {
+    
+    Route::get('/{slug}', [HomeController::class,'page'])->name('page');
+});
 
+//ChatGPT
+Route::get('/ai-assistant', [AiController::class,'aiAssistant'])->name('ai-assistant');
+
+Route::post('/chat',AiController::class)->name('chat');
 
 
 //Student Authentication

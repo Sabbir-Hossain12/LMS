@@ -38,24 +38,24 @@
                             <div class="col-lg-6">
                                 <div>
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Title</label>
+                                        <label for="name" class="form-label">Page Name *</label>
                                         <input class="form-control" type="text" placeholder="Page Name"
                                                id="name" name="name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Title</label>
+                                        <label for="name" class="form-label">Page Title *</label>
                                         <input class="form-control" type="text" placeholder="Page Title"
                                                id="name" name="title" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="type" class="form-label">Page Type</label>
+                                        <label for="type" class="form-label">Page Type *</label>
                                         <select id="type" class="form-select" name="type">
                                             <option value="static">Static</option>
                                             <option value="dynamic">Dynamic</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="img" class="form-label">Image</label>
+                                        <label for="img" class="form-label">Image (565 × 575 px)</label>
                                         <input class="form-control" type="file" id="img" name="img">
                                     </div>
                                     <div class="mb-3">
@@ -64,7 +64,7 @@
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <label for="pageStatus" class="form-label">Status</label>
+                                        <label for="pageStatus" class="form-label">Status *</label>
                                         <select id="pageStatus" class="form-select" name="status">
                                             <option value="1" selected>Active</option>
                                             <option value="0">Inactive</option>
@@ -107,7 +107,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title text-center">Long Description</h4>
+                        <h4 class="card-title text-center">Long Description *</h4>
 
                     </div>
                     <div class="card-body p-4">

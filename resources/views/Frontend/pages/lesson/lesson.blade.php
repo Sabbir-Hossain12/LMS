@@ -9,7 +9,7 @@
     </style>
 
     <!-- tution__section__start -->
-    <div class="tution sp_bottom_100 sp_top_50">
+    <div class="tution sp_bottom_100 sp_top_50" oncontextmenu="return false;">
         <div class="container-fluid full__width__padding">
             <div class="row">
                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">

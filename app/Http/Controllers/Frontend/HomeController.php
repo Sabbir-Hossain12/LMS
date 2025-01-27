@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Herobanner;
+use App\Models\Page;
 use App\Models\Testimonial;
 use App\Models\TestimonialSetting;
 use App\Models\User;
@@ -32,5 +33,22 @@ class HomeController extends Controller
         
         
         return view('Frontend.pages.home',compact(['heroBanner','randomCourse','courseClasses','teachers','about','services','testimonials','testimonialSetting','blogs','featuredCourses']));
+    }
+
+
+    public function page(string $slug)
+    {
+       $content= Page::where('slug', 'like' , '%'.$slug.'%')->orWhere('slug', $slug)->first();
+       
+       if ($content->slug == $slug) {
+           return view('Frontend.pages.info.about-us',compact('content'));
+       }
+       
+    }
+
+
+    public function aiAssistant()
+    {
+        return view('Frontend.ai-assistant.index');
     }
 }
