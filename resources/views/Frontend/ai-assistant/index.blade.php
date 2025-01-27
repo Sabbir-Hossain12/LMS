@@ -138,7 +138,7 @@
 
             // Mock API call - Replace this with your actual API call
             try {
-                const response = await axios.post('/chatsss', { prompt: userMessage });
+                const response = await axios.post('/chat', { prompt: userMessage });
                 const botMessage = response.data.message; // Adjust based on API response
                 appendMessage(botMessage, 'bot');
             } catch (error) {
