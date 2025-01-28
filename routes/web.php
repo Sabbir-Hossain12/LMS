@@ -37,6 +37,8 @@ Route::get('/site-up',function ()
 //Home 
 Route::get('/',[HomeController::class,'homePage'])->name('home');
 
+//Search Results (courses)
+Route::get('/search-results', [CourseController::class,'searchResults'])->name('search-results');
 //Courses
 Route::get('/course-list', [CourseController::class,'courseList'])->name('course-list');
 Route::get('/course-details/{slug}', [CourseController::class,'courseDetails'])->name('course-details');

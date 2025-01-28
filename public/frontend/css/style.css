@@ -1580,14 +1580,14 @@ Header Area
 
 .headerarea__2__input input {
     width: 100%;
-    border-radius: 50px;
+    /*border-radius: 50px;*/
     padding: 8px 0 7px 15px;
     border: 1px solid var(--borderColor);
     background: transparent;
 }
 
 .headerarea__2__input i {
-    position: absolute;
+    /*position: absolute;*/
     right: 27px;
     bottom: 17px;
 }

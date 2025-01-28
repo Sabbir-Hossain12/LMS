@@ -207,7 +207,7 @@ class CourseController extends Controller
             }
             $exist->attempts = $exist->attempts + 1;
             $exist->submitted_at = now();
-            $exist->status=0;
+            $exist->status = 0;
 
             $save = $exist->save();
         } else {
@@ -223,7 +223,7 @@ class CourseController extends Controller
             }
 
             $assessmentAnswer->submitted_at = now();
-            $assessmentAnswer->status=0;
+            $assessmentAnswer->status = 0;
             $save = $assessmentAnswer->save();
         }
 
@@ -259,19 +259,19 @@ class CourseController extends Controller
             $question = Question::where('id', $questionId)->first();
 
 //            dd(strip_tags( str_replace(' ', '', $question->correct_answers)) == strip_tags( str_replace(' ', '', $answer)) );
-            if (strip_tags( str_replace(' ', '', $question->correct_answers)) == strip_tags( str_replace(' ', '', $answer))) {
+            if (strip_tags(str_replace(' ', '', $question->correct_answers)) == strip_tags(str_replace(' ', '',
+                    $answer))) {
                 $marks_obtained = $marks_obtained + $question->marks;
             }
         }
 
         $exist = AssessmentGrade::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();
-        $attempts=0;
+        $attempts = 0;
         if ($exist) {
             $exist->marks_obtained = $marks_obtained;
-            $exist->attempts = $exist->attempts+1;
+            $exist->attempts = $exist->attempts + 1;
             $exist->submitted_at = now();
             $save = $exist->save();
-            
         } else {
             $assessmentGrade = new AssessmentGrade();
             $assessmentGrade->assessment_id = $assessment_id;
@@ -288,5 +288,16 @@ class CourseController extends Controller
         }
 
         return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
+    }
+
+
+    public function searchResults(Request $request)
+    {
+        
+        $content = $request->content;
+
+        $courses = Course::where('title', 'like', '%'.$content.'%')->get();
+
+        return view('Frontend.pages.search.index', compact('courses'));
     }
 }

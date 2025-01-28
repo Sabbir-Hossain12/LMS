@@ -8,12 +8,12 @@
                 <div class="col-xl-12">
                     <div class="breadcrumb__content__wraper aos-init aos-animate" data-aos="fade-up">
                         <div class="breadcrumb__title">
-                            <h2 class="heading">Courses List</h2>
+                            <h2 class="heading">Search Results</h2>
                         </div>
                         <div class="breadcrumb__inner">
                             <ul>
                                 <li><a href="{{route('home')}}">Home</a></li>
-                                <li>Courses List</li>
+                                <li>Search Results</li>
                             </ul>
                         </div>
                     </div>
@@ -74,74 +74,70 @@
                         <div class="tab-pane fade active show" id="projects__one" role="tabpanel" aria-labelledby="projects__one">
 
                             <div class="row">
-                                @forelse($classes as $class)
+                                @forelse($courses as $course)
                                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 aos-init aos-animate" data-aos="fade-up">
                                         <div class="gridarea__wraper gridarea__wraper__2">
-{{--                                            <div class="gridarea__img">--}}
-{{--                                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img)}}" alt="grid"></a>--}}
-{{--                                                <div class="gridarea__small__button">--}}
-{{--                                                    <div class="grid__badge">{{$course->class->title}}</div>--}}
-{{--                                                </div>--}}
-{{--                                                --}}
-{{--                                                --}}{{--<div class="gridarea__small__icon">--}}
-{{--                                                --}}{{--<a href="#"><i class="icofont-heart-alt"></i></a>--}}
-{{--                                                --}}{{--</div>--}}
+                                            <div class="gridarea__img">
+                                                <a href="{{route('course-details', $course->slug)}}"><img loading="lazy" src="{{asset($course->thumbnail_img)}}" alt="grid"></a>
+                                                <div class="gridarea__small__button">
+                                                    <div class="grid__badge">{{$course->class->title}}</div>
+                                                </div>
+                                                {{--                                        <div class="gridarea__small__icon">--}}
+                                                {{--                                            <a href="#"><i class="icofont-heart-alt"></i></a>--}}
+                                                {{--                                        </div>--}}
 
-{{--                                            </div>--}}
+                                            </div>
                                             <div class="gridarea__content">
                                                 <div class="gridarea__list">
-                                                    
-                                                    
                                                     <ul>
                                                         <li>
-                                                            <i class="icofont-book-alt"></i> {{$class->lessons->count()}} Lesson
+                                                            <i class="icofont-book-alt"></i> {{$course->lessons->count()}} Lesson
                                                         </li>
                                                         <li>
-                                                            <i class="icofont-clock-time"></i> {{$class->duration}}
+                                                            <i class="icofont-clock-time"></i> {{$course->duration}}
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                
-                                                
                                                 <div class="gridarea__heading">
                                                     <h3><a href="{{route('course-details', $course->slug)}}">{{$course->title}}</a></h3>
                                                 </div>
-{{--                                                <div class="gridarea__price">--}}
-{{--                                                    ৳ {{$course->sale_price}} <del>/ ৳ {{$course->regular_price}}</del>--}}
-{{--                                                    @if($course->sale_price=0)--}}
-{{--                                                        <span> Free</span>--}}
+                                                <div class="gridarea__price">
+                                                    ৳ {{$course->sale_price}} <del>/ ৳ {{$course->regular_price}}</del>
+                                                    @if($course->sale_price=0)
+                                                        <span> Free</span>
 
-{{--                                                    @else--}}
-{{--                                                        <span> <del class="del__2">Free</del></span>--}}
-{{--                                                    @endif--}}
+                                                    @else
+                                                        <span> <del class="del__2">Free</del></span>
+                                                    @endif
 
 
-{{--                                                </div>--}}
-{{--                                                <div class="gridarea__bottom">--}}
+                                                </div>
+                                                <div class="gridarea__bottom">
 
-{{--                                                    <a href="{{route('teacher.details', $course->teacher->slug)}}">--}}
-{{--                                                        <div class="gridarea__small__img">--}}
-{{--                                                            <img loading="lazy" src="{{asset($course->teacher->profile_image ?? 'frontend/img/grid/grid_small_1.jpg')}}" alt="grid">--}}
-{{--                                                            <div class="gridarea__small__content">--}}
-{{--                                                                <h6>{{$course->teacher->name}}</h6>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </a>--}}
+                                                    <a href="{{route('teacher.details', $course->teacher->slug)}}">
+                                                        <div class="gridarea__small__img">
+                                                            <img loading="lazy" src="{{asset($course->teacher->profile_image ?? 'frontend/img/grid/grid_small_1.jpg')}}" alt="grid">
+                                                            <div class="gridarea__small__content">
+                                                                <h6>{{$course->teacher->name}}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
 
-{{--                                                    --}}{{--                                            <div class="gridarea__star">--}}
-{{--                                                    --}}{{--                                                <i class="icofont-star"></i>--}}
-{{--                                                    --}}{{--                                                <i class="icofont-star"></i>--}}
-{{--                                                    --}}{{--                                                <i class="icofont-star"></i>--}}
-{{--                                                    --}}{{--                                                <i class="icofont-star"></i>--}}
-{{--                                                    --}}{{--                                                <span>(44)</span>--}}
-{{--                                                    --}}{{--                                            </div>--}}
-{{--                                                </div>--}}
+                                                    {{--                                            <div class="gridarea__star">--}}
+                                                    {{--                                                <i class="icofont-star"></i>--}}
+                                                    {{--                                                <i class="icofont-star"></i>--}}
+                                                    {{--                                                <i class="icofont-star"></i>--}}
+                                                    {{--                                                <i class="icofont-star"></i>--}}
+                                                    {{--                                                <span>(44)</span>--}}
+                                                    {{--                                            </div>--}}
+                                                </div>
 
                                             </div>
                                         </div>
                                     </div>
 
                                 @empty
+                                    <h3 class="text-center">No Course Found</h3>
                                 @endforelse
                             </div>
 

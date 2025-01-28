@@ -81,10 +81,13 @@
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
-                    <div class="headerarea__2__input">
-                        <input type="text" placeholder="Search Course">
-                        <button class="btn btn-primary">  <i class="icofont-search-1"></i></button>
+                    <form action="{{route('search-results')}}">
+                        @csrf
+                    <div class="headerarea__2__input d-flex">
+                        <input type="text" placeholder="Search Course" name="content" required>
+                        <button class="btn btn-primary" type="submit" ><i class="icofont-search-1"></i></button>
                     </div>
+                    </form>
                 </div>
 
                 <div class="col-xl-3 col-lg-3 col-md-6">
@@ -214,12 +217,12 @@
 <div class="mobile-off-canvas-active">
     <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
     <div class="header-mobile-aside-wrap">
-        <div class="mobile-search">
-            <form class="search-form" action="#">
-                <input type="text" placeholder="Search entire store…">
-                <button class="button-search"><i class="icofont icofont-search-2"></i></button>
-            </form>
-        </div>
+{{--        <div class="mobile-search">--}}
+{{--            <form class="search-form" action="#">--}}
+{{--                <input type="text" placeholder="Search entire store…">--}}
+{{--                <button class="button-search"><i class="icofont icofont-search-2"></i></button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
         <div class="mobile-menu-wrap headerarea">
 
             <div class="mobile-navigation">
