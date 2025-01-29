@@ -147,6 +147,10 @@
                                 </li>
 
                                 <li>
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('ai-assistant') ? 'active-nav' : ''}}" href="{{route('ai-assistant')}}">AI Assistant</a>
+                                </li>
+
+                                <li>
                                     <a class="headerarea__has__dropdown" id="{{Route::is('blog-list') ? 'active-nav' : ''}}" href="{{route('blog-list')}}">Blogs
                                     </a>
                                 </li>
@@ -245,6 +249,10 @@
                         
                         <li class="menu-item-has-children ">
                             <a href="{{route('blog-list')}}">Blogs</a>
+                        </li>
+
+                        <li class="menu-item-has-children ">
+                            <a href="{{route('ai-assistant')}}">AI Assistant</a>
                         </li>
 
                         <li class="menu-item-has-children"><a href="{{route('page','about-us')}}">About Us</a>
