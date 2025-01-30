@@ -101,11 +101,59 @@ Whether you're an instructor looking to create interactive courses or a student 
 * Questions List with Edit, Delete Options.
 * Support For Complex Math Equation with KaTeX.
 
-## User Roles
-* Support for multiple user roles: Admin, Teacher, and Student.
-* Separate Dashboard for Admin and Teacher, They Can Manage Courses.
-* Student Can Enroll in Courses, access their own dashboard, and track their progress.
+## User Roles and Permissions
+### Admin and Teacher
+* Separate Dashboard for Admin and Teacher, They Can Manage Courses, along with other Functionalities.
+* Support For Permission Management.
+* Add, Edit, Update, Delete Users with Roles ease.
 
+### Student
+* Separate Dashboard for Student, They Can Manage Classes,Courses along with other Functionalities.
+* Enrolled List, Exam History,Exam Solution.
+* Support For Lesson, Videos, Materials, Quiz, Assignment, and other Functionalities.
+* Add, Edit, Update, Delete Users with Roles ease.
+
+## Website Dynamic Content
+
+#### Hero Banner Section
+* Update Hero Banner with ease.
+* Support For Image Upload.
+
+#### About Section
+* Update About with ease.
+* Support For Image Upload.
+
+#### Testimonial Section
+* Add,Edit,Update,Delete Testimonials with ease.
+* Support For Image Upload.
+
+#### Testimonial Settings Section
+* Update Testimonial Settings with ease.
+* Support For Image Upload.
+
+#### Blog Section
+* Add,Edit,Update,Delete Blogs with ease.
+* Support For CKEditor.
+* Support For Image Upload.
+* Meta information (title, description, image, keywords.)
+
+#### Page Section
+* Add,Edit,Update,Delete Pages with ease.
+* Meta information (title, description, image, keywords.)
+* Support For CKEditor.
+
+#### Website Basic Settings (Settings)
+* Update Website Basic Settings with ease.
+* Support For Image Upload.
+
+## Order Management:
+* Track and manage orders with payment Status and Status with ease.
+* Support For Payment Gateway (Bkash).
+
+## External API Support:
+* Support For Bkash Payment Gateway.
+* Support For SMS Gateway.
+* Support For Chatgpt API.
 
 ## Responsive Design:
 * Fully responsive and accessible on all devices (desktop, tablet, mobile).
