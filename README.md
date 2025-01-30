@@ -199,7 +199,8 @@ This will start a development server, and you can access your Laravel applicatio
 
 ## Database Design
 
-<img src="public/ss.PNG"/>
+<img src="https://i.ibb.co.com/1tCTxFBd/ss.png" alt="ss" border="0">
+
 
 
 <!-- CONTACT -->
