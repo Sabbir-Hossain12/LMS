@@ -44,10 +44,12 @@ class AssessmentController extends Controller
      */
     public function store(Request $request)
     {
-//      dd($request->all());
+        
+      dd($request->all());
         $assessment=new Assessment();
         $assessment->course_id =$request->course_id;
         $assessment->lesson_id =$request->lesson_id;
+        $assessment->duration=$request->duration;
         $assessment->type=$request->type;
         $assessment->title=$request->title;
         $assessment->desc=$request->desc;
@@ -92,6 +94,7 @@ class AssessmentController extends Controller
         $assessment=Assessment::find($id);
         $assessment->lesson_id =$request->lesson_id;
         $assessment->type=$request->type;
+        $assessment->duration=$request->duration;
         $assessment->title=$request->title;
         $assessment->desc=$request->desc;
         $assessment->total_marks=$request->total_marks;

@@ -55,9 +55,18 @@
                                         <input class="form-control" type="text" id="title" name="title"
                                                placeholder="Title" value="{{$assessment->title ?? ''}}" required>
                                     </div>
+                                    
                                     <div class="mb-3">
                                         <label for="desc" class="form-label">Description</label>
                                         <textarea class="form-control" id="desc" name="desc">{{$assessment->desc ?? ''}}</textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="pageStatus" class="form-label">Status *</label>
+                                        <select id="pageStatus" class="form-select form-control" name="status" required>
+                                            <option value="1" @if($assessment->status == 1) selected @endif>Active</option>
+                                            <option value="0" @if($assessment->status == 0) selected @endif>Inactive</option>
+                                        </select>
                                     </div>
 
                                 </div>
@@ -73,6 +82,11 @@
                                     <label for="end_time" class="form-label">End Date * </label>
                                     <input class="form-control" type="datetime-local" id="end_time" name="end_time" value="{{$assessment->end_time ?? ''}}" required>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="end_time" class="form-label">Duration (Minutes)</label>
+                                    <input class="form-control" type="number" min="1" id="duration" value="{{$assessment->duration ?? ''}}" name="duration" >
+                                </div>
                                 
 
                                 <div class="mb-3">
@@ -82,13 +96,7 @@
                                 </div>
 
 
-                                <div class="mb-3">
-                                    <label for="pageStatus" class="form-label">Status *</label>
-                                    <select id="pageStatus" class="form-select form-control" name="status" required>
-                                        <option value="1" @if($assessment->status == 1) selected @endif>Active</option>
-                                        <option value="0" @if($assessment->status == 0) selected @endif>Inactive</option>
-                                    </select>
-                                </div>
+                               
 
                             </div>
                         </div>

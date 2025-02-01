@@ -20,8 +20,8 @@
 
     .video-container iframe {
         position: absolute;
-        top: -60px;
-        bottom: -200px;
+        top: -10px;
+        /*bottom: -200px;*/
         left: 0;
         width: 100%;
         height: calc(100% + 120px);
@@ -45,7 +45,7 @@
         {{--                frameBorder="0" allowFullScreen>--}}
 
         {{--        </iframe>--}}
-        <iframe src="{{$video->video_url ?? ''}}?controls=0&showinfo=0&rel=0&loop=1&mute=0"></iframe>
+        <iframe src="{{$video->video_url ?? ''}}" allowfullscreen></iframe>
         {{--            <iframe type="text/html" src="https://www.youtube.com/embed/-ePDPGXkvlw?autoplay=1" frameborder="0" allow="autoplay"></iframe>--}}
     </div>
 

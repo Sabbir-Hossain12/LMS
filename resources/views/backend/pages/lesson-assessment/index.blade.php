@@ -64,6 +64,15 @@
                                         <label for="desc" class="form-label">Description</label>
                                         <textarea class="form-control" id="desc" name="desc"></textarea>
                                     </div>
+
+
+                                    <div class="mb-3">
+                                        <label for="pageStatus" class="form-label">Status *</label>
+                                        <select id="pageStatus" class="form-select form-control" name="status" required>
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -78,6 +87,12 @@
                                     <label for="end_time" class="form-label">End Date </label>
                                     <input class="form-control" type="datetime-local" id="end_time" name="end_time" required>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="end_time" class="form-label">Duration (Minutes)</label>
+                                    <input class="form-control" type="number" min="1" id="duration" value="2" name="duration" >
+                                </div>
+                                
                                 
 {{--                                <div class="mb-3" id="dueTimeDiv">--}}
 {{--                                    <label for="due_date" class="form-label">Due Date </label>--}}
@@ -91,13 +106,7 @@
                                 </div>
                                 
 
-                                <div class="mb-3">
-                                    <label for="pageStatus" class="form-label">Status *</label>
-                                    <select id="pageStatus" class="form-select form-control" name="status" required>
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                </div>
+                             
 
                             </div>
                         </div>
