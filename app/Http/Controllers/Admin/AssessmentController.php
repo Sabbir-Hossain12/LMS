@@ -45,7 +45,7 @@ class AssessmentController extends Controller
     public function store(Request $request)
     {
         
-      dd($request->all());
+      
         $assessment=new Assessment();
         $assessment->course_id =$request->course_id;
         $assessment->lesson_id =$request->lesson_id;
