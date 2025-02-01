@@ -13,7 +13,7 @@
 {{--                <li>Total Attempts: {{$examType->attempts}} </li>--}}
                     <li>Start Time: {{$examType->start_time->format('F d, Y h:i A')}}</li>
                     <li>| End Time: {{$examType->end_time->format('F d, Y h:i A')}}</li>
-                    <li>| Duration: <span id="timer"> 00:00</span></li>
+                    <li>| Duration: <span id="timer"> 00:00:00</span></li>
                 </ul>
             </div>
             <hr class="hr">
@@ -233,13 +233,14 @@
                 return;
             }
 
-            // Calculate minutes and seconds
+            // Calculate hours, minutes and seconds
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
             // Display the timer
             document.getElementById('timer').innerHTML =
-                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
         // Start the timer

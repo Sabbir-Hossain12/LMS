@@ -9,6 +9,7 @@
                     <ul>
                         <li> Start Time: {{$examType->start_time->format('F d, Y h:i A')}}</li>
                         <li>| End Time: {{$examType->end_time->format('F d, Y h:i A')}}</li>
+                        <li>| Duration: <span id="timer"> 00:00:00</span></li>
                     </ul>
                 </div>
                 <hr class="hr">
@@ -50,7 +51,7 @@
 
                     <div class="mb-3">
                         <label for="formFileLg" class="form-label">Drop Answer File (Doc/Docx/Pdf)</label>
-                        <input class="form-control form-control-lg" id="file_path" name="file_path" type="file" required>
+                        <input class="form-control form-control-lg" id="file_path" name="file_path" type="file">
                     </div>
 
                     <button class="default__button">Submit Assignment</button>
@@ -79,6 +80,11 @@
     @endif
 
 </div>
+@php
+    // Calculate the end time by adding the duration to the current time
+    $endTime = now()->addMinutes($examType->duration);
+
+@endphp
 
 
 <script>
@@ -104,11 +110,17 @@
                 if (res.status === 'success') {
                   
                   $('#assignmentSubmitForm').trigger('reset');
-                    swal.fire({
-                        title: "Success",
-                        text: "Exam Submitted Successfully!",
-                        icon: "success"
-                    })
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your Exam has been saved, redirecting you to dashboard !",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    setTimeout(() => {
+                        window.location.href = '{{route('student.dashboard.index')}}';
+                    }, 2000);
                     
                 }
             },
@@ -125,4 +137,50 @@
     });
 
     
+</script>
+
+<script>
+    let timerInterval = null; // Declare timerInterval globally
+
+    function initializeQuizTimer() {
+        // Clear the existing timer if it's running
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        // Calculate end time in PHP and pass to JavaScript
+        const quizEndTime = new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime();
+
+        // Timer function
+        function updateTimer() {
+            const now = new Date().getTime();
+            const timeLeft = quizEndTime - now;
+
+            if (timeLeft <= 0) {
+                // Time's up! Submit the quiz automatically
+                clearInterval(timerInterval);
+                $('#assignmentSubmitForm').submit();
+                return;
+            }
+
+            // Calculate hours, minutes and seconds
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Display the timer
+            document.getElementById('timer').innerHTML =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Start the timer
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Initial call to avoid delay
+        updateTimer();
+    }
+
+    // Call the function to initialize the timer
+    initializeQuizTimer();
 </script>

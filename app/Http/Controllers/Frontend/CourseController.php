@@ -179,7 +179,7 @@ class CourseController extends Controller
         $request->validate(
             [
                 'assessment_id' => ['required'],
-                'file_path' => ['required', 'mimes:pdf,doc,docx'],
+                'file_path' => [ 'mimes:pdf,doc,docx'],
             ]
         );
 
@@ -270,7 +270,7 @@ class CourseController extends Controller
         if ($exist) {
             $exist->marks_obtained = $marks_obtained;
             $exist->attempts = $exist->attempts + 1;
-            $exist->submitted_at = now();
+//            $exist->submitted_at = now();
             $save = $exist->save();
         } else {
             $assessmentGrade = new AssessmentGrade();
@@ -278,7 +278,7 @@ class CourseController extends Controller
             $assessmentGrade->student_id = $student_id;
             $assessmentGrade->marks_obtained = $marks_obtained;
             $assessmentGrade->attempts = 1;
-            $exist->submitted_at = now();
+//            $exist->submitted_at = now();
             $save = $assessmentGrade->save();
         }
 
