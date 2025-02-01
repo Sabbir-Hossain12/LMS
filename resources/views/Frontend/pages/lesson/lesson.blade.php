@@ -9,7 +9,7 @@
     </style>
 
     <!-- tution__section__start -->
-    <div class="tution sp_bottom_100 sp_top_50" oncontextmenu="return false;">
+    <div class="tution sp_bottom_100 sp_top_50">
         <div class="container-fluid full__width__padding">
             <div class="row">
                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up">
@@ -316,38 +316,54 @@
                 $('.lessonExamAnchor').removeClass('active');
                 // Remove active class from all anchors
                 $(this).addClass('active'); // Add active class to the clicked element's anchor
+                $('.katex-html').hide();
                 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'POST',
-                    url: "{{route('lesson-exam')}}",
-                    data: {
-                        assessment_id:assessment_id
-                    },
+                Swal.fire({
+                    title: "You Want to Resume Exam?",
+                    // text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Resume Exam",
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
-                    // contentType: false,
-                    // processData: false,
-                    beforeSend: function() {
-                        // Show loader
-                        showLoader();
-                    },
-                    success: function (res) {
-                        
-                        $('#lessonContent').empty();
-                        $('#lessonContent').append(res.html);
-                        
-                    },
-                    error: function (err) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            url: "{{route('lesson-exam')}}",
+                            data: {
+                                assessment_id:assessment_id
+                            },
 
-                        errorToast('error');
-                    },
-                    complete: function() {
-                        // Hide loader
-                        hideLoader();
+                            // contentType: false,
+                            // processData: false,
+                            beforeSend: function() {
+                                // Show loader
+                                showLoader();
+                            },
+                            success: function (res) {
+
+                                $('#lessonContent').empty();
+                                $('#lessonContent').append(res.html);
+
+                            },
+                            error: function (err) {
+
+                                errorToast('error');
+                            },
+                            complete: function() {
+                                // Hide loader
+                                hideLoader();
+                            }
+                        })
                     }
-                })
+                });
+                
+              
             });
           
           

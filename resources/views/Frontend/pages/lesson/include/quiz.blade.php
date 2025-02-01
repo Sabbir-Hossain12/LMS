@@ -13,6 +13,7 @@
 {{--                <li>Total Attempts: {{$examType->attempts}} </li>--}}
                     <li>Start Time: {{$examType->start_time->format('F d, Y h:i A')}}</li>
                     <li>| End Time: {{$examType->end_time->format('F d, Y h:i A')}}</li>
+                    <li>| Duration: <span id="timer"> 00:00</span></li>
                 </ul>
             </div>
             <hr class="hr">
@@ -42,7 +43,7 @@
                             <div class="col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="answer_{{$question->id}}"
-                                          id="option_{{$question->id}}_{{$key2}}" value="{{$option}}" required >
+                                          id="option_{{$question->id}}_{{$key2}}" value="{{$option}}"  >
                                     <label class="form-check-label" for="option_{{$question->id}}_{{$key2}}">
                                         {!!  $option !!}
                                     </label>
@@ -76,9 +77,33 @@
             $(document).on('visibilitychange', function () {
                 if (document.hidden) {
                     // alert('You are not allowed to switch tabs during the quiz.');
-                    // swal.fire('You are not allowed to switch tabs during the quiz.');
+                    swal.fire('You are not allowed to switch tabs during the quiz.');
                 }
             });
+            
+            
+           
+                // $(window).on('beforeunload', function (e) {
+                //     // Display a confirmation message
+                //     e.preventDefault();
+                //     e.returnValue = ''; // Required for Chrome
+                //     return 'Are you sure you want to leave? Your progress may be lost.'; // Message for older browsers
+                //
+                //     // Swal.fire({
+                //     //     title: "You Want to Start Exam?",
+                //     //     // text: "You won't be able to revert this!",
+                //     //     icon: "warning",
+                //     //     showCancelButton: true,
+                //     //     confirmButtonColor: "#3085d6",
+                //     //     cancelButtonColor: "#d33",
+                //     //     confirmButtonText: "Resume Exam",
+                //     // }).then((result) => {
+                //     //     if (result.isConfirmed) {
+                //     //        
+                //     //     }
+                //     // });
+                // });
+            
         </script>
         
     @else
@@ -91,10 +116,17 @@
 
 @endif
 
+@php
+    // Calculate the end time by adding the duration to the current time
+    $endTime = now()->addMinutes($examType->duration);
+    
+@endphp
+
 <script>
     
     $('.katex-html').hide();
     
+    //Submit Quiz
     $('#quiz-form').submit(function (e) {
         e.preventDefault();
 
@@ -113,11 +145,17 @@
                 if (res.status === 'success') {
 
                     $('#quiz-form').trigger('reset');
-                    swal.fire({
-                        title: "Success",
-                        text: "Exam Submitted Successfully!",
-                        icon: "success"
-                    })
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your Exam has been saved, redirecting you to dashboard !",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    
+                    setTimeout(() => {
+                        window.location.href = '{{route('student.dashboard.index')}}';
+                    }, 2000);
 
                 }
             },
@@ -132,4 +170,85 @@
             }
         });
     });
+
+   
+
+        {{--//Timer code--}}
+        {{--const quizEndTime_{{ time() }} = new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime();--}}
+        
+        {{--// Function to update the timer--}}
+        {{--function updateTimer() {--}}
+        {{--    const now = new Date().getTime();--}}
+        {{--    const timeLeft = quizEndTime_{{ time() }} - now;--}}
+        
+        {{--    if (timeLeft <= 0) {--}}
+        {{--        // Time's up! Submit the quiz automatically--}}
+        {{--        if (timerInterval)--}}
+        {{--        {--}}
+        {{--        clearInterval(timerInterval);--}}
+        {{--        }--}}
+        {{--        $('#quiz-form').submit();--}}
+        {{--        return;--}}
+        {{--    }--}}
+        
+        {{--    // Calculate minutes and seconds--}}
+        {{--    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));--}}
+        {{--    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);--}}
+        
+        {{--    // Display the timer--}}
+        {{--    document.getElementById('timer').innerHTML =--}}
+        {{--        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;--}}
+        {{--}--}}
+        
+        {{--// Start the timer--}}
+        {{--const timerInterval = setInterval(updateTimer, 1000);--}}
+        
+        {{--// Initial call to avoid delay--}}
+        {{--updateTimer();--}}
+  
+</script>
+
+<script>
+    let timerInterval = null; // Declare timerInterval globally
+
+    function initializeQuizTimer() {
+        // Clear the existing timer if it's running
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        // Calculate end time in PHP and pass to JavaScript
+        const quizEndTime = new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime();
+
+        // Timer function
+        function updateTimer() {
+            const now = new Date().getTime();
+            const timeLeft = quizEndTime - now;
+            
+            if (timeLeft <= 0) {
+                // Time's up! Submit the quiz automatically
+                clearInterval(timerInterval);
+                $('#quiz-form').submit();
+                return;
+            }
+
+            // Calculate minutes and seconds
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Display the timer
+            document.getElementById('timer').innerHTML =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Start the timer
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Initial call to avoid delay
+        updateTimer();
+    }
+
+    // Call the function to initialize the timer
+    initializeQuizTimer();
 </script>
