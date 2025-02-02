@@ -118,7 +118,7 @@
 
 @php
     // Calculate the end time by adding the duration to the current time
-    $endTime = now()->addMinutes($examType->duration);
+    $examDuration = $examType->duration;
     
 @endphp
 
@@ -171,40 +171,10 @@
         });
     });
 
-   
 
-        {{--//Timer code--}}
-        {{--const quizEndTime_{{ time() }} = new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime();--}}
-        
-        {{--// Function to update the timer--}}
-        {{--function updateTimer() {--}}
-        {{--    const now = new Date().getTime();--}}
-        {{--    const timeLeft = quizEndTime_{{ time() }} - now;--}}
-        
-        {{--    if (timeLeft <= 0) {--}}
-        {{--        // Time's up! Submit the quiz automatically--}}
-        {{--        if (timerInterval)--}}
-        {{--        {--}}
-        {{--        clearInterval(timerInterval);--}}
-        {{--        }--}}
-        {{--        $('#quiz-form').submit();--}}
-        {{--        return;--}}
-        {{--    }--}}
-        
-        {{--    // Calculate minutes and seconds--}}
-        {{--    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));--}}
-        {{--    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);--}}
-        
-        {{--    // Display the timer--}}
-        {{--    document.getElementById('timer').innerHTML =--}}
-        {{--        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;--}}
-        {{--}--}}
-        
-        {{--// Start the timer--}}
-        {{--const timerInterval = setInterval(updateTimer, 1000);--}}
-        
-        {{--// Initial call to avoid delay--}}
-        {{--updateTimer();--}}
+    $('#lessonSidebar').css('pointer-events', 'none');
+    $('#lessonSidebar').off('click');
+
   
 </script>
 
@@ -218,38 +188,45 @@
             timerInterval = null;
         }
 
-        // Calculate end time in PHP and pass to JavaScript
-        const quizEndTime = new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime();
+        // Get the exam duration (in minutes) from the server
+        const examDuration = {{ $examDuration }};
 
-        // Timer function
+        // Calculate the quiz end time based on the client's current time.
+        // Note: new Date() returns the client's current time.
+        const clientNow = new Date().getTime();
+        const examDurationMs = examDuration * 60 * 1000; // convert minutes to milliseconds
+        const quizEndTime = clientNow + examDurationMs;
+
+        // Timer function: updates the countdown every second.
         function updateTimer() {
             const now = new Date().getTime();
             const timeLeft = quizEndTime - now;
-            
+
             if (timeLeft <= 0) {
-                // Time's up! Submit the quiz automatically
+                // Time's up! Submit the quiz automatically.
                 clearInterval(timerInterval);
+                document.getElementById('timer').innerHTML = "00:00:00";
                 $('#quiz-form').submit();
                 return;
             }
 
-            // Calculate hours, minutes and seconds
+            // Calculate hours, minutes, and seconds from the time left.
             const hours = Math.floor(timeLeft / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            // Display the timer
+            // Display the timer with leading zeros.
             document.getElementById('timer').innerHTML =
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        // Start the timer
+        // Start the timer by calling updateTimer every 1000 milliseconds (1 second)
         timerInterval = setInterval(updateTimer, 1000);
 
-        // Initial call to avoid delay
+        // Initial call to display the timer immediately without delay.
         updateTimer();
     }
 
-    // Call the function to initialize the timer
+    // Initialize the quiz timer when the page loads.
     initializeQuizTimer();
 </script>
