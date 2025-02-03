@@ -3,6 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
+use App\Models\Basicinfo;
+use App\Models\Blog;
+use App\Models\Course;
+use App\Models\CourseClass;
+use App\Models\Herobanner;
+use App\Models\Page;
+use App\Models\Testimonial;
+use App\Models\TestimonialSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -316,13 +325,293 @@ class ApiController extends Controller
         } else {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'User not found'],
+                'message' => 'User not found'
+            ],
                 404);
         }
     }
-    
+
     //Authentication Ends
+
+
+    public function basicInfo()
+    {
+        $basicInfo = Basicinfo::first();
+
+        if (!$basicInfo) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $basicInfo
+        ], 200);
+    }
+
+
+    public function homeBannerData()
+    {
+        $bannerData = Herobanner::first();
+
+        if (!$bannerData) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $bannerData
+        ], 200);
+    }
+
+    public function homeCategoryData()
+    {
+        $categoryData = CourseClass::where('status',1)->latest()->limit(8)->get();
+
+        if ($categoryData->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $categoryData
+        ], 200);
+    }
+
+
+    public function featuredCourseData()
+    {
+        $featuredData = Course::with('class', 'teacher')->where('status', 1)->where('is_featured', 1)->limit(6)->get();
+
+        if ($featuredData->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $featuredData
+        ], 200);
+    }
+
+
+    public function homeAboutData()
+    {
+        $homeAboutData = About::first();
+
+        if (!$homeAboutData) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $homeAboutData
+        ], 200);
+    }
+
+
+    public function homePopularCategoriesData()
+    {
+        $popularCategories = CourseClass::where('status',1)->where('is_featured', 1)->limit(6)->get();
+
+        if ($popularCategories->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $popularCategories
+        ], 200);
+    }
+
+    public function homeCourseWithClass()
+    {
+        $courses = Course::where('status', 1)->inRandomOrder()->limit(6)->get();
+        $courseClasses = CourseClass::where('status', 1)->where('is_featured', 1)->orderBy('position',
+            'asc')->limit(4)->get();
+
+
+        if ($courses->isEmpty() && $courseClasses->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => [
+                'classes' => $courseClasses,
+                'courses' => $courses
+            ]
+        ], 200);
+    }
+
+
+    public function homeTeachersData()
+    {
+        $teachers = User::role('teacher')->where('status', 1)->limit(6)->get();
+
+        if ($teachers->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $teachers
+        ], 200);
+    }
+
+
+    public function homeTestimonialData()
+    {
+        $testimonials = Testimonial::where('status', 1)->get();
+        $testimonialSetting = TestimonialSetting::first();
+
+        if (!$testimonialSetting && $testimonials->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => [
+                'testimonial' => $testimonials,
+                'settings' => $testimonialSetting
+            ]
+        ], 200);
+    }
+
+
+    public function homeBlogData()
+    {
+        $blogs= Blog::where('status',1)->latest()->limit(3)->get();
+
+
+        if ( $blogs->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $blogs
+        ], 200);
+        
+        
+    }
+
     
+    //Footer Content
+
+    public function footerUsefulLinks()
+    {
+        $pages= Page::where('status',1)->limit(5)->get();
+
+        if ( $pages->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $pages
+        ], 200);
+        
+    }
+
+    public function footerCourses()
+    {
+        $courses= CourseClass::where('status',1)->latest()->limit(5)->get();
+
+        if ( $courses->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $courses
+        ], 200);
+        
+        
+    }
+
+    public function footerRecentPosts()
+    {
+        $blogs= Blog::where('status',1)->latest()->limit(3)->get();
+
+        if ( $blogs->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $blogs
+        ], 200);
+    }
+
     
+    //Courses
+    public function courseList()
+    {
+        $courses = Course::where('status', 1)->with('subjects','teacher','class')->get();
+
+        if ( $courses->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $courses
+        ], 200);
+    }
 
 }
