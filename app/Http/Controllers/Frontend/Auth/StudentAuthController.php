@@ -241,8 +241,7 @@ class StudentAuthController extends Controller
     {
         return view('Frontend.auth.reset-password');
     }
-
-
+    
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -266,10 +265,7 @@ class StudentAuthController extends Controller
         
     
     }
-
-
-
-
+    
     public function logOut(Request $request)
     {
         Auth::logout();
