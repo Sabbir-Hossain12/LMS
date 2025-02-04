@@ -33,14 +33,29 @@ Route::name('api')->group(function () {
     Route::get('/home-testimonial-data',[ApiController::class,'homeTestimonialData'])->name('homeTestimonialData');
     Route::get('/home-blogs-data',[ApiController::class,'homeBlogData'])->name('homeBlogData');
    
+    
     //courses
     Route::get('/course-list',[ApiController::class,'courseList'])->name('courseList');
+    Route::get('/course-details/{slug}',[ApiController::class,'courseDetails'])->name('courseDetails');
+    Route::get('/check-enrollment/{id}',[ApiController::class,'checkEnrollment'])->name('checkEnrollment');
+    //teachers
+    Route::get('/teacher-list',[ApiController::class,'teacherList'])->name('teacherList');
+    Route::get('/teacher-details/{slug}',[ApiController::class,'teacherDetails'])->name('teacherDetails');
     
+    //Blogs
+    Route::get('/blog-list',[ApiController::class,'blogList'])->name('blogList');
+    Route::get('/blog-details/{slug}',[ApiController::class,'blogDetails'])->name('blogDetails');
     
     //footer content
     Route::get('/footer-useful-links',[ApiController::class,'footerUsefulLinks'])->name('footerUsefulLinks');
     Route::get('/footer-courses',[ApiController::class,'footerCourses'])->name('footerUsefulLinks');
     Route::get('/footer-recent-posts',[ApiController::class,'footerRecentPosts'])->name('footerUsefulLinks');
+    
+    //pages
+    Route::get('/about-us-page',[ApiController::class,'aboutUsPage'])->name('aboutUsPage');
+    
+    //ChatGPT
+    Route::post('/chat', [ApiController::class,'chat'])->name('chat');
 });
 
 

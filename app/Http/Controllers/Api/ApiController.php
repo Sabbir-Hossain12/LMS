@@ -8,8 +8,10 @@ use App\Models\Basicinfo;
 use App\Models\Blog;
 use App\Models\Course;
 use App\Models\CourseClass;
+use App\Models\Enrollment;
 use App\Models\Herobanner;
 use App\Models\Page;
+use App\Models\Subject;
 use App\Models\Testimonial;
 use App\Models\TestimonialSetting;
 use App\Models\User;
@@ -373,7 +375,7 @@ class ApiController extends Controller
 
     public function homeCategoryData()
     {
-        $categoryData = CourseClass::where('status',1)->latest()->limit(8)->get();
+        $categoryData = CourseClass::where('status', 1)->latest()->limit(8)->get();
 
         if ($categoryData->isEmpty()) {
             return response()->json([
@@ -392,7 +394,9 @@ class ApiController extends Controller
 
     public function featuredCourseData()
     {
-        $featuredData = Course::with('class', 'teacher')->where('status', 1)->where('is_featured', 1)->limit(6)->get();
+        $featuredData = Course::with(['class', 'teacher'])->withCount('lessons')->where('status',
+            1)->where('is_featured', 1)->limit(6)->get();
+
 
         if ($featuredData->isEmpty()) {
             return response()->json([
@@ -407,7 +411,6 @@ class ApiController extends Controller
             'data' => $featuredData
         ], 200);
     }
-
 
     public function homeAboutData()
     {
@@ -427,10 +430,9 @@ class ApiController extends Controller
         ], 200);
     }
 
-
     public function homePopularCategoriesData()
     {
-        $popularCategories = CourseClass::where('status',1)->where('is_featured', 1)->limit(6)->get();
+        $popularCategories = CourseClass::where('status', 1)->where('is_featured', 1)->limit(6)->get();
 
         if ($popularCategories->isEmpty()) {
             return response()->json([
@@ -448,7 +450,7 @@ class ApiController extends Controller
 
     public function homeCourseWithClass()
     {
-        $courses = Course::where('status', 1)->inRandomOrder()->limit(6)->get();
+        $courses = Course::with(['class', 'teacher'])->withCount('lessons')->where('status', 1)->limit(6)->get();
         $courseClasses = CourseClass::where('status', 1)->where('is_featured', 1)->orderBy('position',
             'asc')->limit(4)->get();
 
@@ -515,10 +517,10 @@ class ApiController extends Controller
 
     public function homeBlogData()
     {
-        $blogs= Blog::where('status',1)->latest()->limit(3)->get();
+        $blogs = Blog::where('status', 1)->latest()->limit(3)->get();
 
 
-        if ( $blogs->isEmpty()) {
+        if ($blogs->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'data not found',
@@ -530,18 +532,16 @@ class ApiController extends Controller
             'message' => 'data found',
             'data' => $blogs
         ], 200);
-        
-        
     }
 
-    
+
     //Footer Content
 
     public function footerUsefulLinks()
     {
-        $pages= Page::where('status',1)->limit(5)->get();
+        $pages = Page::where('status', 1)->limit(5)->get();
 
-        if ( $pages->isEmpty()) {
+        if ($pages->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'data not found',
@@ -553,14 +553,13 @@ class ApiController extends Controller
             'message' => 'data found',
             'data' => $pages
         ], 200);
-        
     }
 
     public function footerCourses()
     {
-        $courses= CourseClass::where('status',1)->latest()->limit(5)->get();
+        $courses = CourseClass::where('status', 1)->latest()->limit(5)->get();
 
-        if ( $courses->isEmpty()) {
+        if ($courses->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'data not found',
@@ -572,15 +571,13 @@ class ApiController extends Controller
             'message' => 'data found',
             'data' => $courses
         ], 200);
-        
-        
     }
 
     public function footerRecentPosts()
     {
-        $blogs= Blog::where('status',1)->latest()->limit(3)->get();
+        $blogs = Blog::where('status', 1)->latest()->limit(3)->get();
 
-        if ( $blogs->isEmpty()) {
+        if ($blogs->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'data not found',
@@ -594,13 +591,20 @@ class ApiController extends Controller
         ], 200);
     }
 
-    
+
     //Courses
     public function courseList()
     {
-        $courses = Course::where('status', 1)->with('subjects','teacher','class')->get();
+        $courses = Course::where('status', 1)
+            ->select('id', 'slug', 'title', 'teacher_id', 'thumbnail_img',
+                'duration', 'regular_price', 'sale_price', 'discount')
+            ->with('teacher', function ($q) {
+                $q->select('id', 'name');
+            })
+            ->withCount('lessons')
+            ->paginate(9);
 
-        if ( $courses->isEmpty()) {
+        if ($courses->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'data not found',
@@ -614,4 +618,231 @@ class ApiController extends Controller
         ], 200);
     }
 
+    public function courseDetails(string $slug)
+    {
+        $courseDetails = Course::where('slug', $slug)
+            ->with([
+                'teacher' => function ($q) {
+                    $q->select('id', 'name', 'profile_image', 'instructor_title',
+                        'fb_link', 'youtube_link', 'insta_link', 'twitter_link');
+                },
+                'subjects' => function ($q) {
+                    $q->select('id', 'title', 'slug', 'course_id', 'position');
+                },
+                'class'=>function ($q) {
+                    $q->select('id', 'title', 'slug', 'position');
+                },
+            ])->withCount('lessons')->first();
+
+        
+
+
+        $subjects = Subject::where('course_id', $courseDetails->id)->where('status', 1)->orderBy('position', 'asc')
+            ->with([
+                'lessons' => function ($q) {
+                    $q->orderBy('position', 'asc');
+                },
+                'lessons.lessonVideos' => function ($q) {
+                    $q->orderBy('position', 'asc');
+                },
+
+//                'lessons.assessments' => function ($q) {
+//                    $q->orderBy('position', 'asc');
+//                },
+
+
+            ])->get();
+
+        if (!$courseDetails) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => [
+                'course' => $courseDetails,
+//                'enrollment' => $enrollment,
+//                'subjects' => $subjects
+            ]
+        ], 200);
+    }
+
+    public function checkEnrollment(string $id)
+    {
+        $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id',
+            $id)->first();
+        
+
+        if (!$enrollment) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $enrollment
+        ]);
+    }
+
+    //Teachers
+    public function teacherList()
+    {
+        $teachers = User::role('teacher')->where('status', 1)
+            ->select('id', 'slug', 'name', 'instructor_title', 'profile_image',
+                'fb_link', 'youtube_link', 'insta_link', 'twitter_link')->paginate(9);
+
+
+        if ($teachers->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $teachers
+        ], 200);
+    }
+
+
+    public function teacherDetails(string $slug)
+    {
+        $teacherDetails = User::role('teacher')
+            ->where('slug', $slug)
+            ->first();
+
+        $relatedCourses = Course::where('teacher_id', $teacherDetails->id)
+            ->where('status', 1)
+            ->limit(4)
+            ->get();
+
+
+        if (!$teacherDetails) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => [
+                'teacher' => $teacherDetails,
+                'relatedCourses' => $relatedCourses
+            ]
+        ], 200);
+    }
+
+
+    //blogs
+    public function blogList()
+    {
+        $blogs = Blog::where('status', 1)
+            ->with('author', function ($q) {
+                $q->select('id', 'name');
+            })
+            ->select('id', 'slug', 'title', 'author_id', 'thumbnail_img', 'main_img', 'created_at', 'short_desc',
+                'user_id')
+            ->inRandomOrder()
+            ->paginate(3);
+
+        $recentBlog = Blog::where('status', 1)->latest()->limit(3)->get();
+
+
+        if ($blogs->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' =>
+                [
+                    'blogs' => $blogs,
+                    'recentBlog' => $recentBlog
+                ]
+        ], 200);
+    }
+
+    //blog details
+
+    public function blogDetails(string $slug)
+    {
+        $blog = Blog::where('slug', $slug)->with('author')->first();
+        $recentBlogs = Blog::where('status', 1)->latest()->take(4)->get();
+
+        if (!$blog) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' =>
+                [
+                    'blog' => $blog,
+                    'recentBlogs' => $recentBlogs
+                ]
+        ], 200);
+    }
+
+
+    //About Us
+    public function aboutUsPage()
+    {
+        $aboutUs = Page::where('slug', 'about-us')->first();
+
+
+        if (!$aboutUs) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'data not found',
+            ], 402);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data found',
+            'data' => $aboutUs
+        ], 200);
+    }
+
+    //ChatGPT API
+    public function chat(Request $request)
+    {
+        $response = Http::withHeaders([
+            'content-type' => 'application/json',
+            'Authorization' => "Bearer ".env('GPT_SECRET_KEY')
+
+        ])->post('https://api.openai.com/v1/completions', [
+            'model' => "gpt-3.5-turbo",
+            'messages' => [
+                [
+                    "role" => "user",
+                    "content" => $request->post('prompt')
+                ]
+            ],
+            'temperature' => 0,
+            'max_tokens' => 2048,
+        ])->body();
+
+
+        return response()->json(json_decode($response));
+    }
 }
