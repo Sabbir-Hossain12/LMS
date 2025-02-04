@@ -54,20 +54,31 @@
                                         <input class="form-control" type="text" id="video_url" name="video_url" placeholder="https://www.youtube.com/embed/v5nSFx7YEXc?si=7HPDNFUSxUbq3e9B" required>
                                     </div>
 
+                                    <div class="mb-3">
+                                        <label for="duration" class="form-label">Duration </label>
+                                        <input class="form-control" type="text" id="duration" name="duration" placeholder="1 Hour">
+                                    </div>
 
+                                  
 
                                 </div>
                             </div>
                             <div class="col-lg-6">
 
-                                <div class="mb-3">
-                                    <label for="duration" class="form-label">Duration </label>
-                                    <input class="form-control" type="text" id="duration" name="duration" placeholder="1 Hour">
-                                </div>
+                               
 
                                 <div class="mb-3">
                                     <label for="position" class="form-label">Position *</label>
                                     <input class="form-control" type="number" id="position" name="position" value="1" required>
+                                </div>
+                                <div class="mb-3" id="startTimeDiv">
+                                    <label for="start_time" class="form-label">Start Date</label>
+                                    <input class="form-control" type="datetime-local" id="start_time" step="any" value="{{now()}}" name="start_time" required>
+                                </div>
+
+                                <div class="mb-3" id="endTimeDiv">
+                                    <label for="end_time" class="form-label">End Date</label>
+                                    <input class="form-control" type="datetime-local" id="end_time" name="end_time" required>
                                 </div>
 
                                 <div class="mb-3">

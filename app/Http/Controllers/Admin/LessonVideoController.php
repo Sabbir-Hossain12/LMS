@@ -53,6 +53,8 @@ class LessonVideoController extends Controller
         $lessonVideo->slug = Str::slug($request->title);
         $lessonVideo->video_url = $request->video_url;
         $lessonVideo->duration = $request->duration;
+        $lessonVideo->start_time = $request->start_time;
+        $lessonVideo->end_time = $request->end_time;
         $lessonVideo->position = $request->position;
         $lessonVideo->status = $request->status;
 
@@ -94,6 +96,8 @@ class LessonVideoController extends Controller
         $lessonVideo->title = $request->title;
         $lessonVideo->video_url = $request->video_url;
         $lessonVideo->duration = $request->duration;
+        $lessonVideo->start_time = $request->start_time;
+        $lessonVideo->end_time = $request->end_time;
         $lessonVideo->position = $request->position;
         $lessonVideo->status = $request->status;
 

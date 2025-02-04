@@ -54,15 +54,25 @@
                                                required>
                                     </div>
 
+                                    <div class="mb-3">
+                                        <label for="duration" class="form-label">Duration </label>
+                                        <input class="form-control" type="text" id="duration" name="duration"
+                                               placeholder="1 Hour" value="{{$lessonVideo->duration ?? ''}}">
+                                    </div>
+
 
                                 </div>
                             </div>
                             <div class="col-lg-6">
 
-                                <div class="mb-3">
-                                    <label for="duration" class="form-label">Duration </label>
-                                    <input class="form-control" type="text" id="duration" name="duration"
-                                           placeholder="1 Hour" value="{{$lessonVideo->duration ?? ''}}">
+                                <div class="mb-3" id="startTimeDiv">
+                                    <label for="start_time" class="form-label">Start Date * </label>
+                                    <input class="form-control" type="datetime-local" id="start_time" value="{{$lessonVideo->start_time ?? ''}}" name="start_time" required>
+                                </div>
+
+                                <div class="mb-3" id="endTimeDiv">
+                                    <label for="end_time" class="form-label">End Date </label>
+                                    <input class="form-control" type="datetime-local" id="end_time" name="end_time" value="{{$lessonVideo->end_time ?? ''}}" required>
                                 </div>
 
                                 <div class="mb-3">
@@ -78,6 +88,7 @@
                                         <option value="0" @if($lessonVideo->status == 0) selected @endif>Inactive</option>
                                     </select>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

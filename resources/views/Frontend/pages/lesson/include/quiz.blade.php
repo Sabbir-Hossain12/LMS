@@ -1,7 +1,7 @@
 
 @if($questions->count() > 0)
 
-    @if($examType->start_time <= now() && $examType->end_time >= now())
+    @if($examType->start_time <= now())
         
         <form id="quiz-form" method="post" action="{{route('quiz.submit')}}">
             @csrf
@@ -59,7 +59,8 @@
                 </div>
                 <br><br><br>
             @empty
-                <p>No Questions For Now, We Will Keep You Notified</p>
+                <p>Exam will be available
+                    on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</p>
             @endforelse
             
             <button type="submit" class="default__button" > Quiz Submit

@@ -34,20 +34,26 @@
 </style>
 <div class="lesson__content__main video-container" id="iframe-wrapper">
 
+    @if($video->start_time <= now())
         <div class="lesson__content__wrap">
             <h3>{{$video->title ?? ''}}</h3>
         </div>
 
-    <div class="plyr__video-embed video-foreground rbtplayer" oncontextmenu="return false;">
+        <div class="plyr__video-embed video-foreground rbtplayer" oncontextmenu="return false;">
 
-        {{--        <iframe--}}
-        {{--                src="https://www.youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=W0LHTWG-UmQ&mute=1"--}}
-        {{--                frameBorder="0" allowFullScreen>--}}
+            {{--        <iframe--}}
+            {{--                src="https://www.youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=W0LHTWG-UmQ&mute=1"--}}
+            {{--                frameBorder="0" allowFullScreen>--}}
 
-        {{--        </iframe>--}}
-        <iframe src="{{$video->video_url ?? ''}}" allowfullscreen></iframe>
-        {{--            <iframe type="text/html" src="https://www.youtube.com/embed/-ePDPGXkvlw?autoplay=1" frameborder="0" allow="autoplay"></iframe>--}}
-    </div>
+            {{--        </iframe>--}}
+            <iframe src="{{$video->video_url ?? ''}}" allowfullscreen></iframe>
+            {{--            <iframe type="text/html" src="https://www.youtube.com/embed/-ePDPGXkvlw?autoplay=1" frameborder="0" allow="autoplay"></iframe>--}}
+        </div>
+
+    @else
+        <h3 class="text-center mt-4">Video will be available
+            on {{date('d M, Y h:i A', strtotime($video->start_time))}}</h3>
+    @endif
 
 </div>
 

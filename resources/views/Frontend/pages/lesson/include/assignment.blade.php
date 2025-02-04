@@ -2,7 +2,7 @@
 
     @if($questions->count() > 0)
 
-        @if($examType->start_time <= now() && $examType->end_time >= now())
+        @if($examType->start_time <= now() )
 
             <div class="assignment__submit__wrap">
                 <div class="fw-bold">
@@ -72,7 +72,8 @@
             </script>
 
         @else
-            <h4 class="text-center">Assignment Not Available Yet</h4>
+            <h4 class="text-center">Exam will be available
+                on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</h4>
         @endif
 
     @else
