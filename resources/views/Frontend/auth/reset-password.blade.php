@@ -90,9 +90,9 @@
                     success: function (res) {
                         if (res.status === 'success') {
                             successToast('Password Changed successfully !');
-                            setTimeout(function() {
+                            // setTimeout(function() {
                                 window.location.href = '{{route('student.password-page')}}';
-                            }, 2000);
+                            // }, 2000);
 
                         }
 

@@ -27,7 +27,33 @@
                         <a class="default__button hreobannerarea__button__3" href="{{$heroBanner->btn2_link ?? '#'}}">{{$heroBanner->btn2_text ?? ''}}</a>
                     </div>
                 </div>
+                <!--test-->
+                  <div class="herobannerarea__content__wraper mt-5">
+                      <div class="row justify-content-around">
+                        
+                        @forelse($services as $key=> $class) 
+                            <div class="single__service col-5">
+                
+                <div class="service__content">
+                    <h3><a href="{{route('course-by-class', $class->slug)}}">{{$class->title}}</a></h3>
+                    <p>{{$class->subtitle}}</p>
+                </div>
+                <div class="service__small__img">
+                    <svg class="icon__hover__img" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.5961 10.265L19 1.33069L10.0022 3.73285L1 6.1306L7.59393 12.6627L14.1879 19.1992L16.5961 10.265Z" stroke="#FFB31F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             </div>
+               
+                        @empty
+                        @endforelse
+                       
+                        </div>
+                   
+                </div>
+            </div>
+            
+            
             <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12" data-aos="fade-up">
 
                 <div class="herobanner__video registerarea__video">
@@ -44,9 +70,9 @@
             <div class="herobannerarea__icon__2">
                 <img loading="lazy" class="herobanner__common__img herobanner__img__1" src="{{asset('frontend')}}/img/herobanner/herobanner__1.png" alt="photo">
                 <img loading="lazy" class="herobanner__common__img herobanner__img__2" src="{{asset('frontend')}}/img/herobanner/herobanner__2.png" alt="photo">
-                <img loading="lazy" class="herobanner__common__img herobanner__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png" alt="photo">
-                <img loading="lazy" class="herobanner__common__img herobanner__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__4.png" alt="photo">
-                <img loading="lazy" class="herobanner__common__img herobanner__img__5" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png" alt="photo">
+                <!--<img loading="lazy" class="herobanner__common__img herobanner__img__3" src="{{asset('frontend')}}/img/herobanner/herobanner__3.png" alt="photo">-->
+                <!--<img loading="lazy" class="herobanner__common__img herobanner__img__4" src="{{asset('frontend')}}/img/herobanner/herobanner__4.png" alt="photo">-->
+                <!--<img loading="lazy" class="herobanner__common__img herobanner__img__5" src="{{asset('frontend')}}/img/herobanner/herobanner__5.png" alt="photo">-->
             </div>
         </div>
     </div>

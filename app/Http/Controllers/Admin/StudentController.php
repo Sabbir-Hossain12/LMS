@@ -171,7 +171,8 @@ class StudentController extends Controller
             $admin->phone = $request->phone;
 //            $admin->password = Hash::make($request->password);
 
-            $admin->syncRoles($request->role);
+            // $admin->syncRoles($request->role);
+            $admin->assignRole('student');
 
             if ($request->hasFile('profile_image')) {
                 if ($admin->profile_image && file_exists(public_path($admin->profile_image))) {

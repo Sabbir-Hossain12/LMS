@@ -12,7 +12,7 @@
     <div class="tution sp_bottom_100 sp_top_50">
         <div class="container-fluid full__width__padding">
             <div class="row">
-                <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" id="lessonSidebar" data-aos="fade-up">
+                <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" id="lessonSidebar" data-aos="fade-up" >
 
                     <div class="accordion content__cirriculum__wrap" id="accordionExample">
                         @forelse($subjects as $subject)
@@ -130,7 +130,7 @@
                                                                     
                                                                     @if($enrollment)
                                                                         <h5>
-                                                                            <a data-id="{{$assessment->id}}" data-lesson-id="{{$lesson->id}}" class="lessonExamAnchor" href="javascript:void(0)">
+                                                                            <a href="{{route('lesson-exam2',$assessment->id)}}" data-id="{{$assessment->id}}" data-lesson-id="{{$lesson->id}}" class="lessonExamAnchor">
                                                                                 <span>{{$assessment->title}}</span>
                                                                             </a>
                                                                         </h5>
@@ -183,7 +183,7 @@
                             <h3>No Subject Yet</h3>
                         @endforelse
                     </div>
-                </div >
+                </div>
                 
                 <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up" id="lessonContent">
                   
@@ -233,7 +233,9 @@
                         $('#lessonContent').empty();
                         $('#lessonContent').append(res.html);
 
-                       
+                       $("html, body").animate({
+                            scrollTop: $("#lessonContent").offset().top - 300
+                        }, 200); // 800ms smooth scrolling
 
                     },
                     error: function (err) {
@@ -246,9 +248,8 @@
                     }
                 })
             });
-
-
-          $(document).ready(function () {
+            
+            $(document).ready(function () {
               // Select the first visible .lessonVideoAnchor and trigger a click
               $('.lessonVideoAnchor:first').trigger('click');
               $('.lessonVideoAnchor:first').addClass('active');
@@ -292,6 +293,9 @@
                         $('#lessonContent').empty();
                         $('#lessonContent').append(res.html);
 
+                            $("html, body").animate({
+                            scrollTop: $("#lessonContent").offset().top - 300
+                        }, 200); // 800ms smooth scrolling
 
 
                     },
@@ -306,67 +310,94 @@
                 })
             });
 
-            $(document).on('click', '.lessonExamAnchor', function (e) {
+            // Make sure SweetAlert2 is loaded on your page
+            document.querySelectorAll('.lessonExamAnchor').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent the default navigation
 
-                e.preventDefault();
-                let assessment_id= $(this).data('id');
-
-                $('.lessonVideoAnchor').removeClass('active');
-                $('.lessonMaterialAnchor').removeClass('active');
-                $('.lessonExamAnchor').removeClass('active');
-                // Remove active class from all anchors
-                $(this).addClass('active'); // Add active class to the clicked element's anchor
-                $('.katex-html').hide();
-                
-                Swal.fire({
-                    title: "You Want to Resume Exam?",
-                    // text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Resume Exam",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            method: 'POST',
-                            url: "{{route('lesson-exam')}}",
-                            data: {
-                                assessment_id:assessment_id
-                            },
-
-                            // contentType: false,
-                            // processData: false,
-                            beforeSend: function() {
-                                // Show loader
-                                showLoader();
-                            },
-                            success: function (res) {
-
-                                $('#lessonContent').empty();
-                                $('#lessonContent').append(res.html);
-
-                            },
-                            error: function (err) {
-
-                                errorToast('error');
-                            },
-                            complete: function() {
-                                // Hide loader
-                                hideLoader();
-                            }
-                        })
-                    }
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to start this exam. Do you want to proceed?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, start exam!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // If confirmed, redirect to the exam page
+                            window.location.href = this.href;
+                        }
+                    });
                 });
-                
-              
             });
-          
-          
+                
+
+      
+            
+            {{--$(document).on('click', '.lessonExamAnchor', function (e) {--}}
+            
+            {{--    e.preventDefault();--}}
+            {{--    let assessment_id= $(this).data('id');--}}
+            
+            {{--    $('.lessonVideoAnchor').removeClass('active');--}}
+            {{--    $('.lessonMaterialAnchor').removeClass('active');--}}
+            {{--    $('.lessonExamAnchor').removeClass('active');--}}
+            {{--    // Remove active class from all anchors--}}
+            {{--    $(this).addClass('active'); // Add active class to the clicked element's anchor--}}
+            {{--    $('.katex-html').hide();--}}
+            {{--    --}}
+            {{--    Swal.fire({--}}
+            {{--        title: "You Want to Resume Exam?",--}}
+            {{--        // text: "You won't be able to revert this!",--}}
+            {{--        icon: "warning",--}}
+            {{--        showCancelButton: true,--}}
+            {{--        confirmButtonColor: "#3085d6",--}}
+            {{--        cancelButtonColor: "#d33",--}}
+            {{--        confirmButtonText: "Resume Exam",--}}
+            {{--    }).then((result) => {--}}
+            {{--        if (result.isConfirmed) {--}}
+            
+            {{--            $.ajax({--}}
+            {{--                headers: {--}}
+            {{--                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--                },--}}
+            {{--                method: 'POST',--}}
+            {{--                url: "{{route('lesson-exam')}}",--}}
+            {{--                data: {--}}
+            {{--                    assessment_id:assessment_id--}}
+            {{--                },--}}
+            
+            {{--                // contentType: false,--}}
+            {{--                // processData: false,--}}
+            {{--                beforeSend: function() {--}}
+            {{--                    // Show loader--}}
+            {{--                    showLoader();--}}
+            {{--                },--}}
+            {{--                success: function (res) {--}}
+            
+            {{--                    $('#lessonContent').empty();--}}
+            {{--                    $('#lessonContent').append(res.html);--}}
+            {{--                    --}}
+            {{--                    $("html, body").animate({--}}
+            {{--                scrollTop: $("#lessonContent").offset().top - 300--}}
+            {{--            }, 200); // 800ms smooth scrolling--}}
+            
+            {{--                },--}}
+            {{--                error: function (err) {--}}
+            
+            {{--                    errorToast('error');--}}
+            {{--                },--}}
+            {{--                complete: function() {--}}
+            {{--                    // Hide loader--}}
+            {{--                    hideLoader();--}}
+            {{--                }--}}
+            {{--            })--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--    --}}
+            {{--  --}}
+            {{--});--}}
 
         </script>
     @endpush

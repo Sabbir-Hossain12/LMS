@@ -91,17 +91,17 @@
                                
                                 if (res.message === 'verified') {
                                     successToast('Phone Number Matched !');
-                                    setTimeout(function() {
+                                    // setTimeout(function() {
                                         window.location.href = '{{route('student.password-page')}}';
-                                    }, 2000);
+                                    // }, 2000);
                                   
                                 }
                                 else
                                 {
                                     successToast('A 4 digit OTP has been sent to your phone !');
-                                    setTimeout(function() {
+                                    // setTimeout(function() {
                                         window.location.href = '{{route('student.otp-page')}}';
-                                    }, 2000);
+                                    // }, 2000);
                                    
                                 }
                             },

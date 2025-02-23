@@ -19,7 +19,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12" data-aos="fade-up">
                 <div class="single__team">
                     <div class="teamarea__img">
-                        <img class="rounded" loading="lazy" src="{{asset($teacher->profile_image ?? 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=')}}" alt="team">
+                        <img class="rounded" loading="lazy" src="{{asset($teacher->profile_image ?? 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=')}}" width="295px" height="295px" alt="team">
                         <div class="teamarea__icon">
                             <ul>
                                 <li>

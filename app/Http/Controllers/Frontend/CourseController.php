@@ -172,6 +172,34 @@ class CourseController extends Controller
 
         return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
     }
+    
+    //POSTBACK WAY
+    public function courseLessonsExam2(string $id, Request $request)
+    {
+        $assessment_id = $id;
+
+        $questions = Question::where('assessment_id', $assessment_id)->where('status', 1)->get();
+
+        $examType = Assessment::where('id', $assessment_id)->first();
+
+
+        if ($examType->type == 'quiz') {
+//            $quizView = view('Frontend.pages.lesson.include.quiz', compact('questions', 'examType'))->render();
+//
+//            return response()->json(['html' => $quizView]);
+            
+            return view('Frontend.pages.lesson.quiz', compact('questions', 'examType'));
+        } else {
+            if ($examType->type == 'assignment') {
+                $assignmentView = view('Frontend.pages.lesson.include.assignment',
+                    compact('questions', 'examType'))->render();
+
+                return response()->json(['html' => $assignmentView]);
+            }
+        }
+
+        return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
+    }
 
 
     public function assignmentSubmit(Request $request)
@@ -179,7 +207,7 @@ class CourseController extends Controller
         $request->validate(
             [
                 'assessment_id' => ['required'],
-                'file_path' => [ 'mimes:pdf,doc,docx'],
+                'file_path' => ['required', 'mimes:pdf,doc,docx'],
             ]
         );
 
@@ -270,7 +298,7 @@ class CourseController extends Controller
         if ($exist) {
             $exist->marks_obtained = $marks_obtained;
             $exist->attempts = $exist->attempts + 1;
-//            $exist->submitted_at = now();
+           
             $save = $exist->save();
         } else {
             $assessmentGrade = new AssessmentGrade();
@@ -278,7 +306,7 @@ class CourseController extends Controller
             $assessmentGrade->student_id = $student_id;
             $assessmentGrade->marks_obtained = $marks_obtained;
             $assessmentGrade->attempts = 1;
-//            $exist->submitted_at = now();
+        
             $save = $assessmentGrade->save();
         }
 

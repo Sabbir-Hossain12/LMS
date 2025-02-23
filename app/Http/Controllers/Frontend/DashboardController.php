@@ -174,10 +174,10 @@ class DashboardController extends Controller
 
         $examType = Assessment::where('id', $id)->first();
         
-        if ($examType->end_time >= now()) {
+        // if ($examType->end_time >= now()) {
 
-            return response()->json(['html' => '<div class="alert alert-danger">Please Wait till the exam ends</div>']);
-        }
+        //     return response()->json(['html' => '<div class="alert alert-danger">Please Wait till the exam ends</div>']);
+        // }
         
         $questions = Question::where('assessment_id', $id)->where('status', 1)->get();
         

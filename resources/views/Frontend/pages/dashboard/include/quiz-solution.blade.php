@@ -31,7 +31,7 @@
                             <input class="form-check-input" type="radio" name="answer_{{$question->id}}"
                                    id="option_{{$question->id}}_{{$key2}}" value="{{$option}}" @if($option == $question->correct_answers) checked @endif disabled>
                             <label class="form-check-label" for="option_{{$question->id}}_{{$key2}}">
-                                {{$option}}
+                                {!!$option!!}
                             </label>
                         </div>
 
@@ -50,7 +50,9 @@
     
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    $('.katex-html').hide();
+</script>
 
 
 

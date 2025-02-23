@@ -59,8 +59,7 @@
                 </div>
                 <br><br><br>
             @empty
-                <p>Exam will be available
-                    on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</p>
+                <p>No Questions For Now, We Will Keep You Notified</p>
             @endforelse
             
             <button type="submit" class="default__button" > Quiz Submit
@@ -108,7 +107,8 @@
         </script>
         
     @else
-        <h4 class="text-center">Quiz Not Available Yet</h4>
+        <h4 class="text-center">Exam will be available
+            on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</h4>
     @endif
     
     
@@ -118,7 +118,7 @@
 @endif
 
 @php
-    // Calculate the end time by adding the duration to the current time
+   
     $examDuration = $examType->duration;
     
 @endphp
@@ -172,12 +172,14 @@
         });
     });
 
-
     $('#lessonSidebar').css('pointer-events', 'none');
     $('#lessonSidebar').off('click');
 
   
 </script>
+
+
+
 
 <script>
     let timerInterval = null; // Declare timerInterval globally
@@ -191,7 +193,7 @@
 
         // Get the exam duration (in minutes) from the server
         const examDuration = {{ $examDuration }};
-
+        
         // Calculate the quiz end time based on the client's current time.
         // Note: new Date() returns the client's current time.
         const clientNow = new Date().getTime();
@@ -202,7 +204,7 @@
         function updateTimer() {
             const now = new Date().getTime();
             const timeLeft = quizEndTime - now;
-
+            
             if (timeLeft <= 0) {
                 // Time's up! Submit the quiz automatically.
                 clearInterval(timerInterval);

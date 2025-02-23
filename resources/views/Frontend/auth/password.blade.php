@@ -103,9 +103,9 @@
                     success: function (res) {
                         if (res.status === 'success') {
                             successToast('Password Matched !');
-                            setTimeout(function() {
+                            // setTimeout(function() {
                                 window.location.href = '{{route('student.dashboard.index')}}';
-                            }, 2000);
+                            // }, 2000);
                         }
                         else
                         {

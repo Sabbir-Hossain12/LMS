@@ -48,6 +48,7 @@
                                 <th>Last Submit</th>
                                 <th>Answer File</th>
                                 <th>Marks Obtained</th>
+                                <th>Upload</th>
                                 <th>Status</th>
 {{--                                <th>Actions</th>--}}
                             </tr>
@@ -84,7 +85,23 @@
                                         </form>
 
                                     </td>
+                                    <!--upload-->
+                                      <td>
+                                        <form method="post" action="{{route('admin.assessment-teacher-upload.store')}}" enctype='multipart/form-data'>
+                                            @csrf
+                                            <input type="hidden" name="assessment_answer_id" value="{{$exam_answer->id ?? null}}">
+                                            <input type="hidden" name="assessment_id" value="{{$exam_answer->assessment_id}}">
+                                            <input type="hidden" name="student_id" value="{{$exam_answer->student_id }}">
+                                            
+                                            <div class="d-flex">
+                                            <input type="file" name="teacher_upload" class="form-control" required>
+                                            
+                                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                                            </div>
+                                        </form>
 
+                                    </td>
+                                    
                                     <td>
                                         @if($exam_answer->status == 1)
                                             <span class="badge bg-success">Checked</span>

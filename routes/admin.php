@@ -139,6 +139,8 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     //Assessment Answer 
     Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
     Route::post('/assessment-mark-evaluation/store', [AssessmentGradeController::class, 'markEvaluation'])->name('assessment-mark-evaluate.store');
+    
+    Route::post('/assessment-teacher-upload/store', [AssessmentGradeController::class, 'teacherUpload'])->name('assessment-teacher-upload.store');
 
 
     //Enrolment

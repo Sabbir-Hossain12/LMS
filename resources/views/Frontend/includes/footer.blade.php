@@ -58,7 +58,8 @@
                             <ul>
                                 @forelse($pages->take(5) as $page) 
                                 <li>
-                                    <a href="#">{{$page->name}}</a>
+                                    <a href="{{route('page',$page->slug)}}">{{$page->name}}</a>
+                                    
                                 </li>
                                 @empty
                                 @endforelse
@@ -78,7 +79,7 @@
                             <ul>
                                 @forelse($classes as $key=> $class) 
                                 <li>
-                                    <a href="#">{{$class->title}}</a>
+                                    <a href="{{route('course-by-class',$class->slug)}}">{{$class->title}}</a>
                                 </li>
                                 @empty
                                 @endforelse
@@ -99,7 +100,7 @@
                             <ul>
                                 @forelse($blogs as $key=> $blog) 
                                 <li>
-                                    <a href="#">
+                                    <a href="{{route('blog-details',$blog->slug)}}">
                                         <div class="footerarea__right__img">
                                             <img loading="lazy" src="{{asset($blog->thumbnail_img)}}"
                                                width="61px" height="54px"  alt="footerphoto">

@@ -59,6 +59,8 @@
                                 </div>
                                     
                                 @else
+                                <div class="dashboard__button__group">
+                                    <a href="{{asset($grade->teacher_upload)}}" class="dashboard__small__btn__2" download> <i class="icofont-eye"></i>View</a>
                                 @endif
                             </td>
                         </tr>

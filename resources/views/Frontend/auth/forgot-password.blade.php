@@ -92,9 +92,9 @@
                     success: function (res) {
                         if (res.message === 'verified') {
                             successToast('OTP Matched !');
-                            setTimeout(function() {
+                            // setTimeout(function() {
                                 window.location.href = '{{route('student.reset-page')}}';
-                            }, 2000);
+                            // }, 2000);
 
                         }
                         else

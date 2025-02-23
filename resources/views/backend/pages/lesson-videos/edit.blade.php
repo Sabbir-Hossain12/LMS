@@ -71,7 +71,7 @@
                                 </div>
 
                                 <div class="mb-3" id="endTimeDiv">
-                                    <label for="end_time" class="form-label">End Date </label>
+                                    <label for="end_time" class="form-label">End Date * </label>
                                     <input class="form-control" type="datetime-local" id="end_time" name="end_time" value="{{$lessonVideo->end_time ?? ''}}" required>
                                 </div>
 

@@ -15,12 +15,12 @@
 
                     <div class="blog__details__content__wraper">
                         <div class="course__button__wraper" data-aos="fade-up">
-                            <div class="course__button">
-                                @forelse($courseDetails->subjects as $subject)
-                                    <a href="#">{{$subject->title}}</a>
-                                @empty
-                                @endforelse
-                            </div>
+                            <!--<div class="course__button">-->
+                            <!--    @forelse($courseDetails->subjects as $subject)-->
+                            <!--        <a href="#">{{$subject->title}}</a>-->
+                            <!--    @empty-->
+                            <!--    @endforelse-->
+                            <!--</div>-->
                             <div class="course__date">
                                 <p>Last Update: <span>{{$courseDetails->updated_at->format('M d, Y')}}</span></p>
                             </div>
@@ -134,58 +134,60 @@
                                 <div class="tab-pane fade  active show" id="projects__two" role="tabpanel"
                                      aria-labelledby="projects__two">
 
+                                    {{--Curicullam--}}
                                     <div class="accordion content__cirriculum__wrap" id="accordionExample">
-
                                         @forelse($subjects as $subject)
                                             <div class="subject-wrapper">
+                                                <!-- Subject header: clicking this toggles the lessons collapse -->
+                                                <h1 class="accordion-header mb-2" id="headingSubject{{$subject->id}}">
+                                                    <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseSubject{{$subject->id}}"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseSubject{{$subject->id}}">
+                                                        {{$subject->title}}
+                                                    </button>
+                                                </h1>
 
-                                                <h4 class="subject-title">{{$subject->title}}</h4>
+                                                <!-- Collapse container for lessons under this subject -->
+                                                <div id="collapseSubject{{$subject->id}}" class="accordion-collapse collapse"
+                                                     aria-labelledby="headingSubject{{$subject->id}}" data-bs-parent="#accordionExample">
 
-                                                @forelse($subject->lessons as $key=> $lesson)
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne">
-                                                            <button class="accordion-button" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#collaps{{$lesson->id}}"
-                                                                    aria-expanded="true"
-                                                                    aria-controls="collapse{{$lesson->id}}">
-                                                                {{$lesson->title}} <span>{{$lesson->duration}}</span>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collaps{{$lesson->id}}"
-                                                             class="accordion-collapse collapse show"
-                                                             aria-labelledby="headingOne"
-                                                             data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body">
-
-                                                                @if($lesson->lessonVideos->count() > 0)
-
-                                                                    @forelse($lesson->lessonVideos as $key1=>$video)
-                                                                        <div class="scc__wrap">
-                                                                            <div class="scc__info">
-                                                                                <i class="icofont-video-alt"></i>
-                                                                                <h5> {{$video->title}}
-                                                                                </h5>
+                                                    @forelse($subject->lessons as $key => $lesson)
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="headingLesson{{$lesson->id}}">
+                                                                <button class="accordion-button" type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseLesson{{$lesson->id}}"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapseLesson{{$lesson->id}}">
+                                                                    {{$lesson->title}} <span>{{$lesson->duration}}</span>
+                                                                </button>
+                                                            </h2>
+                                                            <div id="collapseLesson{{$lesson->id}}" class="accordion-collapse collapse"
+                                                                 aria-labelledby="headingLesson{{$lesson->id}}" data-bs-parent="#collapseSubject{{$subject->id}}">
+                                                                <div class="accordion-body">
+                                                                    @if($lesson->lessonVideos->count() > 0)
+                                                                        @forelse($lesson->lessonVideos as $key1=>$video)
+                                                                            <div class="scc__wrap">
+                                                                                <div class="scc__info">
+                                                                                    <i class="icofont-video-alt"></i>
+                                                                                    <h5>{{$video->title}}</h5>
+                                                                                </div>
+                                                                                <div class="scc__meta">
+                                                <span class="time">
+                                                    <i class="icofont-clock-time"></i> {{$video->duration}}
+                                                </span>
+                                                                                    <a href="#"><span class="question"><i class="icofont-eye"></i></span></a>
+                                                                                </div>
                                                                             </div>
+                                                                        @empty
+                                                                            <!-- Optionally show a message if no videos are available -->
+                                                                        @endforelse
+                                                                    @endif
 
-                                                                            <div class="scc__meta">
-                                                                    <span class="time"> <i
-                                                                                class="icofont-clock-time"></i> {{$video->duration}}</span>
-                                                                                <a href="#"><span class="question"><i
-                                                                                                class="icofont-eye"></i></span></a>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    @empty
-                                                                    @endforelse
-                                                                @endif
-
-
-                                                                @if($lesson->assessments->count() > 0)
-                                                                    @forelse($lesson->assessments as $key2=>$assessment)
-
-                                                                        @if($assessment->type == 'quiz')
-
+                                                                    @if($lesson->assessments->count() > 0)
+                                                                        @forelse($lesson->assessments as $key2=>$assessment)
                                                                             <div class="scc__wrap">
                                                                                 <div class="scc__info">
                                                                                     <i class="icofont-file-text"></i>
@@ -197,41 +199,23 @@
                                                                                     <span><i class="icofont-lock"></i></span>
                                                                                 </div>
                                                                             </div>
-
-                                                                        @else
-
-                                                                                <div class="scc__wrap">
-                                                                                    <div class="scc__info">
-                                                                                        <i class="icofont-file-text"></i>
-                                                                                        <h5>
-                                                                                            <span>{{$assessment->title}}</span>
-                                                                                        </h5>
-                                                                                    </div>
-                                                                                    <div class="scc__meta">
-                                                                                        <span><i class="icofont-lock"></i></span>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                        @endif
-                                                                    @empty
-                                                                    @endforelse
-
-                                                                @endif
+                                                                        @empty
+                                                                            <!-- Optionally show a message if no assessments are available -->
+                                                                        @endforelse
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @empty
-                                                    <p>No Lesson Yet</p>
-                                                @endforelse
-                                            </div>
+                                                    @empty
+                                                        <p>No Lesson Yet</p>
+                                                    @endforelse
 
+                                                </div>
+                                            </div>
                                         @empty
                                             <p>No Subject Yet</p>
                                         @endforelse
-
-
                                     </div>
-
 
                                 </div>
 

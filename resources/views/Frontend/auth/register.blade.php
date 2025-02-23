@@ -136,9 +136,9 @@
                     success: function (res) {
                         if (res.status === 'success') {
                             successToast('Registration successful !');
-                            setTimeout(function() {
+                            // setTimeout(function() {
                                 window.location.href = '{{route('student.dashboard.index')}}';
-                            }, 2000);
+                            // }, 2000);
 
                         }
                       

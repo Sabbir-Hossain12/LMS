@@ -104,4 +104,45 @@ class AssessmentGradeController extends Controller
         
         return redirect()->back()->with('success', 'Marks updated successfully');
     }
+    
+       public function teacherUpload(Request $request)
+        {
+    
+        // dd($request->all());
+        $assessment_answer_id = $request->assessment_answer_id;
+        $assessment_id = $request->assessment_id;
+        $student_id = $request->student_id;
+        
+        $assessment_answer= AssessmentAnswer::where('id', $assessment_answer_id)->first();
+        
+        $exist= AssessmentGrade::where('assessment_answer_id', $assessment_answer_id)
+            ->where('student_id', $student_id)
+            ->first();
+        
+        if ($exist) {
+          
+            if ($request->hasFile('teacher_upload')) {
+                
+                 if ($exist->teacher_upload && file_exists(public_path($exist->teacher_upload))) {
+                    unlink(public_path($exist->teacher_upload));
+                }
+                
+                
+                $file = $request->file('teacher_upload');
+                $fileName = time().uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('backend/upload/assignments/'), $fileName);
+                $exist->teacher_upload = 'backend/upload/assignments/'.$fileName;
+                $exist->save();
+            }
+            
+            
+            return redirect()->back()->with('success', 'Document uploaded successfully');
+            
+        }
+        
+         return redirect()->back()->with('error', 'Update the Mark First');
+       
+        
+        
+    }
 }

@@ -147,21 +147,17 @@
                                 </li>
 
                                 <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('ai-assistant') ? 'active-nav' : ''}}" href="{{route('ai-assistant')}}">AI Assistant</a>
-                                </li>
-
-                                <li>
                                     <a class="headerarea__has__dropdown" id="{{Route::is('blog-list') ? 'active-nav' : ''}}" href="{{route('blog-list')}}">Blogs
                                     </a>
                                 </li>
                                 
-{{--                                <li>--}}
-{{--                                    <a class="headerarea__has__dropdown" href="#">AI Assistant--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                              <li>
+                                   <a class="headerarea__has__dropdown" id="{{Route::is('ai-assistant') ? 'active-nav' : ''}}" href="{{route('ai-assistant')}}">AI Assistant
+                               </a>
+                           </li>
 
                                 <li>
-                                    <a class="headerarea__has__dropdown" href="{{route('page','about-us')}}">About Us
+                                    <a class="headerarea__has__dropdown" id="{{Route::is('page') ? 'active-nav' : ''}}" href="{{route('page','about-us')}}">About Us
                                     </a>
                                 </li>
                                 
@@ -197,15 +193,37 @@
 
         <div class="container-fluid mob_menu_wrapper">
             <div class="row align-items-center">
+                <!--logo section-->
                 <div class="col-6">
                     <div class="mobile-logo">
                         <a class="logo__dark" href="{{route('home')}}"><img loading="lazy" src="{{asset($basicInfo->light_logo ?? 'frontend/img/logo/logo_1.png')}}" alt="logo"></a>
                     </div>
                 </div>
-                <div class="col-6">
+                <!--Login or dashboard-->
+                  <div class="col-4">
                     <div class="header-right-wrap">
-                        
-
+                        <div class="mobile-off-canvas">
+                              @auth
+                            @if(auth()->user()->hasRole('student'))
+                                
+                                    <a class="btn btn-primary" href="{{ route('student.dashboard.index') }}">Dashboard</i></a>
+                                
+                            @else
+                                
+                                    <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>
+                                
+                            @endif
+                        @else
+                            
+                                <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>
+                            
+                        @endauth
+                        </div>
+                    </div>
+                </div>
+                <!--Navigation section-->
+                <div class="col-2">
+                    <div class="header-right-wrap">
                         <div class="mobile-off-canvas">
                             <a class="mobile-aside-button" href="#"><i class="icofont-navigation-menu"></i></a>
                         </div>
@@ -250,12 +268,15 @@
                         <li class="menu-item-has-children ">
                             <a href="{{route('blog-list')}}">Blogs</a>
                         </li>
+                        
+                           <li class="menu-item-has-children ">
+                                   <a   href="{{route('ai-assistant')}}">AI Assistant
+                               </a>
+                           </li>
 
-                        <li class="menu-item-has-children ">
-                            <a href="{{route('ai-assistant')}}">AI Assistant</a>
-                        </li>
-
-                        <li class="menu-item-has-children"><a href="{{route('page','about-us')}}">About Us</a>
+                        <li class="menu-item-has-children">
+                            
+                            <a href="{{route('page','about-us')}}">About Us</a>
                             
                         </li>
 

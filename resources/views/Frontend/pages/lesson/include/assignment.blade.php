@@ -2,7 +2,7 @@
 
     @if($questions->count() > 0)
 
-        @if($examType->start_time <= now() )
+        @if($examType->start_time <= now())
 
             <div class="assignment__submit__wrap">
                 <div class="fw-bold">
@@ -73,7 +73,7 @@
 
         @else
             <h4 class="text-center">Exam will be available
-                on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</h4>
+            on {{date('d M, Y h:i A', strtotime($examType->start_time))}}</h4>
         @endif
 
     @else
@@ -82,7 +82,7 @@
 
 </div>
 @php
-    // Calculate the end time by adding the duration to the current time
+   
     $examDuration = $examType->duration;
 
 @endphp
@@ -137,16 +137,14 @@
         });
     });
 
-    //disable Sidebar
-
-    $('#lessonSidebar').css('pointer-events', 'none');
+     $('#lessonSidebar').css('pointer-events', 'none');
     $('#lessonSidebar').off('click');
 </script>
 
 <script>
     let timerInterval = null; // Declare timerInterval globally
 
-    function initializeQuizTimer() {
+    function initializeQuizTimer2() {
         // Clear the existing timer if it's running
         if (timerInterval) {
             clearInterval(timerInterval);
@@ -155,7 +153,7 @@
 
         // Get the exam duration (in minutes) from the server
         const examDuration = {{ $examDuration }};
-
+        
         // Calculate the quiz end time based on the client's current time.
         // Note: new Date() returns the client's current time.
         const clientNow = new Date().getTime();
@@ -166,7 +164,7 @@
         function updateTimer() {
             const now = new Date().getTime();
             const timeLeft = quizEndTime - now;
-
+            
             if (timeLeft <= 0) {
                 // Time's up! Submit the quiz automatically.
                 clearInterval(timerInterval);
@@ -193,5 +191,5 @@
     }
 
     // Initialize the quiz timer when the page loads.
-    initializeQuizTimer();
+    initializeQuizTimer2();
 </script>
