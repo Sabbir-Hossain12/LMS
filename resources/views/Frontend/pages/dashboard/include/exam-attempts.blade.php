@@ -1,4 +1,4 @@
-<div class="dashboard__content__wraper">
+<div class="dashboard__content__wraper" id="attemptSection">
     <div class="dashboard__section__title">
         <h4>My Exam Attempts</h4>
     </div>

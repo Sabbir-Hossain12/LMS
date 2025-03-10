@@ -1,5 +1,9 @@
 @extends('Frontend.layouts.master')
 
+@section('context')
+    oncontextmenu="return false;"
+@endsection
+
 @section('content')
 
 

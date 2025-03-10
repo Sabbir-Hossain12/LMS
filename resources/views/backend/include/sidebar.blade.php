@@ -118,11 +118,13 @@
                     </ul>
                 </li>
 
+                 @if(Auth::user() && Auth::user()->hasRole('admin'))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i class="fa-solid fa-truck"></i>
                         <span data-key="t-apps">Orders</span>
                     </a>
+                    
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
                             <a href="{{ route('admin.order.index') }}">
@@ -132,6 +134,10 @@
                         
                     </ul>
                 </li>
+                @endif
+                
+                
+               @if(Auth::user() && Auth::user()->hasRole('admin'))
                 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -186,6 +192,8 @@
                         </li>
                     </ul>
                 </li>
+                
+                @endif
                 
                 
                 

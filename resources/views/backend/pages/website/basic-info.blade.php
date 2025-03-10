@@ -45,6 +45,18 @@
                                              height="60px" width="200px" alt=""/>
                                         @endif
                                     </div>
+                                    
+                                    <!--fav icon-->
+                                     <div class="mb-3">
+                                        <label for="fav_icon" class="form-label">Fav Icon</label>
+                                        <input oninput="favImgPrev.src=window.URL.createObjectURL(this.files[0])"
+                                               class="form-control" type="file" name="fav_icon"
+                                               id="fav_icon">
+                                        @if($basicInfo && $basicInfo->fav_icon) 
+                                        <img id="favImgPrev" class="mt-1" src="{{asset($basicInfo->fav_icon)}}"
+                                             height="60px" width="60px" alt=""/>
+                                        @endif
+                                    </div>
 
                                     <div class="mb-3">
                                         <label for="site_name" class="form-label">Website Name</label>

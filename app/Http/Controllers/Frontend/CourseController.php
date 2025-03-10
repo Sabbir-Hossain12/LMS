@@ -14,6 +14,7 @@ use App\Models\LessonMaterial;
 use App\Models\LessonVideo;
 use App\Models\Question;
 use App\Models\Subject;
+use App\Models\QuizAttemptAnswer;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -172,34 +173,6 @@ class CourseController extends Controller
 
         return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
     }
-    
-    //POSTBACK WAY
-    public function courseLessonsExam2(string $id, Request $request)
-    {
-        $assessment_id = $id;
-
-        $questions = Question::where('assessment_id', $assessment_id)->where('status', 1)->get();
-
-        $examType = Assessment::where('id', $assessment_id)->first();
-
-
-        if ($examType->type == 'quiz') {
-//            $quizView = view('Frontend.pages.lesson.include.quiz', compact('questions', 'examType'))->render();
-//
-//            return response()->json(['html' => $quizView]);
-            
-            return view('Frontend.pages.lesson.quiz', compact('questions', 'examType'));
-        } else {
-            if ($examType->type == 'assignment') {
-                $assignmentView = view('Frontend.pages.lesson.include.assignment',
-                    compact('questions', 'examType'))->render();
-
-                return response()->json(['html' => $assignmentView]);
-            }
-        }
-
-        return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
-    }
 
 
     public function assignmentSubmit(Request $request)
@@ -291,6 +264,35 @@ class CourseController extends Controller
                     $answer))) {
                 $marks_obtained = $marks_obtained + $question->marks;
             }
+            
+            $attempt = QuizAttemptAnswer::where('assessment_id', $assessment_id)
+                ->where('question_id', $questionId)
+                ->where('student_id', $student_id)
+                ->first();
+            
+            if (!$attempt) {
+                $attempt = new QuizAttemptAnswer();
+                $attempt->assessment_id = $assessment_id;
+                $attempt->question_id = $questionId;
+                $attempt->student_id = $student_id;
+                $attempt->selected_option = $answer;
+                if (strip_tags(str_replace(' ', '', $question->correct_answers)) == strip_tags(str_replace(' ', '',
+                        $answer))) {
+                    $attempt->is_correct = 1;
+                } else {
+                    $attempt->is_correct = 0;
+                }
+                $attempt->save();
+            }
+            
+            $attempt->selected_option = $answer;
+            if (strip_tags(str_replace(' ', '', $question->correct_answers)) == strip_tags(str_replace(' ', '',
+                    $answer))) {
+                $attempt->is_correct = 1;
+            } else {
+                $attempt->is_correct = 0;
+            }
+            $attempt->save();
         }
 
         $exist = AssessmentGrade::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();

@@ -1,6 +1,6 @@
-<div class="dashboard__content__wraper">
+<div class="dashboard__content__wraper" id="settingSection">
     <div class="dashboard__section__title">
-        <h4>My Profile</h4>
+        <h4>Settings</h4>
     </div>
     <div class="row">
         <div class="col-xl-12 aos-init aos-animate" data-aos="fade-up">

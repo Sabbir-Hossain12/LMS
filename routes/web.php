@@ -52,9 +52,6 @@ Route::post('/course-lessons/video',[CourseController::class,'courseLessonsVideo
 Route::post('/course-lessons/material',[CourseController::class,'courseLessonsMaterial'])->name('lesson-material');
 Route::post('/course-lessons/Exam',[CourseController::class,'courseLessonsExam'])->name('lesson-exam');
 
-//postback way
-Route::get('/course-lessons2/Exam/{id}',[CourseController::class,'courseLessonsExam2'])->name('lesson-exam2');
-
 //Exam Submit
 Route::post('/assignment-submit',[CourseController::class,'assignmentSubmit'])->name('assignment.submit');
 Route::post('/quiz-submit',[CourseController::class,'quizSubmit'])->name('quiz.submit');

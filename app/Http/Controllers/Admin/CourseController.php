@@ -78,39 +78,22 @@ class CourseController extends Controller
             })
 
             ->addColumn('action', function ($course) {
+                
+                $deleteAction = '';
 
                 $editAction = '<a class="editButton btn btn-sm btn-primary" href="'.route('admin.course.edit', $course->id).'">
                                    <i class="fas fa-edit"></i></a>';
-                $deleteAction = '<a class="btn btn-sm btn-danger" id="deleteAdminBtn" data-id="'.$course->id.'" href="javascript:void(0)"> 
+                                   
+                if(auth()->check() && auth()->user()->hasRole('admin')) {
+                    
+                    $deleteAction = '<a class="btn btn-sm btn-danger" id="deleteAdminBtn" data-id="'.$course->id.'" href="javascript:void(0)"> 
                                    <i class="fas fa-trash"></i></a>';
+                }
                 
-                
-//              if(Auth::guard('admin')->user()->can('Edit Admin')) {
-//
-//                  $editAction= '<a class="editButton btn btn-sm btn-primary" href="javascript:void(0)"
-//                                    data-id="'.$admin->id.'" data-bs-toggle="modal" data-bs-target="#editAdminModal">
-//                                    <i class="fas fa-edit"></i></a>';
-//
-//              }
-//
-//              if(Auth::guard('admin')->user()->can('Delete Admin')) {
-//
-//                  $deleteAction= '<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-//                                    data-id="'.$admin->id.'" id="deleteAdminBtn""> 
-//                                    <i class="fas fa-trash"></i></a>';
-//
-//              }
+            
 
                 return '<div class="d-flex gap-3"> '.$editAction.$deleteAction.'</div>';
                 
-//                return '<div class="btn-group" role="group">
-//                                                    <button id="btnGroupVerticalDrop1" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-//                                                        Actions <i class="mdi mdi-chevron-down"></i>
-//                                                    </button>
-//                                                   <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 40px, 0px);" data-popper-placement="bottom-start">
-//                                                        '.$editAction.$deleteAction.$subjectAction.'
-//                                                    </div>
-//                                                </div>';
 
 
             })

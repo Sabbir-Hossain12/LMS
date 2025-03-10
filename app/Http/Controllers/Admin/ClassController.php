@@ -66,29 +66,22 @@ class ClassController extends Controller
             })
 
             ->addColumn('action', function ($class) {
+                
+    
+                $deleteAction = '';
 
                 $editAction = '<a class="editButton btn btn-sm btn-primary" href="javascript:void(0)"
                                   data-id="'.$class->id.'" data-bs-toggle="modal" data-bs-target="#editAdminModal">
                                    <i class="fas fa-edit"></i></a>';
+                                   
+                
+                if(auth()->check() && auth()->user()->hasRole('admin')) {
+                    
                 $deleteAction = '<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-                                   data-id="'.$class->id.'" id="deleteAdminBtn""> 
-                                   <i class="fas fa-trash"></i></a>';
-
-//              if(Auth::guard('admin')->user()->can('Edit Admin')) {
-//
-//                  $editAction= '<a class="editButton btn btn-sm btn-primary" href="javascript:void(0)"
-//                                    data-id="'.$admin->id.'" data-bs-toggle="modal" data-bs-target="#editAdminModal">
-//                                    <i class="fas fa-edit"></i></a>';
-//
-//              }
-//
-//              if(Auth::guard('admin')->user()->can('Delete Admin')) {
-//
-//                  $deleteAction= '<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-//                                    data-id="'.$admin->id.'" id="deleteAdminBtn""> 
-//                                    <i class="fas fa-trash"></i></a>';
-//
-//              }
+                                  data-id="'.$class->id.'" id="deleteAdminBtn"> 
+                                  <i class="fas fa-trash"></i></a>';
+                }
+                
 
                 return '<div class="d-flex gap-3"> '.$editAction.$deleteAction.'</div>';
 

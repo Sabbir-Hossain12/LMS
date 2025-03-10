@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Question;
 use App\Models\User;
+use App\Models\QuizAttemptAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -180,9 +181,11 @@ class DashboardController extends Controller
         // }
         
         $questions = Question::where('assessment_id', $id)->where('status', 1)->get();
+         $attempts= QuizAttemptAnswer::with('question')
+            ->where('student_id', auth()->user()->id)->where('assessment_id', $id)->get();
         
         if ($examType->type == 'quiz') {
-            $quizView = view('Frontend.pages.dashboard.include.quiz-solution', compact('questions', 'examType'))->render();
+            $quizView = view('Frontend.pages.dashboard.include.quiz-solution', compact('attempts', 'examType'))->render();
 
             return response()->json(['html' => $quizView]);
         } else {

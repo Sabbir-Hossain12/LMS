@@ -76,6 +76,14 @@ class BasicinfoController extends Controller
             $basicInfo->meta_image ='backend/upload/meta/' . $filename;
         }
         
+        if ($request->hasFile('fav_icon')) {
+            
+            $file = $request->file('fav_icon');
+            $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
+            $file->move('backend/upload/favIcon/', $filename);
+            $basicInfo->fav_icon ='backend/upload/favIcon/' . $filename;
+        }
+        
        $save= $basicInfo->save();
 
         if ($save) {
@@ -166,6 +174,19 @@ class BasicinfoController extends Controller
             $filename = time() .uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move('backend/upload/meta/', $filename);
             $basicInfo->meta_image ='backend/upload/meta/' . $filename;
+        }
+        
+          if ($request->hasFile('fav_icon')) {
+              
+                if ($basicInfo->fav_icon && file_exists(public_path($basicInfo->fav_icon))) {
+                
+                unlink(public_path($basicInfo->fav_icon));
+            }
+            
+            $file = $request->file('fav_icon');
+            $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
+            $file->move('backend/upload/favIcon/', $filename);
+            $basicInfo->fav_icon ='backend/upload/favIcon/' . $filename;
         }
         
        $save= $basicInfo->save();

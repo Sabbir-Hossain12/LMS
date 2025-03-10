@@ -1,6 +1,6 @@
-<div class="dashboard__content__wraper">
+<div class="dashboard__content__wraper" id="enrolledCourseSection">
     <div class="dashboard__section__title">
-        <h4>My Profile</h4>
+        <h4>My Enrolled Courses</h4>
     </div>
     <div class="row">
         <div class="col-xl-12 aos-init aos-animate" data-aos="fade-up">
@@ -45,7 +45,7 @@
                                     </ul>
                                 </div>
                                 <div class="gridarea__heading">
-                                    <h3><a href="{{route('course-details', $enrollment->course->slug)}}">{{$enrollment->course->title}}</a></h3>
+                                    <h3><a href="{{route('course-lessons', $enrollment->course->slug)}}">{{$enrollment->course->title}}</a></h3>
                                 </div>
                                 <div class="gridarea__price">
                                     ৳ {{$enrollment->course->sale_price}} <del>/ ৳ {{$enrollment->course->regular_price}}</del>

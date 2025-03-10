@@ -74,12 +74,12 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
 
-            $(document).on('visibilitychange', function () {
-                if (document.hidden) {
-                    // alert('You are not allowed to switch tabs during the quiz.');
-                    swal.fire('You are not allowed to switch tabs during the quiz.');
-                }
-            });
+            // $(document).on('visibilitychange', function () {
+            //     if (document.hidden) {
+            //         // alert('You are not allowed to switch tabs during the quiz.');
+            //         swal.fire('You are not allowed to switch tabs during the quiz.');
+            //     }
+            // });
             
             
            

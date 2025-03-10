@@ -1,4 +1,4 @@
-<div class="dashboard__content__wraper">
+<div class="dashboard__content__wraper" id="dashboardSummerSection">
     <div class="dashboard__section__title">
         <h4>Summery</h4>
     </div>

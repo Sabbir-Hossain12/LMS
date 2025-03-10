@@ -5,11 +5,35 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{{$basicInfo->site_name ?? 'LMS'}} </title>
-    <meta name="description" content="">
+    
+    <!--SEO-->
+    <title>{{$basicInfo->meta_title ?? 'schoolmathematics'}} </title>
+    <meta name="description" content="{{$basicInfo->meta_desc ?? ''}}">
+    <meta name="keywords" content="{{$basicInfo->meta_keyword ?? ''}}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend')}}/img/favicon.ico">
+
+ <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{{$basicInfo->meta_title ?? 'schoolmathematics'}}">
+    <meta property="og:description" content="{{$basicInfo->meta_desc ?? ''}}">
+    
+    @if($basicInfo->meta_image)
+    <meta property="og:image" content="{{asset($basicInfo->meta_image)}}">
+    @endif
+    
+    <meta property="og:url" content="https://schoolmathematics.com.bd/">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{$basicInfo->meta_title ?? 'schoolmathematics'}}">
+    <meta name="twitter:description" content="{{$basicInfo->meta_desc ?? ''}}">
+    @if($basicInfo->meta_image)
+    <meta name="twitter:image" content="{{asset($basicInfo->meta_image)}}">
+    @endif
+    
+    <!--Fav Icon-->
+       <link rel="shortcut icon" type="image/x-icon" href="{{asset($basicInfo->fav_icon ?? 'frontend/img/favicon.ico')}}">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -34,7 +58,7 @@
 </head>
 
 
-<body class="body__wrapper">
+<body class="body__wrapper" @yield('context')>
 <!-- pre loader area start -->
 {{--<div id="back__preloader">--}}
 {{--    <div id="back__circle_loader"></div>--}}

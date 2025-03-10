@@ -13,7 +13,7 @@
     }
 </style>
 
-<div class="dashboard__content__wraper">
+<div class="dashboard__content__wraper" id="profileSection">
     <div class="dashboard__section__title">
         <h4>My Profile</h4>
     </div>

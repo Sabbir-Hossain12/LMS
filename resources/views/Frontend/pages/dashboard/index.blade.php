@@ -254,11 +254,16 @@
                         $('#dashboardMainContent').empty();
                         $('#dashboardMainContent').append(res.html);
                         
+                        $("html, body").animate({
+                            scrollTop: $("#dashboardSummerSection").offset().top - 160
+                        }, 200);
+                        
                     },
                     error: function (err) {
 
                         errorToast('error');
                     },
+                    
                     complete: function() {
                         // Hide loader
                         hideLoader();
@@ -296,6 +301,10 @@
 
                         $('#dashboardMainContent').empty();
                         $('#dashboardMainContent').append(res.html);
+                        
+                         $("html, body").animate({
+                            scrollTop: $("#profileSection").offset().top - 100
+                        }, 200); // 800ms smooth scrolling
 
                     },
                     error: function (err) {
@@ -338,6 +347,10 @@
 
                         $('#dashboardMainContent').empty();
                         $('#dashboardMainContent').append(res.html);
+                        
+                         $("html, body").animate({
+                            scrollTop: $("#enrolledCourseSection").offset().top - 100
+                        }, 200); // 800ms smooth scrolling
 
                     },
                     error: function (err) {
@@ -382,6 +395,10 @@
 
                         $('#dashboardMainContent').empty();
                         $('#dashboardMainContent').append(res.html);
+                        
+                           $("html, body").animate({
+                            scrollTop: $("#attemptSection").offset().top - 100
+                        }, 200); // 800ms smooth scrolling
 
                     },
                     error: function (err) {
@@ -425,6 +442,12 @@
 
                         $('#dashboardMainContent').empty();
                         $('#dashboardMainContent').append(res.html);
+                        
+                        
+                        
+                            $("html, body").animate({
+                            scrollTop: $("#settingSection").offset().top - 100
+                        }, 200); // 800ms smooth scrolling
 
                     },
                     error: function (err) {

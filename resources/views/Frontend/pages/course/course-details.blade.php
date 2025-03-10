@@ -134,8 +134,7 @@
                                 <div class="tab-pane fade  active show" id="projects__two" role="tabpanel"
                                      aria-labelledby="projects__two">
 
-                                    {{--Curicullam--}}
-                                    <div class="accordion content__cirriculum__wrap" id="accordionExample">
+                                     <div class="accordion content__cirriculum__wrap" id="accordionExample">
                                         @forelse($subjects as $subject)
                                             <div class="subject-wrapper">
                                                 <!-- Subject header: clicking this toggles the lessons collapse -->
@@ -216,6 +215,7 @@
                                             <p>No Subject Yet</p>
                                         @endforelse
                                     </div>
+
 
                                 </div>
 
@@ -468,7 +468,9 @@
                                     <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
                                         For Free</a>
 
-                                    <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                    <!--<a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>-->
+                                    
+                                    <img class="img-fluid" src="{{asset('payment.jpg')}}" />
                                 @endif
                                 
                                
