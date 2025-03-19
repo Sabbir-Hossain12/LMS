@@ -156,16 +156,22 @@ class CourseController extends Controller
         $questions = Question::where('assessment_id', $assessment_id)->where('status', 1)->get();
 
         $examType = Assessment::where('id', $assessment_id)->first();
-
+        
+        
 
         if ($examType->type == 'quiz') {
-            $quizView = view('Frontend.pages.lesson.include.quiz', compact('questions', 'examType'))->render();
+            $attempts = optional(AssessmentGrade::where('assessment_id', $examType->id)->where('student_id', auth()->user()->id)->first())->attempts ?? 0;
+            
+            $quizView = view('Frontend.pages.lesson.include.quiz', compact('questions', 'examType','attempts'))->render();
 
             return response()->json(['html' => $quizView]);
         } else {
             if ($examType->type == 'assignment') {
+                
+                $attempts = optional(AssessmentAnswer::where('assessment_id', $examType->id)->where('student_id', auth()->user()->id)->first())->attempts ?? 0;
+                
                 $assignmentView = view('Frontend.pages.lesson.include.assignment',
-                    compact('questions', 'examType'))->render();
+                    compact('questions', 'examType','attempts'))->render();
 
                 return response()->json(['html' => $assignmentView]);
             }

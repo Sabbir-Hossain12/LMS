@@ -110,6 +110,8 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
     Route::get('/dashboard-courses',[DashboardController::class,'dashboardCoursesPage'])->name('courses');
     Route::get('/dashboard-exam-attempts',[DashboardController::class,'dashboardExamPage'])->name('exam');
     Route::get('/dashboard-exam-solutions/{id}',[DashboardController::class,'examSolution'])->name('exam.solution');
+    Route::get('/dashboard-exam-leaderboard/{id}',[DashboardController::class,'examLeaderboard'])->name('exam.leaderboard');
+    
     Route::get('/dashboard-profiles',[DashboardController::class,'dashboardProfilePage'])->name('profile');
     Route::get('/dashboard-settings',[DashboardController::class,'dashboardSettingsPage'])->name('setting');
     

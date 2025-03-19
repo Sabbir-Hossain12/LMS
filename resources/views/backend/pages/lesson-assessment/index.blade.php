@@ -105,6 +105,14 @@
                                            placeholder="Total Marks" required>
                                 </div>
                                 
+                                <div class="mb-3">
+                                        <label for="attempt_type" class="form-label">Attempt Type *</label>
+                                        <select id="attempt_type" class="form-select form-control" name="attempt_type" required>
+                                            <option value="Single" selected>Single</option>
+                                            <option value="Multiple">Multiple</option>
+                                        </select>
+                                </div>
+                                
 
                              
 
@@ -230,7 +238,7 @@
         //Delete Assessment
         $(document).ready(function () {
             // Handle delete button click
-            $('.delete-btn').on('click', function () {
+            $(document).on('click','.delete-btn', function () {
                 let formId = '#delete-form-' + $(this).data('id');
 
                 Swal.fire({

@@ -2,6 +2,14 @@
 @if($questions->count() > 0)
 
     @if($examType->start_time <= now())
+    
+        @if($examType->attempt_type == 'Single' && $attempts >= 1)
+        
+          <h4 class="text-center">
+              Your exam attempt has ended.
+          </h4>
+        
+        @else
         
         <form id="quiz-form" method="post" action="{{route('quiz.submit')}}">
             @csrf
@@ -12,7 +20,8 @@
                 <ul>
 {{--                <li>Total Attempts: {{$examType->attempts}} </li>--}}
                     <li>Start Time: {{$examType->start_time->format('F d, Y h:i A')}}</li>
-                    <li>| End Time: {{$examType->end_time->format('F d, Y h:i A')}}</li>
+                    <!--<li>| End Time: {{$examType->end_time->format('F d, Y h:i A')}}</li>-->
+                    <li>| Attempt Allowed: {{ $examType->attempt_type }}</li>
                     <li>| Duration: <span id="timer"> 00:00:00</span></li>
                 </ul>
             </div>
@@ -105,6 +114,9 @@
                 // });
             
         </script>
+        
+        @endif
+        
         
     @else
         <h4 class="text-center">Exam will be available

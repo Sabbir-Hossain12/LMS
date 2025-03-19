@@ -200,6 +200,33 @@ class DashboardController extends Controller
         return response()->json(['html' => '<div class="alert alert-danger">Material Not Found</div>']);
 
     }
-
-
+    
+    
+    public function examLeaderboard(Request $request, string $id)
+    {
+        $exam = Assessment::where('id', $id)->first();
+        $student_id = auth()->user()->id;
+        
+        
+        if(($exam->type == 'quiz' && $exam->attempt_type == 'Single') )
+        {
+            $lists = AssessmentGrade:: where('assessment_id', $id)->orderBy('marks_obtained','desc')->get();
+            $leaderboardView = view('Frontend.pages.dashboard.include.leaderboard-quiz',
+                    compact('lists', 'exam'))->render();
+                    
+            return response()->json(['html' => $leaderboardView]);
+        }
+        
+        else if($exam->type == 'assignment' && $exam->attempt_type == 'Single')
+        {
+            $lists = AssessmentGrade:: where('assessment_id', $id)->orderBy('marks_obtained','desc')->get();
+            $leaderboardView = view('Frontend.pages.dashboard.include.leaderboard-assignment',
+                    compact('lists', 'exam'))->render();
+                    
+             return response()->json(['html' => $leaderboardView]);
+        }
+        
+        return response()->json(['html' => '<div class="alert alert-danger">Leaderboard Not Found</div>']);
+        
+    }
 }

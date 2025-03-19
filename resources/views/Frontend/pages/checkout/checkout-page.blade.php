@@ -86,8 +86,6 @@
                                                    value="{{auth()->user()->address ?? ''}}" placeholder="Address">
                                         </div>
                                     </div>
-
-
                                 </div>
                         </div>
                     </div>
@@ -129,10 +127,18 @@
                             <div class="checkoutarea__payment clearfix">
                                 <div class="checkoutarea__payment__toggle">
                                     <div class="checkoutarea__payment__total">
+                                        @if($course->sale_price)
                                         <div class="checkoutarea__payment__type">
-                                            <input type="radio" id="pay-toggle01" name="payment_method" checked>
+                                            <input type="radio" id="pay-toggle01" name="payment_method" value="bkash" checked>
                                             <label for="pay-toggle01">Bkash</label>
                                         </div>
+                                        @else
+                                        <div class="checkoutarea__payment__type">
+                                            <input type="radio" id="pay-toggle01" name="payment_method" value="free" checked>
+                                            <label for="pay-toggle01">Free</label>
+                                        </div>
+                                        @endif
+                                        
 
                                     </div>
                                     <input type="hidden" name="course_id" value="{{$course->id}}">

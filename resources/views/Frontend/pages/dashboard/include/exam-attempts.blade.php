@@ -16,7 +16,9 @@
                         <th>Total Marks</th>
                         <th>Obtained Mark</th>
                         <th>Attempts</th>
-                        <th></th>
+                        <th>View</th>
+                        <th>Leaderboards</th>
+                        
                     </tr>
                     </thead>
                     <tbody>
@@ -63,6 +65,15 @@
                                     <a href="{{asset($grade->teacher_upload)}}" class="dashboard__small__btn__2" download> <i class="icofont-eye"></i>View</a>
                                 @endif
                             </td>
+                            
+                             <td>
+                                @if($grade->assessment->attempt_type == 'Single')
+                                <div class="dashboard__button__group">
+                                    <a href="javascript:void(0);" class="dashboard__small__btn__2 examLeaderboardBtn" data-id="{{$grade->assessment->id}}"> <i class="icofont-eye"></i>View</a>
+                                </div>
+                                @endif
+                            </td>
+                            
                         </tr>
                     @empty
                     @endforelse

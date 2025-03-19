@@ -28,7 +28,7 @@ class OrderController extends Controller
     public function orderSubmit(Request $request)
     {
         
-//        dd($request->all());
+        // dd($request->all());
 
 
         DB::beginTransaction();
@@ -51,9 +51,14 @@ class OrderController extends Controller
             $order->user_id = auth()->user()->id;
             $order->total_amount = $course->sale_price;
             $order->transaction_id = $invoiceNumber;
+            $order->payment_method	 = $request->payment_method;
+            
+            if($request->payment_method == 'free')
+            {
+                $order->status = 'success';
+            }
+            
             $order->save();
-            
-            
             
             $orderCourse= new OrderCourse();
             $orderCourse->order_id = $order->id;
@@ -62,8 +67,18 @@ class OrderController extends Controller
             $orderCourse->discount = $course->discount ?? 0;
             $orderCourse->save();
             
-
             DB::commit();
+            
+            if($course->sale_price == 0)
+            {
+                    $enrollment= new Enrollment();
+                    $enrollment->user_id = $student_id;
+                    $enrollment->course_id = $course->id;
+                    $enrollment->order_id = $order->id;
+                    $enrollment->save();
+              
+                return redirect()->route('student.dashboard.index')->with('success', 'Course Enrolled Successfully');
+            }
             
             $request['intent'] = 'sale';
             $request['mode'] = '0011'; //0011 for checkout
@@ -92,9 +107,6 @@ class OrderController extends Controller
                 return redirect()->back()->with('error-alert2', $response['statusMessage']);
             }
             
-            
-            
-//            return redirect()->route('student.dashboard.index')->with('success', 'Course Enrolled Successfully');
             
         }
         

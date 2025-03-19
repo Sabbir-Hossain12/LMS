@@ -467,10 +467,14 @@
                                     @else
                                     <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
                                         For Free</a>
-
-                                    <!--<a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>-->
+                                        
+                                        @if($courseDetails->sale_price == 0)
+                                            <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                            
+                                            @else
                                     
-                                    <img class="img-fluid" src="{{asset('payment.jpg')}}" />
+                                            <img class="img-fluid" src="{{asset('payment.jpg')}}" />
+                                            @endif
                                 @endif
                                 
                                

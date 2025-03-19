@@ -202,7 +202,7 @@
     <script>
         $(document).ready(function () {
             // Handle delete button click
-            $('.delete-btn').on('click', function () {
+            $(document).on('click','.delete-btn', function () {
                 let formId = '#delete-form-' + $(this).data('id');
 
                 Swal.fire({

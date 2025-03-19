@@ -56,6 +56,7 @@ class AssessmentController extends Controller
         $assessment->start_time=$request->start_time;
         $assessment->end_time=$request->end_time;
         $assessment->status=$request->status;
+        $assessment->attempt_type = $request->attempt_type;
         
         
         $assessment->save();
@@ -100,6 +101,7 @@ class AssessmentController extends Controller
         $assessment->start_time=$request->start_time;
         $assessment->end_time=$request->end_time;
         $assessment->status=$request->status;
+        $assessment->attempt_type = $request->attempt_type;
 
 
         $assessment->save();

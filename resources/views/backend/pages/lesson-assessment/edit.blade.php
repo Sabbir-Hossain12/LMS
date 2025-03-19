@@ -94,6 +94,14 @@
                                     <input class="form-control" type="number" id="totalMarks" name="total_marks"
                                            placeholder="Total Marks" value="{{$assessment->total_marks ?? ''}}" required>
                                 </div>
+                                
+                                  <div class="mb-3">
+                                        <label for="attempt_type" class="form-label">Attempt Type *</label>
+                                        <select id="attempt_type" class="form-select form-control" name="attempt_type" required>
+                                            <option value="Single" @if($assessment->attempt_type == 'Single') selected @endif>Single</option>
+                                            <option value="Multiple" @if($assessment->attempt_type == 'Multiple') selected @endif>Multiple</option>
+                                        </select>
+                                </div>
 
 
                                
