@@ -47,11 +47,11 @@
                 <li>| Mark : {{$attempt->question->marks}}  </li>
                 <li>| Obtained : {{$attempt->is_correct == 1 ? $attempt->question->marks : 0}}  </li>
             </ul>
-            
+
             <hr class="hr">
-            
+
             @if(isset($attempt->question->question_image))
-                
+
                 <div class="m-2">
                     <img src="{{asset($attempt->question->question_image)}}" class="img-fluid" width="300px" alt="">
                 </div>
@@ -59,35 +59,31 @@
 
             {!! $attempt->question->question_text !!}
             <div class="row">
-                @forelse(json_decode($attempt->question->options,0) as $key2=> $option)
+                @forelse(json_decode($attempt->question->options) as $key2=> $option)
                     <div class="col-md-6">
 
                         @php
-                            $cleanOption = strip_tags(str_replace(' ', '', $option));
-                            $correctAnswers = explode(',', strip_tags(str_replace(' ', '', $attempt->question->correct_answers))); // Handle multiple correct answers
-                            $selectedAnswers = explode(',', strip_tags(str_replace(' ', '', $attempt->selected_option))); // Handle multiple selected answers
-                        
-                            $isCorrect = in_array($cleanOption, $correctAnswers);
-                            $isSelected = in_array($cleanOption, $selectedAnswers);
+                            $letters = range('A', 'Z');
+                            $letter = $letters[$key2];
                             
-                            // Determine label color class
+                            $correctAnswer = $attempt->question->correct_option;
+                            
+                            $isCorrect = $letter == $correctAnswer;
+                            $isSelected = $attempt->selected_option == $letter; // This option was selected 
+                            //Determine label color class
                             $labelClass = $isCorrect ? 'text-success' : ($isSelected ? 'text-danger' : 'text-dark');
                         @endphp
-                        
-                        <div class="form-check">
-                            <input class="form-check-input {{ $isCorrect ? 'correct-answer' : ($isSelected ? 'wrong-answer' : '') }}" type="checkbox" name="answer_{{$attempt->question->id}}"
-                                   id="option_{{$attempt->question->id}}_{{$key2}}" value="{{$option}}"
-                                   
-{{--                            @if( (strip_tags(str_replace(' ', '',$option)) == --}}
-{{--                            strip_tags(str_replace(' ', '',$attempt->question->correct_answers))) || --}}
-{{--                            --}}
-{{--                            (strip_tags(str_replace(' ', '',$option)) == --}}
-{{--                            strip_tags(str_replace(' ', '',$attempt->selected_option)))) checked--}}
-{{--                            @endif--}}
 
-                                   {{ $isSelected || $isCorrect ? 'checked' : '' }} disabled> <!-- Disable checkboxes for display -->
-                            
-                            <label class="form-check-label text-success" for="option_{{$attempt->question->id}}_{{$key2}}">
+                        <div class="form-check">
+                            <input class="form-check-input {{ $isCorrect ? 'correct-answer' : ($isSelected ? 'wrong-answer' : '') }}"
+                                   type="checkbox" name="answer_{{$attempt->question->id}}"
+                                   id="option_{{$attempt->question->id}}_{{$key2}}" value="{{ $letter }}"
+                                   
+                                   {{ $isSelected || $isCorrect ? 'checked' : '' }} disabled>
+                            <!-- Disable checkboxes for display -->
+
+                            <label class="form-check-label text-success"
+                                   for="option_{{$attempt->question->id}}_{{$key2}}">
                                 {!!$option!!}
                             </label>
                         </div>

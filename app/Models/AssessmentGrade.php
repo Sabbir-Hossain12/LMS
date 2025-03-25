@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssessmentGrade extends Model
 {
+    protected $guarded = [];
+    
     protected $casts=[
         'submitted_at' => 'datetime',
     ];

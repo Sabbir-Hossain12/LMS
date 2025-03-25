@@ -79,22 +79,38 @@
                             </div>
                             <div class="col-lg-6">
                              <div class="mb-1" id="optionMultiple">
-                                    <label  class="form-label">Options *</label>
+                                  <label  class="form-label">Options *</label>
                                  <div id="optionMultiple">
                                      <div class="input-group mb-1 option-item">
+                                         <span class="input-group-text">A.</span>
                                          <textarea class="form-control options" name="options[]"  rows="1"></textarea>
                                          <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close text-light"></i></button>
                                      </div>
                                  </div>
                              </div>
                                 <div class="mb-3">
-                                <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
+                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
                                 </div>
 
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="desc" class="form-label">Correct Option/Answer </label>--}}
+{{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>--}}
+{{--                                </div>--}}
+
                                 <div class="mb-3">
-                                    <label for="desc" class="form-label">Correct Option/Answer </label>
-                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>
+                                    <label for="desc" class="form-label">Correct Option </label>
+{{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>--}}
+                                   <select class="form-select form-control" name="correct_option" id="correct_option">
+                                       <option value="A">A</option>
+                                       <option value="B">B</option>
+                                       <option value="C">C</option>
+                                       <option value="D">D</option>
+                                       <option value="E">E</option>
+                                       <option value="F">F</option>
+                                   </select>
                                 </div>
+                                
+                                 
 
                                 <div class="mb-3">
                                     <label for="pageStatus" class="form-label">Status *</label>
@@ -280,7 +296,7 @@
     
 
         $(document).ready(function () {
-            let optionCount = 1;
+            // let optionCount = 1;
             //Options
             $('.options').summernote({
                 height: 40,
@@ -294,29 +310,41 @@
             
             
             // let optionCount = 1;
-
+            let optionCount = 0;
+            const optionLabels = 'BCDEFGHIJKLMNOPQRSTUVWXYZ';
             // Add new option
             $('#add-option').click(function () {
-                optionCount++;
-                const newOption = `   <div class="input-group mb-1 option-item" >
-                                     <textarea class="form-control options" id="options" name="options[]" cols="3" rows="1"></textarea>
+                if (optionCount < optionLabels.length) {
+                    const label = optionLabels[optionCount]; // Get A, B, C, D, ...
+                    optionCount++;
 
-                                     <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
-                                 </div>`;
-                
-                
-            $('#optionMultiple').append(newOption);
+                    const newOption = `    <div class="input-group mb-1 option-item" >
+                                            <span class="input-group-text">${label}.</span>
+                                            <textarea class="form-control options" id="options" name="options[]" cols="3" rows="1"></textarea>
 
-                // Reinitialize Summernote for the newly added textarea
-                $('#optionMultiple .options').last().summernote({
-                    height: 40,
-                    toolbar: [
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                        ['insert', ['picture', 'link', 'math']],
-                        ['para', ['paragraph']],
-                        ['misc', ['codeview']]
-                    ]
-                });
+                                             <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close"></i></button>
+                                        </div>`;
+
+
+                    $('#optionMultiple').append(newOption);
+
+                    // Reinitialize Summernote for the newly added textarea
+                    $('#optionMultiple .options').last().summernote({
+                        height: 40,
+                        toolbar: [
+                            ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['insert', ['picture', 'link', 'math']],
+                            ['para', ['paragraph']],
+                            ['misc', ['codeview']]
+                        ]
+                    });
+
+
+                }
+                else
+                {
+                    alert('You have reached the maximum number of options.');
+                }
             
             
             });

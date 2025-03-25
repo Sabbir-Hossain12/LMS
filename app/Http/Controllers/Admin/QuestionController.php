@@ -53,10 +53,21 @@ class QuestionController extends Controller
         $question->assessment_id=$request->assessment_id;
         $question->question_text=$request->question_text;
         $question->marks=$request->marks;
-        $question->correct_answers=$request->correct_answers;
+        $question->correct_option=$request->correct_option;
         $question->status=$request->status;
-        $question->options= json_encode($request->options);
+
+        // Create an associative array with keys "A", "B", "C", "D"
+        $optionsWithKeys = [];
+        $letters = range('A', 'Z'); // Creates an array with letters from A to B
+
+        foreach ($request->options as $index => $value) {
+            $optionsWithKeys[$letters[$index]] = $value;
+        }
+
         
+        
+        $question->options= json_encode($optionsWithKeys);
+//        dd($question->options);
         if ($request->hasFile('question_image')) {
             
             $file = $request->file('question_image');
@@ -90,8 +101,9 @@ class QuestionController extends Controller
     public function edit(string $id)
     {
         $question= Question::find($id);
+        $assessments = Assessment::all();
         
-        $assessments= Assessment::where('lesson_id',$question->assessment->lesson_id)->get();
+//        $assessments= Assessment::where('lesson_id',$question->assessment->lesson_id)->get();
         
 //        $lessons=Lesson::where('subject_id',$question->assessment->lesson->subject_id)->get();
        

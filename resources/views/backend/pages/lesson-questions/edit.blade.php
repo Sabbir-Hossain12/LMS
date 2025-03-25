@@ -85,8 +85,9 @@
                                 <div class="mb-1" id="optionMultiple">
                                     <label  class="form-label">Options *</label>
                                     <div id="optionMultiple">
-                                        @forelse(json_decode($question->options) as $option) 
+                                        @forelse(json_decode($question->options) as $key=>$option) 
                                         <div class="input-group mb-1 option-item">
+                                            <span class="input-group-text">{{ $key }}</span>
                                             <textarea class="form-control options" name="options[]"  rows="1">{{$option}}</textarea>
                                             <button type="button" class="btn btn-danger remove-option"><i class="mdi mdi-close text-light"></i></button>
                                         </div>
@@ -94,13 +95,21 @@
                                         @endforelse
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
-                                </div>
+{{--                                <div class="mb-3">--}}
+{{--                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>--}}
+{{--                                </div>--}}
 
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Correct Option/Answer </label>
-                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1">{{$question->correct_answers}}</textarea>
+{{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" 
+                                        cols="3" rows="1">{{$question->correct_answers}}</textarea>--}}
+
+                                    <select class="form-select form-control" name="correct_option" id="correct_option">
+                                        <option value="A" @if($question->correct_option == 'A') selected @endif>A</option>
+                                        <option value="B" @if($question->correct_option == 'B') selected @endif>B</option>
+                                        <option value="C" @if($question->correct_option == 'C') selected @endif>C</option>
+                                        <option value="D" @if($question->correct_option == 'D') selected @endif>D</option>
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">

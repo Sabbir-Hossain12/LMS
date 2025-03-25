@@ -45,16 +45,24 @@
                         </div>
 
                     @endif
+                    @php
+                        $letters = range('A', 'Z'); // Create an array from A to Z
+                    @endphp
 
                     {!! $question->question_text !!}
                     <div class="row">
-                        @forelse(json_decode($question->options,0) as $key2=> $option)
+                        @forelse(json_decode($question->options) as $key2=> $option)
+                            @php
+//                                $cleanOption = strip_tags(str_replace(' ', '', $option));
+                                 $letter = $letters[$key2];
+                            @endphp
+                        
                             <div class="col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="answer_{{$question->id}}"
-                                          id="option_{{$question->id}}_{{$key2}}" value="{{$option}}"  >
+                                          id="option_{{$question->id}}_{{$key2}}" value="{{ $letter }}"  >
                                     <label class="form-check-label" for="option_{{$question->id}}_{{$key2}}">
-                                        {!!  $option !!}
+                                         {!!  $option !!}
                                     </label>
                                 </div>
 
