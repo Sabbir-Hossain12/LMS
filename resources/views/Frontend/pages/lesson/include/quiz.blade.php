@@ -46,30 +46,37 @@
 
                     @endif
                     @php
-                        $letters = range('A', 'Z'); // Create an array from A to Z
+                        $options = json_decode($question->options, true);
+                        $letters = ['A', 'B', 'C', 'D'];
+                        
+                        // Determine if options are in array format (indexed 0,1,2) or object format (A,B,C keys)
+                        $isArrayFormat = isset($options[0]); // Check if first index exists
                     @endphp
 
                     {!! $question->question_text !!}
                     <div class="row">
-                        @forelse(json_decode($question->options) as $key2=> $option)
+                        @foreach($letters as $index => $letter)
                             @php
-//                                $cleanOption = strip_tags(str_replace(' ', '', $option));
-                                 $letter = $letters[$key2];
+                                // Get the option value based on format
+                                $optionValue = $isArrayFormat 
+                                    ? ($options[$index] ?? null)  // Array format: use index
+                                    : ($options[$letter] ?? null); // Object format: use letter key
                             @endphp
-                        
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="answer_{{$question->id}}"
-                                          id="option_{{$question->id}}_{{$key2}}" value="{{ $letter }}"  >
-                                    <label class="form-check-label" for="option_{{$question->id}}_{{$key2}}">
-                                         {!!  $option !!}
-                                    </label>
+
+                            @if(!is_null($optionValue))
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio"
+                                               name="answer_{{$question->id}}"
+                                               id="option_{{$question->id}}_{{$letter}}"
+                                               value="{{ $letter }}">
+                                        <label class="form-check-label" for="option_{{$question->id}}_{{$letter}}">
+                                            {!! $optionValue !!}
+                                        </label>
+                                    </div>
                                 </div>
-
-                            </div>
-
-                        @empty
-                        @endforelse
+                            @endif
+                        @endforeach
                     </div>
 
 

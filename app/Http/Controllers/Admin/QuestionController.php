@@ -47,7 +47,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+//      dd($request->all());
         
         $question=new Question();
         $question->assessment_id=$request->assessment_id;
@@ -116,13 +116,24 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+//      dd($request->all());
         $question= Question::find($id);
         $question->assessment_id=$request->assessment_id;
         $question->question_text=$request->question_text;
         $question->marks=$request->marks;
-        $question->correct_answers=$request->correct_answers;
+//      $question->correct_answers=$request->correct_answers;
+        $question->correct_option=$request->correct_option;
         $question->status=$request->status;
-        $question->options= json_encode($request->options);
+        
+        // Create an associative array with keys "A", "B", "C", "D"
+        $optionsWithKeys = [];
+        $letters = range('A', 'Z'); // Creates an array with letters from A to B
+
+        foreach ($request->options as $index => $value) {
+            $optionsWithKeys[$letters[$index]] = $value;
+        }
+        
+        $question->options= json_encode($optionsWithKeys);
 
         if ($request->hasFile('question_image')) {
 

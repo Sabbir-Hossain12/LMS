@@ -59,39 +59,51 @@
 
             {!! $attempt->question->question_text !!}
             <div class="row">
-                @forelse(json_decode($attempt->question->options) as $key2=> $option)
+                @php
+                    $options = json_decode($attempt->question->options, true);
+                    $isArrayFormat = isset($options[0]); // Check if first index exists
+                    $letters = ['A', 'B', 'C', 'D'];
+                    $correctAnswer = $attempt->question->correct_option;
+                @endphp
+
+                @foreach($letters as $index => $letter)
+                    @php
+                        // Get the option value based on format
+                        $optionValue = $isArrayFormat 
+                            ? ($options[$index] ?? null)
+                            : ($options[$letter] ?? null);
+                        
+                        if (is_null($optionValue)) continue;
+                        
+                        $isCorrect = $letter == $correctAnswer;
+                        $isSelected = $attempt->selected_option == $letter;
+                        $labelClass = $isCorrect ? 'text-success' : ($isSelected ? 'text-danger' : 'text-dark');
+                        $inputClass = $isCorrect ? 'correct-answer' : ($isSelected ? 'wrong-answer' : '');
+                    @endphp
+
                     <div class="col-md-6">
-
-                        @php
-                            $letters = range('A', 'Z');
-                            $letter = $letters[$key2];
-                            
-                            $correctAnswer = $attempt->question->correct_option;
-                            
-                            $isCorrect = $letter == $correctAnswer;
-                            $isSelected = $attempt->selected_option == $letter; // This option was selected 
-                            //Determine label color class
-                            $labelClass = $isCorrect ? 'text-success' : ($isSelected ? 'text-danger' : 'text-dark');
-                        @endphp
-
                         <div class="form-check">
-                            <input class="form-check-input {{ $isCorrect ? 'correct-answer' : ($isSelected ? 'wrong-answer' : '') }}"
-                                   type="checkbox" name="answer_{{$attempt->question->id}}"
-                                   id="option_{{$attempt->question->id}}_{{$key2}}" value="{{ $letter }}"
-                                   
-                                   {{ $isSelected || $isCorrect ? 'checked' : '' }} disabled>
-                            <!-- Disable checkboxes for display -->
+                            <input class="form-check-input {{ $inputClass }}"
+                                   type="checkbox"
+                                   name="answer_{{$attempt->question->id}}"
+                                   id="option_{{$attempt->question->id}}_{{$letter}}"
+                                   value="{{ $letter }}"
+                                   {{ $isSelected || $isCorrect ? 'checked' : '' }}
+                                   disabled>
 
-                            <label class="form-check-label text-success"
-                                   for="option_{{$attempt->question->id}}_{{$key2}}">
-                                {!!$option!!}
+                            <label class="form-check-label {{ $labelClass }}"
+                                   for="option_{{$attempt->question->id}}_{{$letter}}">
+                                {!! $optionValue !!}
                             </label>
+
+                            @if($isCorrect)
+                                <i class="fas fa-check-circle text-success ms-2"></i>
+                            @elseif($isSelected)
+                                <i class="fas fa-times-circle text-danger ms-2"></i>
+                            @endif
                         </div>
-
                     </div>
-
-                @empty
-                @endforelse
+                @endforeach
             </div>
 
 

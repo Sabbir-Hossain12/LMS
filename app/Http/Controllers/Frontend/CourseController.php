@@ -328,6 +328,7 @@ class CourseController extends Controller
 
     public function quizSubmit(Request $request)
     {
+        
 //        dd($request->all());
         $request->validate([
             'assessment_id' => ['required'],

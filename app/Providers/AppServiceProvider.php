@@ -6,6 +6,7 @@ use App\Models\Basicinfo;
 use App\Models\Blog;
 use App\Models\CourseClass;
 use App\Models\Page;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 
@@ -24,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+        Model::unguard();
+
         View()->composer('*', function ($view)
         {
             $pages = Page::where('status',1)->get();

@@ -100,10 +100,13 @@
 {{--                                </div>--}}
 
                                 <div class="mb-3">
-                                    <label for="desc" class="form-label">Correct Option/Answer </label>
-{{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" 
-                                        cols="3" rows="1">{{$question->correct_answers}}</textarea>--}}
-
+                                    <label for="desc" class="form-label">Correct Answer </label>
+                                    <textarea class="form-control" id="correct_answers" name="correct_answers" 
+                                        cols="3" rows="1" readonly>{{$question->correct_answers}}</textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="correct_option" class="form-label">Correct Option *</label>
                                     <select class="form-select form-control" name="correct_option" id="correct_option">
                                         <option value="A" @if($question->correct_option == 'A') selected @endif>A</option>
                                         <option value="B" @if($question->correct_option == 'B') selected @endif>B</option>
