@@ -27,7 +27,10 @@ class CourseController extends Controller
 
         $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id',
             $courseDetails->id)->first();
-
+        
+        $enrollmentCount = Enrollment::where('course_id',
+            $courseDetails->id)->count();
+        
         $relatedCourses = Course::where('teacher_id', $courseDetails->teacher_id)->limit(4)->get();
 
         $popularCourses = Course::where('status', 1)->inRandomOrder()->limit(3)->get();
@@ -50,7 +53,7 @@ class CourseController extends Controller
             ])->get();
 
         return view('Frontend.pages.course.course-details',
-            compact('courseDetails', 'relatedCourses', 'popularCourses', 'popularClasses', 'subjects', 'enrollment'));
+            compact('enrollmentCount','courseDetails', 'relatedCourses', 'popularCourses', 'popularClasses', 'subjects', 'enrollment'));
     }
 
     public function courseLessons(string $slug)
