@@ -46,7 +46,7 @@ class LessonVideoController extends Controller
      */
     public function store(Request $request)
     {
-//      dd($request->all());
+    //  dd($request->all());
         $lessonVideo = new LessonVideo();
         $lessonVideo->lesson_id = $request->lesson_id;
         $lessonVideo->title = $request->title;
@@ -57,13 +57,25 @@ class LessonVideoController extends Controller
         $lessonVideo->end_time = $request->end_time;
         $lessonVideo->position = $request->position;
         $lessonVideo->status = $request->status;
+        
+        if ($request->hasFile('video_file')) {
+            $file = $request->file('video_file');
+            $filename = time().uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/lesson-videos/'), $filename);
+            $lessonVideo->video_file = 'backend/upload/lesson-videos/'.$filename;
+        }
 
         $save = $lessonVideo->save();
         if ($save) {
-            return redirect()->back()->with('success', 'Video Added Successfully');
+            // return redirect()->back()->with('success', 'Video Added Successfully');
+            
+        return response()->json(['status' => 'success', 'message' => 'Video Added Successfully'], 200);
+
         }
 
-        return redirect()->back()->with('error', 'Something went wrong');
+        // return redirect()->back()->with('error', 'Something went wrong');
+         return response()->json(['status' => 'error', 'message' => 'Something Went Wrong'], 500);
+
     }
 
     /**
@@ -100,6 +112,18 @@ class LessonVideoController extends Controller
         $lessonVideo->end_time = $request->end_time;
         $lessonVideo->position = $request->position;
         $lessonVideo->status = $request->status;
+        
+        if ($request->hasFile('video_file')) {
+            
+           if ($lessonVideo->video_file && file_exists(public_path($lessonVideo->video_file))) {
+                 unlink(public_path($lessonVideo->video_file));
+            }
+            
+            $file = $request->file('video_file');
+            $filename = time().uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/lesson-videos/'), $filename);
+            $lessonVideo->video_file = 'backend/upload/lesson-videos/'.$filename;
+        }
 
         $save = $lessonVideo->save();
         if ($save) {
@@ -115,6 +139,11 @@ class LessonVideoController extends Controller
     public function destroyLessonVideo(string $id)
     {
         $lessonVideo = LessonVideo::find($id);
+        
+         if ($lessonVideo->video_file && file_exists(public_path($lessonVideo->video_file))) {
+                 unlink(public_path($lessonVideo->video_file));
+            }
+            
         $lessonVideo->delete();
 
         return redirect()->back()->with('success', 'Video Deleted Successfully');

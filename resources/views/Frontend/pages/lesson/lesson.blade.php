@@ -12,6 +12,14 @@
     <div class="tution sp_bottom_100 sp_top_50">
         <div class="container-fluid full__width__padding">
             <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 justify-content-center">
+                    @isset($course->group_link)
+                    <p class="text-center">Please Join the Community Group <a class="text-primary" href="{{ $course->group_link }}">Here</a></span>
+                    @endisset()
+                </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12" id="lessonSidebar" data-aos="fade-up" >
 
                     <div class="accordion content__cirriculum__wrap" id="accordionExample">
@@ -117,6 +125,51 @@
                                                     @empty
                                                     @endforelse
                                                 @endif
+                                                
+                                                <!--Live Start-->
+                                                 @if($lesson->lessonLives->count() > 0)
+                                                    @forelse($lesson->lessonLives as $key2=>$lives)
+                                                        <div class="scc__wrap">
+                                                            <div class="scc__info">
+                                                                <i class="icofont-record"></i>
+                                                                
+                                                                @if($enrollment)
+                                                                <h5>
+                                                                    <a data-id="{{$lives->id}}" data-lesson-id="{{$lesson->id}}" class="lessonLiveAnchor" href="javascript:void(0)">
+                                                                        <span>{{$lives->title}}</span>
+                                                                    </a>
+                                                                </h5>
+                                                                    
+                                                                @else
+
+                                                                    <h5>
+                                                                        <a  class="" href="javascript:void(0)">
+                                                                            <span>{{$lives->title}}</span>
+                                                                        </a>
+                                                                    </h5>
+                                                                    
+                                                                @endif
+                                                            </div>
+
+                                                            <div class="scc__meta">
+{{--                                                          <strong>3.27</strong>--}}
+
+                                                                @if($enrollment)
+
+                                                                    <a href="#"><span class="question"><i
+                                                                                    class="icofont-eye"></i></span></a>
+                                                                @else
+                                                                <a href="#"><span class="question"><i
+                                                                                class="icofont-lock"></i></span></a>
+                                                                @endif
+                                                            </div>
+
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
+                                                @endif
+                                                
+                                                <!--Live End-->
 
 
                                                 @if($lesson->assessments->count() > 0)
@@ -186,8 +239,6 @@
                 </div>
                 
                 <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" data-aos="fade-up" id="lessonContent">
-                  
-                    
                     
                 </div>
             </div>
@@ -205,6 +256,7 @@
                 let id= $(this).data('id');
                 let lessonId= $(this).data('lesson-id');
                 
+                 $('.lessonLiveAnchor').removeClass('active');
                 $('.lessonVideoAnchor').removeClass('active');
                 $('.lessonMaterialAnchor').removeClass('active');
                 $('.lessonExamAnchor').removeClass('active');// Remove active class from all anchors
@@ -256,13 +308,16 @@
               $('.lessonVideoAnchor:first').addClass('active');
               
           });
-
+          
+          
+            //material
             $(document).on('click', '.lessonMaterialAnchor', function (e) {
 
                 e.preventDefault();
                 let id= $(this).data('id');
                 let lessonId= $(this).data('lesson-id');
 
+                $('.lessonLiveAnchor').removeClass('active');
                 $('.lessonVideoAnchor').removeClass('active');
                 $('.lessonMaterialAnchor').removeClass('active');
                 $('.lessonExamAnchor').removeClass('active');// Remove active class from all anchors
@@ -310,12 +365,70 @@
                     }
                 })
             });
+            
+            //Live
+             $(document).on('click', '.lessonLiveAnchor', function (e) {
 
+                e.preventDefault();
+                let id= $(this).data('id');
+                let lessonId= $(this).data('lesson-id');
+
+                $('.lessonLiveAnchor').removeClass('active');
+                $('.lessonVideoAnchor').removeClass('active');
+                $('.lessonMaterialAnchor').removeClass('active');
+                $('.lessonExamAnchor').removeClass('active');// Remove active class from all anchors
+                $(this).addClass('active'); // Add active class to the clicked element's anchor
+
+               
+
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: "{{route('lesson-live')}}",
+                    data: {
+                        id: id,
+                        lesson_id:lessonId
+
+                    },
+
+                    // contentType: false,
+                    // processData: false,
+                    beforeSend: function() {
+                        // Show loader
+                        showLoader();
+                    },
+                    success: function (res) {
+
+                        $('#lessonContent').empty();
+                        $('#lessonContent').append(res.html);
+
+                            $("html, body").animate({
+                            scrollTop: $("#lessonContent").offset().top - 300
+                        }, 200); // 800ms smooth scrolling
+
+
+                    },
+                    error: function (err) {
+
+                        errorToast('error');
+                    },
+                    complete: function() {
+                        // Hide loader
+                        hideLoader();
+                    }
+                })
+            });
+            
+            //exam
             $(document).on('click', '.lessonExamAnchor', function (e) {
 
                 e.preventDefault();
                 let assessment_id= $(this).data('id');
 
+                 $('.lessonLiveAnchor').removeClass('active');
                 $('.lessonVideoAnchor').removeClass('active');
                 $('.lessonMaterialAnchor').removeClass('active');
                 $('.lessonExamAnchor').removeClass('active');

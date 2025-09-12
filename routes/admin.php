@@ -25,6 +25,9 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\LessonLiveController;
+use App\Http\Controllers\Admin\CouponController;
+
 
 use App\Http\Controllers\Admin\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\TestimonialSettingController;
@@ -121,6 +124,13 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/lesson-materials/store', [LessonMaterialController::class, 'store'])->name('lesson-material.store');
     Route::delete('/lesson-materials/{id}', [LessonMaterialController::class, 'destroyLessonMaterial'])->name('lesson-material.destroy');
     
+    //Lesson Live Class
+    Route::get('/lesson-live/{id}', [LessonLiveController::class, 'index'])->name('lesson-live');
+    Route::get('/lesson-live/{id}/edit', [LessonLiveController::class, 'edit'])->name('lesson-live.edit');
+    Route::post('/lesson-live/{id}/update', [LessonLiveController::class, 'update'])->name('lesson-live.update');
+    Route::post('/lesson-live/store', [LessonLiveController::class, 'store'])->name('lesson-live.store');
+    Route::delete('/lesson-live/{id}', [LessonLiveController::class, 'destroyLessonLive'])->name('lesson-live.destroy');
+    
     //Lesson Assessment
     Route::get('/lesson-assessments/{id}', [AssessmentController::class, 'index'])->name('lesson-assessment');
     Route::get('/lesson-assessments/{id}/edit', [AssessmentController::class, 'edit'])->name('lesson-assessment.edit');
@@ -128,21 +138,23 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     Route::post('/lesson-assessments/store', [AssessmentController::class, 'store'])->name('lesson-assessment.store');
     Route::delete('/lesson-assessments/{id}', [AssessmentController::class, 'destroyLessonAssessment'])->name('lesson-assessment.destroy');
     
-
     //Assessment Questions
     Route::get('/assessment-questions/{id}', [QuestionController::class, 'index'])->name('assessment-question');
     Route::get('/assessment-questions/{id}/edit', [QuestionController::class, 'edit'])->name('assessment-question.edit');
     Route::post('/assessment-questions/{id}/update', [QuestionController::class, 'update'])->name('assessment-question.update');
     Route::post('/assessment-questions/store', [QuestionController::class, 'store'])->name('assessment-question.store');
     Route::delete('/assessment-questions/{id}', [QuestionController::class, 'destroyAssessmentQuestion'])->name('assessment-question.destroy');
-
+    
+    //Copy
+    Route::get('/assessment-questions/{id}/copy', [QuestionController::class, 'copy'])->name('question.copy');
+    Route::post('/assessment-questions/copy/store', [QuestionController::class, 'copyStore'])->name('question-copy.store');
+    
     //Assessment Answer 
     Route::get('/lesson-assessment-answers/{id}', [AssessmentAnswerController::class, 'index'])->name('assessment-answer');
     Route::post('/assessment-mark-evaluation/store', [AssessmentGradeController::class, 'markEvaluation'])->name('assessment-mark-evaluate.store');
     
     Route::post('/assessment-teacher-upload/store', [AssessmentGradeController::class, 'teacherUpload'])->name('assessment-teacher-upload.store');
-
-
+    
     //Enrolment
     Route::get('/enrolments/{id}', [EnrolmentController::class, 'index'])->name('enrolment');
     Route::post('/enrolments/store', [EnrolmentController::class, 'store'])->name('enrolment.store');
@@ -181,4 +193,14 @@ Route::prefix('admin')->name('admin.')->middleware(['checkAuth','role:admin|teac
     
     //pages
     Route::resource('/pages', PageController::class)->names('page');
+    
+    //Coupon
+    Route::resource('/coupons', CouponController::class)->names('coupon');
+    Route::get('/coupon/data', [CouponController::class, 'getData'])->name('coupon.data');
+    Route::post('/coupon/change-status', [CouponController::class, 'changeStatus'])->name('coupon.change-status');
+    
+    
+    
+    
+    
 });

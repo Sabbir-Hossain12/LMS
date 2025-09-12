@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class LessonVideo extends Model
 {
     //
+    
+    protected $guarded = [];
 
      protected $casts = [
         'start_time' => 'datetime',

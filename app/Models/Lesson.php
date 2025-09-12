@@ -22,6 +22,13 @@ class Lesson extends Model
         return $this->hasMany(LessonMaterial::class);
     }
     
+    public function lessonLives()
+    {
+        return $this->hasMany(LessonLive::class);
+    }
+    
+    
+    
     public function assessments()
     {
         return $this->hasMany(Assessment::class);

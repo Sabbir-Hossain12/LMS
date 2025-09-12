@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Order;
+use App\Models\Coupon;
 use App\Models\OrderCourse;
 use App\Models\User;
 use Exception;
@@ -28,6 +29,7 @@ class OrderController extends Controller
     public function orderSubmit(Request $request)
     {
         
+        
         // dd($request->all());
 
 
@@ -35,6 +37,27 @@ class OrderController extends Controller
         try {
             
             $course= Course::find($request->course_id);
+            
+            
+              if(session()->has('coupon')) {
+             
+                $coupon = session('coupon');
+                
+                if($coupon['type'] == 'Percentage')
+                {
+                  $course_price =  $course->sale_price - ($course->sale_price * $coupon['discount'])/100;
+                }
+                
+                else
+                {
+                    $course_price =  $course->sale_price - $coupon['discount'] ;
+                }
+            }
+            
+           
+            
+            
+            
             
             $student_id=auth()->user()->id;
             
@@ -49,7 +72,7 @@ class OrderController extends Controller
            
             $order= new Order();
             $order->user_id = auth()->user()->id;
-            $order->total_amount = $course->sale_price;
+            $order->total_amount = $course_price ?? $course->sale_price;
             $order->transaction_id = $invoiceNumber;
             $order->payment_method	 = $request->payment_method;
             
@@ -63,8 +86,8 @@ class OrderController extends Controller
             $orderCourse= new OrderCourse();
             $orderCourse->order_id = $order->id;
             $orderCourse->course_id = $request->course_id;
-            $orderCourse->price = $course->sale_price;
-            $orderCourse->discount = $course->discount ?? 0;
+            $orderCourse->price = $course_price ?? $course->sale_price;
+            $orderCourse->discount = $course->discount ?? $coupon['discount'];
             $orderCourse->save();
             
             DB::commit();
@@ -84,7 +107,7 @@ class OrderController extends Controller
             $request['mode'] = '0011'; //0011 for checkout
             $request['payerReference'] = $invoiceNumber;
             $request['currency'] = 'BDT';
-            $request['amount'] = $course->sale_price;
+            $request['amount'] = $course_price ?? $course->sale_price;
             $request['merchantInvoiceNumber'] = $invoiceNumber;
             $request['callbackURL'] = config("bkash.callbackURL");
             
@@ -95,7 +118,8 @@ class OrderController extends Controller
             $request_data_json = json_encode($request->all());
 
             $response =  BkashPaymentTokenize::cPayment($request_data_json);
-            //dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
+            // dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
+
 
             if (isset($response['bkashURL']))
             {
@@ -116,6 +140,40 @@ class OrderController extends Controller
             dd($e->getMessage());
             
         }
+    }
+    
+    
+    public function applyCoupon(Request $request)
+    {
+        $coupon = Coupon::where('code', $request->code)->first();
+
+    if (!$coupon) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid coupon code.'
+        ]);
+    }
+
+    // Optional: validate expiry, usage limit, etc.
+    if($coupon->used_count >= $coupon->usage_limit )
+    {
+         return response()->json([
+        'success' => false,
+        'message' => 'Invalid coupon code.'
+    ]);
+    }
+    
+    Session::put('coupon', [
+        'code' => $coupon->code,
+        'type' => $coupon->discount_type,
+        'discount' => $coupon->discount_value, // percentage or fixed
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'discount' => $coupon->discount_value,
+        'type' => $coupon->discount_type
+    ]);
     }
     
 }

@@ -1,6 +1,13 @@
 @extends('Frontend.layouts.master')
 
 @section('content')
+<style>
+@media only screen and (min-width: 767px) {
+    .purchase-sec {
+        display: none;
+    }
+}
+</style>
 
     <div class="blogarea__2 sp_top_100 sp_bottom_100">
         <div class="container">
@@ -25,6 +32,33 @@
                                 <p>Last Update: <span>{{$courseDetails->updated_at->format('M d, Y')}}</span></p>
                             </div>
                         </div>
+                        
+                          <div class="course__summery__button purchase-sec">
+                                @if($enrollment)
+
+                                    <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Continue</a>
+                                    
+                                    @else
+                                    <!--<a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try-->
+                                    <!--    For Free</a>-->
+                                        
+                                        @if($courseDetails->sale_price == 0)
+                                            <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                            
+                                            @else
+                                            <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+
+                                            <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
+                                            @endif
+                                @endif
+                                
+                               
+                                <span>
+                                        <i class="icofont-ui-rotation"></i>
+{{--                                        45-Days Money-Back Guarantee--}}
+                                    </span>
+                            </div>
+                            
                         <div class="course__details__heading" data-aos="fade-up">
                             <h3>{{$courseDetails->title}}</h3>
                         </div>
@@ -74,7 +108,7 @@
                                     Duration : <span>  {{$courseDetails->duration}}</span>
                                 </li>
                                 <li>
-                                    Enrolled : <span>  2 students</span>
+                                    Enrolled : <span> {{ $enrollmentCount ?? 100 }} </span>
                                 </li>
                             </ul>
                             <ul>
@@ -465,15 +499,16 @@
                                     <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Continue</a>
                                     
                                     @else
-                                    <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try
-                                        For Free</a>
+                                    <!--<a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try-->
+                                    <!--    For Free</a>-->
                                         
                                         @if($courseDetails->sale_price == 0)
                                             <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
                                             
                                             @else
-                                    
-                                            <img class="img-fluid" src="{{asset('payment.jpg')}}" />
+                                            <a class="default__button default__button--2" href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+
+                                            <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
                                             @endif
                                 @endif
                                 
@@ -514,7 +549,7 @@
 
                                     <li>
                                         <div class="course__summery__item">
-                                            <span class="sb_label">Enrolled</span><span class="sb_content">100</span>
+                                            <span class="sb_label">Enrolled</span><span class="sb_content">{{ $enrollmentCount ?? 100 }}</span>
                                         </div>
                                     </li>
 

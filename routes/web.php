@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
+
 //Route::get('/', function () {
 //    return view('welcome');
 //});
@@ -29,6 +30,18 @@ Route::get('/site-up',function ()
     Artisan::call('up');
 
     return 'The site is now live.';
+});
+
+Route::get('/dev-tools/refresh', function () {
+  
+
+    // Run Laravel optimize clear
+    Artisan::call('optimize:clear');
+
+    // Run composer dump-autoload (risky, use with caution)
+    // exec('composer dump-autoload');
+
+    return '✅ optimize:clear & dump-autoload done!';
 });
 
 
@@ -50,6 +63,8 @@ Route::get('/class-list', [CourseController::class,'classList'])->name('class-li
 Route::get('/course-lessons/{slug}', [CourseController::class,'courseLessons'])->name('course-lessons');
 Route::post('/course-lessons/video',[CourseController::class,'courseLessonsVideo'])->name('lesson-video');
 Route::post('/course-lessons/material',[CourseController::class,'courseLessonsMaterial'])->name('lesson-material');
+Route::post('/course-lessons/live',[CourseController::class,'courseLessonLive'])->name('lesson-live');
+
 Route::post('/course-lessons/Exam',[CourseController::class,'courseLessonsExam'])->name('lesson-exam');
 
 //Exam Submit
@@ -68,6 +83,7 @@ Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('
 //Checkout and Orders
 Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('checkout');
 Route::post('/order/submit', [OrderController::class,'orderSubmit'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('order.submit');
+Route::post('/apply-coupon', [OrderController::class, 'applyCoupon'])->name('apply-coupon');
 
 //pages
 Route::prefix('pages')->group(function () {
@@ -125,16 +141,16 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
 //Bkash
 
     // Payment Routes for bKash
-    Route::get('/bkash/payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'index']);
-    Route::get('/bkash/create-payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'createPayment'])->name('bkash-create-payment');
-    Route::get('/bkash/callback', [App\Http\Controllers\BkashTokenizePaymentController::class,'callBack'])->name('bkash-callBack');
+    Route::get('/bkash/payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'index'])->middleware(\App\Http\Middleware\StudentMiddleware::class);
+    Route::get('/bkash/create-payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'createPayment'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('bkash-create-payment');
+    Route::get('/bkash/callback', [App\Http\Controllers\BkashTokenizePaymentController::class,'callBack'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('bkash-callBack');
 
     //search payment
-    Route::get('/bkash/search/{trxID}', [App\Http\Controllers\BkashTokenizePaymentController::class,'searchTnx'])->name('bkash-serach');
+    // Route::get('/bkash/search/{trxID}', [App\Http\Controllers\BkashTokenizePaymentController::class,'searchTnx'])->name('bkash-serach');
 
     //refund payment routes
-    Route::get('/bkash/refund', [App\Http\Controllers\BkashTokenizePaymentController::class,'refund'])->name('bkash-refund');
-    Route::get('/bkash/refund/status', [App\Http\Controllers\BkashTokenizePaymentController::class,'refundStatus'])->name('bkash-refund-status');
+    // Route::get('/bkash/refund', [App\Http\Controllers\BkashTokenizePaymentController::class,'refund'])->name('bkash-refund');
+    // Route::get('/bkash/refund/status', [App\Http\Controllers\BkashTokenizePaymentController::class,'refundStatus'])->name('bkash-refund-status');
     
 
 require __DIR__.'/admin.php';

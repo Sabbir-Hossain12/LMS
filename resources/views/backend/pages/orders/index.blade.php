@@ -70,7 +70,7 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$order->user->name}}</td>
-                                    <td>{{$order->orderCourse->course->title}}</td>
+                                    <td>{{$order->orderCourse->course->title ?? ''}}</td>
                                     <td>
                                         @if($order->status== 'success')
                                             <span class="badge bg-primary"> {{$order->status}}</span>

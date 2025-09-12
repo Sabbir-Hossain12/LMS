@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <form method="post" action="{{route('admin.lesson-video.store')}}" enctype="multipart/form-data">
+    <form id="videoUploadForm"  enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
@@ -51,8 +51,20 @@
 
                                     <div class="mb-3">
                                         <label for="video_url" class="form-label">Video URL (embed) *</label>
-                                        <input class="form-control" type="text" id="video_url" name="video_url" placeholder="https://www.youtube.com/embed/v5nSFx7YEXc?si=7HPDNFUSxUbq3e9B" required>
+                                        <input class="form-control" type="text" id="video_url" name="video_url" placeholder="https://www.youtube.com/embed/v5nSFx7YEXc?si=7HPDNFUSxUbq3e9B">
                                     </div>
+                                    
+                                     <div class="mb-3">
+                                        <label for="video_file" class="form-label">Video File *</label>
+                                        <input class="form-control" type="file" id="video_file" name="video_file" />
+                                         <!-- Progress bar -->
+                                        <div class="progress d-none" id="uploadProgressWrapper">
+                                            <div id="uploadProgress" class="progress-bar progress-bar-striped bg-success" 
+                                                role="progressbar" style="width: 0%">0%</div>
+                                        </div>
+                                    </div>
+                                    
+                                    
 
                                     <div class="mb-3">
                                         <label for="duration" class="form-label">Duration </label>
@@ -64,8 +76,6 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-
-                               
 
                                 <div class="mb-3">
                                     <label for="position" class="form-label">Position *</label>
@@ -182,14 +192,14 @@
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
-    <script>
+    // <script>
         $(document).ready(function () {
 
-            ClassicEditor
-                .create(document.querySelector('#long_desc'))
-                .catch(error => {
-                    console.error(error);
-                });
+    //         ClassicEditor
+    //             .create(document.querySelector('#long_desc'))
+    //             .catch(error => {
+    //                 console.error(error);
+    //             });
 
 
             let adminTable = $('#adminTable').DataTable({
@@ -198,9 +208,57 @@
         });
 
 
-    </script>
+    // </script>
     <script>
         $(document).ready(function () {
+            //On Submit
+            $('#videoUploadForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        xhr: function() {
+            let xhr = new window.XMLHttpRequest();
+
+            // Upload progress
+            xhr.upload.addEventListener("progress", function(e) {
+                if (e.lengthComputable) {
+                    let percent = Math.round((e.loaded / e.total) * 100);
+                    $('#uploadProgressWrapper').removeClass('d-none');
+                    $('#uploadProgress').css('width', percent + '%').text(percent + '%');
+                }
+            }, false);
+
+            return xhr;
+        },
+        type: "POST",
+        url: "{{ route('admin.lesson-video.store') }}",
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+            $('#uploadProgressWrapper').removeClass('d-none');
+            $('#uploadProgress').css('width', '0%').text('0%');
+        },
+        success: function(response) {
+            if (response.status === "success") {
+                toastr.success(response.message);
+                $('#videoUploadForm')[0].reset();
+                $('#uploadProgress').css('width', '100%').text('Completed');
+                
+                adminTable.ajax.reload();
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr) {
+            toastr.error('Upload failed. Try again.');
+            $('#uploadProgressWrapper').addClass('d-none');
+        }
+    });
+});
+            
             // Handle delete button click
             $(document).on('click','.delete-btn', function () {
                 let formId = '#delete-form-' + $(this).data('id');

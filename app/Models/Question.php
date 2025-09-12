@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
 
-    protected $guarded = [];
     public function questionGrades()
     {
         return $this->hasMany(QuestionGrade::class);

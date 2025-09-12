@@ -144,6 +144,9 @@ class CourseController extends Controller
         $course->is_certificate = $request->is_certificate;
         $course->status = $request->status;
         
+        $course->group_link = $request->group_link;
+        
+        
         $course->meta_title = $request->meta_title;
         $course->meta_desc = $request->meta_desc;
         $course->meta_keywords = $request->meta_keywords;
@@ -243,6 +246,8 @@ class CourseController extends Controller
         $course->is_exam = $request->is_exam;
         $course->is_certificate = $request->is_certificate;
         $course->status = $request->status;
+        
+         $course->group_link = $request->group_link;
 
         $course->meta_title = $request->meta_title;
         $course->meta_desc = $request->meta_desc;

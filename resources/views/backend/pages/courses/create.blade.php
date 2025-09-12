@@ -100,6 +100,12 @@
                                         <input class="form-control" type="text" placeholder="Course Duration"
                                                id="duration" name="duration">
                                     </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="group_link" class="form-label">Group Link</label>
+                                        <input class="form-control" type="text" placeholder="Group Link"
+                                               id="group_link" name="group_link">
+                                    </div>
 
                                     <div class="mb-3">
                                         <label for="regular_price" class="form-label">Regular Price</label>

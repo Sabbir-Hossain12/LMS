@@ -1,5 +1,15 @@
 @extends('Frontend.layouts.master')
 
+@push('css')
+
+<style>
+    .d-flex input.form-control,
+    .d-flex button.btn {
+    height: 50px;
+}
+</style>
+@endpush
+
 @section('content')
     <!-- breadcrumbarea__section__start -->
 
@@ -86,6 +96,17 @@
                                                    value="{{auth()->user()->address ?? ''}}" placeholder="Address">
                                         </div>
                                     </div>
+                                    
+                                      <div class="col-xl-12">
+                                        <div class="checkoutarea__inputbox w-50">
+                                            <label for="coupon_code">Coupon Code (if any)</label>
+                                            <div class="d-flex">
+                                                <input type="text" id="coupon_code" name="coupon" class="info" placeholder="Coupon"/>
+                                                <button type="button" id="apply_coupon" class="btn btn-sm btn-primary ml-2 align-self-stretch">Apply</button>
+                                            </div>
+                                            <div id="coupon_message"></div>
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
                     </div>
@@ -108,16 +129,21 @@
                                         <tbody>
                                         <tr class="checkoutarea__item prd-name">
                                             <td class="checkoutarea__ctg__type"> {{$course->title}} <span></span></td>
-                                            <td class="checkoutarea__cgt__des"> {{$basicInfo->currency_symbol}} {{$course->sale_price}}</td>
+                                            <td class="checkoutarea__cgt__des"> {{$basicInfo->currency_symbol}} <span id="salePriceText">{{$course->sale_price}}</span></td>
                                         </tr>
                                         <tr class="checkoutarea__item">
                                             <td class="checkoutarea__ctg__type"> Subtotal</td>
-                                            <td class="checkoutarea__cgt__des">{{$basicInfo->currency_symbol}} {{$course->sale_price}}</td>
+                                            <td class="checkoutarea__cgt__des">{{$basicInfo->currency_symbol}} <span id="subtotalPriceText">{{$course->sale_price}}</span> </td>
+                                        </tr>
+                                        
+                                        <tr class="checkoutarea__item">
+                                            <td class="checkoutarea__ctg__type"> Discount</td>
+                                            <td class="checkoutarea__cgt__des"> - <span id="discountText">0</span> </td>
                                         </tr>
 
                                         <tr class="checkoutarea__item">
                                             <td class="checkoutarea__itemcrt-total"> Total</td>
-                                            <td class="checkoutarea__cgt__des prc-total">{{$basicInfo->currency_symbol}} {{$course->sale_price}} </td>
+                                            <td class="checkoutarea__cgt__des prc-total">{{$basicInfo->currency_symbol}} <span id="totalPriceText">{{$course->sale_price}}</span> </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -160,3 +186,58 @@
     </form>
 
 @endsection
+
+@push('js')
+
+<script>
+let price = {{$course->sale_price}};
+
+    $('#apply_coupon').on('click', function () {
+        
+        
+        const code = $('#coupon_code').val();
+        
+        if(code.length == '0')
+        {
+             $('#coupon_message').text('Code can not be empty !').css('color', 'red');
+             
+             return;
+        }
+
+        $.ajax({
+            url: '{{ route('apply-coupon') }}',
+            method: 'POST',
+            data: {
+                code: code,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (response) {
+                if (response.success) {
+                    
+                    if(response.type == 'Percentage')
+                    {
+                        $('#coupon_message').text('Coupon applied! Discount: ' + response.discount + '%').css('color', 'green');
+                        
+                        $('#discountText').text(response.discount + '%');
+                        
+                        $('#totalPriceText').text(price - (price * response.discount)/100)
+                    }
+                    else
+                    {
+                        $('#coupon_message').text('Coupon applied! Discount: ' + response.discount + 'TK').css('color', 'green');
+                        $('#discountText').text(response.discount);
+                        
+                        $('#totalPriceText').text(price - response.discount)
+                    }
+                    
+                } else {
+                    $('#coupon_message').text(response.message).css('color', 'red');
+                }
+            },
+            error: function () {
+                $('#coupon_message').text('Something went wrong.').css('color', 'red');
+            }
+        });
+    });
+</script>
+@endpush

@@ -10,7 +10,25 @@
         color: #eae0e0 !important;
         display: flex;
     }
+    
+    @media (max-width: 767px) {
+    .marquee-sec {
+        display: block !important;
+    }
+}
 </style>
+
+<!--Marquee-->
+<div class="topbararea--2 marquee-sec" style="background-color: #f2277e">
+    <div class="container-flex">
+        <div class="col-12">
+            <marquee behavior="" direction="" style="color:#e8d9d9;margin-top: 2px;font-size: 22px;" scrolldelay="10" scrollamount="5">
+           {{ $basicInfo->marquee_text ?? '' }}
+            </marquee>
+         </div>
+    </div>
+</div>
+            
 
 <!-- topbar__section__stert -->
 <div class="topbararea topbararea--2">

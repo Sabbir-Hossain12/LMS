@@ -53,9 +53,12 @@ class QuestionController extends Controller
         $question->assessment_id=$request->assessment_id;
         $question->question_text=$request->question_text;
         $question->marks=$request->marks;
-        $question->correct_option=$request->correct_option;
+        // $question->correct_answers=$request->correct_answers;
+        $question->correct_option = $request->correct_option;
         $question->status=$request->status;
-
+        
+        $question->ans_brief=$request->ans_brief;
+        
         // Create an associative array with keys "A", "B", "C", "D"
         $optionsWithKeys = [];
         $letters = range('A', 'Z'); // Creates an array with letters from A to B
@@ -63,11 +66,9 @@ class QuestionController extends Controller
         foreach ($request->options as $index => $value) {
             $optionsWithKeys[$letters[$index]] = $value;
         }
-
-        
         
         $question->options= json_encode($optionsWithKeys);
-//        dd($question->options);
+        
         if ($request->hasFile('question_image')) {
             
             $file = $request->file('question_image');
@@ -101,9 +102,8 @@ class QuestionController extends Controller
     public function edit(string $id)
     {
         $question= Question::find($id);
-        $assessments = Assessment::all();
         
-//        $assessments= Assessment::where('lesson_id',$question->assessment->lesson_id)->get();
+        $assessments= Assessment::where('lesson_id',$question->assessment->lesson_id)->get();
         
 //        $lessons=Lesson::where('subject_id',$question->assessment->lesson->subject_id)->get();
        
@@ -116,15 +116,16 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//      dd($request->all());
         $question= Question::find($id);
         $question->assessment_id=$request->assessment_id;
         $question->question_text=$request->question_text;
         $question->marks=$request->marks;
-//      $question->correct_answers=$request->correct_answers;
+        // $question->correct_answers=$request->correct_answers;
         $question->correct_option=$request->correct_option;
         $question->status=$request->status;
         
+        $question->ans_brief=$request->ans_brief;
+
         // Create an associative array with keys "A", "B", "C", "D"
         $optionsWithKeys = [];
         $letters = range('A', 'Z'); // Creates an array with letters from A to B
@@ -134,7 +135,8 @@ class QuestionController extends Controller
         }
         
         $question->options= json_encode($optionsWithKeys);
-
+        
+        
         if ($request->hasFile('question_image')) {
 
             if ($question->question_image && file_exists(public_path($question->question_image))) {
@@ -168,4 +170,63 @@ class QuestionController extends Controller
         
         return redirect()->back()->with('success', 'Question Deleted Successfully');
     }
+    
+      public function copy(string $id)
+      {
+          
+        $question= Question::find($id);
+        
+        $assessments= Assessment::get();
+        
+        //$lessons=Lesson::where('subject_id',$question->assessment->lesson->subject_id)->get();
+       
+        return view('backend.pages.lesson-questions.copy',compact('question','assessments'));
+        
+     }
+     
+     public function copyStore(Request $request)
+    {
+    //  dd($request->all());
+        
+        $question=new Question();
+        $question->assessment_id=$request->assessment_id;
+        $question->question_text=$request->question_text;
+        $question->marks=$request->marks;
+        // $question->correct_answers=$request->correct_answers;
+        $question->correct_option = $request->correct_option;
+        $question->status=$request->status;
+        
+        $question->ans_brief=$request->ans_brief;
+        
+        // Create an associative array with keys "A", "B", "C", "D"
+        $optionsWithKeys = [];
+        $letters = range('A', 'Z'); // Creates an array with letters from A to B
+
+        foreach ($request->options as $index => $value) {
+            $optionsWithKeys[$letters[$index]] = $value;
+        }
+        
+        $question->options= json_encode($optionsWithKeys);
+        
+        if ($request->hasFile('question_image')) {
+            
+            $file = $request->file('question_image');
+            $filename = time() .uniqid(). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('backend/upload/questions/'), $filename);
+            $question->question_image ='backend/upload/questions/'. $filename;
+        }
+        
+        
+        $save= $question->save();
+        
+        if ($save) {
+            return redirect()->back()->with('success', 'Question Copied Successfully');
+        }
+        
+        return redirect()->back()->with('error', 'Something went wrong');
+        
+    }
+    
+    
+    
 }

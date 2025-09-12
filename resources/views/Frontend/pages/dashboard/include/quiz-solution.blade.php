@@ -29,6 +29,19 @@
       
     }
     
+    .quiz_single_attemp2
+    {
+        padding: 5px;
+        border: 1px solid #535151;
+    }
+    
+      .quiz_single_attemp2 p
+    {
+        margin-bottom: 0;
+        size: 9px;
+        padding-bottom: 0px;
+    }
+    
    
 </style>
 
@@ -108,7 +121,15 @@
 
 
         </div>
-        <br><br><br>
+        
+        @if(isset($attempt->question->ans_brief))
+        
+        <div class="quiz_single_attemp2">
+            {!! $attempt->question->ans_brief !!}
+        </div>
+        @endif
+        <br><br>
+        
     @empty
         <p>No Questions For Now, We Will Keep You Notified</p>
     @endforelse

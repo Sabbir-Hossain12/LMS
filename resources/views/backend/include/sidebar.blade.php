@@ -136,6 +136,23 @@
                 </li>
                 @endif
                 
+                  @if(Auth::user() && Auth::user()->hasRole('admin'))
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span data-key="t-apps">Coupons</span>
+                    </a>
+                    
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('admin.coupon.index') }}">
+                                <span data-key="t-calendar">Coupon Management</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                
                 
                @if(Auth::user() && Auth::user()->hasRole('admin'))
                 

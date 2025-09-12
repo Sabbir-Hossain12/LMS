@@ -47,7 +47,7 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Select Assessment *</label>
-                                        <select class="form-control" name="assessment_id" required>
+                                        <select id="assessment_id" class="form-control" name="assessment_id" required>
 
                                             @forelse($assessments as $assessment)
                                                 <option value="{{$assessment->id}}">{{$assessment->title}}</option>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-lg-6">
                              <div class="mb-1" id="optionMultiple">
-                                  <label  class="form-label">Options *</label>
+                                    <label  class="form-label">Options *</label>
                                  <div id="optionMultiple">
                                      <div class="input-group mb-1 option-item">
                                          <span class="input-group-text">A.</span>
@@ -89,16 +89,16 @@
                                  </div>
                              </div>
                                 <div class="mb-3">
-                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
+                                <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>
                                 </div>
 
-{{--                                <div class="mb-3">--}}
-{{--                                    <label for="desc" class="form-label">Correct Option/Answer </label>--}}
-{{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>--}}
-{{--                                </div>--}}
-
-                                <div class="mb-3">
-                                    <label for="desc" class="form-label">Correct Option </label>
+                                <!--<div class="mb-3">-->
+                                <!--    <label for="desc" class="form-label">Correct Option/Answer </label>-->
+                                <!--    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>-->
+                                <!--</div>-->
+                                
+                                 <div class="mb-3">
+                                    <label for="desc" class="form-label">Correct Option *</label>
 {{--                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1"></textarea>--}}
                                    <select class="form-select form-control" name="correct_option" id="correct_option">
                                        <option value="A">A</option>
@@ -110,8 +110,13 @@
                                    </select>
                                 </div>
                                 
-                                 
-
+                                <div class="mb-3">
+                                        <label for="ans_brief" class="form-label">Answer Explanation</label>
+                                        <textarea class="form-control" id="ans_brief" name="ans_brief" cols="3" rows="1"></textarea>
+                                </div>
+                                
+                                
+                                
                                 <div class="mb-3">
                                     <label for="pageStatus" class="form-label">Status *</label>
                                     <select id="pageStatus" class="form-select form-control" name="status" required>
@@ -182,6 +187,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-3">
+                                            <a href="{{route('admin.question.copy',$question->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-copy"></i></a>
                                             <a href="{{route('admin.assessment-question.edit',$question->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                             <form method="post" id="delete-form-{{$question->id}}" action="{{route('admin.assessment-question.destroy',$question->id)}}">
                                                 @csrf
@@ -216,9 +222,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
     <script src="{{asset('backend/assets/js/summernote-math.js')}}"></script>
 
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -245,11 +248,22 @@
                 ],
             });
             
+             $('#ans_brief').summernote({
+                height: 50,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+            
     
         });
         
         
         $(document).ready(function () {
+            
       
             
             // ClassicEditor
@@ -296,7 +310,6 @@
     
 
         $(document).ready(function () {
-            // let optionCount = 1;
             //Options
             $('.options').summernote({
                 height: 40,
@@ -309,8 +322,7 @@
             });
             
             
-            // let optionCount = 1;
-            let optionCount = 0;
+                  let optionCount = 0;
             const optionLabels = 'BCDEFGHIJKLMNOPQRSTUVWXYZ';
             // Add new option
             $('#add-option').click(function () {
@@ -318,7 +330,7 @@
                     const label = optionLabels[optionCount]; // Get A, B, C, D, ...
                     optionCount++;
 
-                    const newOption = `    <div class="input-group mb-1 option-item" >
+                    const newOption = `<div class="input-group mb-1 option-item" >
                                             <span class="input-group-text">${label}.</span>
                                             <textarea class="form-control options" id="options" name="options[]" cols="3" rows="1"></textarea>
 
@@ -328,24 +340,21 @@
 
                     $('#optionMultiple').append(newOption);
 
-                    // Reinitialize Summernote for the newly added textarea
-                    $('#optionMultiple .options').last().summernote({
-                        height: 40,
-                        toolbar: [
-                            ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['insert', ['picture', 'link', 'math']],
-                            ['para', ['paragraph']],
-                            ['misc', ['codeview']]
-                        ]
-                    });
-
-
+                // Reinitialize Summernote for the newly added textarea
+                $('#optionMultiple .options').last().summernote({
+                    height: 40,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['insert', ['picture', 'link', 'math']],
+                        ['para', ['paragraph']],
+                        ['misc', ['codeview']]
+                    ]
+                });
                 }
                 else
                 {
-                    alert('You have reached the maximum number of options.');
+                     alert('You have reached the maximum number of options.');
                 }
-            
             
             });
 

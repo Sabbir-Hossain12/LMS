@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use App\Models\Order;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Karim007\LaravelBkashTokenize\Facade\BkashPaymentTokenize;
@@ -22,7 +23,7 @@ class BkashTokenizePaymentController extends Controller
         $request['mode'] = '0011'; //0011 for checkout
         $request['payerReference'] = $inv;
         $request['currency'] = 'BDT';
-        $request['amount'] = 100;
+        $request['amount'] = 1000;
         $request['merchantInvoiceNumber'] = $inv;
         $request['callbackURL'] = config("bkash.callbackURL");
 
@@ -30,6 +31,8 @@ class BkashTokenizePaymentController extends Controller
         $request_data_json = json_encode($request->all());
 
         $response =  BkashPaymentTokenize::cPayment($request_data_json);
+        
+        // dd($response);
         //$response =  BkashPaymentTokenize::cPayment($request_data_json,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
 
         //store paymentID and your account number for matching in callback request
@@ -68,21 +71,42 @@ class BkashTokenizePaymentController extends Controller
 
             if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") 
             {
-               
-                $inv_number = $response['merchantInvoiceNumber'];
-                $course_id = Session::get('course_id');
                 
+                  if(session()->has('coupon')) {
+             
+                    $coupon = session('coupon');
+                
+                   $code = $coupon['code'];
+                   
+                   $coupon =  Coupon::where('code',$code)->first();
+                   
+                   $coupon->used_count = $coupon->used_count + 1;
+                   
+                   $coupon->save();
+                   
+                   
+                   
+                }
+                
+               
+            $inv_number = $response['merchantInvoiceNumber'];
+            $course_id = Session::get('course_id');
+              $user_id = auth()->user()->id;
               $order=  Order::where('transaction_id', $inv_number)->first();
+              $order->coupon_id = $code->id ?? null;
               $order->status = 'success';
               $order->save();
               
               $enrollment= new Enrollment();
-              $enrollment->user_id = auth()->user()->id;
+              $enrollment->user_id = $user_id;
               $enrollment->course_id = $course_id;
               $enrollment->order_id = $order->id;
               $enrollment->save();
               
-              Session::forget('course_id');
+              
+                 session()->forget('coupon');
+                 
+            //   Session::forget('course_id');
               
                 return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
             }

@@ -182,6 +182,12 @@
                                         <textarea id="copyright_text" name="copyright_text"
                                                   class="form-control">{{$basicInfo->copyright_text ?? ''}}</textarea>
                                     </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="marquee_text" class="form-label">Marquee Text (Announcement)</label>
+                                        <textarea id="marquee_text" name="marquee_text"
+                                                  class="form-control">{{$basicInfo->marquee_text ?? ''}}</textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -169,7 +169,7 @@ class DashboardController extends Controller
     }
 
 
-    public function examSolution(Request $request, string $id)
+ public function examSolution(Request $request, string $id)
     {
 
 

@@ -3,3 +3,10 @@ DirectoryIndex index.php
 RewriteEngine On 
 RewriteRule ^$ public/index.php [L]
 RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+
+php_value upload_max_filesize 1G
+php_value post_max_size 1G
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value memory_limit 1G

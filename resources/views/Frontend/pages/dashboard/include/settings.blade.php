@@ -46,14 +46,14 @@
                             @csrf
                             <div class="row">
 
-                                <div class="col-xl-6">
-                                    <div class="dashboard__form__wraper">
-                                        <div class="dashboard__form__input">
-                                            <label for="#">Profile Image</label>
-                                            <input type="file" name="profile_image" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--<div class="col-xl-6">-->
+                                <!--    <div class="dashboard__form__wraper">-->
+                                <!--        <div class="dashboard__form__input">-->
+                                <!--            <label for="#">Profile Image</label>-->
+                                <!--            <input type="file" name="profile_image" class="form-control">-->
+                                <!--        </div>-->
+                                <!--    </div>-->
+                                <!--</div>-->
 
                                 <div class="col-xl-6">
                                     <div class="dashboard__form__wraper">

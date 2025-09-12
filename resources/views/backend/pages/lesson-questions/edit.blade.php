@@ -95,14 +95,13 @@
                                         @endforelse
                                     </div>
                                 </div>
-{{--                                <div class="mb-3">--}}
-{{--                                    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>--}}
-{{--                                </div>--}}
+                                <!--<div class="mb-3">-->
+                                <!--    <button type="button" id="add-option" class="btn btn-sm btn-secondary">Add Option</button>-->
+                                <!--</div>-->
 
                                 <div class="mb-3">
-                                    <label for="desc" class="form-label">Correct Answer </label>
-                                    <textarea class="form-control" id="correct_answers" name="correct_answers" 
-                                        cols="3" rows="1" readonly>{{$question->correct_answers}}</textarea>
+                                    <label for="desc" class="form-label">Correct Option/Answer </label>
+                                    <textarea class="form-control" id="correct_answers" name="correct_answers" cols="3" rows="1">{{$question->correct_answers}}</textarea>
                                 </div>
                                 
                                 <div class="mb-3">
@@ -114,12 +113,17 @@
                                         <option value="D" @if($question->correct_option == 'D') selected @endif>D</option>
                                     </select>
                                 </div>
+                                
+                                <div class="mb-3">
+                                        <label for="ans_brief" class="form-label">Answer Explanation</label>
+                                        <textarea class="form-control" id="ans_brief" name="ans_brief" cols="3" rows="1">{{ $question->ans_brief ?? '' }}</textarea>
+                                </div>
 
                                 <div class="mb-3">
                                     <label for="pageStatus" class="form-label">Status *</label>
                                     <select id="pageStatus" class="form-select form-control" name="status" required>
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="1" @if($question->status == 1) selected @endif>Active</option>
+                                        <option value="0" @if($question->status == 0) selected @endif>Inactive</option>
                                     </select>
                                 </div>
 
@@ -171,6 +175,16 @@
             });
 
             $('#correct_answers').summernote({
+                height: 50,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'math']],
+                    ['para', ['paragraph']],
+                    ['misc', ['codeview']]
+                ],
+            });
+            
+             $('#ans_brief').summernote({
                 height: 50,
                 toolbar: [
                     ['style', ['bold', 'italic', 'underline', 'clear']],

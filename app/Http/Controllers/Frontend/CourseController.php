@@ -9,6 +9,7 @@ use App\Models\AssessmentGrade;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
+use App\Models\LessonLive;
 use App\Models\Lesson;
 use App\Models\LessonMaterial;
 use App\Models\LessonVideo;
@@ -27,10 +28,10 @@ class CourseController extends Controller
 
         $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id',
             $courseDetails->id)->first();
-        
+            
         $enrollmentCount = Enrollment::where('course_id',
-            $courseDetails->id)->count();
-        
+                                $courseDetails->id)->count();
+
         $relatedCourses = Course::where('teacher_id', $courseDetails->teacher_id)->limit(4)->get();
 
         $popularCourses = Course::where('status', 1)->inRandomOrder()->limit(3)->get();
@@ -150,6 +151,26 @@ class CourseController extends Controller
 
         return response()->json(['html' => $lessonMaterialView]);
     }
+    
+     public function courseLessonLive(Request $request)
+    {
+        
+        $id = $request->id;
+        $lesson_id = $request->lesson_id;
+        
+        $lessonLive = LessonLive::where('id', $id)->where('lesson_id', $lesson_id)->first();
+        
+        
+        $lessonLiveView = view('Frontend.pages.lesson.include.live', compact('lessonLive'))->render();
+        
+        // dd($lessonLiveView);
+
+        if (!$lessonLive) {
+            return response()->json(['html' => '<div class="alert alert-danger">Live Class Not Found</div>']);
+        }
+
+        return response()->json(['html' => $lessonLiveView]);
+    }
 
 
     public function courseLessonsExam(Request $request)
@@ -246,92 +267,74 @@ class CourseController extends Controller
     }
 
 
-//    public function quizSubmit(Request $request)
-//    {
-////        dd($request->all());
-//        $request->validate([
-//            'assessment_id' => ['required'],
-//
-//        ]);
-//
-//        $assessment_id = $request->assessment_id;
-//        $student_id = auth()->user()->id;
-//        $assessment = Assessment::where('id', $assessment_id)->first();
-//
-//        if (now() < $assessment->start_time || now() > $assessment->end_time) {
-//            return response()->json(['status' => 'failed', 'message' => 'Exam Not available now'], 500);
-//        }
-//
-//        $answers = $request->except(['assessment_id', '_token']);
-//        $marks_obtained = 0;
-//        foreach ($answers as $key => $answer) {
-//            $questionId = str_replace('answer_', '', $key);
-//            $question = Question::where('id', $questionId)->first();
-//
-////            dd(strip_tags( str_replace(' ', '', $question->correct_answers)) == strip_tags( str_replace(' ', '', $answer)) );
-//            if (strip_tags(str_replace(' ', '', $question->correct_answers)) === strip_tags(str_replace(' ', '',
-//                    $answer))) {
-//                $marks_obtained = $marks_obtained + $question->marks;
-//            }
-//            
-//            $attempt = QuizAttemptAnswer::where('assessment_id', $assessment_id)
-//                ->where('question_id', $questionId)
-//                ->where('student_id', $student_id)
-//                ->first();
-//            
-//            if (!$attempt) {
-//                $attempt = new QuizAttemptAnswer();
-//                $attempt->assessment_id = $assessment_id;
-//                $attempt->question_id = $questionId;
-//                $attempt->student_id = $student_id;
-//                $attempt->selected_option = $answer;
-//                if (strip_tags(str_replace(' ', '', $question->correct_answers)) == strip_tags(str_replace(' ', '',
-//                        $answer))) {
-//                    $attempt->is_correct = 1;
-//                } else {
-//                    $attempt->is_correct = 0;
-//                }
-//                $attempt->save();
-//            }
-//            
-//            $attempt->selected_option = $answer;
-//            if (strip_tags(str_replace(' ', '', $question->correct_answers)) == strip_tags(str_replace(' ', '',
-//                    $answer))) {
-//                $attempt->is_correct = 1;
-//            } else {
-//                $attempt->is_correct = 0;
-//            }
-//            $attempt->save();
-//        }
-//
-//        $exist = AssessmentGrade::where('assessment_id', $assessment_id)->where('student_id', $student_id)->first();
-//        $attempts = 0;
-//        if ($exist) {
-//            $exist->marks_obtained = $marks_obtained;
-//            $exist->attempts = $exist->attempts + 1;
-//           
-//            $save = $exist->save();
-//        } else {
-//            $assessmentGrade = new AssessmentGrade();
-//            $assessmentGrade->assessment_id = $assessment_id;
-//            $assessmentGrade->student_id = $student_id;
-//            $assessmentGrade->marks_obtained = $marks_obtained;
-//            $assessmentGrade->attempts = 1;
-//        
-//            $save = $assessmentGrade->save();
-//        }
-//
-//
-//        if ($save) {
-//            return response()->json(['status' => 'success', 'message' => 'Your Response Submitted successfully'], 201);
-//        }
-//
-//        return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
-//    }
+//   public function quizSubmit(Request $request)
+//     {
+// //        dd($request->all());
+//         $request->validate([
+//             'assessment_id' => ['required'],
+//         ]);
 
-    public function quizSubmit(Request $request)
+//         $assessment_id = $request->assessment_id;
+//         $student_id = auth()->user()->id;
+//         $assessment = Assessment::find($assessment_id);
+
+//         if (!$assessment || now() < $assessment->start_time || now() > $assessment->end_time) {
+//             return response()->json(['status' => 'failed', 'message' => 'Exam Not available now'], 500);
+//         }
+
+//         $answers = $request->except(['assessment_id', '_token']);
+//         $marks_obtained = 0;
+
+//         foreach ($answers as $key => $answer) {
+//             $questionId = str_replace('answer_', '', $key);
+//             $question = Question::find($questionId);
+
+//             if (!$question) {
+//                 continue;
+//             }
+
+//             // Clean and compare answers
+//             $correct_answer =  $question->correct_option;
+//             $user_answer =  $answer;
+
+
+//             $is_correct = ($correct_answer == $user_answer);
+
+//             if ($is_correct) {
+//                 $marks_obtained += $question->marks;
+//             }
+
+//             // Use firstOrNew to reduce unnecessary queries
+//             $attempt = QuizAttemptAnswer::firstOrNew([
+//                 'assessment_id' => $assessment_id,
+//                 'question_id'   => $questionId,
+//                 'student_id'    => $student_id
+//             ]);
+
+//             $attempt->selected_option = $answer;
+//             $attempt->is_correct = $is_correct;
+//             $attempt->save();
+//         }
+
+//         // Handle assessment grading
+//         $assessmentGrade = AssessmentGrade::firstOrNew([
+//             'assessment_id' => $assessment_id,
+//             'student_id'    => $student_id
+//         ]);
+
+//         $assessmentGrade->marks_obtained = $marks_obtained;
+//         $assessmentGrade->attempts += 1;
+//         $save = $assessmentGrade->save();
+
+//         if ($save) {
+//             return response()->json(['status' => 'success', 'message' => 'Your Response Submitted successfully'], 201);
+//         }
+
+//         return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
+//     }
+
+  public function quizSubmit(Request $request)
     {
-        
 //        dd($request->all());
         $request->validate([
             'assessment_id' => ['required'],
@@ -345,39 +348,33 @@ class CourseController extends Controller
             return response()->json(['status' => 'failed', 'message' => 'Exam Not available now'], 500);
         }
 
-        $answers = $request->except(['assessment_id', '_token']);
+        $allQuestionIds = $request->input('question_ids', []);
+        $answers = $request->except(['assessment_id', '_token', 'question_ids']);
         $marks_obtained = 0;
 
-        foreach ($answers as $key => $answer) {
-            $questionId = str_replace('answer_', '', $key);
-            $question = Question::find($questionId);
+foreach ($allQuestionIds as $questionId) {
+    $question = Question::find($questionId);
+    if (!$question) continue;
 
-            if (!$question) {
-                continue;
-            }
+    $key = 'answer_' . $questionId;
+    $user_answer = $answers[$key] ?? null;
+    $correct_answer = $question->correct_option;
+    $is_correct = ($user_answer && $user_answer == $correct_answer);
 
-            // Clean and compare answers
-            $correct_answer =  $question->correct_option;
-            $user_answer =  $answer;
-//            dd($correct_answer, $user_answer);
+    if ($is_correct) {
+        $marks_obtained += $question->marks;
+    }
 
-            $is_correct = ($correct_answer == $user_answer);
+    $attempt = QuizAttemptAnswer::firstOrNew([
+        'assessment_id' => $assessment_id,
+        'question_id'   => $questionId,
+        'student_id'    => $student_id
+    ]);
 
-            if ($is_correct) {
-                $marks_obtained += $question->marks;
-            }
-
-            // Use firstOrNew to reduce unnecessary queries
-            $attempt = QuizAttemptAnswer::firstOrNew([
-                'assessment_id' => $assessment_id,
-                'question_id'   => $questionId,
-                'student_id'    => $student_id
-            ]);
-
-            $attempt->selected_option = $answer;
-            $attempt->is_correct = $is_correct;
-            $attempt->save();
-        }
+    $attempt->selected_option = $user_answer; // could be null
+    $attempt->is_correct = $is_correct;
+    $attempt->save();
+}
 
         // Handle assessment grading
         $assessmentGrade = AssessmentGrade::firstOrNew([
@@ -395,7 +392,6 @@ class CourseController extends Controller
 
         return response()->json(['status' => 'failed', 'message' => 'Something went wrong'], 500);
     }
-
 
 
     public function searchResults(Request $request)

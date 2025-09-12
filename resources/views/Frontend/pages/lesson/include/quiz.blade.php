@@ -81,6 +81,7 @@
 
 
                 </div>
+                <input type="hidden" name="question_ids[]" value="{{ $question->id }}">
                 <br><br><br>
             @empty
                 <p>No Questions For Now, We Will Keep You Notified</p>

@@ -51,6 +51,7 @@ class BasicinfoController extends Controller
         $basicInfo->meta_desc=$request->meta_desc;
         $basicInfo->meta_keyword=$request->meta_keyword;
         $basicInfo->opening_hours_text=$request->opening_hours_text;
+        $basicInfo->marquee_text = $request->marquee_text;
         
         if ($request->hasFile('dark_logo')) {
             
@@ -136,6 +137,7 @@ class BasicinfoController extends Controller
         $basicInfo->meta_desc=$request->meta_desc;
         $basicInfo->meta_keyword=$request->meta_keyword;
         $basicInfo->opening_hours_text=$request->opening_hours_text;
+        $basicInfo->marquee_text = $request->marquee_text;
         
         if ($request->hasFile('dark_logo')) {
             
