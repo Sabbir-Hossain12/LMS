@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -27,12 +28,13 @@ class CouponController extends Controller
 //    }
     public function index()
     {
-        return view('backend.pages.coupons.index');
+        $courses = Course::where('status', 1)->get();
+        return view('backend.pages.coupons.index', compact('courses'));
     }
 
     public function getData()
     {
-        $coupons = Coupon::all();
+        $coupons = Coupon::query();
 
 
         return DataTables::of($coupons)
@@ -53,7 +55,12 @@ class CouponController extends Controller
 //                }
 
             })
-           
+
+            ->addColumn('course_title', function ($coupon) {
+
+                return $coupon->course->title ?? 'N/A';
+            })
+
             ->addColumn('action', function ($coupon) {
 
                 $editAction = '';
@@ -70,7 +77,7 @@ class CouponController extends Controller
 //                if(Auth::user()->can('Delete Testimonial')) {
 
                     $deleteAction= '<a class="btn btn-sm btn-danger" href="javascript:void(0)"
-                                    data-id="'.$coupon->id.'" id="deleteTestimonialBtn""> 
+                                    data-id="'.$coupon->id.'" id="deleteTestimonialBtn"">
                                     <i class="fas fa-trash"></i></a>';
 
 //                }
@@ -82,7 +89,7 @@ class CouponController extends Controller
             ->rawColumns(['action', 'status'])
             ->make(true);
     }
-    
+
     public function create()
     {
         //
@@ -93,22 +100,20 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-     
-        
         $coupon = new Coupon();
-        
+
         $coupon->code   = $request->code;
+        $coupon->course_id   = $request->course_id;
+
         $coupon->description = $request->description;
         $coupon->discount_type  = $request->discount_type;
         $coupon->discount_value  = $request->discount_value;
-        
+
         $coupon->usage_limit  = $request->usage_limit;
-        // $coupon->used_count  = $request->used_count;
-        
-        
-        
+        //$coupon->used_count  = $request->used_count;
+
         $save = $coupon->save();
-        
+
         if ($save) {
             return response()->json(['status'=>'success', 'message' => 'Coupon added successfully'],200);
         }
@@ -129,11 +134,11 @@ class CouponController extends Controller
     public function edit(string $id)
     {
         $coupon = Coupon::find($id);
-        
+
         if ($coupon) {
             return response()->json(['status'=>'success', 'data' => $coupon],200);
         }
-        
+
         return response()->json(['status'=>'failed','message' => 'Something went wrong'],500);
     }
 
@@ -142,20 +147,21 @@ class CouponController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         $coupon= Coupon::find($id);
-        
+
         $coupon->code   = $request->code;
+        $coupon->course_id   = $request->course_id;
         $coupon->description = $request->description;
         $coupon->discount_type  = $request->discount_type;
         $coupon->discount_value  = $request->discount_value;
-        
+
         $coupon->usage_limit  = $request->usage_limit;
         // $coupon->used_count  = $request->used_count;
-      
-        
+
+
         $save = $coupon->save();
-        
+
         if ($save) {
             return response()->json(['status'=>'success', 'message' => 'Coupon updated successfully'],200);
         }
@@ -168,13 +174,13 @@ class CouponController extends Controller
     public function destroy(string $id)
     {
         $coupon = Coupon::find($id);
-        
+
         $delete = $coupon->delete();
-        
+
         if ($delete) {
             return response()->json(['status'=>'success', 'message' => 'Coupon deleted successfully'],200);
         }
-        
+
         return response()->json(['status'=>'failed','message' => 'Something went wrong'],500);
     }
 

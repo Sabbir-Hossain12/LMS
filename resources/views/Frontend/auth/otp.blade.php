@@ -74,6 +74,9 @@
 
     @push('js')
         <script>
+            
+          
+            
             startCountdownTimer();
 
             $('#otpForm').submit(function (e) {

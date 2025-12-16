@@ -58,7 +58,7 @@ class DashboardController extends Controller
     {
         $student_id = auth()->user()->id;
 
-        $enrollments = Enrollment::where('user_id', $student_id)->with(['student', 'course'])->get();
+        $enrollments = Enrollment::where('user_id', $student_id)->with(['student', 'course'])->latest()->get();
 
 
         $CoursesPage = view('Frontend.pages.dashboard.include.courses', compact('enrollments'))->render();

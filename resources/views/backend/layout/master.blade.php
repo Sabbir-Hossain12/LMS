@@ -7,40 +7,24 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-  
-
     @include('backend.include.topbar')
 
-
     @include('backend.include.sidebar')
-
-   
-
 
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
     <div class="main-content">
-
         <div class="page-content">
             <div class="container-fluid">
-
                 @yield('contents')
 
-            </div> 
+            </div>
         </div>
-        
-
 
         @include('backend.include.footer')
     </div>
- 
-
 </div>
-
-
-
-
 
     <!-- JAVASCRIPT -->
     @include("backend.include.scripts")
@@ -55,7 +39,7 @@
     toastr.success("{{ session('success') }}");
     @endif
 
-            @if (Session::has('error'))
+        @if (Session::has('error'))
         toastr.options = {
         "closeButton": true,
         "progressBar": true
@@ -78,6 +62,7 @@
     }
     toastr.warning("{{ session('warning') }}");
     @endif
+
 </script>
 
 

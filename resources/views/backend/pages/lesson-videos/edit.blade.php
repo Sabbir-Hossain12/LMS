@@ -50,8 +50,21 @@
                                         <label for="video_url" class="form-label">Video URL (embed) *</label>
                                         <input class="form-control" type="text" id="video_url" name="video_url"
                                                value="{{$lessonVideo->video_url ?? ''}}"
-                                               placeholder="https://www.youtube.com/embed/v5nSFx7YEXc?si=7HPDNFUSxUbq3e9B"
+                                              
                                                required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="video_file" class="form-label">Video File *</label>
+                                        <input class="form-control" type="file" id="video_file" name="video_file" />
+                                         <!-- Progress bar -->
+                                        
+                                       @if(isset($lessonVideo->video_file) && file_exists(public_path($lessonVideo->video_file)))
+                                            <video width="300" height="300" controls>
+                                                <source src="{{ asset($lessonVideo->video_file) }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                            </video>
+                                        @endif
                                     </div>
 
                                     <div class="mb-3">

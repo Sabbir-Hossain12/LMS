@@ -3,16 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Coupon extends Model
+class Cart extends Model
 {
-
     protected $guarded = [];
-
-    public function course(): BelongsTo
+    
+    public function course()
     {
         return $this->belongsTo(Course::class);
     }
-
 }

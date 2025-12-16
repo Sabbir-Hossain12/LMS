@@ -27,14 +27,21 @@ class EnrolmentController extends Controller
 
     public function viewEnrollStudent(string $id, string $course_id)
     {
-        $enrollment = Enrollment::where('id', $id)->with('student')->first();
+        $enrollment = Enrollment::where('id', $id)
+            ->where('course_id',$course_id)
+            ->with('student')
+            ->first();
+            
         $grades = AssessmentGrade::whereHas('assessment', function ($query) use ($enrollment) {
             $query->where('course_id', $enrollment->course_id);
-        })->with('assessment')->latest()->get();
-        
+        })
+            ->where('student_id',$enrollment->user_id)
+            ->with('assessment')
+            ->latest()
+            ->get();
+            
+      return view('backend.pages.enroll-student-view.index', compact('enrollment', 'grades'));
 
-//        dd($grades);
-        return view('backend.pages.enroll-student-view.index', compact('enrollment', 'grades'));
     }
 
     /**

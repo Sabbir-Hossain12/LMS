@@ -1,25 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class OrderController extends Controller
+class BookOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $orders = Order::with('orderCourse','orderCourse.course')
-            ->where('product_type','course')
-            ->where('status', 'success')
+            ->where('product_type','book')
+             ->where(function($query) {
+        $query->where(function($q) {
+            // COD: all statuses
+            $q->where('payment_method', 'cod');
+        })
+        ->orWhere(function($q) {
+            // Bkash: only success
+            $q->where('payment_method', 'bkash')
+              ->where('status', 'success');
+        });
+    })
             ->latest()
             ->get();
-        return view('backend.pages.orders.index',compact('orders'));
+
+        return view('backend.pages.orders.book.index',compact('orders'));
     }
 
     public function getData()
@@ -87,7 +94,12 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Order::with('orderCourse','orderCourse.course')
+            ->where('product_type','book')
+            ->where('id',$id)
+            ->first();
+
+        return view('backend.pages.orders.book.view',compact('order'));
     }
 
     /**
@@ -112,5 +124,23 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    
+    public function changeBookOrderStatus(Request $request)
+    {
+         $id = $request->id;
+        $status = $request->status;
+        
+        if ($status == 1) {
+            $stat = 0;
+        } else {
+            $stat = 1;
+        }
+
+        $page = Order::findOrFail($id);
+        $page->isActive = $stat;
+        $page->save();
+
+        return response()->json(['message' => 'success', 'status' => $stat, 'id' => $id]);
     }
 }

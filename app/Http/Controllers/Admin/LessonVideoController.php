@@ -47,6 +47,7 @@ class LessonVideoController extends Controller
     public function store(Request $request)
     {
     //  dd($request->all());
+    // return $request;
         $lessonVideo = new LessonVideo();
         $lessonVideo->lesson_id = $request->lesson_id;
         $lessonVideo->title = $request->title;
@@ -61,7 +62,7 @@ class LessonVideoController extends Controller
         if ($request->hasFile('video_file')) {
             $file = $request->file('video_file');
             $filename = time().uniqid().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('backend/upload/lesson-videos/'), $filename);
+             $file->move(public_path('backend/upload/lesson-videos/'), $filename);
             $lessonVideo->video_file = 'backend/upload/lesson-videos/'.$filename;
         }
 
@@ -77,6 +78,64 @@ class LessonVideoController extends Controller
          return response()->json(['status' => 'error', 'message' => 'Something Went Wrong'], 500);
 
     }
+    
+//     public function store(Request $request)
+//     {
+//         return $request->all();
+//     try {
+//         $lessonVideo = new LessonVideo();
+//         $lessonVideo->lesson_id = $request->lesson_id;
+//         $lessonVideo->title = $request->title;
+//         $lessonVideo->slug = Str::slug($request->title);
+//         $lessonVideo->video_url = $request->video_url;
+//         $lessonVideo->duration = $request->duration;
+//         $lessonVideo->start_time = $request->start_time;
+//         $lessonVideo->end_time = $request->end_time;
+//         $lessonVideo->position = $request->position;
+//         $lessonVideo->status = $request->status;
+
+//         // Handle video file upload
+//         if ($request->hasFile('video_file')) {
+//             $file = $request->file('video_file');
+
+//             if (!$file->isValid()) {
+//                 Log::error('Invalid video file uploaded.', [
+//                     'lesson_id' => $request->lesson_id,
+//                     'filename' => $file->getClientOriginalName(),
+//                 ]);
+//                 return response()->json(['status' => 'error', 'message' => 'Invalid video file.'], 400);
+//             }
+
+//             $filename = time() . uniqid() . '.' . $file->getClientOriginalExtension();
+
+//             try {
+//               return  $file->move(public_path('backend/upload/lesson-videos/'), $filename);
+//                 $lessonVideo->video_file = 'backend/upload/lesson-videos/' . $filename;
+//             } catch (Exception $e) {
+//                 Log::error('Video file move failed.', [
+//                     'lesson_id' => $request->lesson_id,
+//                     'filename' => $filename,
+//                     'error' => $e->getMessage(),
+//                 ]);
+//                 return response()->json(['status' => 'error', 'message' => 'File upload failed.'], 400);
+//             }
+//         }
+
+//         $lessonVideo->save();
+
+//         return response()->json(['status' => 'success', 'message' => 'Video Added Successfully'], 200);
+
+//     } catch (Exception $e) {
+//         // Log any general or unexpected errors
+//         Log::error('Error saving lesson video.', [
+//             'lesson_id' => $request->lesson_id,
+//             'error' => $e->getMessage(),
+//             'trace' => $e->getTraceAsString(),
+//         ]);
+
+//         return response()->json(['status' => 'error', 'message' => 'Something went wrong while saving video.'], 500);
+//     }
+// }
 
     /**
      * Display the specified resource.

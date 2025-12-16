@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    
+
     <form method="post" action="{{route('admin.course.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -43,13 +43,13 @@
                                         <input class="form-control" type="text" placeholder="Course Title"
                                                id="name" name="title" required>
                                         </div>
-                                    
+
                                     <div class="mb-3">
                                         <label  class="form-label">Select Class</label>
                                         <select  class="form-select form-control" name="course_class_id" required>
-                                            @foreach($classes as $class) 
+                                            @foreach($classes as $class)
                                             <option value="{{$class->id}}">{{$class->title}}</option>
-                                         
+
                                             @endforeach
                                         </select>
                                     </div>
@@ -68,11 +68,18 @@
                                         <label for="short_desc" class="form-label">Short Description</label>
                                         <textarea id="short_desc" name="short_desc" class="form-control" required></textarea>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="thumbnail_img" class="form-label">Thumbnail Image</label>
                                         <input class="form-control" type="file" id="thumbnail_img" name="thumbnail_img" required>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="demo_pdf" class="form-label">Demo PDF</label>
+                                        <input class="form-control" type="file" id="demo_pdf" name="demo_pdf" required>
+                                    </div>
+
+
 
 
                                     <div class="mb-3">
@@ -100,7 +107,7 @@
                                         <input class="form-control" type="text" placeholder="Course Duration"
                                                id="duration" name="duration">
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="group_link" class="form-label">Group Link</label>
                                         <input class="form-control" type="text" placeholder="Group Link"
@@ -108,22 +115,32 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="regular_price" class="form-label">Regular Price</label>
+                                        <label for="regular_price" class="form-label">Regular Price *</label>
                                         <input class="form-control" type="number"
                                                id="regular_price" name="regular_price" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="sale_price" class="form-label">Sale Price</label>
+                                        <label for="sale_price" class="form-label">Sale Price *</label>
                                         <input class="form-control" type="number"
                                                id="sale_price" name="sale_price" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="discount" class="form-label">Discount (TK)</label>
+                                        <label for="discount" class="form-label">Discount (TK) *</label>
                                         <input class="form-control" type="number"
                                                id="discount" name="discount" required>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="product_type" class="form-label">Product Type *</label>
+                                        <select id="product_type" class="form-select form-control" name="product_type" required>
+                                            <option value="course" selected>Course</option>
+                                            <option value="book">Book</option>
+                                        </select>
+                                    </div>
+
+
 
                                     <div class="mb-3">
                                         <label for="details_img" class="form-label">Details Image</label>
@@ -155,7 +172,7 @@
                                     <label for="long_desc" class="form-label">Long Description</label>
                                     <textarea id="long_desc" name="long_desc"></textarea>
                                 </div>
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -200,8 +217,8 @@
                     </div>
                 </div>
             </div> <!-- end col -->
-        
-        
+
+
         <div class="text-center mt-4 d-grid">
             <button type="submit" class="btn  btn-primary">Update</button>
         </div>

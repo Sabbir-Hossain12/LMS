@@ -19,20 +19,21 @@ class HomeController extends Controller
     public function homePage()
     {
         
-        $heroBanner= Herobanner::first();
+        $heroBanner = Herobanner::first();
         $services = CourseClass::where('status',1)->where('is_featured',1)->orderBy('position','asc')->get();
-        $about= About::first();
-        $testimonials= Testimonial::where('status',1)->get();
-        $testimonialSetting= TestimonialSetting::first();
-        $featuredCourses= Course::with('class','teacher')->where('status',1)->where('is_featured',1)->get();
-        $teachers= User::role('teacher')->where('status',1)->get();
-        $blogs= Blog::where('status',1)->limit(3)->get();
+        $about = About::first();
+        $testimonials = Testimonial::where('status',1)->get();
+        $testimonialSetting = TestimonialSetting::first();
+        $featuredCourses = Course::with('class','teacher')->where('status',1)->where('product_type','course')->where('is_featured',1)->get();
+         $featuredBooks = Course::with('class','teacher')->where('status',1)->where('product_type','book')->where('is_featured',1)->get();
+        $teachers = User::role('teacher')->where('status',1)->get();
+        $blogs = Blog::where('status',1)->limit(3)->get();
         
-        $randomCourse= Course::where('status',1)->inRandomOrder()->limit(6)->get();
-        $courseClasses= CourseClass::where('status',1)->where('is_featured',1)->orderBy('position','asc')->limit(4)->get();
+        $randomCourse = Course::where('status',1)->where('product_type','course')->latest()->limit(6)->get();
+        $courseClasses = CourseClass::where('status',1)->where('is_featured',1)->orderBy('position','asc')->limit(4)->get();
         
-        
-        return view('Frontend.pages.home',compact(['heroBanner','randomCourse','courseClasses','teachers','about','services','testimonials','testimonialSetting','blogs','featuredCourses']));
+        // dd($featuredBooks);
+        return view('Frontend.pages.home',compact(['heroBanner','randomCourse','courseClasses','teachers','about','services','testimonials','testimonialSetting','blogs','featuredCourses','featuredBooks']));
     }
 
 

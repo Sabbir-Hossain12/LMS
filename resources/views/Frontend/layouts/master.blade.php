@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    
+
     <!--SEO-->
     <title>{{$basicInfo->meta_title ?? 'schoolmathematics'}} </title>
     <meta name="description" content="{{$basicInfo->meta_desc ?? ''}}">
@@ -16,14 +16,14 @@
  <!-- Open Graph (Facebook, LinkedIn) -->
     <meta property="og:title" content="{{$basicInfo->meta_title ?? 'schoolmathematics'}}">
     <meta property="og:description" content="{{$basicInfo->meta_desc ?? ''}}">
-    
+
     @if($basicInfo->meta_image)
     <meta property="og:image" content="{{asset($basicInfo->meta_image)}}">
     @endif
-    
+
     <meta property="og:url" content="https://schoolmathematics.com.bd/">
     <meta property="og:type" content="website">
-    
+
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{$basicInfo->meta_title ?? 'schoolmathematics'}}">
@@ -31,7 +31,7 @@
     @if($basicInfo->meta_image)
     <meta name="twitter:image" content="{{asset($basicInfo->meta_image)}}">
     @endif
-    
+
     <!--Fav Icon-->
        <link rel="shortcut icon" type="image/x-icon" href="{{asset($basicInfo->fav_icon ?? 'frontend/img/favicon.ico')}}">
     <!-- Place favicon.ico in the root directory -->
@@ -51,18 +51,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
           integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    
+
     {{-- tostr.js--}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    
+    <style>
+        /*body {*/
+        /*    user-select: none !important;*/
+        /*}*/
+    </style>
 
 
     @stack('css')
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://load.sst.schoolmathematics.com.bd/e1s5gbwfzhkuf.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','aex=DxFWLy4rWi80JTovIDQlRBBIWUZLQBMMWwYIABUJGw8HAQMNFwcDCwUGRQsVC1kAAg%3D%3D');</script>
+<!-- End Google Tag Manager -->
+
+
 </head>
 
 
-<body class="body__wrapper" @yield('context')>
+<body class="body__wrapper">
+    
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://load.sst.schoolmathematics.com.bd/ns.html?id=GTM-MRPQGZRR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <!-- pre loader area start -->
 {{--<div id="back__preloader">--}}
 {{--    <div id="back__circle_loader"></div>--}}
@@ -91,10 +106,10 @@
 
 
     @yield('content')
-    
+
     @include('Frontend.includes.footer')
 
-    
+
 </main>
 
 
@@ -159,6 +174,34 @@
     }
     toastr.warning("{{ session('warning') }}");
     @endif
+</script>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+        ecommerce: null
+    });
+
+    dataLayer.push({
+        event: "Pageview",
+        pagePath: "{{ request()->url() }}",
+        pageTitle: "schoolmathematics.com.bd"
+    });
+</script>
+
+<script>
+
+
+//Disable Copy, Cut, and Paste on the Entire Page
+    // document.addEventListener('copy', function(e) {
+    //     e.preventDefault();
+    // });
+    // document.addEventListener('cut', function(e) {
+    //     e.preventDefault();
+    // });
+    // document.addEventListener('paste', function(e) {
+    //     e.preventDefault();
+    // });
 </script>
 
 @stack('js')

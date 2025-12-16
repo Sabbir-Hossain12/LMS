@@ -28,7 +28,7 @@ class CourseController extends Controller
 
         $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id',
             $courseDetails->id)->first();
-            
+
         $enrollmentCount = Enrollment::where('course_id',
                                 $courseDetails->id)->count();
 
@@ -85,7 +85,7 @@ class CourseController extends Controller
 //        $lessons=Lesson::where('course_id',$course->id)->with('lessonVideos',function ($q)
 //        {
 //            $q->orderBy('position','asc');
-//            
+//
 //        })->get();
 
         return view('Frontend.pages.lesson.lesson', compact('course', 'subjects', 'enrollment'));
@@ -94,7 +94,9 @@ class CourseController extends Controller
 
     public function courseList()
     {
-        $courses = Course::where('status', 1)->get();
+        $courses = Course::where('status', 1)
+            ->where('product_type','course')
+            ->latest()->get();
 
         return view('Frontend.pages.course.course-list', compact('courses'));
     }
@@ -110,7 +112,7 @@ class CourseController extends Controller
     {
         $class = CourseClass::where('slug', $slug)->first();
 
-        $courses = Course::where('course_class_id', $class->id)->where('status', 1)->get();
+        $courses = Course::where('course_class_id', $class->id)->where('status', 1)->latest()->get();
 
         return view('Frontend.pages.course.courses-by-class', compact('class', 'courses'));
     }
@@ -151,18 +153,18 @@ class CourseController extends Controller
 
         return response()->json(['html' => $lessonMaterialView]);
     }
-    
+
      public function courseLessonLive(Request $request)
     {
-        
+
         $id = $request->id;
         $lesson_id = $request->lesson_id;
-        
+
         $lessonLive = LessonLive::where('id', $id)->where('lesson_id', $lesson_id)->first();
-        
-        
+
+
         $lessonLiveView = view('Frontend.pages.lesson.include.live', compact('lessonLive'))->render();
-        
+
         // dd($lessonLiveView);
 
         if (!$lessonLive) {
@@ -180,20 +182,20 @@ class CourseController extends Controller
         $questions = Question::where('assessment_id', $assessment_id)->where('status', 1)->get();
 
         $examType = Assessment::where('id', $assessment_id)->first();
-        
-        
+
+
 
         if ($examType->type == 'quiz') {
             $attempts = optional(AssessmentGrade::where('assessment_id', $examType->id)->where('student_id', auth()->user()->id)->first())->attempts ?? 0;
-            
+
             $quizView = view('Frontend.pages.lesson.include.quiz', compact('questions', 'examType','attempts'))->render();
 
             return response()->json(['html' => $quizView]);
         } else {
             if ($examType->type == 'assignment') {
-                
+
                 $attempts = optional(AssessmentAnswer::where('assessment_id', $examType->id)->where('student_id', auth()->user()->id)->first())->attempts ?? 0;
-                
+
                 $assignmentView = view('Frontend.pages.lesson.include.assignment',
                     compact('questions', 'examType','attempts'))->render();
 
@@ -396,7 +398,7 @@ foreach ($allQuestionIds as $questionId) {
 
     public function searchResults(Request $request)
     {
-        
+
         $content = $request->content;
 
         $courses = Course::where('title', 'like', '%'.$content.'%')->get();

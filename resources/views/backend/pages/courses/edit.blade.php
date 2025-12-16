@@ -10,12 +10,12 @@
     <div class="row">
         <div class="col-12">
                 <!-- Nav tabs -->
-                
+
                 @include('backend.include.course-tab')
             </div>
 
         </div>
-    
+
 
     <form method="post" action="{{route('admin.course.update',$course->id)}}" enctype="multipart/form-data">
         @csrf
@@ -54,7 +54,6 @@
                                         <select id="type" class="form-select form-control" name="teacher_id" required>
                                             @foreach($teachers as $teacher)
                                                 <option value="{{$teacher->id}}" @if($course->teacher_id == $teacher->id) selected @endif>{{$teacher->name}}</option>
-
                                             @endforeach
                                         </select>
                                     </div>
@@ -67,12 +66,21 @@
                                     <div class="mb-3">
                                         <label for="thumbnail_img" class="form-label">Thumbnail Image (342 X 214px) *</label>
                                         <input class="form-control" type="file" id="thumbnail_img" name="thumbnail_img">
-                                        
-                                        @if($course->thumbnail_img) 
+
+                                        @if($course->thumbnail_img)
                                         <div class="mt-1">
                                             <img src="{{asset($course->thumbnail_img)}}" class="img-thumbnail" width="100" height="100" alt="{{$course->title}}">
                                         </div>
                                         @endif
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="demo_pdf" class="form-label">Demo PDF</label>
+                                        <input class="form-control" type="file" id="demo_pdf" name="demo_pdf">
+
+                                        @isset($course->demo_pdf)
+                                            <iframe src="{{ asset($course->demo_pdf) }}" width="100%" height="300px"></iframe>
+                                        @endisset
                                     </div>
 
 
@@ -101,7 +109,7 @@
                                         <input class="form-control" type="text" placeholder="Course Duration"
                                                id="duration" name="duration" value="{{$course->duration ?? ''}}">
                                     </div>
-                                    
+
                                      <div class="mb-3">
                                         <label for="group_link" class="form-label">Group Link</label>
                                         <input class="form-control" type="text" placeholder="Group Link"
@@ -124,6 +132,14 @@
                                         <label for="discount" class="form-label">Discount (TK) *</label>
                                         <input class="form-control" type="number"
                                                id="discount" name="discount" value="{{$course->discount ?? ''}}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="product_type" class="form-label">Product Type *</label>
+                                        <select id="product_type" class="form-select form-control" name="product_type" required>
+                                            <option value="course" @if($course->product_type == 'course') selected @endif>Course</option>
+                                            <option value="book" @if($course->product_type == 'book') selected @endif>Book</option>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">

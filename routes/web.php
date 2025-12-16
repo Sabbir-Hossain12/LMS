@@ -3,6 +3,8 @@
 use App\Http\Controllers\Frontend\AiController;
 use App\Http\Controllers\Frontend\Auth\StudentAuthController;
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\BookController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -22,7 +24,7 @@ Route::get('/site-down',function ()
     Artisan::call('down');
 
     return 'The site is now in maintenance mode.';
-    
+
 });
 
 Route::get('/site-up',function ()
@@ -33,7 +35,13 @@ Route::get('/site-up',function ()
 });
 
 Route::get('/dev-tools/refresh', function () {
-  
+  abort_unless(app()->isLocal(), 403);
+
+    ob_start();
+    phpinfo();
+    $html = ob_get_clean();
+
+    return response($html, 200)->header('Content-Type', 'text/html; charset=UTF-8');
 
     // Run Laravel optimize clear
     Artisan::call('optimize:clear');
@@ -47,13 +55,14 @@ Route::get('/dev-tools/refresh', function () {
 
 
 
-//Home 
+//Home
 Route::get('/',[HomeController::class,'homePage'])->name('home');
 
 //Search Results (courses)
 Route::get('/search-results', [CourseController::class,'searchResults'])->name('search-results');
 //Courses
 Route::get('/course-list', [CourseController::class,'courseList'])->name('course-list');
+Route::get('/book-list',[BookController::class,'bookList'])->name('book-list');
 Route::get('/course-details/{slug}', [CourseController::class,'courseDetails'])->name('course-details');
 Route::get('/course-by-class/{slug}', [CourseController::class,'coursesByClass'])->name('course-by-class');
 //Class
@@ -80,16 +89,23 @@ Route::get('/teacher_details/{slug}',[TeacherController::class,'teachersDetails'
 Route::get('/blog-list', [BlogController::class,'blogList'])->name('blog-list');
 Route::get('/blog_details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
 
+//Cart Page
+Route::get('/cart', [CartController::class,'index'])->name('cart');
+
+
 //Checkout and Orders
-Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('checkout');
-Route::post('/order/submit', [OrderController::class,'orderSubmit'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('order.submit');
+Route::get('/checkout/{slug}', [OrderController::class,'checkoutPage'])->name('checkout');
+Route::get('/checkout/books', [OrderController::class,'checkoutBooksPage'])->name('checkout.books');
+Route::post('/order/submit', [OrderController::class,'orderSubmit'])->name('order.submit');
 Route::post('/apply-coupon', [OrderController::class, 'applyCoupon'])->name('apply-coupon');
 
 //pages
 Route::prefix('pages')->group(function () {
-    
+
     Route::get('/{slug}', [HomeController::class,'page'])->name('page');
 });
+
+Route::view('/order-success','Frontend.pages.checkout.success')->name('order-sucess');
 
 //ChatGPT
 Route::get('/ai-assistant', [AiController::class,'aiAssistant'])->name('ai-assistant');
@@ -114,27 +130,27 @@ Route::prefix('student/login')->name('student.')->group(function ()
     Route::get('/reset-page', [StudentAuthController::class,'resetPage'])->name('reset-page');
     Route::post('/reset-password', [StudentAuthController::class,'resetPassword'])->name('reset-password');
     Route::post('/log-out', [StudentAuthController::class,'logOut'])->name('log-out');
-    
+
 });
 
 //Student Dashboard
-Route::prefix('student/dashboard')->middleware('role:student')->name('student.dashboard.')-> 
+Route::prefix('student/dashboard')->middleware('role:student')->name('student.dashboard.')->
     group(function () {
-        
+
     Route::get('/',[DashboardController::class,'index'])->name('index');
     Route::get('/dashboard-summery', [DashboardController::class,'dashboardSummeryPage'])->name('summery');
     Route::get('/dashboard-courses',[DashboardController::class,'dashboardCoursesPage'])->name('courses');
     Route::get('/dashboard-exam-attempts',[DashboardController::class,'dashboardExamPage'])->name('exam');
     Route::get('/dashboard-exam-solutions/{id}',[DashboardController::class,'examSolution'])->name('exam.solution');
     Route::get('/dashboard-exam-leaderboard/{id}',[DashboardController::class,'examLeaderboard'])->name('exam.leaderboard');
-    
+
     Route::get('/dashboard-profiles',[DashboardController::class,'dashboardProfilePage'])->name('profile');
     Route::get('/dashboard-settings',[DashboardController::class,'dashboardSettingsPage'])->name('setting');
-    
+
     Route::post('/update-profile', [DashboardController::class,'updateProfile'])->name('profile.update');
     Route::post('/update-password', [DashboardController::class,'updatePassword'])->name('profile.password');
     Route::post('/update-social-links', [DashboardController::class,'updateSocial'])->name('profile.social');
-    
+
 });
 
 
@@ -143,7 +159,7 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
     // Payment Routes for bKash
     Route::get('/bkash/payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'index'])->middleware(\App\Http\Middleware\StudentMiddleware::class);
     Route::get('/bkash/create-payment', [App\Http\Controllers\BkashTokenizePaymentController::class,'createPayment'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('bkash-create-payment');
-    Route::get('/bkash/callback', [App\Http\Controllers\BkashTokenizePaymentController::class,'callBack'])->middleware(\App\Http\Middleware\StudentMiddleware::class)->name('bkash-callBack');
+    Route::get('/bkash/callback', [App\Http\Controllers\BkashTokenizePaymentController::class,'callBack'])->name('bkash-callBack');
 
     //search payment
     // Route::get('/bkash/search/{trxID}', [App\Http\Controllers\BkashTokenizePaymentController::class,'searchTnx'])->name('bkash-serach');
@@ -151,7 +167,7 @@ Route::prefix('student/dashboard')->middleware('role:student')->name('student.da
     //refund payment routes
     // Route::get('/bkash/refund', [App\Http\Controllers\BkashTokenizePaymentController::class,'refund'])->name('bkash-refund');
     // Route::get('/bkash/refund/status', [App\Http\Controllers\BkashTokenizePaymentController::class,'refundStatus'])->name('bkash-refund-status');
-    
+
 
 require __DIR__.'/admin.php';
 //require __DIR__.'/auth.php';

@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Orders (Courses)</h4>
+                <h4 class="mb-sm-0 font-size-18">Orders (Books)</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
@@ -35,12 +35,12 @@
                 <div class="card-header">
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Order History(Courses)</h4>
+                        <h4 class="card-title">Order History(Books)</h4>
                         {{--                       @can('Create Admin')--}}
                         {{--                       @if(Auth::guard('admin')->user()->can('Create Admin'))--}}
-{{--                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAdminModal">--}}
-{{--                            Create Admin--}}
-{{--                        </button>--}}
+                        {{--                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAdminModal">--}}
+                        {{--                            Create Admin--}}
+                        {{--                        </button>--}}
                         {{--                        @endcan--}}
                         {{--                        @endif--}}
                     </div>
@@ -53,13 +53,15 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Student Name</th>
-                                <th>Course Name</th>
+                                <th>Book Name</th>
                                 <th>Payment Status</th>
                                 <th>Payment Method</th>
                                 <th>Order Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
 
-{{--                                <th>Status</th>--}}
-{{--                                <th>Actions</th>--}}
+                                {{--                                <th>Status</th>--}}
+                                {{--                                <th>Actions</th>--}}
 
                             </tr>
                             </thead>
@@ -84,24 +86,32 @@
                                     </td>
                                     <td>{{$order->created_at->format('d M Y')}}</td>
 
-{{--                                    <td>--}}
-{{--                                        @if($order->status == 1)--}}
-{{--                                            <span class="badge bg-success">Active</span>--}}
-{{--                                        @else--}}
-{{--                                            <span class="badge bg-danger">Inactive</span>--}}
-{{--                                        @endif--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div class="d-flex gap-3">--}}
-{{--                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>--}}
-{{--                                            <form method="post" id="delete-form-{{$order->id}}" action="">--}}
-{{--                                                @csrf--}}
-{{--                                                @method('delete')--}}
-{{--                                                <button type="submit" class="btn btn-sm btn-danger"><i--}}
-{{--                                                            class="fas fa-trash"></i></button>--}}
-{{--                                            </form>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
+                                    {{--                                    <td>--}}
+                                    {{--                                        @if($order->status == 1)--}}
+                                    {{--                                            <span class="badge bg-success">Active</span>--}}
+                                    {{--                                        @else--}}
+                                    {{--                                            <span class="badge bg-danger">Inactive</span>--}}
+                                    {{--                                        @endif--}}
+                                    {{--                                    </td>--}}
+                                    <td>                    
+                                    @if($order->isActive == 1) 
+                                        <a class="status" id="adminStatus" href="javascript:void(0)"
+                                               data-id="{{ $order->id }}" data-status="{{ $order->isActive }}"> <i
+                                                        class="fa-solid fa-toggle-on fa-2x"></i>
+                                        </a>
+                                    @else 
+                                        <a class="status" id="adminStatus" href="javascript:void(0)"
+                                               data-id="{{ $order->id }}" data-status="{{ $order->isActive }}"> <i
+                                                        class="fa-solid fa-toggle-off fa-2x" style="color: grey"></i>
+                                        </a>
+                                        @endif
+                        
+                    </td>
+                                    <td>
+                                        <div class="d-flex gap-3">
+                                            <a href="{{ route('admin.book-order.show', $order->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                             @endforelse
@@ -116,9 +126,8 @@
         </div>
         <!-- end col -->
     </div>
-
+<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
     {{--    Table Ends--}}
-
 
 @endsection
 
@@ -138,8 +147,43 @@
             let adminTable = $('#adminTable').DataTable();
 
 
-
         });
+        
+                // Change Order Status
+            $(document).on('click', '#adminStatus', function () {
+                let id = $(this).data('id');
+                let status = $(this).data('status')
+                
+               
+                $.ajax(
+                    {
+                        type: 'post',
+                        url: "{{route('admin.book-order.status')}}",
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                            id: id,
+                            status: status
+            
+                        },
+                        success: function (res) {
+                            
+                            
+                            if (res.status == 1) {
+            
+                             toastr.success('Status Changed to Active')
+                            } else {
+                                toastr.error('Status Changed to Active')
+            
+                            }
+                            
+                            location.reload();
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    }
+                )
+            })
     </script>
 
 @endpush

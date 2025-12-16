@@ -16,14 +16,14 @@
                                 <div class="login__heading">
                                     <h5 class="login__title">Login</h5>
                                 </div>
-                                
+
                                 <form id="phoneSubmitForm">
                                     @csrf
                                     <div class="login__form">
                                         <label class="form__label">Phone Number</label>
                                         <input class="common__login__input" name="phone" type="text" placeholder="01*********" required>
                                     </div>
-                                    
+
                                     <div class="login__button">
                                         <button type="submit" id="submitBtn" class="default__button w-100">Submit</button>
                                     </div>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                 
+
 
 
                 </div>
@@ -62,14 +62,14 @@
 
         </div>
     </div>
-    
+
     @push('js')
                 <script>
-                   
+
                     $('#phoneSubmitForm').submit(function (e) {
                         e.preventDefault();
-                       
-                        
+
+
                         var formData = new FormData(this);
                         $.ajax({
                             headers: {
@@ -81,20 +81,28 @@
                             contentType: false,
                             processData: false,
                             beforeSend: function() {
-                                
+
                                 // Show loader
                                 showLoader();
                                 $('#submitBtn').prop('disabled', true);
-                                
+
                             },
                             success: function (res) {
-                               
+
+                                // Get previous URL
+                                var previousUrl = document.referrer;
+
+                                // Save it in localStorage (optional)
+                                if (previousUrl) {
+                                    localStorage.setItem('previousUrl', previousUrl);
+                                }
+
                                 if (res.message === 'verified') {
                                     successToast('Phone Number Matched !');
                                     // setTimeout(function() {
                                         window.location.href = '{{route('student.password-page')}}';
                                     // }, 2000);
-                                  
+
                                 }
                                 else
                                 {
@@ -102,25 +110,25 @@
                                     // setTimeout(function() {
                                         window.location.href = '{{route('student.otp-page')}}';
                                     // }, 2000);
-                                   
+
                                 }
                             },
                             error: function (err) {
-                                
+
                                 errorToast('error');
                             },
                             complete: function() {
-                                
+
                                 // Hide loader
                                 hideLoader();
 
                                 $('#submitBtn').prop('disabled', false);
-                               
-                              
+
+
                             }
                         })
                     });
-                    
+
                 </script>
     @endpush
 

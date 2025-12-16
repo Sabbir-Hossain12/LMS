@@ -12,6 +12,8 @@
     @include('Frontend.includes.categories')
 
     @include('Frontend.includes.featured')
+    
+    @include('Frontend.includes.book')
 
     @include('Frontend.includes.about')
 

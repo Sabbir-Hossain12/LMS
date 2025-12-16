@@ -135,6 +135,21 @@
                     },
                     success: function (res) {
                         if (res.status === 'success') {
+                            
+                            window.dataLayer = window.dataLayer || [];
+                            dataLayer.push({
+                                ecommerce: null
+                            });
+                        
+                            dataLayer.push({ 
+                                event: 'registration',       // custom event name
+                                user_id: '{{ App\Models\User::latest()->first()->id+1 }}',  // dynamic user ID (optional)
+                                user_phone: $('#phone').val(), // optional, be careful with PII
+                                registration_method: 'website',  // optional: 'website', 'facebook', etc.
+                                page_path: window.location.pathname, // optional
+                                timestamp: new Date().toISOString() // optional
+                            });
+                            
                             successToast('Registration successful !');
                             // setTimeout(function() {
                                 window.location.href = '{{route('student.dashboard.index')}}';

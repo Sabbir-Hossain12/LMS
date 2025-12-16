@@ -27,6 +27,8 @@ class StudentAuthController extends Controller
         'phone' => 'required|digits:11|numeric',
         ]);
         
+        $phone = $request->phone;
+        
         $exist= User::role('student')->where('phone', $request->phone)->first();
         Session::put('phone', $request->phone);
         $otp = rand(1000, 9999);
@@ -40,13 +42,14 @@ class StudentAuthController extends Controller
          Session::put('expires_at', now()->addMinutes(5));
          
          //SMS Gateway
-         $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
-             'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
-             'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
-             'SenderId' => '8809617621857',
-             'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
-             'MobileNumbers' => "88$request->phone",
-         ]);
+          $response = Http::withOptions([
+    'verify' => false,
+])->get('https://bsms.automas.com.bd/api/smsapiv3', [
+    'apikey'   => 'cd8f36465158e425799b37562e1c3c18',
+    'sender'   => '8809617630863',
+    'msisdn'   => "88{$phone}",      // add Bangladesh prefix "88"
+    'smstext'  => "Your OTP is {$otp}. Please use this code to complete your Registration. Do not share it with anyone.",
+]);
 
 //         Http::get("http://202.72.233.114/api/v2/SendSMS?ApiKey=JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=&ClientId=303614b6-0888-4ec6-93cc-2eccfa162a75&SenderId=8809617621857&Message=Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.&MobileNumbers=88$request->phone");
 
@@ -151,13 +154,14 @@ class StudentAuthController extends Controller
         //SMS Gateway
 //        Http::get('http://202.72.233.114/api/v2/SendSMS?ApiKey=JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=&ClientId=303614b6-0888-4ec6-93cc-2eccfa162a75&SenderId=8809617621857&Message=%22test_otp%22&MobileNumbers=8801926241906');
 
-        $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
-            'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
-            'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
-            'SenderId' => '8809617621857',
-            'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
-            'MobileNumbers' => "88$phone",
-        ]);
+          $response = Http::withOptions([
+    'verify' => false,
+])->get('https://bsms.automas.com.bd/api/smsapiv3', [
+    'apikey'   => 'cd8f36465158e425799b37562e1c3c18',
+    'sender'   => '8809617630863',
+    'msisdn'   => "88{$phone}",      // add Bangladesh prefix "88"
+    'smstext'  => "Your OTP is {$otp}. Please use this code to complete your Registration. Do not share it with anyone.",
+]);
         
         return response()->json(['status' => 'success','message' => 'Otp sent successfully'],200);
         
@@ -225,14 +229,24 @@ class StudentAuthController extends Controller
         Session::put('expires_at', now()->addMinutes(5));
 
 
-        $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
-            'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
-            'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
-            'SenderId' => '8809617621857',
-            'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
-            'MobileNumbers' => "88$phone",
-        ]);
+        // $response = Http::get('http://202.72.233.114/api/v2/SendSMS', [
+        //     'ApiKey' => 'JlqIGVfWLOQHg2cUCWsjqc3jLG4TS0b7e6QWkk4MPnU=',
+        //     'ClientId' => '303614b6-0888-4ec6-93cc-2eccfa162a75',
+        //     'SenderId' => '8809617621857',
+        //     'Message' => "Your OTP is $otp. Please use this code to complete your Registration. Do not share it with anyone.",
+        //     'MobileNumbers' => "88$phone",
+        // ]);
+        
+   $response = Http::withOptions([
+    'verify' => false,
+])->get('https://bsms.automas.com.bd/api/smsapiv3', [
+    'apikey'   => 'cd8f36465158e425799b37562e1c3c18',
+    'sender'   => '8809617630863',
+    'msisdn'   => "88{$phone}",      // add Bangladesh prefix "88"
+    'smstext'  => "Your OTP is {$otp}. Please use this code to complete your Registration. Do not share it with anyone.",
+]);
 
+// return $response->body();
 //        return response()->json(['status' => 'success','message' => 'Otp sent successfully'],200);
         return view('Frontend.auth.forgot-password');
     }

@@ -1,16 +1,16 @@
 <style>
-    
+
     #active-nav
     {
       color: #0d6efd;
     }
-    
+
     .headerarea__2__input input
     {
         color: #eae0e0 !important;
         display: flex;
     }
-    
+
     @media (max-width: 767px) {
     .marquee-sec {
         display: block !important;
@@ -28,7 +28,7 @@
          </div>
     </div>
 </div>
-            
+
 
 <!-- topbar__section__stert -->
 <div class="topbararea topbararea--2">
@@ -52,21 +52,32 @@
                         <i class="icofont-location-pin"></i>
                     </div>
                     <div class="topbar__text">
-                        <p>{{$basicInfo->address ?? 'Dhaka, Bangladesh'}}</p>
+                        <p>{{ $basicInfo->address ?? 'Dhaka, Bangladesh' }}</p>
                     </div>
                     <div class="topbar__list">
                         <ul>
                             <li>
-                                <a href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont-facebook"></i></a>
+                                <a href="{{ $basicInfo->fb_link ?? '#' }}" target="_blank">
+                                    <i class="icofont-facebook"></i>
+                                </a>
                             </li>
+
                             <li>
-                                <a href="{{$basicInfo->twitter_link ?? '#'}}"><i class="icofont-twitter"></i></a>
+                                <a href="{{ $basicInfo->twitter_link ?? '#' }}" target="_blank">
+                                    <i class="icofont-twitter"></i>
+                                </a>
                             </li>
+
                             <li>
-                                <a href="{{$basicInfo->insta_link ?? '#'}}"><i class="icofont-instagram"></i></a>
+                                <a href="{{ $basicInfo->insta_link ?? '#' }}" target="_blank">
+                                    <i class="icofont-instagram"></i>
+                                </a>
                             </li>
+
                             <li>
-                                <a href="{{$basicInfo->youtube_link ?? '#'}}"><i class="icofont-youtube-play"></i></a>
+                                <a href="{{ $basicInfo->youtube_link ?? '#' }}" target="_blank">
+                                    <i class="icofont-youtube-play"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -99,17 +110,152 @@
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
-                    <form action="{{route('search-results')}}">
-                        @csrf
-                    <div class="headerarea__2__input d-flex">
-                        <input type="text" placeholder="Search Course" name="content" required>
-                        <button class="btn btn-primary" type="submit" ><i class="icofont-search-1"></i></button>
+                    <div class="row">
+
+                        <div class="col-xl-12 col-lg-12 main_menu_wrap">
+                            <div class="headerarea__main__menu">
+                                <nav>
+                                    <ul>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('home') ? 'active-nav' : ''}}"  href="{{url('/')}}">Home
+                                            </a>
+                                        </li>
+
+                                        {{--                                <li>--}}
+                                        {{--                                    <a class="headerarea__has__dropdown" href="{{route('class-list')}}">Categories--}}
+                                        {{--                                    </a>--}}
+                                        {{--                                </li>--}}
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('course-list') ? 'active-nav' : ''}}" href="{{route('course-list')}}">Courses
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('book-list') ? 'active-nav' : ''}}" href="{{route('book-list')}}">Books
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('teacher.page') ? 'active-nav' : ''}}" href="{{route('teacher.page')}}">Teachers
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('blog-list') ? 'active-nav' : ''}}" href="{{route('blog-list')}}">Blogs
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('ai-assistant') ? 'active-nav' : ''}}" href="{{route('ai-assistant')}}">AI Assistant
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="headerarea__has__dropdown" id="{{Route::is('page') ? 'active-nav' : ''}}" href="{{route('page','about-us')}}">About Us
+                                            </a>
+                                        </li>
+
+                                        {{--                                <li>--}}
+                                        {{--                                    <a class="headerarea__has__dropdown" href="#">Others--}}
+                                        {{--                                        <i class="icofont-rounded-down"></i>--}}
+                                        {{--                                    </a>--}}
+                                        {{--                                    <ul class="headerarea__submenu">--}}
+                                        {{--                                        <li><a href="#">About us</a></li>--}}
+                                        {{--                                        <li><a href="#">Contact Us</a></li>--}}
+                                        {{--                                        <li><a href="#">Blogs</a></li>--}}
+                                        {{--                                        <li><a href="#">Terms & Condition</a></li>--}}
+                                        {{--                                        <li><a href="#">Privacy Policy</a></li>--}}
+                                        {{--                                    </ul>--}}
+                                        {{--                                </li>--}}
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+
                     </div>
-                    </form>
+{{--                    <form action="{{route('search-results')}}">--}}
+{{--                        @csrf--}}
+{{--                    <div class="headerarea__2__input d-flex">--}}
+{{--                        <input type="text" placeholder="Search Course" name="content" required>--}}
+{{--                        <button class="btn btn-primary" type="submit" ><i class="icofont-search-1"></i></button>--}}
+{{--                    </div>--}}
+{{--                    </form>--}}
                 </div>
 
                 <div class="col-xl-3 col-lg-3 col-md-6">
                     <div class="headerarea__right">
+
+                        <div class="header__cart">
+                            <a href="#"> <i class="icofont-cart-alt"></i></a>
+                            <div class="header__right__dropdown__wrapper">
+                                <div class="header__right__dropdown__inner">
+                                    <div class="single__header__right__dropdown">
+
+                                        <div class="header__right__dropdown__img">
+                                            <a href="#">
+                                                <img loading="lazy" src="img/grid/cart1.jpg" alt="photo">
+                                            </a>
+                                        </div>
+                                        <div class="header__right__dropdown__content">
+
+                                            <a href="shop-product.html">Web Directory</a>
+                                            <p>1 x <span class="price">$ 80.00</span></p>
+
+                                        </div>
+                                        <div class="header__right__dropdown__close">
+                                            <a href="#"><i class="icofont-close-line"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="single__header__right__dropdown">
+
+                                        <div class="header__right__dropdown__img">
+                                            <a href="#">
+                                                <img loading="lazy" src="img/grid/cart2.jpg" alt="photo">
+                                            </a>
+                                        </div>
+                                        <div class="header__right__dropdown__content">
+
+                                            <a href="shop-product.html">Design Minois</a>
+                                            <p>1 x <span class="price">$ 60.00</span></p>
+
+                                        </div>
+                                        <div class="header__right__dropdown__close">
+                                            <a href="#"><i class="icofont-close-line"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="single__header__right__dropdown">
+
+                                        <div class="header__right__dropdown__img">
+                                            <a href="#">
+                                                <img loading="lazy" src="img/grid/cart3.jpg" alt="photo">
+                                            </a>
+                                        </div>
+                                        <div class="header__right__dropdown__content">
+
+                                            <a href="shop-product.html">Crash Course</a>
+                                            <p>1 x <span class="price">$ 70.00</span></p>
+
+                                        </div>
+                                        <div class="header__right__dropdown__close">
+                                            <a href="#"><i class="icofont-close-line"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="dropdown__price">Total: <span>$1,100.00</span>
+                                </p>
+                                <div class="header__right__dropdown__button">
+                                    <a href="{{ route('cart') }}" class="white__color">View Cart</a>
+                                    <a href="" class="blue__color">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="headerarea__button me-2">
                             <a href="#">Get Start Here</a>
@@ -130,83 +276,22 @@
                                 <a href="{{ route('student.phone-page') }}"><i class="icofont-user-alt-5"></i></a>
                             </div>
                         @endauth
-                        
-                       
+
+
 
                     </div>
                 </div>
             </div>
 
-            <div class="row">
 
-                <div class="col-xl-12 col-lg-12 main_menu_wrap">
-                    <div class="headerarea__main__menu">
-                        <nav>
-                            <ul>
-                                
-                                <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('home') ? 'active-nav' : ''}}"  href="{{url('/')}}">Home
-                                    </a>
-                                </li>
-                                
-{{--                                <li>--}}
-{{--                                    <a class="headerarea__has__dropdown" href="{{route('class-list')}}">Categories--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-                                
-                                <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('course-list') ? 'active-nav' : ''}}" href="{{route('course-list')}}">Courses
-                                    </a>
-                                </li>
-                                
-                                <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('teacher.page') ? 'active-nav' : ''}}" href="{{route('teacher.page')}}">Teachers
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('blog-list') ? 'active-nav' : ''}}" href="{{route('blog-list')}}">Blogs
-                                    </a>
-                                </li>
-                                
-                              <li>
-                                   <a class="headerarea__has__dropdown" id="{{Route::is('ai-assistant') ? 'active-nav' : ''}}" href="{{route('ai-assistant')}}">AI Assistant
-                               </a>
-                           </li>
-
-                                <li>
-                                    <a class="headerarea__has__dropdown" id="{{Route::is('page') ? 'active-nav' : ''}}" href="{{route('page','about-us')}}">About Us
-                                    </a>
-                                </li>
-                                
-{{--                                <li>--}}
-{{--                                    <a class="headerarea__has__dropdown" href="#">Others--}}
-{{--                                        <i class="icofont-rounded-down"></i>--}}
-{{--                                    </a>--}}
-{{--                                    <ul class="headerarea__submenu">--}}
-{{--                                        <li><a href="#">About us</a></li>--}}
-{{--                                        <li><a href="#">Contact Us</a></li>--}}
-{{--                                        <li><a href="#">Blogs</a></li>--}}
-{{--                                        <li><a href="#">Terms & Condition</a></li>--}}
-{{--                                        <li><a href="#">Privacy Policy</a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </li>--}}
-                                
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-
-
-            </div>
 
         </div>
 
-        
+
     </div>
 
     <div class="headerarea headerarea__2  header__sticky header__area">
-        
+
 
 
         <div class="container-fluid mob_menu_wrapper">
@@ -220,22 +305,94 @@
                 <!--Login or dashboard-->
                   <div class="col-4">
                     <div class="header-right-wrap">
-                        <div class="mobile-off-canvas">
-                              @auth
-                            @if(auth()->user()->hasRole('student'))
-                                
-                                    <a class="btn btn-primary" href="{{ route('student.dashboard.index') }}">Dashboard</i></a>
-                                
-                            @else
-                                
-                                    <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>
-                                
-                            @endif
-                        @else
-                            
-                                <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>
-                            
-                        @endauth
+{{--                        <div class="mobile-off-canvas">--}}
+{{--                              @auth--}}
+{{--                            @if(auth()->user()->hasRole('student'))--}}
+
+{{--                                    <a class="btn btn-primary" href="{{ route('student.dashboard.index') }}">Dashboard</i></a>--}}
+
+{{--                            @else--}}
+
+{{--                                    <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>--}}
+
+{{--                            @endif--}}
+{{--                        @else--}}
+
+{{--                                <a class="btn btn-primary" href="{{ route('student.phone-page') }}">Login</a>--}}
+
+{{--                        @endauth--}}
+{{--                        </div>--}}
+
+                        <div class="headerarea__right">
+
+                            <div class="header__cart">
+                                <a href="#"> <i class="icofont-cart-alt"></i></a>
+                                <div class="header__right__dropdown__wrapper">
+                                    <div class="header__right__dropdown__inner">
+                                        <div class="single__header__right__dropdown">
+
+                                            <div class="header__right__dropdown__img">
+                                                <a href="#">
+                                                    <img loading="lazy" src="img/grid/cart1.jpg" alt="photo">
+                                                </a>
+                                            </div>
+                                            <div class="header__right__dropdown__content">
+
+                                                <a href="shop-product.html">Web Directory</a>
+                                                <p>1 x <span class="price">$ 80.00</span></p>
+
+                                            </div>
+                                            <div class="header__right__dropdown__close">
+                                                <a href="#"><i class="icofont-close-line"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <div class="single__header__right__dropdown">
+
+                                            <div class="header__right__dropdown__img">
+                                                <a href="#">
+                                                    <img loading="lazy" src="img/grid/cart2.jpg" alt="photo">
+                                                </a>
+                                            </div>
+                                            <div class="header__right__dropdown__content">
+
+                                                <a href="shop-product.html">Design Minois</a>
+                                                <p>1 x <span class="price">$ 60.00</span></p>
+
+                                            </div>
+                                            <div class="header__right__dropdown__close">
+                                                <a href="#"><i class="icofont-close-line"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <div class="single__header__right__dropdown">
+
+                                            <div class="header__right__dropdown__img">
+                                                <a href="#">
+                                                    <img loading="lazy" src="img/grid/cart3.jpg" alt="photo">
+                                                </a>
+                                            </div>
+                                            <div class="header__right__dropdown__content">
+
+                                                <a href="shop-product.html">Crash Course</a>
+                                                <p>1 x <span class="price">$ 70.00</span></p>
+
+                                            </div>
+                                            <div class="header__right__dropdown__close">
+                                                <a href="#"><i class="icofont-close-line"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="dropdown__price">Total: <span>$1,100.00</span>
+                                    </p>
+                                    <div class="header__right__dropdown__button">
+                                        <a href="{{ route('cart') }}" class="white__color">VIEW
+                                            CART</a>
+                                        <a href="" class="blue__color">CHECKOUT</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -277,25 +434,29 @@
                         <li class="menu-item-has-children">
                             <a href="{{route('course-list')}}">Courses</a>
                         </li>
-
                         
-                        <li class="menu-item-has-children "><a href="{{route('teacher.page')}}">Teachers</a>
-                            
+                        <li class="menu-item-has-children">
+                            <a href="{{route('book-list')}}">Books</a>
                         </li>
-                        
+
+
+                        <li class="menu-item-has-children "><a href="{{route('teacher.page')}}">Teachers</a>
+
+                        </li>
+
                         <li class="menu-item-has-children ">
                             <a href="{{route('blog-list')}}">Blogs</a>
                         </li>
-                        
+
                            <li class="menu-item-has-children ">
                                    <a   href="{{route('ai-assistant')}}">AI Assistant
                                </a>
                            </li>
 
                         <li class="menu-item-has-children">
-                            
+
                             <a href="{{route('page','about-us')}}">About Us</a>
-                            
+
                         </li>
 
                     </ul>
@@ -328,14 +489,14 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="mobile-social-wrap">
             <a class="facebook" href="{{$basicInfo->fb_link ?? '#'}}"><i class="icofont icofont-facebook"></i></a>
             <a class="twitter" href="{{$basicInfo->twitter_link ?? '#'}}"><i class="icofont icofont-twitter"></i></a>
             <a class="instagram" href="{{$basicInfo->insta_link ?? '#'}}"><i class="icofont icofont-instagram"></i></a>
             <a class="google" href="{{$basicInfo->youtube_link ?? '#'}}"><i class="icofont icofont-youtube-play"></i></a>
         </div>
-        
+
     </div>
 </div>
 <!-- Mobile Menu end Here -->

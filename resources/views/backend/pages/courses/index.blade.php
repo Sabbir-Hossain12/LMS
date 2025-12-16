@@ -68,6 +68,7 @@
                                 <th>SL</th>
                                 <th>Thumbnail Image</th>
                                 <th>Course Title</th>
+                                <th>Type</th>
                                 <th>Featured Status</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -86,7 +87,7 @@
         </div>
         <!-- end col -->
     </div>
-    
+
 @endsection
 
 @push('backendJs')
@@ -101,7 +102,7 @@
 
             var token = $("input[name='_token']").val();
 
-            //Show Data through Datatable 
+            //Show Data through Datatable
             let adminTable = $('#adminTable').DataTable({
                 order: [
                     [0, 'asc']
@@ -116,7 +117,7 @@
                         data: 'id',
 
                     },
-                    
+
                     {
                         data: 'thumbnail_img',
                         render: function (data) {
@@ -128,7 +129,22 @@
                         data: 'title',
 
                     },
-                    
+
+                    {
+                      data: 'product_type',
+                      render:function (data)
+                        {
+                            if(data === 'book')
+                            {
+                                return `<span class="badge bg-primary">${data}</span`
+                            }
+                            else
+                            {
+                                return `<span class="badge bg-success">${data}</span`
+                            }
+                        }
+                    },
+
                     {
                         data: 'featured_status',
                         name: 'Featured Status',
@@ -153,7 +169,7 @@
 
                 ]
             });
-            
+
 
             // Delete Student
             $(document).on('click', '#deleteAdminBtn', function () {

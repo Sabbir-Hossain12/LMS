@@ -1,4 +1,16 @@
-
+<style>
+    .lesson__content__wrap
+    {
+        padding: 15px 20px !important;
+    }
+    
+    @media (max-width: 767px) {
+    /* CSS for mobile devices */
+    .lesson__content__wrap {
+         padding: 12px 20px !important;
+    }
+}
+</style>
 <div class="lesson__content__main">
     @if($video->start_time <= now())
         

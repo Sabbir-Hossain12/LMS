@@ -7,7 +7,7 @@
     <div class="loginarea sp_top_100 sp_bottom_100">
         <div class="container">
             <div class="row">
- 
+
 
 
                 <div class="tab-content tab__content__wrapper" id="myTabContent" data-aos="fade-up">
@@ -29,7 +29,7 @@
                                                placeholder="******" required>
 
                                     </div>
-                            
+
                                     <div class="login__form d-flex justify-content-between flex-wrap gap-2">
 {{--                                                                                <div class="form__check">--}}
 {{--                                                                                    <input id="forgot" type="checkbox">--}}
@@ -104,7 +104,13 @@
                         if (res.status === 'success') {
                             successToast('Password Matched !');
                             // setTimeout(function() {
+                            let backUrl = localStorage.getItem('previousUrl');
+                            if (backUrl) {
+                                window.location.href = backUrl;
+                            } else {
                                 window.location.href = '{{route('student.dashboard.index')}}';
+                            }
+
                             // }, 2000);
                         }
                         else

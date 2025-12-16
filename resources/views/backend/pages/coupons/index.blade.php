@@ -7,6 +7,8 @@
           rel="stylesheet" type="text/css">
     <link href="{{asset('backend')}}/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
           rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 @endpush
 
@@ -37,13 +39,13 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Coupons List</h4>
-                        
+
 {{--                        @if(Auth::user()->can('Create Admin'))--}}
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTestimonial">
                                 Add Coupons
                             </button>
 {{--                        @endif--}}
-                        
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -52,6 +54,7 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
+                                <th>Course Title</th>
                                 <th>Coupon Code</th>
                                 <th>Coupon Type</th>
                                 <th>Discount Value</th>
@@ -82,43 +85,54 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Testimonial</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Coupon</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form name="form" id="addTestimonialForm">
                         @csrf
-                     
+
                         <div class="mb-3">
-                            <label for="code" class="col-form-label">Coupon Code</label>
-                            <input type="text" class="form-control" id="code" name="code">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="description" class="col-form-label">Short Description</label>
-                            <textarea  class="form-control" id="description" name="description"></textarea>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="discount_type" class="col-form-label">Discount Type</label>
-                            <select class="form-control" id="discount_type" name="discount_type">
-                                
-                                <option value="Percentage">Percentage (%)</option>
-                                <option value="fixed_amount">Fixed Amount</option>
-                                
+                            <label class="col-form-label">Course</label>
+                            <select class="form-control" id="ccourse_id" name="course_id" required>
+                                @forelse($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->title ?? '' }}</option>
+                                @empty
+                                    <option value="">No Courses Found</option>
+                                @endforelse
                             </select>
                         </div>
-                        
+
+                        <div class="mb-3">
+                            <label for="code" class="col-form-label">Coupon Code</label>
+                            <input type="text" class="form-control"  name="code">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Short Description</label>
+                            <textarea  class="form-control"  name="description"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="discount_type" class="col-form-label">Discount Type</label>
+                            <select class="form-control"  name="discount_type">
+
+                                <option value="Percentage">Percentage (%)</option>
+                                <option value="fixed_amount">Fixed Amount</option>
+
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="discount_value" class="col-form-label">Discount Value</label>
-                            <input type="number" class="form-control" id="discount_value" name="discount_value">
+                            <input type="number" class="form-control"  name="discount_value">
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="usage_limit" class="col-form-label">Usage Limit</label>
-                            <input type="number" class="form-control" id="usage_limit" name="usage_limit">
+                            <input type="number" class="form-control"  name="usage_limit">
                         </div>
-                        
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -135,49 +149,61 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Admin</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Coupon</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form name="form2" id="editTestimonialForm">
                         @csrf
                         @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="course_id" class="col-form-label">Course</label>
+                            <select class="form-control select2" id="course_id" name="course_id" required>
+                                @forelse($courses as $course)
+                                    <option value="{{ $course->id }}">{{ $course->title ?? '' }}</option>
+                                @empty
+                                    <option value="">No Courses Found</option>
+                                @endforelse
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="ecode" class="col-form-label">Coupon Code</label>
                             <input type="text" class="form-control" id="ecode" name="code">
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="edescription" class="col-form-label">Short Description</label>
                             <textarea  class="form-control" id="edescription" name="description"></textarea>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="ediscount_type" class="col-form-label">Discount Type</label>
                             <select class="form-control" id="ediscount_type" name="discount_type">
-                                
+
                                 <option value="Percentage"> Percentage (%)</option>
                                 <option value="fixed_amount">Fixed Amount</option>
-                                
+
                             </select>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="ediscount_value" class="col-form-label">Discount Value</label>
                             <input type="number" class="form-control" id="ediscount_value" name="discount_value">
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="eusage_limit" class="col-form-label">Usage Limit</label>
                             <input type="number" class="form-control" id="eusage_limit" name="usage_limit">
                         </div>
-                        
+
                          <div class="mb-3">
                             <label for="eused_count" class="col-form-label">Used Count</label>
                             <input type="number" class="form-control" id="eused_count" name="used_count">
                         </div>
-                      
-                        
+
+
                         <input id="id" type="number" hidden>
 
                         <div class="modal-footer">
@@ -197,15 +223,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('backend')}}/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <script>
 
         $(document).ready(function () {
 
-
             var token = $("input[name='_token']").val();
 
-            //Show Data through Datatable 
+            //Show Data through Datatable
             let testimonialTable = $('#testimonialTable').DataTable({
                 order: [
                     [0, 'asc']
@@ -221,6 +248,11 @@
 
 
                     },
+
+                    {
+                        data:'course_title',
+                    },
+
                     {
                         data: 'code',
 
@@ -228,11 +260,11 @@
                     {
                         data: 'discount_type'
                     },
-                    
+
                     {
                        data:  'discount_value'
                     },
-                    
+
                     {
                         data: 'status',
                         name: 'Status',
@@ -292,13 +324,13 @@
                 });
             });
 
-      
-        
+
+
             // Edit  Data
             $(document).on('click', '.editButton', function () {
                 let id = $(this).data('id');
                 $('#id').val(id);
-        
+
                 $.ajax(
                     {
                         type: "GET",
@@ -309,12 +341,12 @@
                         data: {
                             id: id
                         },
-        
+
                         processData: false,  // Prevent jQuery from processing the data
                         contentType: false,  // Prevent jQuery from setting contentType
                         success: function (res) {
 
-                          
+
                             $('#edescription').val(res.data.description);
                             $('#eused_count').val(res.data.used_count);
                             $('#ecode ').val(res.data.code );
@@ -322,8 +354,9 @@
                             $('#ediscount_value').val(res.data.discount_value);
                             $('#eusage_limit').val(res.data.usage_limit);
                             $('#eused_count').val(res.data.used_count);
-                            
-                            
+                            $('#course_id').val(res.data.course_id);
+
+
                         },
                         error: function (err) {
                             console.log('failed')
@@ -331,14 +364,14 @@
                     }
                 )
             })
-    
-        
+
+
             // Update Data
             $('#editTestimonialForm').submit(function (e) {
                 e.preventDefault();
                 let id = $('#id').val();
                 let formData = new FormData(this);
-        
+
                 $.ajax({
                     type: "POST",
                     headers: {
@@ -358,7 +391,7 @@
                                 text: "Coupon Updated !",
                                 icon: "success"
                             })
-                            
+
                         }
                     },
                     error: function (err) {
@@ -373,11 +406,11 @@
                 });
             });
 
-      
+
             // Delete Data
             $(document).on('click', '#deleteTestimonialBtn', function () {
                 let id = $(this).data('id');
-        
+
                 swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this !",
@@ -389,11 +422,11 @@
                 })
                     .then((result) => {
                         if (result.isConfirmed) {
-        
-        
+
+
                             $.ajax({
                                 type: 'DELETE',
-        
+
                                 url: "{{ url('admin/coupons') }}/" + id,
                                 data: {
                                     '_token': token
@@ -404,24 +437,24 @@
                                         text: "Coupon has been deleted.",
                                         icon: "success"
                                     });
-        
+
                                     testimonialTable.ajax.reload();
                                 },
                                 error: function (err) {
                                     console.log('error')
                                 }
                             })
-        
-        
+
+
                         } else {
                             swal.fire('Your Data is Safe');
                         }
-        
+
                     })
-        
-        
+
+
             })
-        
+
             // Change Admin Status
             $(document).on('click', '#testimonialStatus', function () {
                 let id = $(this).data('id');
@@ -435,13 +468,13 @@
                             '_token': token,
                             id: id,
                             status: status
-        
+
                         },
                         success: function (res) {
                             testimonialTable.ajax.reload();
-        
+
                             if (res.status === 1) {
-        
+
                                 swal.fire(
                                     {
                                         title: 'Status Changed to Active',
@@ -453,7 +486,7 @@
                                         title: 'Status Changed to Inactive',
                                         icon: 'success'
                                     })
-        
+
                             }
                         },
                         error: function (err) {
@@ -463,8 +496,7 @@
                 )
             })
         });
-        
-        
+
     </script>
 
 @endpush
