@@ -49,6 +49,10 @@
                                 @else
                                     <a class="default__button default__button--2" onclick="addtocart()"
                                        href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                    @if($courseDetails->product_type == 'book')
+                                        <a class="default__button default__button--1"
+                                           href="javascript:void(0);">Add to Cart</a>
+                                    @endif
 
                                     <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
                                 @endif
@@ -146,7 +150,7 @@
                                             <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link active" data-bs-toggle="tab"
                                                         data-bs-target="#projects__two" type="button"><i
-                                                        class="icofont-book-alt"></i>Curriculum
+                                                            class="icofont-book-alt"></i>Curriculum
                                                 </button>
                                             </li>
 
@@ -155,7 +159,7 @@
                                                 <li class="nav-item" role="presentation">
                                                     <button class="single__tab__link active" data-bs-toggle="tab"
                                                             data-bs-target="#projects__pdf" type="button"><i
-                                                            class="icofont-book-alt"></i>Demo PDF
+                                                                class="icofont-book-alt"></i>Demo PDF
                                                     </button>
                                                 </li>
                                             @endisset
@@ -164,7 +168,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="single__tab__link" data-bs-toggle="tab"
                                                     data-bs-target="#projects__one" type="button"><i
-                                                    class="icofont-paper"></i>Description
+                                                        class="icofont-paper"></i>Description
                                             </button>
                                         </li>
                                     </ul>
@@ -234,8 +238,8 @@
                                                     <i class="icofont-clock-time"></i> {{$video->duration}}
                                                 </span>
                                                                                         <a href="#"><span
-                                                                                                class="question"><i
-                                                                                                    class="icofont-eye"></i></span></a>
+                                                                                                    class="question"><i
+                                                                                                        class="icofont-eye"></i></span></a>
                                                                                     </div>
                                                                                 </div>
                                                                             @empty
@@ -254,7 +258,7 @@
                                                                                     </div>
                                                                                     <div class="scc__meta">
                                                                                     <span><i
-                                                                                            class="icofont-lock"></i></span>
+                                                                                                class="icofont-lock"></i></span>
                                                                                     </div>
                                                                                 </div>
                                                                             @empty
@@ -347,20 +351,20 @@
                                             <ul>
                                                 <li>
                                                     <a href="{{$courseDetails->teacher->fb_link ?? '#'}}"><i
-                                                            class="icofont-facebook"></i></a>
+                                                                class="icofont-facebook"></i></a>
                                                 </li>
 
                                                 <li>
                                                     <a href="{{$courseDetails->teacher->youtube_link ?? '#'}}"><i
-                                                            class="icofont-youtube-play"></i></a>
+                                                                class="icofont-youtube-play"></i></a>
                                                 </li>
                                                 <li>
                                                     <a href="{{$courseDetails->teacher->insta_link ?? '#'}}"><i
-                                                            class="icofont-instagram"></i></a>
+                                                                class="icofont-instagram"></i></a>
                                                 </li>
                                                 <li>
                                                     <a href="{{$courseDetails->teacher->twitter_link ?? '#'}}"><i
-                                                            class="icofont-twitter"></i></a>
+                                                                class="icofont-twitter"></i></a>
                                                 </li>
                                             </ul>
 
@@ -399,6 +403,7 @@
                                         @else
                                             <a class="default__button default__button--2" onclick="addtocart()"
                                                href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                        
 
                                             <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
                                         @endif
@@ -409,8 +414,13 @@
                                         <a class="default__button default__button--2"
                                            href="javascript:void(0)">Purchased</a>
                                     @else
-                                    <a class="default__button default__button--2"  onclick="addtocart()"
-                                       href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+                                        <a class="default__button default__button--2" onclick="addtocart()"
+                                           href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
+
+                                        @if($courseDetails->product_type == 'book')
+                                            <a class="default__button default__button--1"
+                                               href="javascript:void(0);">Add to Cart</a>
+                                        @endif
                                     @endif
                                 @endif
 
@@ -430,7 +440,7 @@
 
                                             <span class="sb_label">Instructor:
                                             </span><span class="sb_content"><a
-                                                        href="">{{$courseDetails->teacher->name}}</a>
+                                                            href="">{{$courseDetails->teacher->name}}</a>
                                             </span>
                                             </div>
 
@@ -439,28 +449,28 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Start Date</span><span
-                                                    class="sb_content">{{$courseDetails->created_at->format('d, M Y')}}</span>
+                                                        class="sb_content">{{$courseDetails->created_at->format('d, M Y')}}</span>
                                             </div>
                                         </li>
 
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Duration</span><span
-                                                    class="sb_content">{{$courseDetails->duration}}</span>
+                                                        class="sb_content">{{$courseDetails->duration}}</span>
                                             </div>
                                         </li>
 
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Enrolled</span><span
-                                                    class="sb_content">{{ $enrollmentCount ?? 100 }}</span>
+                                                        class="sb_content">{{ $enrollmentCount ?? 100 }}</span>
                                             </div>
                                         </li>
 
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Lessons</span><span
-                                                    class="sb_content">{{$courseDetails->lessons->count()}}</span>
+                                                        class="sb_content">{{$courseDetails->lessons->count()}}</span>
                                             </div>
                                         </li>
 
@@ -492,7 +502,7 @@
                             <div class="course__summery__button">
                                 <p>More inquery about course.</p>
                                 <a class="default__button default__button--3" href="tel:+88{{$basicInfo->phone_1}}"><i
-                                        class="icofont-phone"></i> {{$basicInfo->phone_1}}</a>
+                                            class="icofont-phone"></i> {{$basicInfo->phone_1}}</a>
                             </div>
 
 
@@ -510,19 +520,19 @@
 
                                     <li>
                                         <a href="{{$basicInfo->youtube_link ?? '#'}}"><i
-                                                class="icofont-youtube-play"></i></a>
+                                                    class="icofont-youtube-play"></i></a>
                                     </li>
                                     <li>
                                         <a href="{{$basicInfo->insta_link ?? '#'}}"><i
-                                                class="icofont-instagram"></i></a>
+                                                    class="icofont-instagram"></i></a>
                                     </li>
                                     <li>
                                         <a href="{{$basicInfo->twitter_link ?? '#'}}"><i
-                                                class="icofont-twitter"></i></a>
+                                                    class="icofont-twitter"></i></a>
                                     </li>
                                     <li>
                                         <a href="{{$basicInfo->insta_link ?? '#'}}"><i
-                                                class="icofont-instagram"></i></a>
+                                                    class="icofont-instagram"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -589,54 +599,22 @@
 
     </div>
 
-<script>
+    <script>
 
-    var gtmprice = {{ $courseDetails->sale_price ?? 0 }};
-    var gtmqty=1;
-    var gtmid={{ $courseDetails->id }};
-    var gtmsku='SMM{{ $courseDetails->id }}';
-    var gtmproductname='{{ $courseDetails->title}}'; 
-    var gtmdiscount={{ $courseDetails->discount}}; 
-    
-    window.dataLayer = window.dataLayer || [];
-    dataLayer.push({
-        ecommerce: null
-    });
-
-    dataLayer.push({
-        event: "view_item",
-        ecommerce: {
-            currency: "BDT",
-            value: gtmprice,
-            items: [{
-                item_id: gtmid,
-                item_name: gtmproductname,
-                index: 0,
-                price: gtmprice,
-                discount: gtmdiscount,
-                item_brand: 'schoolmathematics.com.bd', 
-                currency: "BDT",
-                quantity: 1,
-            }]
-
-        }
-    });
-    
-    function addtocart(){
         var gtmprice = {{ $courseDetails->sale_price ?? 0 }};
-        var gtmqty=1;
-        var gtmid={{ $courseDetails->id }};
-        var gtmsku='SMM{{ $courseDetails->id }}';
-        var gtmproductname='{{ $courseDetails->title}}'; 
-        var gtmdiscount={{ $courseDetails->discount}}; 
-        
+        var gtmqty = 1;
+        var gtmid = {{ $courseDetails->id }};
+        var gtmsku = 'SMM{{ $courseDetails->id }}';
+        var gtmproductname = '{{ $courseDetails->title}}';
+        var gtmdiscount = {{ $courseDetails->discount}};
+
         window.dataLayer = window.dataLayer || [];
         dataLayer.push({
             ecommerce: null
         });
-    
+
         dataLayer.push({
-            event: "add_to_cart",
+            event: "view_item",
             ecommerce: {
                 currency: "BDT",
                 value: gtmprice,
@@ -646,14 +624,46 @@
                     index: 0,
                     price: gtmprice,
                     discount: gtmdiscount,
-                    item_brand: 'schoolmathematics.com.bd', 
+                    item_brand: 'schoolmathematics.com.bd',
                     currency: "BDT",
                     quantity: 1,
                 }]
-    
+
             }
         });
-    }
-</script>
+
+        function addtocart() {
+            var gtmprice = {{ $courseDetails->sale_price ?? 0 }};
+            var gtmqty = 1;
+            var gtmid = {{ $courseDetails->id }};
+            var gtmsku = 'SMM{{ $courseDetails->id }}';
+            var gtmproductname = '{{ $courseDetails->title}}';
+            var gtmdiscount = {{ $courseDetails->discount}};
+
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({
+                ecommerce: null
+            });
+
+            dataLayer.push({
+                event: "add_to_cart",
+                ecommerce: {
+                    currency: "BDT",
+                    value: gtmprice,
+                    items: [{
+                        item_id: gtmid,
+                        item_name: gtmproductname,
+                        index: 0,
+                        price: gtmprice,
+                        discount: gtmdiscount,
+                        item_brand: 'schoolmathematics.com.bd',
+                        currency: "BDT",
+                        quantity: 1,
+                    }]
+
+                }
+            });
+        }
+    </script>
 
 @endsection

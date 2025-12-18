@@ -25,6 +25,8 @@ class CourseController extends Controller
     {
         $courseDetails = Course::where('slug', $slug)->with('teacher', 'subjects', 'class', 'lessons',
             'lessons.lessonVideos', 'lessons.assessments')->first();
+        
+//        dd($courseDetails);
 
         $enrollment = Enrollment::where('user_id', auth()->user()->id ?? 0)->where('course_id',
             $courseDetails->id)->first();
