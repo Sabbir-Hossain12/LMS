@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Order;
@@ -39,7 +40,9 @@ class OrderController extends Controller
             return redirect()->route('student.phone-page');
         }
 
-        return view('Frontend.pages.checkout.checkout-books');
+        $cartItems = Cart::where('user_id', auth()->id())->get();
+
+        return view('Frontend.pages.checkout.checkout-books', compact('cartItems'));
     }
 
 

@@ -73,7 +73,7 @@
 
 
 <body class="body__wrapper">
-    
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://load.sst.schoolmathematics.com.bd/ns.html?id=GTM-MRPQGZRR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -203,6 +203,76 @@
     //     e.preventDefault();
     // });
 </script>
+
+<script>
+    $(document).ready(function () {
+        loadMiniCart();
+
+        function loadMiniCart() {
+            $.ajax({
+                url: "{{ route('cart') }}",
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
+                        renderMiniCart(res.cartItem);
+                    }
+                }
+            });
+        }
+
+        function renderMiniCart(items) {
+            let html = '';
+            let total = 0;
+
+            if (items.length === 0) {
+                html += `<p class="text-center p-3">Your cart is empty</p>`;
+            } else {
+                html += `<div class="header__right__dropdown__inner">`;
+
+                $.each(items, function (index, item) {
+                    let price = item.course.sale_price;
+                    total += price;
+
+                    html += `
+                <div class="single__header__right__dropdown">
+                    <div class="header__right__dropdown__img">
+                        <a href="#">
+                            <img loading="lazy" src="${item.course.thumbnail_img ?? 'img/grid/cart1.jpg'}" alt="photo">
+                        </a>
+                    </div>
+
+                    <div class="header__right__dropdown__content">
+                        <a href="#">${item.course.title}</a>
+                        <p>1 x <span class="price">$ ${price}</span></p>
+                    </div>
+
+                    <div class="header__right__dropdown__close">
+                        <a href="#" class="remove-cart" data-id="${item.id}">
+                            <i class="icofont-close-line"></i>
+                        </a>
+                    </div>
+                </div>`;
+                });
+
+                html += `</div>`;
+
+                html += `
+                <p class="dropdown__price">Total: <span>$${total}</span></p>
+                <div class="header__right__dropdown__button">
+                    <a href="{{ route('cart') }}" class="white__color">View Cart</a>
+                    <a href="{{ route('checkout.books') }}" class="blue__color">Checkout</a>
+                </div>
+            `;
+            }
+
+            $('#mini-cart').html(html);
+            $('.header__cart > a').attr('data-count', items.length);
+
+        }
+    });
+</script>
+
 
 @stack('js')
 

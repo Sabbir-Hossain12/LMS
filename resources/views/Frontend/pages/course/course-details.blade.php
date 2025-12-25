@@ -50,8 +50,10 @@
                                     <a class="default__button default__button--2" onclick="addtocart()"
                                        href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
                                     @if($courseDetails->product_type == 'book')
-                                        <a class="default__button default__button--1"
-                                           href="javascript:void(0);">Add to Cart</a>
+                                        <form action="{{ route('cart.add') }}" method="post">
+                                        <button class="default__button default__button--1"
+                                           >Add to Cart</button>
+                                        </form>
                                     @endif
 
                                     <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
@@ -403,7 +405,7 @@
                                         @else
                                             <a class="default__button default__button--2" onclick="addtocart()"
                                                href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-                                        
+
 
                                             <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
                                         @endif
@@ -418,8 +420,15 @@
                                            href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
 
                                         @if($courseDetails->product_type == 'book')
-                                            <a class="default__button default__button--1"
-                                               href="javascript:void(0);">Add to Cart</a>
+                                            <form action="{{ route('cart.add') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="course_id" value="{{ $courseDetails->id }}">
+                                                <input type="hidden" name="quantity" value="1">
+
+                                                <button type="submit" class="default__button default__button--1">
+                                                    Add to Cart
+                                                </button>
+                                            </form>
                                         @endif
                                     @endif
                                 @endif

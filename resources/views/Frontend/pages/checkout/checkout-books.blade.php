@@ -51,45 +51,7 @@
 @endpush
 
 @section('content')
-    <!-- breadcrumbarea__section__start -->
-
-
-    @php
-        $course_price = $course->sale_price;
-        $discount = 0;
-        $delivery_charge = 0;   // default
-    
-        // ============================
-        //  APPLY COUPON (IF VALID)
-        // ============================
-        if (session()->has('coupon')) {
-            $coupon = session('coupon');
-    
-            // Apply coupon only if coupon belongs to this course
-            if ($coupon['course_id'] == $course->id) {
-    
-                if ($coupon['type'] == 'Percentage') {
-                    $discount = ($course->sale_price * $coupon['discount']) / 100;
-                } else {
-                    $discount = $coupon['discount'];
-                }
-    
-                $course_price = $course->sale_price - $discount;
-            }
-        }
-    
-        // ============================
-        //  APPLY DELIVERY CHARGE (ONLY FOR BOOK)
-        // ============================
-        if ($course->product_type == 'book') {
-            // Get old selected charge OR default value (50)
-            $delivery_charge = old('delivery_charge', 50);
-    
-            $course_price = $course_price + $delivery_charge;
-        }
-    @endphp
     <div class="mt-4">
-
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
@@ -99,7 +61,7 @@
                         </div>
                         <div class="breadcrumb__inner">
                             <ul>
-                                <li><a href="{{route('home')}}">Home</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
                                 <li>Checkout</li>
                             </ul>
                         </div>
@@ -107,26 +69,15 @@
                 </div>
             </div>
         </div>
-
-        <div class="shape__icon__2">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__1"
-                 src="{{asset('frontend')}}/img/herobanner/herobanner__1.png" alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__2"
-                 src="{{asset('frontend')}}/img/herobanner/herobanner__2.png" alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__3"
-                 src="{{asset('frontend')}}/img/herobanner/herobanner__3.png" alt="photo">
-            <img loading="lazy" class=" shape__icon__img shape__icon__img__4"
-                 src="{{asset('frontend')}}/img/herobanner/herobanner__5.png" alt="photo">
-        </div>
-
     </div>
-    <!-- breadcrumbarea__section__End -->
-    <form action="{{route('order.submit')}}" method="post" id="purchese">
+
+    <form action="{{ route('order.submit') }}" method="post" id="purchase">
         @csrf
         <div class="checkoutarea sp_bottom_100 sp_top_100">
             <div class="container">
                 <div class="row">
 
+                    {{-- Billing Details --}}
                     <div class="col-xl-6 col-lg-6 col-md-12">
                         <div class="checkoutarea__billing">
                             <div class="checkoutarea__billing__heading">
@@ -138,105 +89,33 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="first__name">Full Name *</label>
                                             <input type="text" id="first__name" name="name"
-                                                   value="{{auth()->user()->name ?? ''}}" class="info"
-                                                   placeholder="First Name" required>
+                                                   value="{{ auth()->user()->name ?? '' }}" class="info"
+                                                   placeholder="Full Name" required>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-12">
                                         <div class="checkoutarea__inputbox">
                                             <label for="phone__number">Phone Number *</label>
-                                            <input type="text" id="phone__number" name="phone" class="info" maxlength="11" pattern="[0-9]{11}"
-                                                   title="Phone number must be exactly 11 digits"
-                                                   value="{{ auth()->check() && auth()->user()->hasRole('student') ? auth()->user()->phone : '' }}" placeholder="Phone Number"
-                                                   @if($course->product_type == 'course' || auth()->check()) readonly @endif required>
-
-
+                                            <input type="text" id="phone__number" name="phone" class="info"
+                                                   value="{{ auth()->user()->phone ?? '' }}" placeholder="Phone Number" required>
                                         </div>
                                     </div>
-
 
                                     <div class="col-xl-12">
                                         <div class="checkoutarea__inputbox">
                                             <label for="email__address">Email Address *</label>
-                                            <input type="text" id="email__address" name="email" class="info"
-                                                   value="{{ auth()->check() && auth()->user()->hasRole('student') ? auth()->user()->email : '' }}" placeholder="Your email" required>
+                                            <input type="email" id="email__address" name="email" class="info"
+                                                   value="{{ auth()->user()->email ?? '' }}" placeholder="Your email" required>
                                         </div>
                                     </div>
 
-                                    @if($course->product_type == 'book')
-                                        <div class="col-xl-12">
-                                            <div class="checkoutarea__inputbox">
-                                                <label for="district">District *</label>
-                                                <input type="text" id="district" name="district" class="info"
-                                                       value="{{auth()->user()->district ?? ''}}" placeholder="District">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-12">
-                                            <div class="checkoutarea__inputbox">
-                                                <label for="thana">Thana/Upazila *</label>
-                                                <input type="text" id="thana" name="thana" class="info"
-                                                       value="{{auth()->user()->thana ?? ''}}" placeholder="Enter Thana/Upazila">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-12">
-                                            <div class="checkoutarea__inputbox">
-                                                <label for="area">Area/Locality * </label>
-                                                <input type="text" id="area" name="area" class="info"
-                                                       value="{{ auth()->user()->area ?? '' }}" placeholder="Enter Area/Locality" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-12">
-                                            <div class="checkoutarea__inputbox">
-                                                <label for="holding_number">Holding Number * </label>
-                                                <input type="text" id="holding_number" name="holding_number" class="info"
-                                                       value="{{auth()->user()->holding_number ?? ''}}" placeholder="Enter Holding Number" required>
-                                            </div>
-                                        </div>
-                                    @endif
-
-
+                                    {{-- Address fields for book delivery --}}
                                     <div class="col-xl-12">
                                         <div class="checkoutarea__inputbox">
-                                            <label for="address__info">Address </label>
+                                            <label for="address__info">Address *</label>
                                             <input type="text" id="address__info" name="address" class="info"
-                                                   value="{{auth()->user()->address ?? ''}}" placeholder="Address">
-                                        </div>
-                                    </div>
-
-                                    @if($course->product_type == 'book')
-                                        <div class="col-xl-12">
-                                            <div class="">
-                                                <label>Delivery Area *</label>
-
-                                                <div class="d-flex gap-3 mt-2 flex-column">
-
-                                                    <label class="d-flex align-items-center gap-2">
-                                                        <input type="radio" name="delivery_charge" value="50" checked>
-                                                        Inside Dhaka (50 TK)
-                                                    </label>
-
-                                                    <label class="d-flex align-items-center gap-2">
-                                                        <input type="radio" name="delivery_charge" value="90">
-                                                        Outside Dhaka (90 TK)
-                                                    </label>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="col-xl-12 mt-3">
-                                        <div class="checkoutarea__inputbox w-50">
-                                            <label for="coupon_code">Coupon Code (if any)</label>
-                                            <div class="d-flex">
-                                                <input type="text" id="coupon_code" name="coupon" class="info" placeholder="Coupon"/>
-                                                <button type="button" id="apply_coupon" class="btn btn-sm btn-primary ml-2 align-self-stretch">Apply</button>
-                                            </div>
-                                            <div id="coupon_message"></div>
+                                                   value="{{ auth()->user()->address ?? '' }}" placeholder="Address" required>
                                         </div>
                                     </div>
                                 </div>
@@ -244,9 +123,9 @@
                         </div>
                     </div>
 
+                    {{-- Order Summary --}}
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="checkoutarea__payment__wraper">
-
                             <div class="checkoutarea__total">
                                 <h3>Your order</h3>
 
@@ -254,186 +133,68 @@
                                     <table class="checkoutarea__table">
                                         <thead>
                                         <tr class="checkoutarea__item">
-                                            <td class="checkoutarea__ctg__type fw-bold"> Course Title</td>
-                                            <td class="checkoutarea__cgt__des fw-bold"> Price</td>
+                                            <td class="fw-bold">Course Title</td>
+                                            <td class="fw-bold">Price</td>
+                                            <td class="fw-bold">Qty</td>
+                                            <td class="fw-bold">Total</td>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="checkoutarea__item prd-name">
-                                            <td class="checkoutarea__ctg__type"> {{$course->title}} <span></span></td>
-                                            <td class="checkoutarea__cgt__des"> {{$basicInfo->currency_symbol}} <span id="salePriceText">{{$course->sale_price}}</span></td>
-                                        </tr>
-
-                                        @if($course->product_type == 'book')
+                                        @php $grandTotal = 0; @endphp
+                                        @foreach($cartItems as $item)
                                             <tr class="checkoutarea__item">
-                                                <td class="checkoutarea__ctg__type"> Quantity</td>
-                                                <td class="checkoutarea__cgt__des">
-                                                    <div class="qty-input">
-                                                        <button type="button" class="qty-btn minus">-</button>
-                                                        <input type="number" min="1" value="1" name="qty" />
-                                                        <button type="button" class="qty-btn plus">+</button>
-                                                    </div>
-                                                </td>
+                                                <td>{{ $item->course->title }}</td>
+                                                <td>{{ $basicInfo->currency_symbol }} {{ $item->price }}</td>
+                                                <td>{{ $item->quantity }}</td>
+                                                <td>{{ $basicInfo->currency_symbol }} {{ $item->total }}</td>
                                             </tr>
-                                        @endif
+                                            @php $grandTotal += $item->total; @endphp
+                                        @endforeach
 
                                         <tr class="checkoutarea__item">
-                                            <td class="checkoutarea__ctg__type"> Subtotal</td>
-                                            <td class="checkoutarea__cgt__des">{{$basicInfo->currency_symbol}} <span id="subtotalPriceText">{{$course->sale_price}}</span> </td>
-                                        </tr>
-                                        @if($course->product_type == 'book')
-                                            <tr class="checkoutarea__item">
-                                                <td class="checkoutarea__ctg__type"> Delivery Charge</td>
-                                                <td class="checkoutarea__cgt__des">{{$basicInfo->currency_symbol}} <span id="delivery_amount">50</span> </td>
-                                            </tr>
-                                        @endif
-
-                                        <tr class="checkoutarea__item">
-                                            <td class="checkoutarea__ctg__type"> Discount</td>
-                                            <td class="checkoutarea__cgt__des"> - <span id="discountText">{{ $discount }}</span> </td>
-                                        </tr>
-
-                                        <tr class="checkoutarea__item">
-                                            <td class="checkoutarea__itemcrt-total"> Total</td>
-                                            <td class="checkoutarea__cgt__des prc-total">{{$basicInfo->currency_symbol}} <span id="totalPriceText">{{ $course_price }}</span> </td>
+                                            <td colspan="3" class="fw-bold">Grand Total</td>
+                                            <td class="fw-bold">{{ $basicInfo->currency_symbol }} {{ $grandTotal }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
 
-
+                            {{-- Payment Options --}}
                             <div class="checkoutarea__payment clearfix">
                                 <div class="checkoutarea__payment__toggle">
-                                    <div class="checkoutarea__payment__total">
-                                        @if($course->sale_price)
-                                            <div class="checkoutarea__payment__type">
-                                                <input type="radio" id="pay-toggle01" name="payment_method" value="bkash" checked>
-                                                <label for="pay-toggle01">
-                                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHX7h0I6s8TJsqxI7pLDR8yGLu450Ph71rpg&s"  width="120" alt="bkash" />
-                                                </label>
-                                            </div>
-
-                                            @if($course->product_type == 'book')
-                                                <div class="checkoutarea__payment__type">
-                                                    <input type="radio" id="pay-toggle02" name="payment_method" value="cod">
-                                                    <label for="pay-toggle02">
-                                                        Cash On Delivery
-                                                    </label>
-                                                </div>
-                                            @endif
-
-                                        @else
-                                            <div class="checkoutarea__payment__type">
-                                                <input type="radio" id="pay-toggle01" name="payment_method" value="free" checked>
-                                                <label for="pay-toggle01">Free</label>
-                                            </div>
-                                        @endif
-
-
+                                    <div class="checkoutarea__payment__type">
+                                        <input type="radio" id="pay-bkash" name="payment_method" value="bkash" checked>
+                                        <label for="pay-bkash">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHX7h0I6s8TJsqxI7pLDR8yGLu450Ph71rpg&s" width="120" alt="bkash" />
+                                        </label>
                                     </div>
-                                    <input type="hidden" name="course_id" id="course_id" value="{{ $course->id }}">
-
-                                    <div class="checkoutarea__payment__input__box">
-                                        <button type="submit" class="default__button w-100">Place order</button>
+                                    <div class="checkoutarea__payment__type">
+                                        <input type="radio" id="pay-cod" name="payment_method" value="cod">
+                                        <label for="pay-cod">Cash On Delivery</label>
                                     </div>
                                 </div>
 
+                                <div class="checkoutarea__payment__input__box">
+                                    <button type="submit" class="default__button w-100">Place order</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-
                 </div>
             </div>
         </div>
-
     </form>
-
 @endsection
 
 @push('js')
 
     <script>
 
-        var gtmprice = {{ $course->sale_price ?? 0 }};
-        var gtmqty=1;
-        var gtmid={{ $course->id }};
-        var gtmsku='SMM{{ $course->id }}';
-        var gtmproductname='{{ $course->title}}';
-        var gtmdiscount={{ $course->discount}};
-
-        window.dataLayer = window.dataLayer || [];
-        dataLayer.push({
-            ecommerce: null
-        });
-
-        dataLayer.push({
-            event: "begin_checkout",
-            ecommerce: {
-                currency: "BDT",
-                value: gtmprice,
-                items: [{
-                    item_id: gtmid,
-                    item_name: gtmproductname,
-                    index: 0,
-                    price: gtmprice,
-                    discount: gtmdiscount,
-                    item_brand: 'schoolmathematics.com.bd',
-                    currency: "BDT",
-                    quantity: 1,
-                }]
-
-            }
-        });
-
-        document.getElementById('purchese').addEventListener('submit', function(event) {
-            window.dataLayer = window.dataLayer || [];
-            dataLayer.push({
-                ecommerce: null
-            });
-            dataLayer.push({
-                event: "purchese",
-                ecommerce: {
-                    currency: "BDT",
-                    value: gtmprice,
-                    shipping: "0",
-                    tax:0,
-                    coupon:$('#coupon_code').val(),
-                    affiliation:"",
-                    external_id :"<?php echo App\Models\Order::latest()->first()->id+1 ?>",
-                    transaction_id:"<?php echo 'TRX45324'.App\Models\Order::latest()->first()->id+1 ?>",
-                    items: [
-                        {
-                            item_id: gtmid,
-                            item_name: gtmproductname,
-                            index: 0,
-                            price: gtmprice,
-                            discount: gtmdiscount,
-                            item_brand: 'schoolmathematics.com.bd',
-                            currency: "BDT",
-                            quantity: 1,
-                        }],
-                    more:[
-                        {
-                            Customer_Name:$('#first__name').val(),
-                            Customer_Address:$('#address__info').val(),
-                            Customer_Phone_Number:$('#phone__number').val(),
-                            Customer_Email:$('#email__address').val(),
-                            Customer_Country:'Bangladesh',
-                            // Customer_Visitor_ID :{{auth()->user()->id ?? null}}, 
-                            payment_method:"Cash On Delivery",
-                        }
-                    ]
-                }
-            });
-        });
-
-
-        let price = {{$course->sale_price}};
+        let price = 100;
         let basePrice = parseFloat(price);
-        let discount = parseFloat("{{ $discount }}");
+        let discount = 100;
         let deliveryCharge = parseFloat($("input[name='delivery_charge']:checked").val() || 0);
 
         $('#apply_coupon').on('click', function () {
@@ -494,9 +255,6 @@
         // delivery charge
         $(document).ready(function () {
 
-
-
-
             // Initial total load
             updateTotal();
 
@@ -505,8 +263,6 @@
 
                 deliveryCharge = parseFloat($(this).val());
                 updateTotal();
-
-
 
             });
 
