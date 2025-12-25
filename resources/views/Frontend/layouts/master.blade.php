@@ -243,8 +243,8 @@
                     </div>
 
                     <div class="header__right__dropdown__content">
-                        <a href="#">${item.course.title}</a>
-                        <p>1 x <span class="price">$ ${price}</span></p>
+                        <a href="#">৳{item.course.title}</a>
+                        <p>1 x <span class="price">৳ ${price}</span></p>
                     </div>
 
                     <div class="header__right__dropdown__close">
@@ -258,7 +258,7 @@
                 html += `</div>`;
 
                 html += `
-                <p class="dropdown__price">Total: <span>$${total}</span></p>
+                <p class="dropdown__price">Total: <span>৳${total}</span></p>
                 <div class="header__right__dropdown__button">
                     <a href="{{ route('cart') }}" class="white__color">View Cart</a>
                     <a href="{{ route('checkout.books') }}" class="blue__color">Checkout</a>
@@ -266,11 +266,35 @@
             `;
             }
 
-            $('#mini-cart').html(html);
+            $('.mini-cart').html(html);
             $('.header__cart > a').attr('data-count', items.length);
 
         }
-    });
+
+      
+            $(document).on('click', '.remove-cart', function(e) {
+            e.preventDefault();
+
+            let itemId = $(this).data('id');
+            let $this = $(this);
+
+            $.ajax({
+            url: '/cart/remove/' + itemId,   // route to your removeItem method
+            type: 'GET',                  // use DELETE for RESTful convention
+            success: function(response) {
+            if (response.success) {
+         
+                loadMiniCart();
+        }
+        },
+            error: function(xhr) {
+            alert('Something went wrong while removing the item.');
+        }
+        });
+        });
+
+
+});
 </script>
 
 

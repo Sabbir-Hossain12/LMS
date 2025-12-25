@@ -17,7 +17,6 @@ class CartController extends Controller
         $cartItems = Cart::with('course')->where('user_id', auth()->id())->get();
 
         if ($request->ajax()) {
-
             $cartItems->each(function ($item) {
                 if ($item->course && $item->course->thumbnail_img) {
                     $item->course->thumbnail_img = asset($item->course->thumbnail_img);
@@ -63,11 +62,16 @@ class CartController extends Controller
         return response()->json(['success' => true, 'cartItem' => $cartItem]);
     }
 
-    public function removeItem($id)
+    public function removeItem(Request $request, $id)
     {
         $cartItem = Cart::where('user_id', auth()->id())->findOrFail($id);
         $cartItem->delete();
-        return response()->json(['success' => true]);
+
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
+        
+        return redirect()->back()->with('success', 'Item removed from cart successfully!');
     }
 
     public function clearCart()

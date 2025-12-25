@@ -110,14 +110,80 @@
                                         </div>
                                     </div>
 
-                                    {{-- Address fields for book delivery --}}
                                     <div class="col-xl-12">
                                         <div class="checkoutarea__inputbox">
-                                            <label for="address__info">Address *</label>
-                                            <input type="text" id="address__info" name="address" class="info"
-                                                   value="{{ auth()->user()->address ?? '' }}" placeholder="Address" required>
+                                            <label for="district">District *</label>
+                                            <input type="text" id="district" name="district" class="info"
+                                                   value="{{auth()->user()->district ?? ''}}" placeholder="District">
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="checkoutarea__inputbox">
+                                            <label for="thana">Thana/Upazila *</label>
+                                            <input type="text" id="thana" name="thana" class="info"
+                                                   value="{{auth()->user()->thana ?? ''}}" placeholder="Enter Thana/Upazila">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="checkoutarea__inputbox">
+                                            <label for="area">Area/Locality * </label>
+                                            <input type="text" id="area" name="area" class="info"
+                                                   value="{{ auth()->user()->area ?? '' }}" placeholder="Enter Area/Locality" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="checkoutarea__inputbox">
+                                            <label for="holding_number">Holding Number * </label>
+                                            <input type="text" id="holding_number" name="holding_number" class="info"
+                                                   value="{{auth()->user()->holding_number ?? ''}}" placeholder="Enter Holding Number" required>
+                                        </div>
+                                    </div>
+                                   
+
+
+                                    <div class="col-xl-12">
+                                        <div class="checkoutarea__inputbox">
+                                            <label for="address__info">Address </label>
+                                            <input type="text" id="address__info" name="address" class="info"
+                                                   value="{{auth()->user()->address ?? ''}}" placeholder="Address">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="">
+                                            <label>Delivery Area *</label>
+
+                                            <div class="d-flex gap-3 mt-2 flex-column">
+
+                                                <label class="d-flex align-items-center gap-2">
+                                                    <input type="radio" name="delivery_charge" value="50" checked>
+                                                    Inside Dhaka (50 TK)
+                                                </label>
+
+                                                <label class="d-flex align-items-center gap-2">
+                                                    <input type="radio" name="delivery_charge" value="90">
+                                                    Outside Dhaka (90 TK)
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 mt-3">
+                                        <div class="checkoutarea__inputbox w-50">
+                                            <label for="coupon_code">Coupon Code (if any)</label>
+                                            <div class="d-flex">
+                                                <input type="text" id="coupon_code" name="coupon" class="info" placeholder="Coupon"/>
+                                                <button type="button" id="apply_coupon" class="btn btn-sm btn-primary ml-2 align-self-stretch">Apply</button>
+                                            </div>
+                                            <div id="coupon_message"></div>
+                                        </div>
+                                    </div>
+
+                               
                                 </div>
                             </div>
                         </div>
@@ -134,7 +200,6 @@
                                         <thead>
                                         <tr class="checkoutarea__item">
                                             <td class="fw-bold">Course Title</td>
-                                            <td class="fw-bold">Price</td>
                                             <td class="fw-bold">Qty</td>
                                             <td class="fw-bold">Total</td>
                                         </tr>
@@ -144,17 +209,29 @@
                                         @foreach($cartItems as $item)
                                             <tr class="checkoutarea__item">
                                                 <td>{{ $item->course->title }}</td>
-                                                <td>{{ $basicInfo->currency_symbol }} {{ $item->price }}</td>
-                                                <td>{{ $item->quantity }}</td>
+                                                <td class="checkoutarea__cgt__des">
+                                                    <div class="qty-input">
+                                                        <button type="button" class="qty-btn minus">-</button>
+                                                        <input type="number" min="1" value="1" name="qty" />
+                                                        <button type="button" class="qty-btn plus">+</button>
+                                                    </div>
+                                                </td>
                                                 <td>{{ $basicInfo->currency_symbol }} {{ $item->total }}</td>
                                             </tr>
                                             @php $grandTotal += $item->total; @endphp
                                         @endforeach
 
                                         <tr class="checkoutarea__item">
-                                            <td colspan="3" class="fw-bold">Grand Total</td>
+                                            <td colspan="2" class="fw-bold">Delivery Charge</td>
+                                            <td class="fw-bold">{{ $basicInfo->currency_symbol }} 50</td>
+                                        </tr>
+                                        <tr class="checkoutarea__item">
+                                            
+
+                                            <td colspan="2" class="fw-bold">Grand Total</td>
                                             <td class="fw-bold">{{ $basicInfo->currency_symbol }} {{ $grandTotal }}</td>
                                         </tr>
+                                        
                                         </tbody>
                                     </table>
                                 </div>

@@ -87,11 +87,11 @@ Route::get('/blog_details/{slug}', [BlogController::class, 'blogDetails'])->name
 
 //Cart Page
 
-Route::middleware('auth')->group(function () {
+Route::middleware('student')->group(function () {
     Route::get('/cart-page', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
+    Route::get('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
     Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 });
 

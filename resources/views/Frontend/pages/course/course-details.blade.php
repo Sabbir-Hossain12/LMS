@@ -22,49 +22,57 @@
 
                     <div class="blog__details__content__wraper">
                         <div class="course__button__wraper" data-aos="fade-up">
-                            <!--<div class="course__button">-->
-                            <!--    @forelse($courseDetails->subjects as $subject)-->
-                            <!--        <a href="#">{{$subject->title}}</a>-->
-                            <!--    @empty-->
-                            <!--    @endforelse-->
-                            <!--</div>-->
+                      
                             <div class="course__date">
                                 <p>Last Update: <span>{{$courseDetails->updated_at->format('M d, Y')}}</span></p>
                             </div>
                         </div>
 
                         <div class="course__summery__button purchase-sec">
-                            @if($enrollment)
-
-                                <a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Continue</a>
-
-                            @else
-                                <!--<a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try-->
-                                <!--    For Free</a>-->
-
-                                @if($courseDetails->sale_price == 0)
-                                    <a class="default__button default__button--2" onclick="addtocart()"
-                                       href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-
+                            @if($courseDetails->product_type === 'course')
+                                {{-- Course logic --}}
+                                @if($enrollment)
+                                    <a class="default__button"
+                                       href="{{ route('course-lessons', $courseDetails->slug) }}">
+                                        Continue
+                                    </a>
                                 @else
-                                    <a class="default__button default__button--2" onclick="addtocart()"
-                                       href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-                                    @if($courseDetails->product_type == 'book')
-                                        <form action="{{ route('cart.add') }}" method="post">
-                                        <button class="default__button default__button--1"
-                                           >Add to Cart</button>
-                                        </form>
+                                    @if($courseDetails->sale_price == 0)
+                                        <a class="default__button default__button--2"
+                                           onclick="addtocart()"
+                                           href="{{ route('checkout', $courseDetails->slug) }}">
+                                            Buy Now
+                                        </a>
+                                    @else
+                                        <a class="default__button default__button--2"
+                                           onclick="addtocart()"
+                                           href="{{ route('checkout', $courseDetails->slug) }}">
+                                            Buy Now
+                                        </a>
                                     @endif
-
-                                    <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
                                 @endif
+                            @else
+                                {{-- Non-course logic --}}
+
+{{--                                <a class="default__button default__button--2"--}}
+{{--                                   onclick="addtocart()"--}}
+{{--                                   href="{{ route('checkout', $courseDetails->slug) }}">--}}
+{{--                                    Buy Now--}}
+{{--                                </a>--}}
+                                <form action="{{ route('cart.add') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $courseDetails->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="default__button default__button--1">
+                                        Add to Cart
+                                    </button>
+                                </form>
                             @endif
 
-
                             <span>
-                                        <i class="icofont-ui-rotation"></i>
-{{--                                        45-Days Money-Back Guarantee--}}
-                                    </span>
+        <i class="icofont-ui-rotation"></i>
+        {{-- 45-Days Money-Back Guarantee --}}
+    </span>
                         </div>
 
                         <div class="course__details__heading" data-aos="fade-up">
@@ -385,60 +393,53 @@
                                 </div>
                             </div>
 
-                            <div class="course__summery__button">
-
-                                @if($courseDetails->product_type == 'course')
-
-                                    @if($enrollment)
-
-                                        <a class="default__button"
-                                           href="{{route('course-lessons', $courseDetails->slug)}}">Continue</a>
-
-                                    @else
-                                        <!--<a class="default__button" href="{{route('course-lessons', $courseDetails->slug)}}">Try-->
-                                        <!--    For Free</a>-->
-
-                                        @if($courseDetails->sale_price == 0)
-                                            <a class="default__button default__button--2" onclick="addtocart()"
-                                               href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-
+                                <div class="course__summery__button">
+                                    @if($courseDetails->product_type === 'course')
+                                        {{-- Course logic --}}
+                                        @if($enrollment)
+                                            <a class="default__button"
+                                               href="{{ route('course-lessons', $courseDetails->slug) }}">
+                                                Continue
+                                            </a>
                                         @else
-                                            <a class="default__button default__button--2" onclick="addtocart()"
-                                               href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-
-
-                                            <!--<img class="img-fluid" src="{{asset('payment.jpg')}}" />-->
+                                            @if($courseDetails->sale_price == 0)
+                                                <a class="default__button default__button--2"
+                                                   onclick="addtocart()"
+                                                   href="{{ route('checkout', $courseDetails->slug) }}">
+                                                    Buy Now
+                                                </a>
+                                            @else
+                                                <a class="default__button default__button--2"
+                                                   onclick="addtocart()"
+                                                   href="{{ route('checkout', $courseDetails->slug) }}">
+                                                    Buy Now
+                                                </a>
+                                            @endif
                                         @endif
-                                    @endif
-
-                                @else
-                                    @if($enrollment)
-                                        <a class="default__button default__button--2"
-                                           href="javascript:void(0)">Purchased</a>
                                     @else
-                                        <a class="default__button default__button--2" onclick="addtocart()"
-                                           href="{{route('checkout', $courseDetails->slug)}}">Buy Now</a>
-
-                                        @if($courseDetails->product_type == 'book')
-                                            <form action="{{ route('cart.add') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="course_id" value="{{ $courseDetails->id }}">
-                                                <input type="hidden" name="quantity" value="1">
-
-                                                <button type="submit" class="default__button default__button--1">
-                                                    Add to Cart
-                                                </button>
-                                            </form>
-                                        @endif
+                                        {{-- Non-course logic --}}
+                                    
+{{--                                            <a class="default__button default__button--2"--}}
+{{--                                               onclick="addtocart()"--}}
+{{--                                               href="{{ route('checkout', $courseDetails->slug) }}">--}}
+{{--                                                Buy Now--}}
+{{--                                            </a>--}}
+                                                <form action="{{ route('cart.add') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="course_id" value="{{ $courseDetails->id }}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button type="submit" class="default__button default__button--1">
+                                                        Add to Cart
+                                                    </button>
+                                                </form>
                                     @endif
-                                @endif
 
+                                    <span>
+        <i class="icofont-ui-rotation"></i>
+        {{-- 45-Days Money-Back Guarantee --}}
+    </span>
+                                </div>
 
-                                <span>
-                                        <i class="icofont-ui-rotation"></i>
-{{--                                        45-Days Money-Back Guarantee--}}
-                                    </span>
-                            </div>
 
                             @if($courseDetails->product_type == 'course')
                                 <div class="course__summery__lists">
