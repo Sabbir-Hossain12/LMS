@@ -11,6 +11,11 @@ class Order extends Model
         return $this->hasOne(OrderCourse::class);
     }
 
+    public function orderCourses()
+    {
+        return $this->hasMany(OrderCourse::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');

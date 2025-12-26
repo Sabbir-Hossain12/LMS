@@ -82,30 +82,41 @@
                                     <th>Book Title</th>
                                     <th class="text-end" style="width: 120px;">Book Price</th>
                                     <th class="text-end" style="width: 120px;">Quantity</th>
-                                    <th class="text-end" style="width: 120px;">Delivery Charge</th>
-                                     <th class="text-end" style="width: 120px;">Coupon (if any)</th>
                                     <th class="text-end" style="width: 120px;">Total Price</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($order->orderCourses as $book)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>
+                                            <h5 class="font-size-15 mb-1">{{ $book->course->title ?? ''}}</h5>
+                                        </td>
+                                        <td class="text-end">{{ $book->price }}</td>
+                                        <td class="text-end">{{ $book->qty ?? '1' }}</td>
+                                        <td class="text-end">{{ $book->price * $book->qty ?? 0 }}</td>
+
+                                    </tr>
+                                @endforeach
+
+
                                 <tr>
-                                    <th scope="row">{{ 1 }}</th>
-                                    <td>
-                                        <h5 class="font-size-15 mb-1">{{ $order->orderCourse->course->title ?? ''}}</h5>
-                                    </td>
-                                    <td class="text-end">{{ $order->orderCourse->course->sale_price }}</td>
-                                    <td class="text-end">{{ $order->orderCourse->qty ?? '1' }}</td>
-                                     <td class="text-end">{{ $order->delivery_charge ?? 0 }}</td>
-                                     <td class="text-end">{{ $order->discount ?? 0 }}</td>
-                                    
-                                    <td class="text-end">{{ $order->total_amount }}</td>
+                                    <th scope="row" colspan="4" class="border-0 text-end">Subtotal</th>
+                                    <td class="border-0 text-end"><h4
+                                            class="m-0">{{ $order->total_amount - $order->delivery_charge }}</h4></td>
                                 </tr>
 
-{{--                                <tr>--}}
-{{--                                    <th scope="row" colspan="3" class="border-0 text-end">Marks Obtained</th>--}}
-{{--                                    <td class="border-0 text-end"><h4--}}
-{{--                                            class="m-0">{{$grades->sum('marks_obtained') ?? '0'}}</h4></td>--}}
-{{--                                </tr>--}}
+                                <tr>
+                                    <th scope="row" colspan="4" class="border-0 text-end">Delivery Charge</th>
+                                    <td class="border-0 text-end"><h4
+                                            class="m-0">{{ $order->delivery_charge }}</h4></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row" colspan="4" class="border-0 text-end">Grand Total</th>
+                                    <td class="border-0 text-end"><h4
+                                            class="m-0">{{ $order->total_amount }}</h4></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

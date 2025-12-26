@@ -94,10 +94,11 @@ class BookOrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = Order::with('orderCourse','orderCourse.course')
+        $order = Order::with('orderCourses','orderCourses.course')
             ->where('product_type','book')
             ->where('id',$id)
             ->first();
+
 
         return view('backend.pages.orders.book.view',compact('order'));
     }
@@ -125,12 +126,12 @@ class BookOrderController extends Controller
     {
         //
     }
-    
+
     public function changeBookOrderStatus(Request $request)
     {
          $id = $request->id;
         $status = $request->status;
-        
+
         if ($status == 1) {
             $stat = 0;
         } else {
