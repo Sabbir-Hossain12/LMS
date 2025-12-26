@@ -207,6 +207,7 @@
 <script>
     $(document).ready(function () {
         loadMiniCart();
+    });
 
         function loadMiniCart() {
             $.ajax({
@@ -232,7 +233,8 @@
 
                 $.each(items, function (index, item) {
                     let price = item.course.sale_price;
-                    total += price;
+                    let quantity = item.quantity;
+                    total += quantity * price;
 
                     html += `
                 <div class="single__header__right__dropdown">
@@ -243,8 +245,8 @@
                     </div>
 
                     <div class="header__right__dropdown__content">
-                        <a href="#">৳{item.course.title}</a>
-                        <p>1 x <span class="price">৳ ${price}</span></p>
+                        <a href="#">${item.course.title}</a>
+                        <p>${item.quantity} x <span class="price">৳ ${price}</span></p>
                     </div>
 
                     <div class="header__right__dropdown__close">
@@ -271,7 +273,7 @@
 
         }
 
-      
+
             $(document).on('click', '.remove-cart', function(e) {
             e.preventDefault();
 
@@ -279,11 +281,11 @@
             let $this = $(this);
 
             $.ajax({
-            url: '/cart/remove/' + itemId,   // route to your removeItem method
+            url:  "{{ url('/cart/remove') }}/"  + itemId,   // route to your removeItem method
             type: 'GET',                  // use DELETE for RESTful convention
             success: function(response) {
             if (response.success) {
-         
+
                 loadMiniCart();
         }
         },
@@ -294,7 +296,7 @@
         });
 
 
-});
+
 </script>
 
 

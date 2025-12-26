@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <form action="{{ route('order.submit') }}" method="post" id="purchase">
+    <form action="{{ route('order.submit.books') }}" method="post" id="purchase">
         @csrf
         <div class="checkoutarea sp_bottom_100 sp_top_100">
             <div class="container">
@@ -98,7 +98,8 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="phone__number">Phone Number *</label>
                                             <input type="text" id="phone__number" name="phone" class="info"
-                                                   value="{{ auth()->user()->phone ?? '' }}" placeholder="Phone Number" required>
+                                                   value="{{ auth()->user()->phone ?? '' }}" placeholder="Phone Number"
+                                                   required>
                                         </div>
                                     </div>
 
@@ -106,7 +107,8 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="email__address">Email Address *</label>
                                             <input type="email" id="email__address" name="email" class="info"
-                                                   value="{{ auth()->user()->email ?? '' }}" placeholder="Your email" required>
+                                                   value="{{ auth()->user()->email ?? '' }}" placeholder="Your email"
+                                                   required>
                                         </div>
                                     </div>
 
@@ -122,7 +124,8 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="thana">Thana/Upazila *</label>
                                             <input type="text" id="thana" name="thana" class="info"
-                                                   value="{{auth()->user()->thana ?? ''}}" placeholder="Enter Thana/Upazila">
+                                                   value="{{auth()->user()->thana ?? ''}}"
+                                                   placeholder="Enter Thana/Upazila">
                                         </div>
                                     </div>
 
@@ -130,7 +133,8 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="area">Area/Locality * </label>
                                             <input type="text" id="area" name="area" class="info"
-                                                   value="{{ auth()->user()->area ?? '' }}" placeholder="Enter Area/Locality" required>
+                                                   value="{{ auth()->user()->area ?? '' }}"
+                                                   placeholder="Enter Area/Locality" required>
                                         </div>
                                     </div>
 
@@ -138,10 +142,10 @@
                                         <div class="checkoutarea__inputbox">
                                             <label for="holding_number">Holding Number * </label>
                                             <input type="text" id="holding_number" name="holding_number" class="info"
-                                                   value="{{auth()->user()->holding_number ?? ''}}" placeholder="Enter Holding Number" required>
+                                                   value="{{auth()->user()->holding_number ?? ''}}"
+                                                   placeholder="Enter Holding Number" required>
                                         </div>
                                     </div>
-                                   
 
 
                                     <div class="col-xl-12">
@@ -157,7 +161,6 @@
                                             <label>Delivery Area *</label>
 
                                             <div class="d-flex gap-3 mt-2 flex-column">
-
                                                 <label class="d-flex align-items-center gap-2">
                                                     <input type="radio" name="delivery_charge" value="50" checked>
                                                     Inside Dhaka (50 TK)
@@ -167,23 +170,10 @@
                                                     <input type="radio" name="delivery_charge" value="90">
                                                     Outside Dhaka (90 TK)
                                                 </label>
-
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-12 mt-3">
-                                        <div class="checkoutarea__inputbox w-50">
-                                            <label for="coupon_code">Coupon Code (if any)</label>
-                                            <div class="d-flex">
-                                                <input type="text" id="coupon_code" name="coupon" class="info" placeholder="Coupon"/>
-                                                <button type="button" id="apply_coupon" class="btn btn-sm btn-primary ml-2 align-self-stretch">Apply</button>
-                                            </div>
-                                            <div id="coupon_message"></div>
-                                        </div>
-                                    </div>
-
-                               
                                 </div>
                             </div>
                         </div>
@@ -205,33 +195,39 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @php $grandTotal = 0; @endphp
+                                        @php $subtotal = 0; @endphp
                                         @foreach($cartItems as $item)
-                                            <tr class="checkoutarea__item">
+                                            <tr class="checkoutarea__item" data-id="{{ $item->id }}">
                                                 <td>{{ $item->course->title }}</td>
                                                 <td class="checkoutarea__cgt__des">
                                                     <div class="qty-input">
                                                         <button type="button" class="qty-btn minus">-</button>
-                                                        <input type="number" min="1" value="1" name="qty" />
+                                                        <input type="number" min="1" value="{{ $item->quantity }}"
+                                                               class="qty-field"/>
                                                         <button type="button" class="qty-btn plus">+</button>
                                                     </div>
                                                 </td>
-                                                <td>{{ $basicInfo->currency_symbol }} {{ $item->total }}</td>
+                                                <td class="item-total">{{ $basicInfo->currency_symbol }} {{ $item->total }}</td>
                                             </tr>
-                                            @php $grandTotal += $item->total; @endphp
+                                            @php $subtotal += $item->total; @endphp
                                         @endforeach
 
-                                        <tr class="checkoutarea__item">
-                                            <td colspan="2" class="fw-bold">Delivery Charge</td>
-                                            <td class="fw-bold">{{ $basicInfo->currency_symbol }} 50</td>
+                                        <tr class="checkoutarea__item subtotal-row">
+                                            <td colspan="2" class="fw-bold">Subtotal</td>
+                                            <td class="fw-bold subtotal">{{ $basicInfo->currency_symbol }} {{ $subtotal }}</td>
                                         </tr>
-                                        <tr class="checkoutarea__item">
-                                            
 
-                                            <td colspan="2" class="fw-bold">Grand Total</td>
-                                            <td class="fw-bold">{{ $basicInfo->currency_symbol }} {{ $grandTotal }}</td>
+
+                                        <tr class="checkoutarea__item delivery-row">
+                                            <td colspan="2" class="fw-bold">Delivery Charge</td>
+                                            <td class="fw-bold delivery">{{ $basicInfo->currency_symbol }} 50</td>
                                         </tr>
-                                        
+
+                                        <tr class="checkoutarea__item grand-row">
+                                            <td colspan="2" class="fw-bold">Grand Total</td>
+                                            <td class="fw-bold grand">{{ $basicInfo->currency_symbol }} {{ $subtotal + 50 }}</td>
+                                        </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -243,7 +239,9 @@
                                     <div class="checkoutarea__payment__type">
                                         <input type="radio" id="pay-bkash" name="payment_method" value="bkash" checked>
                                         <label for="pay-bkash">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHX7h0I6s8TJsqxI7pLDR8yGLu450Ph71rpg&s" width="120" alt="bkash" />
+                                            <img
+                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHX7h0I6s8TJsqxI7pLDR8yGLu450Ph71rpg&s"
+                                                width="120" alt="bkash"/>
                                         </label>
                                     </div>
                                     <div class="checkoutarea__payment__type">
@@ -269,115 +267,89 @@
 
     <script>
 
-        let price = 100;
-        let basePrice = parseFloat(price);
-        let discount = 100;
-        let deliveryCharge = parseFloat($("input[name='delivery_charge']:checked").val() || 0);
-
-        $('#apply_coupon').on('click', function () {
-
-
-            const code = $('#coupon_code').val();
-            let course_id = $('#course_id').val();
-
-            // console.log(course_id)
-            if(code.length == '0')
-            {
-                $('#coupon_message').text('Code can not be empty !').css('color', 'red');
-
-                return;
-            }
-
-            $.ajax({
-                url: '{{ route('apply-coupon') }}',
-                method: 'POST',
-                data: {
-                    code: code,
-                    course_id :course_id,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    if (response.success) {
-
-                        if(response.type == 'Percentage')
-                        {
-                            $('#coupon_message').text('Coupon applied! Discount: ' + response.discount + '%').css('color', 'green');
-
-                            $('#discountText').text(response.discount + '%');
-
-                            $('#totalPriceText').text(price - (price * response.discount)/100 + deliveryCharge )
-                        }
-                        else
-                        {
-                            $('#coupon_message').text('Coupon applied! Discount: ' + response.discount + 'TK').css('color', 'green');
-                            $('#discountText').text(response.discount);
-
-                            $('#totalPriceText').text(price - response.discount + deliveryCharge)
-                        }
-
-
-
-                        location.reload();
-
-                    } else {
-                        $('#coupon_message').text(response.message).css('color', 'red');
-                    }
-                },
-                error: function () {
-                    $('#coupon_message').text('Something went wrong.').css('color', 'red');
-                }
-            });
-        });
-
-        // delivery charge
         $(document).ready(function () {
 
-            // Initial total load
-            updateTotal();
+            let delivery = parseFloat($('input[name="delivery_charge"]:checked').val());
 
-            // On change event
-            $("input[name='delivery_charge']").on('change', function () {
+            $(document).on('change', 'input[name="delivery_charge"]', function () {
+                 delivery = parseFloat($(this).val());
 
-                deliveryCharge = parseFloat($(this).val());
-                updateTotal();
 
+                console.log(delivery)
+
+                // Update delivery charge cell
+
+                $('.delivery').text("{{ $basicInfo->currency_symbol }} " + delivery);
+
+                // Recalculate grand total
+                recalcTotals(delivery);
             });
 
-            function updateTotal() {
-                let qty = parseInt($("input[name='qty']").val()) || 1;
+            // Handle plus/minus clicks
+            $(document).on('click', '.qty-btn', function () {
+                let $row = $(this).closest('tr');
+                let cartId = $row.data('id');
+                let $input = $row.find('.qty-field');
+                let quantity = parseInt($input.val());
 
-                let subtotal = basePrice * qty;
+                if ($(this).hasClass('plus')) {
+                    quantity++;
+                } else if ($(this).hasClass('minus') && quantity > 1) {
+                    quantity--;
+                }
 
-                let total = (subtotal + deliveryCharge)- discount;
+                $input.val(quantity);
 
-                $('#subtotalPriceText').text(subtotal.toFixed(2));
-                $("#delivery_amount").text(deliveryCharge);
-                $("#totalPriceText").text(total);
-                $('#discountText').text(discount);
+                // Send AJAX update
+                $.ajax({
+                    url: "{{ url('/cart/update') }}/" + cartId,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        quantity: quantity
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            // Update row total
+                            $row.find('.item-total').text("{{ $basicInfo->currency_symbol }} " + res.cartItem.total);
+                            $('.subtotal').text("{{ $basicInfo->currency_symbol }} " + res.subtotal)
 
+                            console.log(delivery);
+
+                            // Recalculate totals
+                            recalcTotals(delivery);
+
+                            //load mini cart
+                            loadMiniCart();
+                        }
+                    }
+                });
+            });
+
+            // Function to recalc subtotal, discount, delivery, grand total
+            function recalcTotals(delivery) {
+                let subtotal = 0;
+                $('.item-total').each(function () {
+                    let val = $(this).text().replace('{{ $basicInfo->currency_symbol }}', '').trim();
+                    subtotal += parseFloat(val);
+                });
+
+                // Example: fixed discount (could be dynamic from backend)
+                let grandTotal = subtotal  + delivery;
+
+
+                console.log(subtotal)
+                console.log(delivery)
+                console.log(grandTotal)
+
+                // Update UI
+                $('.subtotal').text("{{ $basicInfo->currency_symbol }} " + subtotal);
+                $('.delivery').text("{{ $basicInfo->currency_symbol }} " + delivery);
+                $('.grand').text("{{ $basicInfo->currency_symbol }} " + grandTotal);
             }
 
-            // Quantity buttons
-            $('.qty-btn.plus').on('click', function() {
-                console.log('clicked');
-                let input = $(this).siblings("input[name='qty']");
-                input.val(parseInt(input.val() || 1) + 1);
-                updateTotal();
-            });
-
-            $('.qty-btn.minus').on('click', function() {
-                let input = $(this).siblings("input[name='qty']");
-                let val = parseInt(input.val() || 1);
-                if(val > 1) input.val(val - 1);
-                updateTotal();
-            });
-
-            // Manual input change
-            $("input[name='qty']").on('change', function() {
-                if ($(this).val() < 1) $(this).val(1);
-                updateTotal();
-            });
-
         });
+
+
     </script>
 @endpush

@@ -13,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Karim007\LaravelBkashTokenize\Facade\BkashPaymentTokenize;
 use Illuminate\Support\Facades\Auth;
@@ -198,6 +199,122 @@ class OrderController extends Controller
 
 
             dd($e->getMessage());
+        }
+    }
+
+    public function orderSubmitBooks(Request $request)
+    {
+//         dd($request->all());
+
+        $request->validate([
+            'phone' => ['required', 'digits:11'],
+        ]);
+
+
+        DB::beginTransaction();
+        try {
+            $student_id = auth()->id() ?? null;
+            $delivery_charge = $request->delivery_charge ?? 0;
+            $cartItems = Cart::where('user_id', auth()->id())->get();
+            $totalAmount = $cartItems->sum('total') + $delivery_charge ;
+
+            $invoiceNumber = uniqid();
+
+            // Try to find existing user by ID, else by email+phone
+            if ($student_id) {
+                $student = User::find($student_id);
+            } else {
+                $student = User::Where('phone', $request->phone)
+                    ->first();
+            }
+
+            if ($student) {
+                // Update existing user
+                $student->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'district' => $request->district,
+                    'thana' => $request->thana,
+                    'area' => $request->area,
+                    'holding_number' => $request->holding_number,
+                ]);
+            } else {
+                // Create new user safely
+                $student = User::create([
+                    'name' => $request->name,
+                    'slug' => Str::slug($request->name),
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'district' => $request->district,
+                    'thana' => $request->thana,
+                    'area' => $request->area,
+                    'holding_number' => $request->holding_number,
+                    'password' => Hash::make(random_int(100000, 999999)),
+                    'phone_verified' => 1,
+                    'phone_verified_at' => now(),
+                ]);
+
+                // Assign role after creation
+                $student->assignRole('student');
+            }
+
+            $order = new Order();
+            $order->user_id = $student->id ?? null;
+            $order->total_amount = $totalAmount;
+            $order->transaction_id = $invoiceNumber;
+            $order->payment_method = $request->payment_method;
+            $order->product_type = "book";
+            $order->delivery_charge = $delivery_charge;
+            $order->discount = 0;
+            $order->save();
+
+            foreach ($cartItems as $cartItem) {
+                $orderCourse = new OrderCourse();
+                $orderCourse->order_id = $order->id;
+                $orderCourse->course_id = $cartItem->course_id;
+                $orderCourse->qty = $cartItem->quantity;
+                $orderCourse->price = $cartItem->price;
+                $orderCourse->discount = 0;
+                $orderCourse->save();
+            }
+
+            DB::commit();
+
+            $cartItems->each->delete();
+
+            if ($order->payment_method == 'cod') {
+                // return redirect()->route('home')->with('success', 'Book Ordered Successfully');
+
+                return redirect()->route('order-sucess')->with('success', 'Book Ordered Successfully');
+            }
+
+            $request['intent'] = 'sale';
+            $request['mode'] = '0011'; //0011 for checkout
+            $request['payerReference'] = $invoiceNumber;
+            $request['currency'] = 'BDT';
+            $request['amount'] = $totalAmount ;
+            $request['merchantInvoiceNumber'] = $invoiceNumber;
+            $request['callbackURL'] = config("bkash.callbackURL");
+
+            $request_data_json = json_encode($request->all());
+
+            $response = BkashPaymentTokenize::cPayment($request_data_json);
+            // dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
+
+            if (isset($response['bkashURL'])) {
+                return redirect()->away($response['bkashURL']);
+            } else {
+                return redirect()->back()->with('error-alert2', $response['statusMessage']);
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            Log::error('Payment failed', ['exception' => $e]);
+
+            return redirect()->back()->with('error', $response['statusMessage']);
         }
     }
 

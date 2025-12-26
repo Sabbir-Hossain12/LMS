@@ -100,6 +100,10 @@ Route::middleware('student')->group(function () {
 Route::get('/checkout/{slug}', [OrderController::class, 'checkoutPage'])->name('checkout');
 Route::get('/checkouts/books', [OrderController::class, 'checkoutBooksPage'])->name('checkout.books');
 Route::post('/order/submit', [OrderController::class, 'orderSubmit'])->name('order.submit');
+
+//Books Order
+Route::post('/order/submit/books', [OrderController::class, 'orderSubmitBooks'])->name('order.submit.books');
+
 Route::post('/apply-coupon', [OrderController::class, 'applyCoupon'])->name('apply-coupon');
 
 //pages

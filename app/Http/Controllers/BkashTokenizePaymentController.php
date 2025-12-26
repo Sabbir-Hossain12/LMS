@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Enrollment;
 use App\Models\Order;
 use App\Models\Coupon;
@@ -16,6 +17,7 @@ class BkashTokenizePaymentController extends Controller
     {
         return view('bkashT::bkash-payment');
     }
+
     public function createPayment(Request $request)
     {
 
@@ -31,7 +33,7 @@ class BkashTokenizePaymentController extends Controller
 
         $request_data_json = json_encode($request->all());
 
-        $response =  BkashPaymentTokenize::cPayment($request_data_json);
+        $response = BkashPaymentTokenize::cPayment($request_data_json);
 
         // dd($response);
         //$response =  BkashPaymentTokenize::cPayment($request_data_json,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
@@ -39,14 +41,10 @@ class BkashTokenizePaymentController extends Controller
         //store paymentID and your account number for matching in callback request
 //      dd(json_encode($response)); //if you are using sandbox and not submit info to bkash use it for 1 response
 
-        if (isset($response['bkashURL']))
-        {
+        if (isset($response['bkashURL'])) {
 
             return redirect()->away($response['bkashURL']);
-        }
-
-        else
-        {
+        } else {
 
             return redirect()->back()->with('error-alert2', $response['statusMessage']);
         }
@@ -60,73 +58,73 @@ class BkashTokenizePaymentController extends Controller
         // paymentID=your_payment_id&status=success&apiVersion=1.2.0-beta
         //using paymentID find the account number for sending params
 
-        if ($request->status == 'success'){
+        if ($request->status == 'success') {
             $response = BkashPaymentTokenize::executePayment($request->paymentID);
             //$response = BkashPaymentTokenize::executePayment($request->paymentID, 1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
-            if (!$response){ //if executePayment payment not found call queryPayment
+            if (!$response) { //if executePayment payment not found call queryPayment
                 $response = BkashPaymentTokenize::queryPayment($request->paymentID);
                 //$response = BkashPaymentTokenize::queryPayment($request->paymentID,1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
             }
 
 //            dd(json_encode($response));
 
-            if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed")
-            {
+            if (isset($response['statusCode']) && $response['statusCode'] == "0000" && $response['transactionStatus'] == "Completed") {
 
-                  if(session()->has('coupon')) {
+                if (session()->has('coupon')) {
 
                     $coupon = session('coupon');
 
-                   $code = $coupon['code'];
+                    $code = $coupon['code'];
 
-                   $coupon =  Coupon::where('code',$code)->first();
+                    $coupon = Coupon::where('code', $code)->first();
 
-                   $coupon->used_count = $coupon->used_count + 1;
+                    $coupon->used_count = $coupon->used_count + 1;
 
-                   $coupon->save();
-
-
-
+                    $coupon->save();
                 }
 
 
-            $inv_number = $response['merchantInvoiceNumber'];
-            $course_id = Session::get('course_id');
-            $course = Course::find($course_id);
-            
-              $user_id = auth()->id();
-              $order=  Order::where('transaction_id', $inv_number)->first();
-              $order->coupon_id = $coupon->id ?? null;
-              $order->status = 'success';
-              $order->save();
-              
-              if($course->product_type == 'course')
-              {
-              $enrollment= new Enrollment();
-              $enrollment->user_id = $user_id;
-              $enrollment->course_id = $course_id;
-              $enrollment->order_id = $order->id;
-              $enrollment->save();
-              }
+                $inv_number = $response['merchantInvoiceNumber'];
+
+                $user_id = auth()->id();
+                $order = Order::where('transaction_id', $inv_number)->first();
+                $order->coupon_id = $coupon->id ?? null;
+                $order->status = 'success';
+                $order->save();
 
 
-              session()->forget('coupon');
+                if (Session::has('course_id')) {
 
-            //   Session::forget('course_id');
+                    $course_id = Session::get('course_id');
+                    $course = Course::find($course_id);
+                    if ($course->product_type == 'course') {
+                        $enrollment = new Enrollment();
+                        $enrollment->user_id = $user_id;
+                        $enrollment->course_id = $course_id;
+                        $enrollment->order_id = $order->id;
+                        $enrollment->save();
+                    }
+                }
+
+
+                session()->forget('coupon');
+                session()->forget('course_id');
+
+                //   Session::forget('course_id');
 
                 // return BkashPaymentTokenize::success('Thank you for your payment', $response['trxID']);
 
-            //   return redirect('/');  // simplest and correct
-             return redirect()->route('order-sucess')->with('success', 'Book Ordered Successfully');
+                //   return redirect('/');  // simplest and correct
+                return redirect()->route('order-sucess')->with('success', 'Book Ordered Successfully');
 
             }
             return BkashPaymentTokenize::failure($response['statusMessage']);
-        }else if ($request->status == 'cancel'){
+        } else if ($request->status == 'cancel') {
 
             // return BkashPaymentTokenize::cancel('Your payment is canceled');
             return redirect('/');  // simplest and correct
 
-        }else{
+        } else {
             // return BkashPaymentTokenize::failure('Your transaction is failed');
             return redirect('/');  // simplest and correct
         }
@@ -141,20 +139,21 @@ class BkashTokenizePaymentController extends Controller
 
     public function refund(Request $request)
     {
-        $paymentID='Your payment id';
-        $trxID='your transaction no';
-        $amount=5;
-        $reason='this is test reason';
-        $sku='abc';
+        $paymentID = 'Your payment id';
+        $trxID = 'your transaction no';
+        $amount = 5;
+        $reason = 'this is test reason';
+        $sku = 'abc';
         //response
-        return BkashRefundTokenize::refund($paymentID,$trxID,$amount,$reason,$sku);
+        return BkashRefundTokenize::refund($paymentID, $trxID, $amount, $reason, $sku);
         //return BkashRefundTokenize::refund($paymentID,$trxID,$amount,$reason,$sku, 1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
     }
+
     public function refundStatus(Request $request)
     {
-        $paymentID='Your payment id';
-        $trxID='your transaction no';
-        return BkashRefundTokenize::refundStatus($paymentID,$trxID);
+        $paymentID = 'Your payment id';
+        $trxID = 'your transaction no';
+        return BkashRefundTokenize::refundStatus($paymentID, $trxID);
         //return BkashRefundTokenize::refundStatus($paymentID,$trxID, 1); //last parameter is your account number for multi account its like, 1,2,3,4,cont..
     }
 }

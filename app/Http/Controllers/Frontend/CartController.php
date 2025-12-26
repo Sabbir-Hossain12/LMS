@@ -16,6 +16,8 @@ class CartController extends Controller
     {
         $cartItems = Cart::with('course')->where('user_id', auth()->id())->get();
 
+//        dd($cartItems);
+
         if ($request->ajax()) {
             $cartItems->each(function ($item) {
                 if ($item->course && $item->course->thumbnail_img) {
@@ -59,7 +61,16 @@ class CartController extends Controller
         $cartItem->quantity = $quantity;
         $cartItem->total = $cartItem->price * $quantity;
         $cartItem->save();
-        return response()->json(['success' => true, 'cartItem' => $cartItem]);
+
+        $cartItems = Cart::where('user_id', auth()->id())->get();
+        $subtotal = $cartItems->sum('total');
+
+
+        return response()->json([
+            'success' => true,
+            'cartItem' => $cartItem ,
+            'subtotal' => $subtotal
+        ]);
     }
 
     public function removeItem(Request $request, $id)
@@ -70,7 +81,7 @@ class CartController extends Controller
         if ($request->ajax()) {
             return response()->json(['success' => true]);
         }
-        
+
         return redirect()->back()->with('success', 'Item removed from cart successfully!');
     }
 

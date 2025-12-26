@@ -215,9 +215,6 @@
                                 <a href="{{ route('student.phone-page') }}"><i class="icofont-user-alt-5"></i></a>
                             </div>
                         @endauth
-
-
-
                     </div>
                 </div>
             </div>
@@ -266,7 +263,7 @@
                             <div class="header__cart">
                                 <a href="javascript:0"> <i class="icofont-cart-alt"></i></a>
                                 <div class="header__right__dropdown__wrapper mini-cart">
-                                  
+
                                 </div>
                             </div>
                         </div>
